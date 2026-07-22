@@ -1,9 +1,9 @@
 import { Clan } from "models/Clan";
 
-export const clanes: Clan[] = [
+export const clanes = [
   {
     clanName: "Brujah",
-    desciplines: {
+    disciplines: {
       Celerity: 1,
       Potence: 1,
       Presence: 1,
@@ -11,7 +11,7 @@ export const clanes: Clan[] = [
   },
   {
     clanName: "Ventrue",
-    desciplines: {
+    disciplines: {
       Dominate: 1,
       Fortitude: 1,
       Presence: 1,
@@ -19,7 +19,7 @@ export const clanes: Clan[] = [
   },
   {
     clanName: "Gangrel",
-    desciplines: {
+    disciplines: {
       Animalism: 1,
       Fortitude: 1,
       Protean: 1,
@@ -27,7 +27,7 @@ export const clanes: Clan[] = [
   },
   {
     clanName: "Lasombra",
-    desciplines: {
+    disciplines: {
       Presence: 1,
       Obtenebration: 1,
       Potence: 1,
@@ -35,7 +35,7 @@ export const clanes: Clan[] = [
   },
   {
     clanName: "Malkavian",
-    desciplines: {
+    disciplines: {
       Auspex: 1,
       Dementation: 1,
       Obfuscate: 1,
@@ -43,7 +43,7 @@ export const clanes: Clan[] = [
   },
   {
     clanName: "Nosferatu",
-    desciplines: {
+    disciplines: {
       Animalism: 1,
       Obfuscate: 1,
       Potence: 1,
@@ -54,10 +54,10 @@ export const clanes: Clan[] = [
   },
   {
     clanName: "Toreador",
-    desciplines: {
+    disciplines: {
       Auspex: 1,
       Celerity: 1,
       Presence: 1,
     },
   },
-] as const;
+] as const satisfies readonly Clan[];

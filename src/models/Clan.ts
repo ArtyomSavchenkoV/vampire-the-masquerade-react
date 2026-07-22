@@ -35,7 +35,7 @@ export interface Clan {
   /** Название клана персонажа. */
   clanName: ClanName;
   /** Дисциплины клана */
-  desciplines: Partial<Record<DisciplineName, DisciplineLevel>>;
+  disciplines: Partial<Record<DisciplineName, DisciplineLevel>>;
   /**
    * Атрибуты, которые применяются напрямую и имеют наивысший приоритет.
    * Используется для клановых особенностей, которые нельзя изменить обычной прокачкой.

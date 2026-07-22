@@ -1,7 +1,9 @@
 import { AbilityLevel, AbilityName } from "./Abilities";
 import { AttributeLevel, AttributeName } from "./Attributes";
+import { BackgroundName, BackgroundLevel } from "./Backgrounds";
 import { Clan } from "./Clan";
 import { MentalStability, MentalStabilityLevel } from "./MentalStability";
+import { MeritsAndFlawsName } from "./MeritsAndFlaws";
 
 /**
  * Базовая модель сородича
@@ -34,22 +36,20 @@ export interface Kindred {
   /** Сир (имя сира или null, если не известен) */
   sire: string | null;
 
-  /** Характеристики (Attributes) */
+  /** Характеристики */
   attributes: Record<AttributeName, AttributeLevel>;
 
-  /** Способности (Abilities) */
+  /** Способности */
   abilities: Record<AbilityName, AbilityLevel>;
 
-  // TODO: проработать
-  /** Факты биографии (ключевые события, связи, долги) */
-  backgrounds: string[];
+  /** Факты биографии */
+  backgrounds: Partial<Record<BackgroundName, BackgroundLevel>>;
 
   /** Ментальные устойчивости */
   mentalStability: Record<MentalStability, MentalStabilityLevel>;
 
-  // TODO: проработать
-  /** Достоинства и недостатки (Merits & Flaws) */
-  meritsAndFlaws: string[]; // можно позже разбить на два массива
+  /** Достоинства и недостатки */
+  meritsAndFlaws: MeritsAndFlawsName[];
 
   /** Человечность (Humanity) ИЛИ Путь (Path rating) — зависит от морали */
   humanityOrPathRating: number;
