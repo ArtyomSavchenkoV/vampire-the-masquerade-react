@@ -14,4 +14,6 @@ export type Effects = {
   /** Кубики для поглощения урона по типу (V20 Fortitude).
    * Например: { Bashing: 2, Lethal: 1 } — персонаж получает 2 кубика на поглощение тупого урона и 1 кубик на смертельный. */
   absorptionDice?: Partial<Record<DamageType, number>>;
+  /** Общее изменение количества кубиков при всех бросках */
+  commonDiceBonus?: number;
 };
