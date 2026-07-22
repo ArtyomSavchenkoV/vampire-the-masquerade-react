@@ -4,49 +4,49 @@ export const clanes = [
   {
     clanName: "Brujah",
     disciplines: {
-      Celerity: 1,
-      Potence: 1,
-      Presence: 1,
+      celerity: 1,
+      potence: 1,
+      presence: 1,
     },
   },
   {
     clanName: "Ventrue",
     disciplines: {
-      Dominate: 1,
-      Fortitude: 1,
-      Presence: 1,
+      dominate: 1,
+      fortitude: 1,
+      presence: 1,
     },
   },
   {
     clanName: "Gangrel",
     disciplines: {
-      Animalism: 1,
-      Fortitude: 1,
-      Protean: 1,
+      animalism: 1,
+      fortitude: 1,
+      protean: 1,
     },
   },
   {
     clanName: "Lasombra",
     disciplines: {
-      Presence: 1,
-      Obtenebration: 1,
-      Potence: 1,
+      presence: 1,
+      obtenebration: 1,
+      potence: 1,
     },
   },
   {
     clanName: "Malkavian",
     disciplines: {
-      Auspex: 1,
-      Dementation: 1,
-      Obfuscate: 1,
+      auspex: 1,
+      dementation: 1,
+      obfuscate: 1,
     },
   },
   {
     clanName: "Nosferatu",
     disciplines: {
-      Animalism: 1,
-      Obfuscate: 1,
-      Potence: 1,
+      animalism: 1,
+      obfuscate: 1,
+      potence: 1,
     },
     priorityAtributes: {
       appearance: 0,
@@ -55,9 +55,9 @@ export const clanes = [
   {
     clanName: "Toreador",
     disciplines: {
-      Auspex: 1,
-      Celerity: 1,
-      Presence: 1,
+      auspex: 1,
+      celerity: 1,
+      presence: 1,
     },
   },
 ] as const satisfies readonly Clan[];

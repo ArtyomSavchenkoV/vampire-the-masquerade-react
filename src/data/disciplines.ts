@@ -5,7 +5,7 @@ import { DisciplineLevelVariants, DisciplineName } from "models/Discipline";
  */
 export const disciplines = {
   /** Анимализм */
-  Animalism: [
+  animalism: [
     /** 1 */
     {
       type: "usable",
@@ -69,7 +69,7 @@ export const disciplines = {
     },
   ],
   /** Величие */
-  Presence: [
+  presence: [
     /** 1 */
     {
       type: "usable",
@@ -157,7 +157,7 @@ export const disciplines = {
     },
   ],
   /** Доминирование */
-  Dominate: [
+  dominate: [
     /** 1 */
     {
       type: "usable",
@@ -212,7 +212,7 @@ export const disciplines = {
     },
   ],
   /** Затмение */
-  Obtenebration: [
+  obtenebration: [
     /** 1 */
     {
       type: "usable",
@@ -264,7 +264,7 @@ export const disciplines = {
     },
   ],
   /** Метаморфозы */
-  Protean: [
+  protean: [
     /** 1 */
     {
       type: "usable",
@@ -329,7 +329,7 @@ export const disciplines = {
     ],
   ],
   /** Мощь */
-  Potence: [
+  potence: [
     /** 1 */
     {
       type: "passive",
@@ -376,7 +376,7 @@ export const disciplines = {
       },
     },
   ],
-  Dementation: [
+  dementation: [
     /** 1 */
     {
       type: "usable",
@@ -467,7 +467,7 @@ export const disciplines = {
     },
   ],
   /** Стойкость */
-  Fortitude: [
+  fortitude: [
     /** 1 */
     {
       type: "passive",
@@ -535,7 +535,7 @@ export const disciplines = {
     },
   ],
   /** Стремительность */
-  Celerity: [
+  celerity: [
     /** 1 */
     {
       type: "passive",
@@ -583,7 +583,7 @@ export const disciplines = {
     },
   ],
   /** Ясновидение */
-  Auspex: [
+  auspex: [
     /** 1 */
     {
       type: "usable",
@@ -634,7 +634,7 @@ export const disciplines = {
     },
   ],
   /** Сокрытие */
-  Obfuscate: [
+  obfuscate: [
     /** 1 */
     {
       type: "usable",
