@@ -12,31 +12,31 @@ export const kindredHealthLevels = [
   },
   {
     name: "moderate",
-    effects: {
+    modifiers: {
       commonDiceBonus: -1,
     },
   },
   {
     name: "severe",
-    effects: {
+    modifiers: {
       commonDiceBonus: -1,
     },
   },
   {
     name: "critical",
-    effects: {
+    modifiers: {
       commonDiceBonus: -2,
     },
   },
   {
     name: "incapacitated",
-    effects: {
+    modifiers: {
       commonDiceBonus: -2,
     },
   },
   {
     name: "maimed",
-    effects: {
+    modifiers: {
       commonDiceBonus: -5,
     },
   },

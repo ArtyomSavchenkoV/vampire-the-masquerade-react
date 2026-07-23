@@ -1,5 +1,6 @@
 import { AttributeName } from "./Attributes";
 import { DisciplineLevel, DisciplineName } from "./Discipline";
+import { Modifiers } from "./Modifiers";
 /**
  * Список всех кланов по V20 (Vampire: The Masquerade 20th Anniversary Edition).
  */
@@ -36,10 +37,6 @@ export interface Clan {
   clanName: ClanName;
   /** Дисциплины клана */
   disciplines: Partial<Record<DisciplineName, DisciplineLevel>>;
-  /**
-   * Атрибуты, которые применяются напрямую и имеют наивысший приоритет.
-   * Используется для клановых особенностей, которые нельзя изменить обычной прокачкой.
-   * Классический пример: Nosferatu всегда имеют appearance: 0.
-   */
-  priorityAtributes?: Partial<Record<AttributeName, number>>;
+  /** Особенности, влияющие на характеристики */
+  modifiers?: Modifiers;
 }

@@ -1,3 +1,4 @@
+
 {
   "compilerOptions": {
     "baseUrl": "src",
@@ -19,9 +20,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["jest"]
   },
   "include": [
-    "src"
+    "src",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts"
   ]
 }

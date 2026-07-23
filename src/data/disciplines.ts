@@ -219,7 +219,7 @@ export const disciplines = {
       availableTarget: ["notSelf"],
       cost: { bloodPool: 1 },
       effects: {
-        abilityEffects: {
+        abilityModifiers: {
           stealth: 1,
         },
       },
@@ -334,7 +334,7 @@ export const disciplines = {
     {
       type: "passive",
       effects: {
-        attributesEffects: {
+        attributesModifiers: {
           strength: 1,
         },
       },
@@ -343,7 +343,7 @@ export const disciplines = {
     {
       type: "passive",
       effects: {
-        attributesEffects: {
+        attributesModifiers: {
           strength: 2,
         },
       },
@@ -352,7 +352,7 @@ export const disciplines = {
     {
       type: "passive",
       effects: {
-        attributesEffects: {
+        attributesModifiers: {
           strength: 3,
         },
       },
@@ -361,7 +361,7 @@ export const disciplines = {
     {
       type: "passive",
       effects: {
-        attributesEffects: {
+        attributesModifiers: {
           strength: 4,
         },
       },
@@ -370,7 +370,7 @@ export const disciplines = {
     {
       type: "passive",
       effects: {
-        attributesEffects: {
+        attributesModifiers: {
           strength: 5,
         },
       },
@@ -473,9 +473,9 @@ export const disciplines = {
       type: "passive",
       effects: {
         absorptionDice: {
-          Bashing: 1,
-          Lethal: 1,
-          Aggravated: 1,
+          bashing: 1,
+          lethal: 1,
+          aggravated: 1,
         },
       },
       description:
@@ -486,9 +486,9 @@ export const disciplines = {
       type: "passive",
       effects: {
         absorptionDice: {
-          Bashing: 2,
-          Lethal: 2,
-          Aggravated: 2,
+          bashing: 2,
+          lethal: 2,
+          aggravated: 2,
         },
       },
       description:
@@ -499,9 +499,9 @@ export const disciplines = {
       type: "passive",
       effects: {
         absorptionDice: {
-          Bashing: 3,
-          Lethal: 3,
-          Aggravated: 3,
+          bashing: 3,
+          lethal: 3,
+          aggravated: 3,
         },
       },
       description:
@@ -512,9 +512,9 @@ export const disciplines = {
       type: "passive",
       effects: {
         absorptionDice: {
-          Bashing: 4,
-          Lethal: 4,
-          Aggravated: 4,
+          bashing: 4,
+          lethal: 4,
+          aggravated: 4,
         },
       },
       description:
@@ -525,9 +525,9 @@ export const disciplines = {
       type: "passive",
       effects: {
         absorptionDice: {
-          Bashing: 5,
-          Lethal: 5,
-          Aggravated: 5,
+          bashing: 5,
+          lethal: 5,
+          aggravated: 5,
         },
       },
       description:
@@ -540,7 +540,7 @@ export const disciplines = {
     {
       type: "passive",
       effects: {
-        attributesEffects: {
+        attributesModifiers: {
           dexterity: 1,
         },
       },
@@ -549,7 +549,7 @@ export const disciplines = {
     {
       type: "passive",
       effects: {
-        attributesEffects: {
+        attributesModifiers: {
           dexterity: 2,
         },
       },
@@ -558,7 +558,7 @@ export const disciplines = {
     {
       type: "passive",
       effects: {
-        attributesEffects: {
+        attributesModifiers: {
           dexterity: 3,
         },
       },
@@ -567,7 +567,7 @@ export const disciplines = {
     {
       type: "passive",
       effects: {
-        attributesEffects: {
+        attributesModifiers: {
           dexterity: 4,
         },
       },
@@ -576,7 +576,7 @@ export const disciplines = {
     {
       type: "passive",
       effects: {
-        attributesEffects: {
+        attributesModifiers: {
           dexterity: 5,
         },
       },

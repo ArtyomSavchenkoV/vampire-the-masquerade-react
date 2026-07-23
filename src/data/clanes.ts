@@ -48,8 +48,10 @@ export const clanes = [
       obfuscate: 1,
       potence: 1,
     },
-    priorityAtributes: {
-      appearance: 0,
+    modifiers: {
+      attributesMaxLimit: {
+        appearance: 0,
+      },
     },
   },
   {

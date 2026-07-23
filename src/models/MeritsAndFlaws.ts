@@ -1,3 +1,5 @@
+import { Modifiers } from "./Modifiers";
+
 /**
  * Достоинства и недостатки (Merits & Flaws) для Vampire: The Masquerade v20
  */
@@ -31,4 +33,6 @@ export interface MeritsAndFlawsData {
   /** Стоимость в свободных очках. (для достоинств - положительное число, для недостатков - отрицательное) */
   cost: number;
   // TODO: в будущем у некоторых могут быть эффекты
+  /** Эффекты, применяемые автоматически (бонусы, поглощение и т.д.). */
+  effects?: Modifiers;
 }

@@ -1,4 +1,4 @@
-import { Effects } from "./Effects";
+import { Modifiers } from "./Modifiers";
 
 /**
  * Уровни здоровья по правилам V20.
@@ -23,12 +23,12 @@ export type HealthLevelName =
 
 export interface HealthLevelData {
   name: HealthLevelName;
-  effects?: Effects;
+  modifiers?: Modifiers;
 }
 
 export const getHealthLevel = (
   health: number,
-  healthLevels: HealthLevelData[],
+  healthLevels: readonly HealthLevelData[],
 ): HealthLevelData => {
   const maxHealth = healthLevels.length - 1;
   const damage = maxHealth - health;

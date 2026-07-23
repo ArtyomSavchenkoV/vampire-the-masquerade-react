@@ -2,7 +2,7 @@ import { disciplines } from "data/disciplines";
 import { AbilityName } from "./Abilities";
 import { AttributeName } from "./Attributes";
 import { MentalStability } from "./MentalStability";
-import { Effects } from "./Effects";
+import { Modifiers } from "./Modifiers";
 
 /**
  * Названия дисциплин (V20).
@@ -106,7 +106,7 @@ type DisciplineLevelData =
       /** Тип эффекта: пассивный. */
       type: "passive";
       /** Эффекты, применяемые автоматически (бонусы, поглощение и т.д.). */
-      effects?: Effects;
+      effects?: Modifiers;
       /** Описание эффекта для отображения в интерфейсе. */
       description?: string;
     }
@@ -120,7 +120,7 @@ type DisciplineLevelData =
       /** Правило проверки, необходимое для применения способности. */
       check?: CheckRule;
       /** Эффекты, которые применяются при успешном использовании способности. */
-      effects?: Effects;
+      effects?: Modifiers;
       /** Длительность эффекта: в раундах, сцене или количестве успехов. */
       duration?: number | "scene" | "successCount";
       /** Время, необходимое на активацию способности (в раундах). */
