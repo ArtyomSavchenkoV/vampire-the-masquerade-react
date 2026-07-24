@@ -1,9 +1,7 @@
 import { aggregateCharacterModifiers } from "./Kindred";
 import { Kindred } from "./Kindred";
-import { disciplines } from "../data/disciplines";
-import { meritsAndFlaws } from "../data/meritsAndFlaws";
-import { MeritsAndFlawsName, MeritsAndFlawsData } from "./MeritsAndFlaws";
-import { DisciplineName, DisciplineLevelVariants } from "./Discipline";
+import { disciplines } from "../../data/disciplines";
+import { meritsAndFlaws } from "../../data/meritsAndFlaws";
 
 /**
  * Глубокое замораживание объекта и всех вложенных структур.
@@ -21,7 +19,7 @@ function deepFreeze(obj: any): any {
   return obj;
 }
 
-describe("aggregateCharacterModifiers", () => {
+describe("src/models/kindred-aggregateCharacterModifiers", () => {
   const baseCharacter = {
     name: "Test Nosferatu",
     clan: {
@@ -56,7 +54,7 @@ describe("aggregateCharacterModifiers", () => {
     ],
     meritsAndFlaws: [],
     equipment: [],
-    health: 4,
+    bodyDamages: ["bashing", "bashing", "bashing"],
   } as unknown as Kindred;
 
   beforeEach(() => {
@@ -141,7 +139,7 @@ describe("aggregateCharacterModifiers", () => {
       activeEffects: [],
       meritsAndFlaws: [],
       equipment: [],
-      health: 7,
+      bodyDamages: [],
     } as unknown as Kindred;
 
     const result = aggregateCharacterModifiers(characterWithEmptySources);
@@ -163,7 +161,7 @@ describe("aggregateCharacterModifiers", () => {
       activeEffects: [],
       meritsAndFlaws: [],
       equipment: [],
-      health: 7,
+      bodyDamages: [],
     } as unknown as Kindred;
 
     const result = aggregateCharacterModifiers(character);
@@ -199,7 +197,7 @@ describe("aggregateCharacterModifiers", () => {
       ],
       meritsAndFlaws: [],
       equipment: [],
-      health: 7,
+      bodyDamages: [],
     } as unknown as Kindred;
 
     deepFreeze(cursedCharacter);

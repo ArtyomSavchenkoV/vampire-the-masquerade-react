@@ -1,46 +1,71 @@
-import { HealthLevelData } from "models/HealthLevel";
+import { HealthLevelData } from "models/Health";
 
 /**
  * Уровни здоровья только для сородича
  */
 export const kindredHealthLevels = [
+  /** Помят — небольшие ушибы и ссадины. */
   {
-    name: "unimpaired",
+    name: "battered",
   },
+  /** Легко ранен — раны мешают действовать, появляются штрафы. */
   {
-    name: "superficial",
-  },
-  {
-    name: "moderate",
+    name: "lightlyWounded",
     modifiers: {
       commonDiceBonus: -1,
     },
   },
+  /** Ранен — раны мешают действовать. */
   {
-    name: "severe",
+    name: "wounded",
     modifiers: {
       commonDiceBonus: -1,
     },
   },
+  /** Серьёзно ранен */
   {
-    name: "critical",
+    name: "seriouslyWounded",
     modifiers: {
       commonDiceBonus: -2,
     },
   },
+  /** Тяжело ранен */
   {
-    name: "incapacitated",
+    name: "heavilyWounded",
     modifiers: {
       commonDiceBonus: -2,
     },
   },
+  /** Едва жив — персонаж почти не способен двигаться. */
   {
-    name: "maimed",
+    name: "nearlyDown",
     modifiers: {
       commonDiceBonus: -5,
     },
   },
+  /** Небоеспособен. — на грани потери сознания и смерти. */
   {
-    name: "dead",
+    name: "incapacitated",
   },
 ] as const satisfies Readonly<HealthLevelData[]>;
+
+/**
+ * Персонаж полностью здоров.
+ */
+export const unimpaired = {
+  name: "unimpaired",
+} as const satisfies HealthLevelData;
+
+/**
+ * В отключке.
+ */
+export const torpor = {
+  name: "torpor",
+} as const satisfies HealthLevelData;
+
+/**
+ * Окончательная смерть.
+ */
+export const finalDeath = {
+  name: "finalDeath",
+} as const satisfies HealthLevelData;

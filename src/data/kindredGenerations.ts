@@ -1,4 +1,4 @@
-import { GenerationLevel } from "models/Kindred";
+import { GenerationLevel } from "models/kindred/Generation";
 
 export const kindredGenerations = [
   /** Не встречаются (данные от балды) */
