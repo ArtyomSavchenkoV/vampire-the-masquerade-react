@@ -1,4 +1,4 @@
-import { Clan } from "models/Clan";
+import { Clan } from "domain/Clan";
 
 export const clanes = [
   {

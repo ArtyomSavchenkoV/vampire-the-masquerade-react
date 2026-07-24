@@ -1,16 +1,16 @@
 import { disciplines } from "data/disciplines";
-import { AbilityLevel, AbilityName } from "../Abilities";
-import { ActiveEffect } from "../ActiveEffect";
-import { AttributeLevel, AttributeName } from "../Attributes";
-import { BackgroundName, BackgroundLevel } from "../Backgrounds";
-import { Clan } from "../Clan";
-import { MentalStability, MentalStabilityLevel } from "../MentalStability";
-import { MeritsAndFlawsData, MeritsAndFlawsName } from "../MeritsAndFlaws";
-import { Modifiers, mergeModifiers } from "../Modifiers";
+import { AbilityLevel, AbilityName } from "domain/Abilities";
+import { ActiveEffect } from "domain/ActiveEffect";
+import { AttributeLevel, AttributeName } from "domain/Attributes";
+import { BackgroundName, BackgroundLevel } from "domain/Backgrounds";
+import { Clan } from "domain/Clan";
+import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
+import { MeritsAndFlawsData, MeritsAndFlawsName } from "domain/MeritsAndFlaws";
+import { Modifiers, mergeModifiers } from "domain/Modifiers";
 import { meritsAndFlaws } from "data/meritsAndFlaws";
-import { EquipmentItem } from "../EquipmentItem";
+import { EquipmentItem } from "domain/EquipmentItem";
 import { getKinderedHealthLevel } from "./Health";
-import { HealthDamages } from "models/Health";
+import { HealthDamages } from "domain/Health";
 import { ResourcesHistory } from "./ResourcesHistory";
 
 /**

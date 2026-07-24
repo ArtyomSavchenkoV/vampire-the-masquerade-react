@@ -1,4 +1,4 @@
-import { DisciplineLevelVariants, DisciplineName } from "models/Discipline";
+import { DisciplineLevelVariants, DisciplineName } from "domain/Discipline";
 
 /**
  * База данных дисциплин

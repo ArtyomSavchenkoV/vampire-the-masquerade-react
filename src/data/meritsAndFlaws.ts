@@ -1,4 +1,4 @@
-import { MeritsAndFlawsName, MeritsAndFlawsData } from "models/MeritsAndFlaws";
+import { MeritsAndFlawsName, MeritsAndFlawsData } from "domain/MeritsAndFlaws";
 
 export const meritsAndFlaws = {
   /** Чарующий голос */

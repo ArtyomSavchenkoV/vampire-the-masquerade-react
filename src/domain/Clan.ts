@@ -1,4 +1,3 @@
-import { AttributeName } from "./Attributes";
 import { DisciplineLevel, DisciplineName } from "./Discipline";
 import { Modifiers } from "./Modifiers";
 /**

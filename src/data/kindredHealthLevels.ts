@@ -1,4 +1,4 @@
-import { HealthLevelData } from "models/Health";
+import { HealthLevelData } from "domain/Health";
 
 /**
  * Уровни здоровья только для сородича

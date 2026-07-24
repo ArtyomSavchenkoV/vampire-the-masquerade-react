@@ -1,7 +1,7 @@
-import { ResourceHistory } from "models/ResourceHistory";
+import { ResourceHistory } from "domain/ResourceHistory";
 import { awakening, damageHealth, healHealth, HealthHistory } from "./Health";
 import { Kindred } from "./Kindred";
-import { HealthDamages } from "models/Health";
+import { HealthDamages } from "domain/Health";
 import { numberToMaxMinDiapason } from "utils/numberToMaxminDiapason";
 
 export interface ResourcesHistory {

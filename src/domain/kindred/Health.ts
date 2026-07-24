@@ -4,14 +4,14 @@ import {
   torpor,
   kindredHealthLevels,
 } from "data/kindredHealthLevels";
-import { DamageType } from "models/Damage";
+import { DamageType } from "domain/Damage";
 import {
   DamageEvent,
   HealEvent,
   HealthDamages,
   HealthLevelData,
   sortHealthDamages,
-} from "models/Health";
+} from "domain/Health";
 
 type AwakeningEvent = {
   type: "torpor";

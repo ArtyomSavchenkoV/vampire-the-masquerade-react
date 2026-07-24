@@ -1,4 +1,4 @@
-import { HealthDamages } from "models/Health";
+import { HealthDamages } from "domain/Health";
 import { healHealth } from "./Health";
 
 describe("src/models/kindred-healHealth", () => {
