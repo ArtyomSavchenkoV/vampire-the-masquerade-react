@@ -18,7 +18,7 @@ function deepFreeze(obj: any): any {
   return obj;
 }
 
-describe("src/models/kindred-aggregateCharacterModifiers", () => {
+describe("src/domain/kindred-aggregateCharacterModifiers", () => {
   const baseCharacter = {
     name: "Test Nosferatu",
     clan: {

@@ -1,6 +1,6 @@
 import { calculateChangebleParams } from "./ResourcesHistory";
 
-describe("src/models/kindred-calculateChangebleParams", () => {
+describe("src/domain/kindred-calculateChangebleParams", () => {
   it("Test", () => {
     expect(
       calculateChangebleParams(

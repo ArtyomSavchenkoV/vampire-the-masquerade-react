@@ -73,21 +73,12 @@ export interface DamageEvent {
  * Получить данные о здоровье.
  */
 export const getHealthLevel =
-  ({
-    unimpaired,
-    healthLevels,
-  }: {
-    unimpaired: HealthLevelData;
-    healthLevels: Readonly<HealthLevelData[]>;
-  }) =>
+  ({ healthLevels }: { healthLevels: Readonly<HealthLevelData[]> }) =>
   (bodyDamages: HealthDamages): HealthLevelData => {
-    if (bodyDamages.length === 0) {
-      return unimpaired;
+    if (bodyDamages.length > healthLevels.length) {
+      return healthLevels[healthLevels.length];
     }
-    if (bodyDamages.length > healthLevels.length - 1) {
-      return healthLevels[healthLevels.length - 1];
-    }
-    return healthLevels[bodyDamages.length - 1];
+    return healthLevels[bodyDamages.length];
   };
 
 /**

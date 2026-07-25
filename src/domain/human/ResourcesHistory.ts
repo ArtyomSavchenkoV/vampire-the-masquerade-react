@@ -9,7 +9,7 @@ import {
   HealthDamages,
 } from "domain/Health";
 import { numberToMaxMinDiapason } from "utils/numberToMaxminDiapason";
-import { humanHealthLevels, unimpaired } from "data/humanHealthLevels";
+import { humanHealthLevels } from "data/humanHealthLevels";
 
 export type HealthHistory = HealEvent | DamageEvent;
 
@@ -42,9 +42,8 @@ export const calculateChangebleParams = (
     (accum, change) => {
       const healthLevelName = getHealthLevel({
         healthLevels: humanHealthLevels,
-        unimpaired: unimpaired,
       })(accum).name;
-      const maxHealth = humanHealthLevels.length;
+      const maxHealth = humanHealthLevels.length - 1;
       if (change.effect.type === "heal") {
         if (!change.effect.value) {
           return accum;

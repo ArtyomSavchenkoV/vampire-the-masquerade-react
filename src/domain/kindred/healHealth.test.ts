@@ -1,7 +1,7 @@
 import { HealthDamages } from "domain/Health";
 import { healHealth } from "./Health";
 
-describe("src/models/kindred-healHealth", () => {
+describe("src/domain/kindred-healHealth", () => {
   const healthDamages = [
     "lethal",
     "bashing",

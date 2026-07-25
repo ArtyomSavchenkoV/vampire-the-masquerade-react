@@ -1,5 +1,4 @@
 import {
-  unimpaired,
   finalDeath,
   torpor,
   kindredHealthLevels,
@@ -26,9 +25,6 @@ export type HealthHistory = AwakeningEvent | HealEvent | DamageEvent;
 export const getKinderedHealthLevel = (
   bodyDamages: HealthDamages,
 ): HealthLevelData => {
-  if (bodyDamages.length === 0) {
-    return unimpaired;
-  }
   if (bodyDamages.length > 7) {
     if (bodyDamages[7] === "aggravated") {
       return finalDeath;
@@ -36,7 +32,7 @@ export const getKinderedHealthLevel = (
       return torpor;
     }
   }
-  return kindredHealthLevels[bodyDamages.length - 1];
+  return kindredHealthLevels[bodyDamages.length];
 };
 
 /**
@@ -48,7 +44,7 @@ export const damageHealth = (
 ): HealthDamages => {
   const healthDamages = [...bodyDamages];
   const healthLevelName = getKinderedHealthLevel(healthDamages).name;
-  const maxHealth = kindredHealthLevels.length;
+  const maxHealth = kindredHealthLevels.length - 1;
   // Тип наносимого урона
   const damageType = damageEvent.damageType;
   // Если финальная смерть - урон не применяется

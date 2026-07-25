@@ -10,7 +10,6 @@ import { MeritsAndFlawsName, MeritsAndFlawsData } from "domain/MeritsAndFlaws";
 import { Modifiers, mergeModifiers } from "domain/Modifiers";
 import { ResourcesHistory } from "./ResourcesHistory";
 import { humanHealthLevels } from "data/humanHealthLevels";
-import { unimpaired } from "data/kindredHealthLevels";
 
 /**
  * Базовая модель челолвека
@@ -44,7 +43,7 @@ export interface Human {
   willpower: number;
   /** Максимальный запас воли (для UI) */
   maxWillpower: number;
-  /** Повреждения, 8-ое повреждение - смерть если повреждение "aggravated" иначе отключка */
+  /** Повреждения */
   bodyDamages: HealthDamages;
   /** Экипировка */
   equipment: EquipmentItem[];
@@ -90,7 +89,6 @@ export const aggregateModifiers = (character: Human): Modifiers => {
   // Эффекты от здоровья
   const healthLevelModifiers = getHealthLevel({
     healthLevels: humanHealthLevels,
-    unimpaired: unimpaired,
   })(character.bodyDamages).modifiers;
   if (healthLevelModifiers) {
     result = mergeModifiers(result, healthLevelModifiers);

@@ -4,6 +4,10 @@ import { HealthLevelData } from "domain/Health";
  * Уровни здоровья только для сородича
  */
 export const kindredHealthLevels = [
+  /** Персонаж полностью здоров. */
+  {
+    name: "unimpaired",
+  },
   /** Помят — небольшие ушибы и ссадины. */
   {
     name: "battered",
@@ -48,13 +52,6 @@ export const kindredHealthLevels = [
     name: "incapacitated",
   },
 ] as const satisfies Readonly<HealthLevelData[]>;
-
-/**
- * Персонаж полностью здоров.
- */
-export const unimpaired = {
-  name: "unimpaired",
-} as const satisfies HealthLevelData;
 
 /**
  * В отключке.

@@ -1,7 +1,7 @@
 import { HealthDamages } from "domain/Health";
 import { awakening } from "./Health";
 
-describe("src/models/kindred-awakening", () => {
+describe("src/domain/kindred-awakening", () => {
   const healthDamages = [
     "lethal",
     "bashing",

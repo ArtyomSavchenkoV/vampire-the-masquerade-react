@@ -1,6 +1,6 @@
 import { damageHealth } from "./Health";
 
-describe("src/models/kindred-damageHealth", () => {
+describe("src/domain/kindred-damageHealth", () => {
   it("Урон по полному здоровью", () => {
     expect(
       damageHealth([], { type: "damage", damageType: "bashing", value: 3 }),

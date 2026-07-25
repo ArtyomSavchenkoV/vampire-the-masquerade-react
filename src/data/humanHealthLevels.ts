@@ -4,6 +4,10 @@ import { HealthLevelData } from "domain/Health";
  * Уровни здоровья только для человека
  */
 export const humanHealthLevels = [
+  /** Персонаж полностью здоров. */
+  {
+    name: "unimpaired",
+  },
   /** Помят — небольшие ушибы и ссадины. */
   {
     name: "battered",
@@ -48,10 +52,3 @@ export const humanHealthLevels = [
     name: "finalDeath",
   },
 ] as const satisfies Readonly<HealthLevelData[]>;
-
-/**
- * Персонаж полностью здоров.
- */
-export const unimpaired = {
-  name: "unimpaired",
-} as const satisfies HealthLevelData;

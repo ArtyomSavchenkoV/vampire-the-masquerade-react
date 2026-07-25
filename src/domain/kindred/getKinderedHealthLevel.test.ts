@@ -1,6 +1,6 @@
 import { getKinderedHealthLevel } from "./Health";
 
-describe("src/models/kindred-getKinderedHealthLevel", () => {
+describe("src/domain/kindred-getKinderedHealthLevel", () => {
   it("Персонаж полностью здоров", () => {
     expect(getKinderedHealthLevel([])).toEqual({
       name: "unimpaired",
