@@ -1,22 +1,21 @@
-import { disciplines } from "data/disciplines";
-import { AbilityLevel, AbilityName } from "domain/Abilities";
-import { ActiveEffect } from "domain/ActiveEffect";
-import { AttributeLevel, AttributeName } from "domain/Attributes";
-import { BackgroundName, BackgroundLevel } from "domain/Backgrounds";
-import { Clan } from "domain/Clan";
-import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
-import { MeritsAndFlawsData, MeritsAndFlawsName } from "domain/MeritsAndFlaws";
-import { Modifiers, mergeModifiers } from "domain/Modifiers";
 import { meritsAndFlaws } from "data/meritsAndFlaws";
+import { AbilityName, AbilityLevel } from "domain/Abilities";
+import { ActiveEffect } from "domain/ActiveEffect";
+import { AttributeName, AttributeLevel } from "domain/Attributes";
+import { BackgroundName, BackgroundLevel } from "domain/Backgrounds";
 import { EquipmentItem } from "domain/EquipmentItem";
-import { getKinderedHealthLevel } from "./Health";
-import { HealthDamages } from "domain/Health";
+import { getHealthLevel, HealthDamages } from "domain/Health";
+import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
+import { MeritsAndFlawsName, MeritsAndFlawsData } from "domain/MeritsAndFlaws";
+import { Modifiers, mergeModifiers } from "domain/Modifiers";
 import { ResourcesHistory } from "./ResourcesHistory";
+import { humanHealthLevels } from "data/humanHealthLevels";
+import { unimpaired } from "data/kindredHealthLevels";
 
 /**
- * Базовая модель сородича
+ * Базовая модель челолвека
  */
-export interface Kindred {
+export interface Human {
   /** Имя персонажа */
   name: string;
   /** Игрок */
@@ -29,12 +28,6 @@ export interface Kindred {
   demeanor: string; // например: "Душка", "Холодный профессионал", "Клоун"
   /** Амплуа (социальная роль в секте/городе) */
   role: string; // например: "Осведомитель", "Телохранитель", "Дипломат", "Ищейка"
-  /** Клан */
-  clan: Clan;
-  /** Поколение (чем меньше — тем сильнее) */
-  generation: number;
-  /** Сир (имя сира или null, если не известен) */
-  sire: string | null;
   /** Характеристики */
   attributes: Record<AttributeName, AttributeLevel>;
   /** Способности */
@@ -51,8 +44,6 @@ export interface Kindred {
   willpower: number;
   /** Максимальный запас воли (для UI) */
   maxWillpower: number;
-  /** Запас крови (Blood Pool) — сколько пунктов крови сейчас. maxBloodPool - значение вычисляемое из поколения */
-  bloodPool: number;
   /** Повреждения, 8-ое повреждение - смерть если повреждение "aggravated" иначе отключка */
   bodyDamages: HealthDamages;
   /** Экипировка */
@@ -70,13 +61,8 @@ export interface Kindred {
  * Возвращает единый объект Modifiers, который можно сразу применять
  * к базовым статам.
  */
-export const aggregateModifiers = (character: Kindred): Modifiers => {
+export const aggregateModifiers = (character: Human): Modifiers => {
   let result: Modifiers = {};
-
-  // Модификаторы от клана
-  if (character.clan.modifiers) {
-    result = mergeModifiers(result, character.clan.modifiers);
-  }
 
   // Эффекты экипировки
   for (const effect of character.equipment) {
@@ -102,38 +88,12 @@ export const aggregateModifiers = (character: Kindred): Modifiers => {
   }
 
   // Эффекты от здоровья
-  const healthLevelModifiers = getKinderedHealthLevel(
-    character.bodyDamages,
-  ).modifiers;
+  const healthLevelModifiers = getHealthLevel({
+    healthLevels: humanHealthLevels,
+    unimpaired: unimpaired,
+  })(character.bodyDamages).modifiers;
   if (healthLevelModifiers) {
     result = mergeModifiers(result, healthLevelModifiers);
-  }
-
-  // Пассивные эффекты от дисциплин
-  const { disciplines: charDisciplines } = character.clan;
-
-  // Приводим ключи к строгому типу
-  const disciplineKeys = Object.keys(charDisciplines) as Array<
-    keyof typeof charDisciplines
-  >;
-
-  for (const disciplineName of disciplineKeys) {
-    const level = charDisciplines[disciplineName];
-    if (!level) continue;
-
-    const disciplineLevels = disciplines[disciplineName];
-    if (!disciplineLevels) continue;
-
-    // Уровень в V20 обычно 1–5, поэтому индекс level - 1
-    const levelData = disciplineLevels[level - 1];
-    if (!levelData) continue;
-    const variants = Array.isArray(levelData) ? levelData : [levelData];
-
-    for (const variant of variants) {
-      if (variant.type === "passive" && variant.effects) {
-        result = mergeModifiers(result, variant.effects);
-      }
-    }
   }
 
   return result;

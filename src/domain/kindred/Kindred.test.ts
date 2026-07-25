@@ -1,5 +1,4 @@
-import { aggregateCharacterModifiers } from "./Kindred";
-import { Kindred } from "./Kindred";
+import { Kindred, aggregateModifiers } from "./Kindred";
 import { disciplines } from "data/disciplines";
 import { meritsAndFlaws } from "data/meritsAndFlaws";
 
@@ -65,7 +64,7 @@ describe("src/models/kindred-aggregateCharacterModifiers", () => {
   });
 
   it("возвращает корректные суммарные модификаторы (атрибуты, способности, лимиты, кубики)", () => {
-    const result = aggregateCharacterModifiers(baseCharacter);
+    const result = aggregateModifiers(baseCharacter);
 
     /*
     Расчёт по фикстуре:
@@ -104,7 +103,7 @@ describe("src/models/kindred-aggregateCharacterModifiers", () => {
   it("не мутирует объект character (включая вложенные clan и disciplines)", () => {
     const originalCharacter = JSON.parse(JSON.stringify(baseCharacter));
 
-    aggregateCharacterModifiers(baseCharacter);
+    aggregateModifiers(baseCharacter);
 
     // Глубокое сравнение данных
     expect(baseCharacter).toEqual(originalCharacter);
@@ -115,7 +114,7 @@ describe("src/models/kindred-aggregateCharacterModifiers", () => {
   it("не мутирует глобальные данные disciplines (включая вложенные массивы и объекты)", () => {
     const originalDisciplines = JSON.parse(JSON.stringify(disciplines));
 
-    aggregateCharacterModifiers(baseCharacter);
+    aggregateModifiers(baseCharacter);
 
     expect(disciplines).toEqual(originalDisciplines);
   });
@@ -123,7 +122,7 @@ describe("src/models/kindred-aggregateCharacterModifiers", () => {
   it("не мутирует глобальные данные meritsAndFlaws", () => {
     const originalMerits = JSON.parse(JSON.stringify(meritsAndFlaws));
 
-    aggregateCharacterModifiers(baseCharacter);
+    aggregateModifiers(baseCharacter);
 
     expect(meritsAndFlaws).toEqual(originalMerits);
   });
@@ -142,7 +141,7 @@ describe("src/models/kindred-aggregateCharacterModifiers", () => {
       bodyDamages: [],
     } as unknown as Kindred;
 
-    const result = aggregateCharacterModifiers(characterWithEmptySources);
+    const result = aggregateModifiers(characterWithEmptySources);
 
     // Должен вернуть пустой объект (или объект с undefined полями — зависит от твоей реализации merge)
     expect(result).toEqual({});
@@ -164,7 +163,7 @@ describe("src/models/kindred-aggregateCharacterModifiers", () => {
       bodyDamages: [],
     } as unknown as Kindred;
 
-    const result = aggregateCharacterModifiers(character);
+    const result = aggregateModifiers(character);
 
     expect(result).toEqual({
       attributesModifiers: {
@@ -202,7 +201,7 @@ describe("src/models/kindred-aggregateCharacterModifiers", () => {
 
     deepFreeze(cursedCharacter);
 
-    const result = aggregateCharacterModifiers(cursedCharacter);
+    const result = aggregateModifiers(cursedCharacter);
 
     // Даже при appearance: +5 (clan) и +3 (effect) лимит appearance: 0 должен остаться
     expect(result.attributesMaxLimit).toEqual({ appearance: 0 });

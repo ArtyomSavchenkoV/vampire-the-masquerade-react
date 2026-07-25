@@ -8,6 +8,7 @@ import { DamageType } from "domain/Damage";
 import {
   DamageEvent,
   HealEvent,
+  healHealth as commonHealHealth,
   HealthDamages,
   HealthLevelData,
   sortHealthDamages,
@@ -77,75 +78,12 @@ export const healHealth = (
   bodyDamages: HealthDamages,
   healEvent: HealEvent,
 ): HealthDamages => {
-  const healthDamages = [...bodyDamages];
-  const healthLevelName = getKinderedHealthLevel(healthDamages).name;
-  // количество исцеления
-  const healCount = healEvent.value;
-  // Исцеляемый тип урона
-  const healDamageType = healEvent.damageType;
-  // Если финальная смерть или torpor - исцеление не применяется
-  if (healthLevelName === "finalDeath" || healthLevelName === "torpor") {
-    return healthDamages;
-  }
-  const aggravatedDamages = healthDamages.filter(
-    (damage) => damage === "aggravated",
-  );
-  const lethalDamages = healthDamages.filter((damage) => damage === "lethal");
-  const bashingDamages = healthDamages.filter((damage) => damage === "bashing");
-  if (healDamageType === "aggravated") {
-    let remaining = healCount;
-    const aggravatedDamagesDeleteCount = Math.min(
-      aggravatedDamages.length,
-      remaining,
-    );
-    remaining =
-      remaining - aggravatedDamagesDeleteCount > 0
-        ? remaining - aggravatedDamagesDeleteCount
-        : 0;
-    const lethalDamagesDeleteCount = Math.min(lethalDamages.length, remaining);
-    remaining =
-      remaining - lethalDamagesDeleteCount > 0
-        ? remaining - lethalDamagesDeleteCount
-        : 0;
-    const bashingDamagesDeleteCount = Math.min(
-      bashingDamages.length,
-      remaining,
-    );
-    return [
-      ...aggravatedDamages.slice(aggravatedDamagesDeleteCount),
-      ...lethalDamages.slice(lethalDamagesDeleteCount),
-      ...bashingDamages.slice(bashingDamagesDeleteCount),
-    ];
-  }
-  if (healDamageType === "lethal") {
-    let remaining = healCount;
-    const lethalDamagesDeleteCount = Math.min(lethalDamages.length, remaining);
-    remaining =
-      remaining - lethalDamagesDeleteCount > 0
-        ? remaining - lethalDamagesDeleteCount
-        : 0;
-    const bashingDamagesDeleteCount = Math.min(
-      bashingDamages.length,
-      remaining,
-    );
-    return [
-      ...aggravatedDamages,
-      ...lethalDamages.slice(lethalDamagesDeleteCount),
-      ...bashingDamages.slice(bashingDamagesDeleteCount),
-    ];
-  }
-  if (healDamageType === "bashing") {
-    const bashingDamagesDeleteCount = Math.min(
-      bashingDamages.length,
-      healCount,
-    );
-    return [
-      ...aggravatedDamages,
-      ...lethalDamages,
-      ...bashingDamages.slice(bashingDamagesDeleteCount),
-    ];
-  }
-  return healthDamages as never;
+  const healthLevelName = getKinderedHealthLevel(bodyDamages).name;
+  return commonHealHealth({
+    bodyDamages,
+    healthLevelName,
+    healEvent,
+  });
 };
 
 /**
