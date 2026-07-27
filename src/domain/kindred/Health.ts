@@ -13,11 +13,9 @@ import {
   sortHealthDamages,
 } from "domain/Health";
 
-type AwakeningEvent = {
+export type AwakeningEvent = {
   type: "torpor";
 };
-
-export type HealthHistory = AwakeningEvent | HealEvent | DamageEvent;
 
 /**
  * Получить данные о здоровье сородича.

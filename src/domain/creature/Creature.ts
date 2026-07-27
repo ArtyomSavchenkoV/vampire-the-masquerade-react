@@ -1,6 +1,6 @@
-import { AbilityName, AbilityLevel } from "domain/Abilities";
+import { AbilityName, BaseAbilityLevel } from "domain/Abilities";
 import { ActiveEffect } from "domain/ActiveEffect";
-import { AttributeName, AttributeLevel } from "domain/Attributes";
+import { AttributeName, BaseAttributeLevel } from "domain/Attributes";
 import { EquipmentItem } from "domain/EquipmentItem";
 import { getHealthLevel, HealthDamages, HealthLevelData } from "domain/Health";
 import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
@@ -16,9 +16,9 @@ export interface Creature {
   /** Игрок */
   player: string;
   /** Характеристики */
-  attributes: Record<AttributeName, AttributeLevel>;
+  attributes: Record<AttributeName, BaseAttributeLevel>;
   /** Способности */
-  abilities: Record<AbilityName, AbilityLevel>;
+  abilities: Record<AbilityName, BaseAbilityLevel>;
   /** Ментальные устойчивости */
   mentalStability: Record<MentalStability, MentalStabilityLevel>;
   /** Воля (Willpower) — текущий запас кубиков воли */

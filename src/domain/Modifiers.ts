@@ -1,7 +1,17 @@
 import { mergeLimitsMin } from "utils/mergeLimitsMin";
 import { mergeRecordSum } from "utils/mergeRecordSum";
-import { AbilityName } from "./Abilities";
-import { AttributeName } from "./Attributes";
+import {
+  AbilityName,
+  MODIFIED_ABILITY_MAX,
+  MODIFIED_ABILITY_MIN,
+  ModifiedAbilityLevel,
+} from "./Abilities";
+import {
+  AttributeName,
+  MODIFIED_ATTRIBUTE_MAX,
+  MODIFIED_ATTRIBUTE_MIN,
+  ModifiedAttributeLevel,
+} from "./Attributes";
 import { DamageType } from "./Damage";
 import { mergeMultipliers } from "utils/mergeMultipliers";
 import { filterEmptyAndZeroValues } from "utils/filterEmptyValues";
@@ -95,3 +105,104 @@ export const mergeModifiers = (
 
   return filterEmptyAndZeroValues(result);
 };
+
+/**
+ * Универсальная функция применения модификаторов.
+ * Работает для любого объекта, у которого есть поля attributes/abilities.
+ * Возвращает только изменившиеся поля в диапазоне ModifiedAttributeLevel.
+ */
+export function applyModifiers<
+  TData extends {
+    attributes?: Partial<Record<AttributeName, ModifiedAttributeLevel>>;
+    abilities?: Partial<Record<AbilityName, ModifiedAbilityLevel>>;
+  },
+>({
+  data,
+  modifiers,
+}: {
+  data: TData;
+  modifiers: Modifiers;
+}): Partial<{
+  attributes?: Partial<Record<AttributeName, ModifiedAttributeLevel>>;
+  abilities?: Partial<Record<AbilityName, ModifiedAbilityLevel>>;
+}> {
+  const result: Partial<{
+    attributes?: Partial<Record<AttributeName, ModifiedAttributeLevel>>;
+    abilities?: Partial<Record<AbilityName, ModifiedAbilityLevel>>;
+  }> = {};
+
+  // --- Атрибуты ---
+  if (
+    data.attributes &&
+    (modifiers.attributesModifiers || modifiers.attributesMaxLimit)
+  ) {
+    const newAttributes: Partial<
+      Record<AttributeName, ModifiedAttributeLevel>
+    > = {};
+    let hasChanges = false;
+
+    for (const attr of Object.keys(data.attributes)) {
+      const key = attr as AttributeName;
+      const current = data.attributes?.[key];
+
+      if (current === undefined) continue;
+
+      let newValue = current;
+
+      // 1. Применяем бонус
+      const modifierValue = modifiers.attributesModifiers?.[key];
+      if (modifierValue !== undefined) {
+        newValue += modifierValue;
+        hasChanges = true;
+      }
+
+      // 2. Применяем лимиты
+      const maxLimit =
+        modifiers.attributesMaxLimit?.[key] ?? MODIFIED_ATTRIBUTE_MAX;
+      const minLimit = Math.min(MODIFIED_ATTRIBUTE_MIN, maxLimit);
+
+      const clamped = Math.max(minLimit, Math.min(maxLimit, newValue));
+
+      if (clamped !== current) {
+        newAttributes[key] = clamped as ModifiedAttributeLevel;
+        hasChanges = true;
+      }
+    }
+
+    if (hasChanges && Object.keys(newAttributes).length > 0) {
+      result.attributes = newAttributes;
+    }
+  }
+
+  // --- Способности ---
+  if (data.abilities && modifiers.abilityModifiers) {
+    const newAbilities: Partial<Record<AbilityName, ModifiedAbilityLevel>> = {};
+    let hasChanges = false;
+
+    for (const ability of Object.keys(data.abilities)) {
+      const key = ability as AbilityName;
+      const current = data.abilities?.[key];
+
+      if (current === undefined) continue;
+
+      const bonus = modifiers.abilityModifiers?.[key] ?? 0;
+      const newValue = current + bonus;
+
+      const clamped = Math.max(
+        MODIFIED_ABILITY_MIN,
+        Math.min(MODIFIED_ABILITY_MAX, newValue),
+      );
+
+      if (clamped !== current) {
+        newAbilities[key] = clamped as ModifiedAbilityLevel;
+        hasChanges = true;
+      }
+    }
+
+    if (hasChanges && Object.keys(newAbilities).length > 0) {
+      result.abilities = newAbilities;
+    }
+  }
+
+  return result;
+}

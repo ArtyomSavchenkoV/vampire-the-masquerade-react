@@ -1,7 +1,7 @@
 import { disciplines } from "data/disciplines";
-import { AbilityLevel, AbilityName } from "domain/Abilities";
+import { BaseAbilityLevel, AbilityName } from "domain/Abilities";
 import { ActiveEffect } from "domain/ActiveEffect";
-import { AttributeLevel, AttributeName } from "domain/Attributes";
+import { BaseAttributeLevel, AttributeName } from "domain/Attributes";
 import { BackgroundName, BackgroundLevel } from "domain/Backgrounds";
 import { Clan } from "domain/Clan";
 import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
@@ -36,9 +36,9 @@ export interface Kindred {
   /** Сир (имя сира или null, если не известен) */
   sire: string | null;
   /** Характеристики */
-  attributes: Record<AttributeName, AttributeLevel>;
+  attributes: Record<AttributeName, BaseAttributeLevel>;
   /** Способности */
-  abilities: Record<AbilityName, AbilityLevel>;
+  abilities: Record<AbilityName, BaseAbilityLevel>;
   /** Факты биографии */
   backgrounds: Partial<Record<BackgroundName, BackgroundLevel>>;
   /** Ментальные устойчивости */

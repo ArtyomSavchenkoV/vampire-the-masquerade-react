@@ -1,8 +1,10 @@
 import { ResourceHistory } from "domain/ResourceHistory";
-import { awakening, damageHealth, healHealth, HealthHistory } from "./Health";
+import { awakening, AwakeningEvent, damageHealth, healHealth } from "./Health";
 import { Kindred } from "./Kindred";
-import { HealthDamages } from "domain/Health";
+import { DamageEvent, HealEvent, HealthDamages } from "domain/Health";
 import { numberToMaxMinDiapason } from "utils/numberToMaxminDiapason";
+
+export type HealthHistory = AwakeningEvent | HealEvent | DamageEvent;
 
 export interface ResourcesHistory {
   willpower: ResourceHistory<Kindred["willpower"]>[];

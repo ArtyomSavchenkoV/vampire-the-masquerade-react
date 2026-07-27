@@ -62,4 +62,18 @@ export type AbilityName =
   /** Электроника */
   | "electronics";
 
-export type AbilityLevel = 0 | 1 | 2 | 3 | 4 | 5;
+/** Допустимые базовые уровни абилок персонажа, без каких либо модиыикаторов */
+export const baseAbilityLevels = [0, 1, 2, 3, 4, 5] as const;
+
+export type BaseAbilityLevel = ArrayElement<typeof baseAbilityLevels>;
+
+/** Допустимые уровни абилок персонажа, в том числе с учётом модификаторов */
+export const modifiedAbilityLevels = [
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+] as const;
+
+export type ModifiedAbilityLevel = ArrayElement<typeof modifiedAbilityLevels>;
+
+export const MODIFIED_ABILITY_MIN = modifiedAbilityLevels[0];
+export const MODIFIED_ABILITY_MAX =
+  modifiedAbilityLevels[modifiedAbilityLevels.length - 1];

@@ -1,7 +1,7 @@
 import { meritsAndFlaws } from "data/meritsAndFlaws";
-import { AbilityName, AbilityLevel } from "domain/Abilities";
+import { AbilityName, BaseAbilityLevel } from "domain/Abilities";
 import { ActiveEffect } from "domain/ActiveEffect";
-import { AttributeName, AttributeLevel } from "domain/Attributes";
+import { AttributeName, BaseAttributeLevel } from "domain/Attributes";
 import { BackgroundName, BackgroundLevel } from "domain/Backgrounds";
 import { EquipmentItem } from "domain/EquipmentItem";
 import { getHealthLevel, HealthDamages } from "domain/Health";
@@ -28,9 +28,9 @@ export interface Human {
   /** Амплуа (социальная роль в секте/городе) */
   role: string; // например: "Осведомитель", "Телохранитель", "Дипломат", "Ищейка"
   /** Характеристики */
-  attributes: Record<AttributeName, AttributeLevel>;
+  attributes: Record<AttributeName, BaseAttributeLevel>;
   /** Способности */
-  abilities: Record<AbilityName, AbilityLevel>;
+  abilities: Record<AbilityName, BaseAbilityLevel>;
   /** Факты биографии */
   backgrounds: Partial<Record<BackgroundName, BackgroundLevel>>;
   /** Ментальные устойчивости */

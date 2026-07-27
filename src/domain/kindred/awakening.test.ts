@@ -10,7 +10,7 @@ describe("src/domain/kindred-awakening", () => {
     "bashing",
     "lethal",
     "aggravated",
-  ] as const satisfies HealthDamages;
+  ] satisfies HealthDamages;
 
   it("Пробудиться после torpor", () => {
     expect(awakening([...healthDamages, "lethal"])).toEqual([

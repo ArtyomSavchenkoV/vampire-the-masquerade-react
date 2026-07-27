@@ -10,7 +10,7 @@ describe("src/domain/healHealth", () => {
     "bashing",
     "lethal",
     "bashing",
-  ] as const satisfies HealthDamages;
+  ] satisfies HealthDamages;
   it("Вылечен", () => {
     expect(
       healHealth({
