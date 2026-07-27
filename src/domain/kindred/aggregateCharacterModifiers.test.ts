@@ -1,6 +1,7 @@
-import { Kindred, aggregateModifiers } from "./Kindred";
+import { Kindred } from "./Kindred";
 import { disciplines } from "data/disciplines";
 import { meritsAndFlaws } from "data/meritsAndFlaws";
+import { aggregateModifiers } from "./CalculatedKindred";
 
 /**
  * Глубокое замораживание объекта и всех вложенных структур.

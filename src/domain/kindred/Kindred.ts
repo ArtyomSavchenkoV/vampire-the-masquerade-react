@@ -1,15 +1,11 @@
-import { disciplines } from "data/disciplines";
 import { BaseAbilityLevel, AbilityName } from "domain/Abilities";
 import { ActiveEffect } from "domain/ActiveEffect";
 import { BaseAttributeLevel, AttributeName } from "domain/Attributes";
 import { BackgroundName, BackgroundLevel } from "domain/Backgrounds";
 import { Clan } from "domain/Clan";
 import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
-import { MeritsAndFlawsData, MeritsAndFlawsName } from "domain/MeritsAndFlaws";
-import { Modifiers, mergeModifiers } from "domain/Modifiers";
-import { meritsAndFlaws } from "data/meritsAndFlaws";
+import { MeritsAndFlawsName } from "domain/MeritsAndFlaws";
 import { EquipmentItem } from "domain/EquipmentItem";
-import { getKinderedHealthLevel } from "./Health";
 import { HealthDamages } from "domain/Health";
 import { ResourcesHistory } from "./ResourcesHistory";
 
@@ -62,79 +58,3 @@ export interface Kindred {
   /** История изменений ресурсов (кровь, здоровье и пр.) */
   resourcesHistory: ResourcesHistory;
 }
-
-/**
- * Собирает все модификаторы для персонажа: клан, активные эффекты,
- * достоинства/недостатки, пассивные эффекты дисциплин.
- *
- * Возвращает единый объект Modifiers, который можно сразу применять
- * к базовым статам.
- */
-export const aggregateModifiers = (character: Kindred): Modifiers => {
-  let result: Modifiers = {};
-
-  // Модификаторы от клана
-  if (character.clan.modifiers) {
-    result = mergeModifiers(result, character.clan.modifiers);
-  }
-
-  // Эффекты экипировки
-  for (const effect of character.equipment) {
-    if (effect.modifiers) {
-      result = mergeModifiers(result, effect.modifiers);
-    }
-  }
-
-  // Активные эффекты
-  for (const effect of character.activeEffects) {
-    if (effect.modifiers) {
-      result = mergeModifiers(result, effect.modifiers);
-    }
-  }
-
-  // Достоинства и недостатки
-  for (const meritOrFlaw of character.meritsAndFlaws) {
-    const data: MeritsAndFlawsData = meritsAndFlaws[meritOrFlaw];
-    if (!data) continue;
-    if (data.effects) {
-      result = mergeModifiers(result, data.effects);
-    }
-  }
-
-  // Эффекты от здоровья
-  const healthLevelModifiers = getKinderedHealthLevel(
-    character.bodyDamages,
-  ).modifiers;
-  if (healthLevelModifiers) {
-    result = mergeModifiers(result, healthLevelModifiers);
-  }
-
-  // Пассивные эффекты от дисциплин
-  const { disciplines: charDisciplines } = character.clan;
-
-  // Приводим ключи к строгому типу
-  const disciplineKeys = Object.keys(charDisciplines) as Array<
-    keyof typeof charDisciplines
-  >;
-
-  for (const disciplineName of disciplineKeys) {
-    const level = charDisciplines[disciplineName];
-    if (!level) continue;
-
-    const disciplineLevels = disciplines[disciplineName];
-    if (!disciplineLevels) continue;
-
-    // Уровень в V20 обычно 1–5, поэтому индекс level - 1
-    const levelData = disciplineLevels[level - 1];
-    if (!levelData) continue;
-    const variants = Array.isArray(levelData) ? levelData : [levelData];
-
-    for (const variant of variants) {
-      if (variant.type === "passive" && variant.effects) {
-        result = mergeModifiers(result, variant.effects);
-      }
-    }
-  }
-
-  return result;
-};
