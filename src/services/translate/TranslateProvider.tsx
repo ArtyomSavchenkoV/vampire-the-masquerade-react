@@ -1,4 +1,5 @@
 import { ru } from "dictionaries/ru";
+import { Dictionary } from "dictionaries/types";
 import { FC, ReactNode } from "react";
 import TranslateContext, {
   TTranslate,
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const TranslateProvider: FC<Props> = ({ children }) => {
-  const getTranslate: (dictionary: { [key: string]: any }) => TTranslate =
+  const getTranslate: (dictionary: Dictionary) => TTranslate =
     (dictionary) => (path, inserts) => {
       const pathParts = path.split(".");
       let result = "#" + path;
