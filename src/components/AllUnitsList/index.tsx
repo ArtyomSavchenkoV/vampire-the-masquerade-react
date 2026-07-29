@@ -21,7 +21,7 @@ const columnWidths = [
 ] as const;
 
 interface TProps {}
-export const AllUnits: FC<TProps> = () => {
+export const AllUnitsList: FC<TProps> = () => {
   const allUnits = useAllUnitsSelector();
   return (
     <>

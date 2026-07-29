@@ -1,7 +1,7 @@
 import { FC, HTMLAttributes } from "react";
 import styled from "@emotion/styled";
 import { Header } from "./Header";
-import { AllUnits } from "components/AllUnits";
+import { AllUnitsList } from "components/AllUnitsList";
 
 const PageRoot = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ export const Page: FC<TProps> = () => {
     <PageRoot>
       <HeaderRoot />
       <ContentRoot>
-        <AllUnits />
+        <AllUnitsList />
       </ContentRoot>
     </PageRoot>
   );
