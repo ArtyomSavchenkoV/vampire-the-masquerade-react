@@ -16,9 +16,9 @@ export interface Kindred {
   /** Имя персонажа */
   name: string;
   /** Игрок */
-  player: string;
+  player: string | null;
   /** Хроника/кампания */
-  chronicle: string;
+  chronicle: string | null;
   /** Натура (то, кем персонаж является на самом деле) */
   nature: string; // например: "Диктатор", "Мечтатель", "Опекун"
   /** Маска (то, каким он хочет казаться) */

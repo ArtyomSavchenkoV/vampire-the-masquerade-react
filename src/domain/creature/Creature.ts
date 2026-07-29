@@ -13,7 +13,7 @@ export interface Creature {
   /** Имя персонажа */
   name: string;
   /** Игрок */
-  player: string;
+  player: string | null;
   /** Характеристики */
   attributes: Record<AttributeName, BaseAttributeLevel>;
   /** Способности */

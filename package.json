@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "@types/react-document-title": "^2.0.10"
+    "@types/react-document-title": "^2.0.10",
+    "@types/uuid": "^10.0.0"
   }
 }

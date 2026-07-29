@@ -21,6 +21,7 @@ export const ErrorBoundary = ({ children }: ErrorBoundaryProps) => {
           onClick={() => {
             if (actions?.resetStore) {
               actions.resetStore();
+              setError(null);
             } else {
               console.error("Actions not available to reset store");
             }

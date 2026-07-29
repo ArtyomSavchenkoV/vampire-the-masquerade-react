@@ -3,7 +3,7 @@ import { Button } from "../baseComponents/Button";
 import { Dialog } from "./Dialog";
 import { ConfirmWindow } from "./ConfirmWindow";
 
-interface TProps extends Omit<ComponentProps<typeof Button>, "onClick"> {
+interface TProps extends ComponentProps<typeof Button> {
   onConfirm: () => void;
   confirmWindowTitle: ReactNode;
   confirmWindowContent?: ReactNode;
@@ -11,6 +11,7 @@ interface TProps extends Omit<ComponentProps<typeof Button>, "onClick"> {
 
 export const ConfirmingButton: FC<TProps> = ({
   onConfirm,
+  onClick,
   confirmWindowTitle,
   confirmWindowContent,
   disabled,
@@ -20,7 +21,10 @@ export const ConfirmingButton: FC<TProps> = ({
   return (
     <>
       <Button
-        onClick={() => !disabled && setOpen(true)}
+        onClick={(ev) => {
+          onClick?.(ev);
+          !disabled && setOpen(true);
+        }}
         disabled={disabled}
         {...props}
       />

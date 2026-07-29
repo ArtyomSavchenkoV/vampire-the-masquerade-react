@@ -7,6 +7,7 @@ import useTranslate from "services/translate/useTranslate";
 import { StyledRow } from "./StyledRow";
 import { MAX_HEALTH } from "domain/kindred/Health";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
+import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 
 interface TProps {
   id: string;
@@ -14,6 +15,7 @@ interface TProps {
 
 export const KindredRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
+  const { removeUnit } = useActions();
   const kindredRow = useKindredRowSelector(id);
   const { focusUnit, addToScene, removeFromScene } = useActions();
   if (!kindredRow) {
@@ -30,9 +32,11 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
       <Td>
         <CheckBox
           checked={kindredRow.isOnScene}
-          onChange={(ev) => {
+          onClick={(ev) => {
             ev.stopPropagation();
-            ev.target.checked ? removeFromScene(id) : addToScene(id);
+          }}
+          onChange={(ev) => {
+            ev.target.checked ? addToScene(id) : removeFromScene(id);
           }}
         />
       </Td>
@@ -48,6 +52,20 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
         {`${translate("resources.health")}: ${MAX_HEALTH - kindredRow.bodyDamages.length}/${MAX_HEALTH}, `}
         {`${translate("resources.willpower")}: ${kindredRow.willpower}, `}
         {`${translate("resources.bloodPool")}: ${kindredRow.bloodPool}`}
+      </Td>
+
+      {/* Кнопка удаления */}
+      <Td>
+        <ConfirmingButton
+          onClick={(ev) => ev.stopPropagation()}
+          onConfirm={() => removeUnit(id)}
+          confirmWindowTitle={translate("unitRow.remove")}
+          confirmWindowContent={translate(
+            "unitRow.removeUnitConfirmingMessage",
+          )}
+        >
+          {translate("unitRow.remove")}
+        </ConfirmingButton>
       </Td>
     </StyledRow>
   );

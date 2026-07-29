@@ -6,6 +6,7 @@ import useTranslate from "services/translate/useTranslate";
 import { useCreatureRowSelector } from "./selectors";
 import { StyledRow } from "./StyledRow";
 import { useActions } from "store/selectors";
+import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 
 interface TProps {
   id: string;
@@ -13,6 +14,7 @@ interface TProps {
 
 export const CreatureRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
+  const { removeUnit } = useActions();
   const creatureRow = useCreatureRowSelector(id);
   const { focusUnit, addToScene, removeFromScene } = useActions();
   if (!creatureRow) {
@@ -31,9 +33,11 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
       <Td>
         <CheckBox
           checked={creatureRow.isOnScene}
-          onChange={(ev) => {
+          onClick={(ev) => {
             ev.stopPropagation();
-            ev.target.checked ? removeFromScene(id) : addToScene(id);
+          }}
+          onChange={(ev) => {
+            ev.target.checked ? addToScene(id) : removeFromScene(id);
           }}
         />
       </Td>
@@ -42,12 +46,26 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
       <Td>{creatureRow.name}</Td>
 
       {/* Тип персонажа */}
-      <Td>{translate("unitTypes.kindred")}</Td>
+      <Td>{translate("unitTypes.creature")}</Td>
 
       {/* Ресурсы персонажа */}
       <Td>
         {`${translate("resources.health")}: ${creatureRow.maxHealth - creatureRow.bodyDamages.length}/${creatureRow.maxHealth}, `}
         {`${translate("resources.willpower")}: ${creatureRow.willpower}, `}
+      </Td>
+
+      {/* Кнопка удаления */}
+      <Td>
+        <ConfirmingButton
+          onClick={(ev) => ev.stopPropagation()}
+          onConfirm={() => removeUnit(id)}
+          confirmWindowTitle={translate("unitRow.remove")}
+          confirmWindowContent={translate(
+            "unitRow.removeUnitConfirmingMessage",
+          )}
+        >
+          {translate("unitRow.remove")}
+        </ConfirmingButton>
       </Td>
     </StyledRow>
   );

@@ -1,7 +1,10 @@
-import { FC, HTMLAttributes } from "react";
+import { HTMLAttributes } from "react";
+import styled from "@emotion/styled";
 
-interface TProps extends HTMLAttributes<HTMLTableElement> {}
+interface TableProps extends HTMLAttributes<HTMLTableElement> {}
 
-export const Table: FC<TProps> = ({ ...props }) => {
-  return <table {...props} />;
-};
+export const Table = styled.table<TableProps>`
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+`;

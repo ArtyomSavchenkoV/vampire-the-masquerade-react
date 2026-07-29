@@ -7,6 +7,7 @@ import { useActions } from "store/selectors";
 import { useHumanRowSelector } from "./selectors";
 import { StyledRow } from "./StyledRow";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
+import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 
 interface TProps {
   id: string;
@@ -14,6 +15,7 @@ interface TProps {
 
 export const HumanRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
+  const { removeUnit } = useActions();
   const humanRow = useHumanRowSelector(id);
   const { focusUnit, addToScene, removeFromScene } = useActions();
   if (!humanRow) {
@@ -30,9 +32,11 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
       <Td>
         <CheckBox
           checked={humanRow.isOnScene}
-          onChange={(ev) => {
+          onClick={(ev) => {
             ev.stopPropagation();
-            ev.target.checked ? removeFromScene(id) : addToScene(id);
+          }}
+          onChange={(ev) => {
+            ev.target.checked ? addToScene(id) : removeFromScene(id);
           }}
         />
       </Td>
@@ -41,12 +45,26 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
       <Td>{humanRow.name}</Td>
 
       {/* Тип персонажа */}
-      <Td>{translate("unitTypes.kindred")}</Td>
+      <Td>{translate("unitTypes.human")}</Td>
 
       {/* Ресурсы персонажа */}
       <Td>
         {`${translate("resources.health")}: ${MAX_HEALTH - humanRow.bodyDamages.length}/${MAX_HEALTH}, `}
         {`${translate("resources.willpower")}: ${humanRow.willpower}, `}
+      </Td>
+
+      {/* Кнопка удаления */}
+      <Td>
+        <ConfirmingButton
+          onClick={(ev) => ev.stopPropagation()}
+          onConfirm={() => removeUnit(id)}
+          confirmWindowTitle={translate("unitRow.remove")}
+          confirmWindowContent={translate(
+            "unitRow.removeUnitConfirmingMessage",
+          )}
+        >
+          {translate("unitRow.remove")}
+        </ConfirmingButton>
       </Td>
     </StyledRow>
   );

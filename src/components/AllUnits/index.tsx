@@ -1,9 +1,24 @@
 import { Table } from "baseComponents/Table";
-import { FC } from "react";
+import { FC, Fragment } from "react";
 import { useAllUnitsSelector } from "./selectors";
 import { KindredRow } from "./KindredRow";
 import { HumanRow } from "./HumanRow";
 import { CreatureRow } from "./CreatureRow";
+import { ColGroup } from "baseComponents/ColGroup";
+
+// Ширины колонок
+const columnWidths = [
+  /** Чекбокс */
+  40,
+  /** Имя */
+  160,
+  /** Тип */
+  100,
+  /** Ресурсы */
+  "auto",
+  /** Кнопка */
+  80,
+] as const;
 
 interface TProps {}
 export const AllUnits: FC<TProps> = () => {
@@ -12,13 +27,18 @@ export const AllUnits: FC<TProps> = () => {
     <>
       {/* Таблица */}
       <Table>
-        {allUnits.map(({ id, type }) => (
-          <>
-            {type === "kindred" && <KindredRow key={id} id={id} />}
-            {type === "human" && <HumanRow key={id} id={id} />}
-            {type === "creature" && <CreatureRow key={id} id={id} />}
-          </>
-        ))}
+        {/* Компонент устанавливает ширину столбцов */}
+        <ColGroup widths={columnWidths} />
+        {/* Список участников */}
+        <tbody>
+          {allUnits.map(({ id, type }) => (
+            <Fragment key={id}>
+              {type === "kindred" && <KindredRow id={id} />}
+              {type === "human" && <HumanRow id={id} />}
+              {type === "creature" && <CreatureRow id={id} />}
+            </Fragment>
+          ))}
+        </tbody>
       </Table>
       {/* Карточка */}
     </>
