@@ -1,4 +1,4 @@
-import { useStore } from "./store";
+import { initialState } from "./initialState";
 import { Actions, UnitEntry } from "./types";
 import { State } from "./types";
 
@@ -7,8 +7,15 @@ import { State } from "./types";
  * Возвращает набор методов для изменения состояния через Immer-draft.
  */
 export const createActions = (
-  set: (cb: (draft: State) => void) => void,
+  set: (cb: State | ((draft: State) => void)) => void,
 ): Actions => ({
+  /**
+   * Сброс стора
+   */
+  resetStore: () => {
+    set(initialState);
+  },
+
   /**
    * Добавляет юнита в хранилище по ID.
    */
@@ -58,8 +65,3 @@ export const createActions = (
       draft.focusedUnitId = id;
     }),
 });
-
-/**
- * Хук для получения объекта экшенов из стора.
- */
-export const useActions = () => useStore((state) => state.actions);

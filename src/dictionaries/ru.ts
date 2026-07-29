@@ -1,8 +1,17 @@
 export const ru = {
   title: "Заголовок",
-  content: "Содержимое",
   confirmWindow: {
     confirm: "Да",
     cancel: "Отмена",
+  },
+  unitTypes: {
+    kindred: "Сородич",
+    human: "Человек",
+    creature: "Существо",
+  },
+  resources: {
+    health: "Здоровье",
+    willpower: "Воля",
+    bloodPool: "Запас крови",
   },
 };

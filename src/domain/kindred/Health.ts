@@ -13,6 +13,8 @@ import {
   sortHealthDamages,
 } from "domain/Health";
 
+export const MAX_HEALTH = kindredHealthLevels.length - 1;
+
 export type AwakeningEvent = {
   type: "torpor";
 };
@@ -42,7 +44,6 @@ export const damageHealth = (
 ): HealthDamages => {
   const healthDamages = [...bodyDamages];
   const healthLevelName = getKinderedHealthLevel(healthDamages).name;
-  const maxHealth = kindredHealthLevels.length - 1;
   // Тип наносимого урона
   const damageType = damageEvent.damageType;
   // Если финальная смерть - урон не применяется
@@ -55,7 +56,7 @@ export const damageHealth = (
     return healthDamages;
   }
   // Доступные слоты урона
-  const availableCells = maxHealth - healthDamages.length;
+  const availableCells = MAX_HEALTH - healthDamages.length;
   // количество наносимого урона
   const damageCount = damageEvent.value;
   const damages = Array<DamageType>(

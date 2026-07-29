@@ -1,5 +1,5 @@
 import { ComponentProps, FC, ReactNode, useState } from "react";
-import { Button } from "./Button";
+import { Button } from "../baseComponents/Button";
 import { Dialog } from "./Dialog";
 import { ConfirmWindow } from "./ConfirmWindow";
 

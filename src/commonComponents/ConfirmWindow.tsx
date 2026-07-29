@@ -1,8 +1,8 @@
 import { FC, ReactNode } from "react";
 import styled from "@emotion/styled";
 import useTranslate from "services/translate/useTranslate";
-import { Card } from "./Card";
-import { Button } from "./Button";
+import { Card } from "../baseComponents/Card";
+import { Button } from "../baseComponents/Button";
 
 const ConfirmWindowRoot = styled(Card)`
   width: 400px;

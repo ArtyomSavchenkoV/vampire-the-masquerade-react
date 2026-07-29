@@ -30,6 +30,8 @@ export interface State {
  * Набор экшенов для изменения состояния стора.
  */
 export interface Actions {
+  /** Сброс стора */
+  resetStore: () => void;
   /** Добавляет юнита в хранилище по уникальному ID */
   addUnit: (id: string, entry: UnitEntry) => void;
   /** Удаляет юнита из хранилища и очищает связанные данные (сцена, фокус) */

@@ -1,7 +1,7 @@
 import { FC, HTMLAttributes } from "react";
 import styled from "@emotion/styled";
 import { Header } from "./Header";
-import useTranslate from "services/translate/useTranslate";
+import { AllUnits } from "components/AllUnits";
 
 const PageRoot = styled.div`
   display: flex;
@@ -19,12 +19,12 @@ const ContentRoot = styled.div`
 interface TProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Page: FC<TProps> = () => {
-  const { translate } = useTranslate();
-
   return (
     <PageRoot>
       <HeaderRoot />
-      <ContentRoot>{translate("content")}</ContentRoot>
+      <ContentRoot>
+        <AllUnits />
+      </ContentRoot>
     </PageRoot>
   );
 };

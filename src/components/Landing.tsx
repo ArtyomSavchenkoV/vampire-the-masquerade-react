@@ -1,5 +1,10 @@
+import { ErrorBoundary } from "commonComponents/ErrorBoundary";
 import { Page } from "components/Page";
 
 export const Landing = () => {
-  return <Page />;
+  return (
+    <ErrorBoundary>
+      <Page />
+    </ErrorBoundary>
+  );
 };

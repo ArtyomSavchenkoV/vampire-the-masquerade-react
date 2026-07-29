@@ -34,6 +34,6 @@ const ButtonRoot = styled.button<TProps>`
 
 interface TProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const Button: FC<TProps> = ({ children, ...props }) => {
-  return <ButtonRoot {...props}>{children}</ButtonRoot>;
+export const Button: FC<TProps> = ({ ...props }) => {
+  return <ButtonRoot {...props} />;
 };

@@ -4,6 +4,15 @@ import { useStore } from "./store";
 import { calculateKindred } from "domain/kindred/CalculatedKindred";
 import { useMemo } from "react";
 
+// TODO:
+// import { useShallow } from "zustand/shallow";
+
+/**
+ * Получает сырые данные юнита по ID из стора.
+ * Возвращает null, если юнит не найден.
+ */
+export const useUnitsSelector = () => useStore((state) => state.units);
+
 /**
  * Получает сырые данные юнита по ID из стора.
  * Возвращает null, если юнит не найден.
@@ -79,3 +88,8 @@ export const useCalculatedCreatureSelector = (id: string) => {
     [creature],
   );
 };
+
+/**
+ * Хук для получения объекта экшенов из стора.
+ */
+export const useActions = () => useStore((state) => state.actions);

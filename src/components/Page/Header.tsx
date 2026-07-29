@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { Button } from "commonComponents/Button";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 import { HTMLAttributes, FC } from "react";
 import useTranslate from "services/translate/useTranslate";
