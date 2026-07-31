@@ -53,7 +53,7 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
         {`${translate("resources.willpower")}: ${humanRow.willpower}, `}
       </Td>
 
-      {/* Кнопка удаления */}
+      {/* Кнопки */}
       <Td>
         <ConfirmingButton
           onClick={(ev) => ev.stopPropagation()}

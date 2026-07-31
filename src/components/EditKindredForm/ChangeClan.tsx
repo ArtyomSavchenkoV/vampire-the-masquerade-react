@@ -28,7 +28,7 @@ export const ChangeClan: FC<TProps> = ({ clanName, onChange, ...props }) => {
       <StyledButton onClick={() => setOpen(true)} {...props} />
       <Dialog open={open}>
         <ConfirmWindow
-          title={translate("changeClan.confirmTitle")}
+          title={translate("editClan.confirmTitle")}
           onConfirm={() => {
             onChange(selectedClanName);
             setOpen(false);
@@ -36,8 +36,8 @@ export const ChangeClan: FC<TProps> = ({ clanName, onChange, ...props }) => {
           onCancel={() => setOpen(false)}
           onClose={() => setOpen(false)}
         >
-          <div>{translate("changeClan.attention")}</div>
-          <div>{translate("changeClan.confirmTitleMessage")}</div>
+          <div>{translate("editClan.attention")}</div>
+          <div>{translate("editClan.confirmTitleMessage")}</div>
           <Select
             options={clanNames.map((clanName) => ({
               value: clanName,

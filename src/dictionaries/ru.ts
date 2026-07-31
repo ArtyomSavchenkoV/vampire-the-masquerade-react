@@ -96,7 +96,11 @@ export const ru = {
     finance: "Финансы",
     electronics: "Электроника",
   },
-  changeClan: {
+  editKindred: {
+    editButton: "Редактировать",
+    title: "Редактировать сородича",
+  },
+  editClan: {
     confirmTitle: "Изменить клан",
     attention: "Внимание!",
     confirmTitleMessage: "При изменении клана, сбросятся все данные формы!",

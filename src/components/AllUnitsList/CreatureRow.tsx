@@ -54,7 +54,7 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
         {`${translate("resources.willpower")}: ${creatureRow.willpower}, `}
       </Td>
 
-      {/* Кнопка удаления */}
+      {/* Кнопки */}
       <Td>
         <ConfirmingButton
           onClick={(ev) => ev.stopPropagation()}
