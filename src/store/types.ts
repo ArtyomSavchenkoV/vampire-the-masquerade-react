@@ -32,6 +32,8 @@ export interface State {
 export interface Actions {
   /** Сброс стора */
   resetStore: () => void;
+  /** Перезаписывает юниты новым объектом */
+  changeUnits: (units: Record<string, UnitEntry>) => void;
   /** Добавляет юнита в хранилище по уникальному ID */
   addUnit: (id: string, entry: UnitEntry) => void;
   /** Удаляет юнита из хранилища и очищает связанные данные (сцена, фокус) */

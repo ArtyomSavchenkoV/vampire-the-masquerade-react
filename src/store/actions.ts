@@ -15,6 +15,14 @@ export const createActions = (
   resetStore: () => {
     set(initialState);
   },
+  /**
+   * Перезаписывает юниты новым объектом
+   */
+  changeUnits: (units) =>
+    set({
+      ...initialState,
+      units,
+    }),
 
   /**
    * Добавляет юнита в хранилище по ID.
