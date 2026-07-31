@@ -1,17 +1,30 @@
 import styled from "@emotion/styled";
-import { FC, HTMLAttributes, ReactNode } from "react";
+import { useOnElementResize } from "hooks/useOnElementResize";
+import { FC, HTMLAttributes, ReactNode, useRef, useState } from "react";
 
-const Root = styled.div`
-  /*padding: 4px;*/
-  display: grid;
-  grid-template-columns: 1.3fr minmax(85px, 1fr);
-  gap: 4px;
-  overflow-wrap: anywhere;
-`;
+const Root = styled.div<{ isSmallElement: boolean }>(({ isSmallElement }) => ({
+  gap: 4,
+  overflowWrap: "anywhere",
+  ...(isSmallElement
+    ? {}
+    : {
+        display: "grid",
+        gridTemplateColumns: "1.3fr minmax(142px, 1fr)",
+      }),
+}));
 
 const Div = styled.div`
+  position: relative;
   display: flex;
   align-items: start;
+`;
+
+const Line = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 1em;
+  flex: 1;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
 `;
 
 interface IProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
@@ -19,9 +32,18 @@ interface IProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
   children: ReactNode;
 }
 export const TitleText: FC<IProps> = ({ title, children, ...props }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isSmallElement, setIsSmallElement] = useState(false);
+  useOnElementResize({
+    elementRef: ref,
+    onResize: (size) => setIsSmallElement(size.width < 260),
+  });
   return (
-    <Root {...props}>
-      <Div>{title}</Div>
+    <Root ref={ref} isSmallElement={isSmallElement} {...props}>
+      <Div>
+        {title}
+        {!isSmallElement && <Line />}
+      </Div>
       <Div>{children}</Div>
     </Root>
   );

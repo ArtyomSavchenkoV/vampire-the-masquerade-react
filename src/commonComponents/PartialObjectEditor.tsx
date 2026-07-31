@@ -24,12 +24,15 @@ export const PartialObjectEditor = <
   object: Partial<Record<Field, Value>>;
   onChange: (object: Partial<Record<Field, Value>>) => void;
   options: { value: Field; name: string }[];
-  availableValues: readonly Value[];
+  availableValues: readonly (Value | { value: Value; name: string })[];
   addTitle: string;
   deleteTitle: string;
   isObjectFixed?: boolean;
 }) => {
   const array = getDefinedEntries(object);
+  const normalizedAvailableValues = availableValues.map((el) =>
+    typeof el === "object" ? el : { value: el, name: String(el) },
+  );
 
   // Поля, которые ещё не добавлены
   const notUsedFields = options.filter(
@@ -44,7 +47,7 @@ export const PartialObjectEditor = <
         return (
           <TitleText key={key} title={name}>
             <Select
-              options={availableValues}
+              options={normalizedAvailableValues}
               value={value}
               onChange={(newValue) => {
                 const newObject = { ...object };
@@ -73,7 +76,7 @@ export const PartialObjectEditor = <
           onAdd={(selectedValue) =>
             onChange({
               ...object,
-              [selectedValue]: availableValues[0],
+              [selectedValue]: normalizedAvailableValues[0].value,
             })
           }
           notUsedFields={notUsedFields}
