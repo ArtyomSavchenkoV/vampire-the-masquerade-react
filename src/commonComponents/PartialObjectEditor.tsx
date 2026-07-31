@@ -1,9 +1,9 @@
-import { Select } from "baseComponents/Select";
 import { getDefinedEntries } from "utils/getDefinedEntries";
 import { TitleText } from "./TitleText";
 import { AddElementButton } from "./editPersonForm/AddElementButton";
 import { RemoveElementButton } from "./editPersonForm/RemoveElementButton";
 import styled from "@emotion/styled";
+import { WithoutBorderSelect } from "./WithoutBorderSelect";
 
 const TrashButton = styled(RemoveElementButton)`
   margin-left: 4px;
@@ -46,7 +46,7 @@ export const PartialObjectEditor = <
         const name = option?.name;
         return (
           <TitleText key={key} title={name}>
-            <Select
+            <WithoutBorderSelect
               options={normalizedAvailableValues}
               value={value}
               onChange={(newValue) => {

@@ -40,6 +40,7 @@ import { FC, useEffect } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { getDefinedEntries } from "utils/getDefinedEntries";
 import { ChangeClan } from "./ChangeClan";
+import { WithoutBorderSelect } from "commonComponents/WithoutBorderSelect";
 
 interface TProps {
   kindred: Kindred;
@@ -193,7 +194,7 @@ export const EditKindredForm: FC<TProps> = ({
           <TitleText title={translate("attributes.strength")}>
             {attributesMaxLimit?.strength === 0 && 0}
             {attributesMaxLimit?.strength !== 0 && (
-              <Select
+              <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
@@ -208,7 +209,7 @@ export const EditKindredForm: FC<TProps> = ({
           <TitleText title={translate("attributes.dexterity")}>
             {attributesMaxLimit?.dexterity === 0 && 0}
             {attributesMaxLimit?.dexterity !== 0 && (
-              <Select
+              <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
@@ -223,7 +224,7 @@ export const EditKindredForm: FC<TProps> = ({
           <TitleText title={translate("attributes.stamina")}>
             {attributesMaxLimit?.stamina === 0 && 0}
             {attributesMaxLimit?.stamina !== 0 && (
-              <Select
+              <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
@@ -246,7 +247,7 @@ export const EditKindredForm: FC<TProps> = ({
           <TitleText title={translate("attributes.charisma")}>
             {attributesMaxLimit?.charisma === 0 && 0}
             {attributesMaxLimit?.charisma !== 0 && (
-              <Select
+              <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
@@ -261,7 +262,7 @@ export const EditKindredForm: FC<TProps> = ({
           <TitleText title={translate("attributes.manipulation")}>
             {attributesMaxLimit?.manipulation === 0 && 0}
             {attributesMaxLimit?.manipulation !== 0 && (
-              <Select
+              <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
@@ -278,7 +279,7 @@ export const EditKindredForm: FC<TProps> = ({
           <TitleText title={translate("attributes.appearance")}>
             {attributesMaxLimit?.appearance === 0 && 0}
             {attributesMaxLimit?.appearance !== 0 && (
-              <Select
+              <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
@@ -302,7 +303,7 @@ export const EditKindredForm: FC<TProps> = ({
           <TitleText title={translate("attributes.perception")}>
             {attributesMaxLimit?.perception === 0 && 0}
             {attributesMaxLimit?.perception !== 0 && (
-              <Select
+              <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
@@ -318,7 +319,7 @@ export const EditKindredForm: FC<TProps> = ({
           <TitleText title={translate("attributes.intelligence")}>
             {attributesMaxLimit?.intelligence === 0 && 0}
             {attributesMaxLimit?.intelligence !== 0 && (
-              <Select
+              <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
@@ -334,7 +335,7 @@ export const EditKindredForm: FC<TProps> = ({
           <TitleText title={translate("attributes.wits")}>
             {attributesMaxLimit?.wits === 0 && 0}
             {attributesMaxLimit?.wits !== 0 && (
-              <Select
+              <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
@@ -354,7 +355,7 @@ export const EditKindredForm: FC<TProps> = ({
           </DetailsSectionTitle>
           {/* Атлетика */}
           <TitleText title={translate("abilities.athletics")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -365,7 +366,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Бдительность */}
           <TitleText title={translate("abilities.alertness")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -376,7 +377,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Драка */}
           <TitleText title={translate("abilities.brawl")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -387,7 +388,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Запугивание */}
           <TitleText title={translate("abilities.intimidation")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -398,7 +399,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Красноречие */}
           <TitleText title={translate("abilities.expression")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -409,7 +410,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Лидерство */}
           <TitleText title={translate("abilities.leadership")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -420,7 +421,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Уличное чутьё */}
           <TitleText title={translate("abilities.streetwise")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -431,7 +432,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Хитрость */}
           <TitleText title={translate("abilities.subterfuge")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -442,7 +443,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Шестое чувство */}
           <TitleText title={translate("abilities.awareness")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -453,7 +454,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Эмпатия */}
           <TitleText title={translate("abilities.empathy")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -472,7 +473,7 @@ export const EditKindredForm: FC<TProps> = ({
           </DetailsSectionTitle>
           {/* Вождение */}
           <TitleText title={translate("abilities.drive")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -483,7 +484,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Воровство */}
           <TitleText title={translate("abilities.larceny")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -494,7 +495,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Выживание */}
           <TitleText title={translate("abilities.survival")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -505,7 +506,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Исполнение */}
           <TitleText title={translate("abilities.performance")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -516,7 +517,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Обращение с животными */}
           <TitleText title={translate("abilities.animal_ken")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -527,7 +528,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Ремесло */}
           <TitleText title={translate("abilities.crafts")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -538,7 +539,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Скрытность */}
           <TitleText title={translate("abilities.stealth")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -549,7 +550,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Стрельба */}
           <TitleText title={translate("abilities.firearms")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -560,7 +561,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Фехтование */}
           <TitleText title={translate("abilities.melee")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -571,7 +572,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Этикет */}
           <TitleText title={translate("abilities.etiquette")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -590,7 +591,7 @@ export const EditKindredForm: FC<TProps> = ({
           </DetailsSectionTitle>
           {/* Гуманитарные науки */}
           <TitleText title={translate("abilities.academics")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -601,7 +602,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Естественные науки */}
           <TitleText title={translate("abilities.science")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -612,7 +613,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Законы */}
           <TitleText title={translate("abilities.law")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -623,7 +624,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Информатика */}
           <TitleText title={translate("abilities.computer")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -634,7 +635,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Медицина */}
           <TitleText title={translate("abilities.medicine")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -645,7 +646,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Оккультизм */}
           <TitleText title={translate("abilities.occult")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -656,7 +657,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Политика */}
           <TitleText title={translate("abilities.politics")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -667,7 +668,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Расследование */}
           <TitleText title={translate("abilities.investigation")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -678,7 +679,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Финансы */}
           <TitleText title={translate("abilities.finance")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -689,7 +690,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Электроника */}
           <TitleText title={translate("abilities.electronics")}>
-            <Select
+            <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
@@ -761,7 +762,7 @@ export const EditKindredForm: FC<TProps> = ({
           </DetailsSectionTitle>
           {/* Совесть/решимость" */}
           <TitleText title={translate("mentalStability.morality")}>
-            <Select
+            <WithoutBorderSelect
               options={mentalStabilityLevels.map((value) => ({
                 value,
                 name: translate(`mentalStabilityLevels.${value}`),
@@ -772,7 +773,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Самоконтроль/инстинкты" */}
           <TitleText title={translate("mentalStability.selfControl")}>
-            <Select
+            <WithoutBorderSelect
               options={mentalStabilityLevels.map((value) => ({
                 value,
                 name: translate(`mentalStabilityLevels.${value}`),
@@ -783,7 +784,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Смелость" */}
           <TitleText title={translate("mentalStability.courage")}>
-            <Select
+            <WithoutBorderSelect
               options={mentalStabilityLevels.map((value) => ({
                 value,
                 name: translate(`mentalStabilityLevels.${value}`),
