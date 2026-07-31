@@ -1,6 +1,6 @@
-import { MeritsAndFlawsName, MeritsAndFlawsData } from "domain/MeritsAndFlaws";
+import { MeritsAndFlawsData, FlawName, MeritName } from "domain/MeritsAndFlaws";
 
-export const meritsAndFlaws = {
+export const merits = {
   /** Чарующий голос */
   charmOfTheTongue: {
     cost: 2,
@@ -8,18 +8,6 @@ export const meritsAndFlaws = {
   /** Знакомое лицо */
   familiarFace: {
     cost: 2,
-  },
-  /** Приезжий */
-  outsider: {
-    cost: -1,
-  },
-  /** Разборчивость */
-  fastidious: {
-    cost: -1,
-  },
-  /** Потенциальный рекрут */
-  potentialRecruit: {
-    cost: -1,
   },
   /** Рефлексия */
   introspection: {
@@ -33,13 +21,10 @@ export const meritsAndFlaws = {
   oracle: {
     cost: 3,
   },
-  /** Кошмар */
-  nightmare: {
-    cost: -1,
-  },
   /** Здоровый вид */
   healthyAppearance: {
     cost: 2,
+    abandonForClans: ["Nosferatu"],
   },
   /** Холодная логика */
   coldLogic: {
@@ -49,4 +34,23 @@ export const meritsAndFlaws = {
   eideticMemory: {
     cost: 2,
   },
-} as const satisfies Record<MeritsAndFlawsName, MeritsAndFlawsData>;
+} as const satisfies Record<MeritName, MeritsAndFlawsData>;
+
+export const flaws = {
+  /** Приезжий */
+  outsider: {
+    cost: -1,
+  },
+  /** Разборчивость */
+  fastidious: {
+    cost: -1,
+  },
+  /** Потенциальный рекрут */
+  potentialRecruit: {
+    cost: -1,
+  },
+  /** Кошмар */
+  nightmare: {
+    cost: -1,
+  },
+} as const satisfies Record<FlawName, MeritsAndFlawsData>;

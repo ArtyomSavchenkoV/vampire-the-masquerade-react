@@ -1,6 +1,6 @@
 import { Kindred } from "./Kindred";
 import { disciplines } from "data/disciplines";
-import { meritsAndFlaws } from "data/meritsAndFlaws";
+import { flaws, merits } from "data/meritsAndFlaws";
 import { aggregateModifiers } from "./CalculatedKindred";
 
 /**
@@ -52,7 +52,8 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
         },
       },
     ],
-    meritsAndFlaws: [],
+    merits: [],
+    flaws: [],
     equipment: [],
     bodyDamages: ["bashing", "bashing", "bashing"],
   } as unknown as Kindred;
@@ -61,7 +62,8 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
     // Замораживаем всё, что функция читает: character, disciplines, meritsAndFlaws
     deepFreeze(baseCharacter);
     deepFreeze(disciplines);
-    deepFreeze(meritsAndFlaws);
+    deepFreeze(merits);
+    deepFreeze(flaws);
   });
 
   it("возвращает корректные суммарные модификаторы (атрибуты, способности, лимиты, кубики)", () => {
@@ -121,11 +123,13 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
   });
 
   it("не мутирует глобальные данные meritsAndFlaws", () => {
-    const originalMerits = JSON.parse(JSON.stringify(meritsAndFlaws));
+    const originalMerits = JSON.parse(JSON.stringify(merits));
+    const originalFlaws = JSON.parse(JSON.stringify(flaws));
 
     aggregateModifiers(baseCharacter);
 
-    expect(meritsAndFlaws).toEqual(originalMerits);
+    expect(merits).toEqual(originalMerits);
+    expect(flaws).toEqual(originalFlaws);
   });
 
   it("корректно обрабатывает отсутствие modifiers в отдельных источниках", () => {
@@ -137,7 +141,8 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
         modifiers: undefined, // нет клановых бонусов
       },
       activeEffects: [],
-      meritsAndFlaws: [],
+      merits: [],
+      flaws: [],
       equipment: [],
       bodyDamages: [],
     } as unknown as Kindred;
@@ -159,7 +164,8 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
         },
       },
       activeEffects: [],
-      meritsAndFlaws: [],
+      merits: [],
+      flaws: [],
       equipment: [],
       bodyDamages: [],
     } as unknown as Kindred;
@@ -195,7 +201,8 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
           },
         },
       ],
-      meritsAndFlaws: [],
+      merits: [],
+      flaws: [],
       equipment: [],
       bodyDamages: [],
     } as unknown as Kindred;

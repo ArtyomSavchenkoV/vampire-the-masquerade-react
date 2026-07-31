@@ -1,5 +1,5 @@
 import { disciplines } from "data/disciplines";
-import { meritsAndFlaws } from "data/meritsAndFlaws";
+import { merits, flaws } from "data/meritsAndFlaws";
 import { AbilityName, ModifiedAbilityLevel } from "domain/Abilities";
 import { AttributeName, ModifiedAttributeLevel } from "domain/Attributes";
 import { MeritsAndFlawsData } from "domain/MeritsAndFlaws";
@@ -46,9 +46,18 @@ export const aggregateModifiers = (character: CalculatedKindred): Modifiers => {
     }
   }
 
-  // Достоинства и недостатки
-  for (const meritOrFlaw of character.meritsAndFlaws) {
-    const data: MeritsAndFlawsData = meritsAndFlaws[meritOrFlaw];
+  // Достоинства
+  for (const merit of character.merits) {
+    const data: MeritsAndFlawsData = merits[merit];
+    if (!data) continue;
+    if (data.effects) {
+      result = mergeModifiers(result, data.effects);
+    }
+  }
+
+  // Недостатки
+  for (const flaw of character.flaws) {
+    const data: MeritsAndFlawsData = flaws[flaw];
     if (!data) continue;
     if (data.effects) {
       result = mergeModifiers(result, data.effects);

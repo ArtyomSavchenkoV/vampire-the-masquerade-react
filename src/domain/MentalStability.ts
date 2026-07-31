@@ -6,4 +6,6 @@ export type MentalStability =
   /** Смелость (Courage) — сопротивление страху и безумию */
   | "courage";
 
-export type MentalStabilityLevel = 1 | 2 | 3 | 4 | 5;
+export const mentalStabilityLevels = [1, 2, 3, 4, 5] as const;
+
+export type MentalStabilityLevel = ArrayElement<typeof mentalStabilityLevels>;

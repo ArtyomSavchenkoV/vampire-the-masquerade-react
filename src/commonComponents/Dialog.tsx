@@ -19,6 +19,7 @@ const Overlay = styled.div`
 const Window = styled.div`
   max-width: calc(100% - ${PADDING * 2}px);
   max-height: calc(100% - ${PADDING * 2}px);
+  overflow: auto;
 `;
 
 interface TProps {

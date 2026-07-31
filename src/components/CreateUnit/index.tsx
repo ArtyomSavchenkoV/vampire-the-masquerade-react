@@ -40,6 +40,14 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
   const [human, setHuman] = useState<Human>(initialHuman);
   const [creature, setCreature] = useState<Creature>(initialCreature);
 
+  const changeClanHandler = (clanName: ClanName) => {
+    setClan(clanName);
+    setKindred({
+      ...initialKindred,
+      clan: clanes[clanName],
+    });
+  };
+
   return (
     <ConfirmWindow
       title={translate("createUnit.title")}
@@ -114,13 +122,17 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
               name: translate(`clanes.${clanName}`),
             }))}
             value={clan}
-            onChange={(clanName) => setClan(clanName)}
+            onChange={changeClanHandler}
           />
         </>
       )}
       {/* 3 шаг - открытие формы под определённый тип */}
       {isClanSelected && (
-        <EditKindredForm kindred={kindred} onChange={setKindred} />
+        <EditKindredForm
+          kindred={kindred}
+          onChange={setKindred}
+          onClanChange={changeClanHandler}
+        />
       )}
       {isUnitTypeSelected && unitType === "human" && (
         <EditHumanForm human={human} onChange={setHuman} />

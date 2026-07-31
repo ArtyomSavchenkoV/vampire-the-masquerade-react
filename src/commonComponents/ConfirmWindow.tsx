@@ -5,8 +5,6 @@ import { Card } from "../baseComponents/Card";
 import { Button } from "../baseComponents/Button";
 
 const ConfirmWindowRoot = styled(Card)`
-  width: 400px;
-  max-width: 100%;
   background-color: #9bf;
   padding: 5px; /* TODO: уточнить складывается ли с отступом Card */
   display: flex;
@@ -19,6 +17,7 @@ const Head = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: start;
+  gap: 8px;
 `;
 
 const Title = styled.div`

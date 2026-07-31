@@ -1,33 +1,45 @@
+import { ClanName } from "./Clan";
 import { Modifiers } from "./Modifiers";
 
 /**
- * Достоинства и недостатки (Merits & Flaws) для Vampire: The Masquerade v20
+ * Достоинства (Merits) для Vampire: The Masquerade v20
  */
-export type MeritsAndFlawsName =
+export const meritNames = [
   /** Чарующий голос */
-  | "charmOfTheTongue"
+  "charmOfTheTongue",
   /** Знакомое лицо */
-  | "familiarFace"
-  /** Приезжий */
-  | "outsider"
-  /** Разборчивость */
-  | "fastidious"
-  /** Потенциальный рекрут */
-  | "potentialRecruit"
+  "familiarFace",
   /** Рефлексия */
-  | "introspection"
+  "introspection",
   /** Полиглот */
-  | "polyglot"
+  "polyglot",
   /** Оракул */
-  | "oracle"
-  /** Кошмар */
-  | "nightmare"
+  "oracle",
   /** Здоровый вид */
-  | "healthyAppearance"
+  "healthyAppearance",
   /** Холодная логика */
-  | "coldLogic"
+  "coldLogic",
   /** Эйдетическая память */
-  | "eideticMemory";
+  "eideticMemory",
+] as const;
+
+export type MeritName = ArrayElement<typeof meritNames>;
+
+/**
+ * Недостатки (Flaws) для Vampire: The Masquerade v20
+ */
+export const flawNames = [
+  /** Приезжий */
+  "outsider",
+  /** Разборчивость */
+  "fastidious",
+  /** Потенциальный рекрут */
+  "potentialRecruit",
+  /** Кошмар */
+  "nightmare",
+] as const;
+
+export type FlawName = ArrayElement<typeof flawNames>;
 
 export interface MeritsAndFlawsData {
   /** Стоимость в свободных очках. (для достоинств - положительное число, для недостатков - отрицательное) */
@@ -35,4 +47,6 @@ export interface MeritsAndFlawsData {
   // TODO: в будущем у некоторых могут быть эффекты
   /** Эффекты, применяемые автоматически (бонусы, поглощение и т.д.). */
   effects?: Modifiers;
+  /** Не доступны для кланов */
+  abandonForClans?: readonly ClanName[];
 }

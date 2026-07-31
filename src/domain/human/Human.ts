@@ -5,8 +5,9 @@ import { BackgroundName, BackgroundLevel } from "domain/Backgrounds";
 import { EquipmentItem } from "domain/EquipmentItem";
 import { HealthDamages } from "domain/Health";
 import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
-import { MeritsAndFlawsName } from "domain/MeritsAndFlaws";
+import { FlawName, MeritName } from "domain/MeritsAndFlaws";
 import { ResourcesHistory } from "./ResourcesHistory";
+import { HumanityOrPathRating } from "domain/HumanityOrPathRating";
 
 /**
  * Базовая модель челолвека
@@ -33,9 +34,13 @@ export interface Human {
   /** Ментальные устойчивости */
   mentalStability: Record<MentalStability, MentalStabilityLevel>;
   /** Достоинства и недостатки */
-  meritsAndFlaws: MeritsAndFlawsName[];
+  merits: MeritName[];
+  /** Hедостатки */
+  flaws: FlawName[];
   /** Человечность (Humanity) ИЛИ Путь (Path rating) — зависит от морали */
-  humanityOrPathRating: number;
+  humanityOrPathRating: HumanityOrPathRating;
+  /** Столп */
+  pillar: string | null;
   /** Воля (Willpower) — текущий запас кубиков воли */
   willpower: number;
   /** Максимальный запас воли (для UI) */

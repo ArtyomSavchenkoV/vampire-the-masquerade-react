@@ -4,10 +4,11 @@ import { BaseAttributeLevel, AttributeName } from "domain/Attributes";
 import { BackgroundName, BackgroundLevel } from "domain/Backgrounds";
 import { Clan } from "domain/Clan";
 import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
-import { MeritsAndFlawsName } from "domain/MeritsAndFlaws";
+import { FlawName, MeritName } from "domain/MeritsAndFlaws";
 import { EquipmentItem } from "domain/EquipmentItem";
 import { HealthDamages } from "domain/Health";
 import { ResourcesHistory } from "./ResourcesHistory";
+import { HumanityOrPathRating } from "domain/HumanityOrPathRating";
 
 /**
  * Базовая модель сородича
@@ -40,9 +41,13 @@ export interface Kindred {
   /** Ментальные устойчивости */
   mentalStability: Record<MentalStability, MentalStabilityLevel>;
   /** Достоинства и недостатки */
-  meritsAndFlaws: MeritsAndFlawsName[];
+  merits: MeritName[];
+  /** Hедостатки */
+  flaws: FlawName[];
   /** Человечность (Humanity) ИЛИ Путь (Path rating) — зависит от морали */
-  humanityOrPathRating: number;
+  humanityOrPathRating: HumanityOrPathRating;
+  /** Столп */
+  pillar: string | null;
   /** Воля (Willpower) — текущий запас кубиков воли */
   willpower: number;
   /** Максимальный запас воли (для UI) */
