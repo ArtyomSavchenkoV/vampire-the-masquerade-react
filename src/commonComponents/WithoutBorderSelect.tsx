@@ -4,6 +4,7 @@ import { ComponentProps } from "react";
 
 export const StyledSelect = styled(Select)({
   border: "none",
+  backgroundColor: "transparent",
   fontSize: ".7em",
   padding: "0.15em 0",
 });
