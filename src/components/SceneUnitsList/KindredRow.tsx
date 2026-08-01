@@ -7,7 +7,7 @@ import { StyledRow } from "commonComponents/StyledRow";
 import { MAX_HEALTH } from "domain/kindred/Health";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
-import { EditKindred } from "components/EditKindred";
+import { EditKindred } from "components/kindred/EditKindred";
 
 interface TProps {
   id: string;
