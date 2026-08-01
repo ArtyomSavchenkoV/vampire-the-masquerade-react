@@ -4,6 +4,7 @@ export const ru = {
     sceneUnitsTab: "Сцена",
     open: "Открыть",
     save: "Сохранить",
+    sortSceneByInitiative: "Отсортировать по инициативе",
   },
   createUnit: {
     title: "Создать участника",

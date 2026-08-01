@@ -51,6 +51,7 @@ export const EditInitiative: FC<TProps> = ({ unitId, onClick, ...props }) => {
           title={translate("editInitiative.title")}
           onConfirm={() => {
             setInitiative({ id: unitId, initiative: newInitiative });
+            setNewInitiative(null);
             setOpen(false);
           }}
           onCancel={() => setOpen(false)}

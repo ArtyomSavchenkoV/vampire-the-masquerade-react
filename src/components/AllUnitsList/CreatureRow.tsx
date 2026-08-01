@@ -14,9 +14,8 @@ interface TProps {
 
 export const CreatureRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
-  const { removeUnit } = useActions();
   const creatureRow = useCreatureRowSelector(id);
-  const { focusUnit, addToScene, removeFromScene } = useActions();
+  const { focusUnit, addToScene, removeFromScene, removeUnit } = useActions();
   if (!creatureRow) {
     return (
       <ErrorIndicator>

@@ -24,6 +24,7 @@ interface TProps {}
 
 export const SceneUnitsList: FC<TProps> = () => {
   const sceneUnits = useSceneUnitsSelector();
+  console.log(sceneUnits);
   return (
     <>
       {/* Таблица */}

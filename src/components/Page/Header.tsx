@@ -28,7 +28,7 @@ interface TProps extends HTMLAttributes<HTMLDivElement> {
 
 export const Header: FC<TProps> = ({ selectedTab, onTabChange, ...props }) => {
   const { translate } = useTranslate();
-  const { changeUnits } = useActions();
+  const { changeUnits, sortSceneByInitiative } = useActions();
   const units = useUnitsSelector();
 
   const [isCreateUnitOpen, setIsCreateUnitOpe] = useState(false);
@@ -52,6 +52,11 @@ export const Header: FC<TProps> = ({ selectedTab, onTabChange, ...props }) => {
       >
         {translate("header.sceneUnitsTab")}
       </Tab>
+
+      {/* отсортировать по инициативе */}
+      <Button onClick={() => sortSceneByInitiative()}>
+        {translate("header.sortSceneByInitiative")}
+      </Button>
 
       <PlaceHolder />
 

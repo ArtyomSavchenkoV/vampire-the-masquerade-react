@@ -17,12 +17,10 @@ export const useSceneUnitsSelector = () => {
 
   return useMemo(
     () =>
-      Object.entries(units)
-        .map(([id, { type }]) => ({
-          id,
-          type,
-        }))
-        .filter(({ id }) => sceneUnits.some((scene) => scene.id === id)),
+      sceneUnits.map((scene) => ({
+        id: scene.id,
+        type: units[scene.id]?.type,
+      })),
     [units, sceneUnits],
   );
 };

@@ -16,9 +16,8 @@ interface TProps {
 
 export const KindredRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
-  const { removeUnit } = useActions();
   const kindredRow = useKindredRowSelector(id);
-  const { focusUnit, addToScene, removeFromScene } = useActions();
+  const { focusUnit, addToScene, removeFromScene, removeUnit } = useActions();
   if (!kindredRow) {
     return (
       <ErrorIndicator>Ошибка KindredRow: нет данных kindredRow</ErrorIndicator>

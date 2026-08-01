@@ -1,6 +1,6 @@
 import { Td } from "baseComponents/Td";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
-import { FC, memo } from "react";
+import { FC, memo, useEffect } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useCreatureRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
@@ -14,9 +14,20 @@ interface TProps {
 
 export const CreatureRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
-  const { removeUnit } = useActions();
+  const { removeUnit, setInitiative, focusUnit } = useActions();
   const creatureRow = useCreatureRowSelector(id);
-  const { focusUnit } = useActions();
+
+  useEffect(() => {
+    if (
+      creatureRow &&
+      (creatureRow.healthLevel === "finalDeath" ||
+        creatureRow.healthLevel === "incapacitated") &&
+      creatureRow.initiative != null
+    ) {
+      setInitiative({ id, initiative: null });
+    }
+  }, [creatureRow, setInitiative, id]);
+
   if (!creatureRow) {
     return (
       <ErrorIndicator>

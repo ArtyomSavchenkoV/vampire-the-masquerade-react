@@ -82,6 +82,23 @@ export const createActions = (
     }),
 
   /**
+   * Сортирует участников по инициативе от большего к меньшему
+   */
+  sortSceneByInitiative: () => {
+    set((draft) => {
+      const withInitiative = draft.sceneUnits
+        .filter((u) => u.initiative != null)
+        .sort((a, b) => (b.initiative ?? 0) - (a.initiative ?? 0));
+
+      const withoutInitiative = draft.sceneUnits.filter(
+        (u) => u.initiative == null,
+      );
+
+      draft.sceneUnits = [...withInitiative, ...withoutInitiative];
+    });
+  },
+
+  /**
    * Устанавливает ID текущего фокуса (карточка персонажа)
    * или сбрасывает его в null.
    */

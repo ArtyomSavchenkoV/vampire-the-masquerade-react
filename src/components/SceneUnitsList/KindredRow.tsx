@@ -1,5 +1,5 @@
 import { Td } from "baseComponents/Td";
-import { FC, memo } from "react";
+import { FC, memo, useEffect } from "react";
 import { useKindredRowSelector } from "./selectors";
 import { useActions } from "store/selectors";
 import useTranslate from "services/translate/useTranslate";
@@ -16,9 +16,21 @@ interface TProps {
 
 export const KindredRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
-  const { removeUnit } = useActions();
   const kindredRow = useKindredRowSelector(id);
-  const { focusUnit } = useActions();
+  const { removeUnit, focusUnit, setInitiative } = useActions();
+
+  useEffect(() => {
+    if (
+      kindredRow &&
+      (kindredRow.healthLevel === "finalDeath" ||
+        kindredRow.healthLevel === "torpor" ||
+        kindredRow.healthLevel === "incapacitated") &&
+      kindredRow.initiative != null
+    ) {
+      setInitiative({ id, initiative: null });
+    }
+  }, [kindredRow, setInitiative, id]);
+
   if (!kindredRow) {
     return (
       <ErrorIndicator>Ошибка KindredRow: нет данных kindredRow</ErrorIndicator>

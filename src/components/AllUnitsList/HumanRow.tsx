@@ -15,9 +15,8 @@ interface TProps {
 
 export const HumanRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
-  const { removeUnit } = useActions();
   const humanRow = useHumanRowSelector(id);
-  const { focusUnit, addToScene, removeFromScene } = useActions();
+  const { focusUnit, addToScene, removeFromScene, removeUnit } = useActions();
   if (!humanRow) {
     return (
       <ErrorIndicator>Ошибка HumanRow: нет данных humanRow</ErrorIndicator>
