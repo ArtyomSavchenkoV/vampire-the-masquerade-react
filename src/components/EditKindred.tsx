@@ -1,7 +1,7 @@
 import { Button } from "baseComponents/Button";
 import { ConfirmWindow } from "commonComponents/ConfirmWindow";
 import { Dialog } from "commonComponents/Dialog";
-import { ComponentProps, FC, useState } from "react";
+import { ComponentProps, FC, memo, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { EditKindredForm } from "./EditKindredForm";
 import { useActions, useKindredSelector } from "store/selectors";
@@ -19,7 +19,7 @@ interface TProps extends Omit<
   kindredId: string;
 }
 
-export const EditKindred: FC<TProps> = ({ kindredId }) => {
+export const EditKindred: FC<TProps> = memo(({ kindredId }) => {
   const { translate } = useTranslate();
 
   const { addUnit } = useActions();
@@ -77,4 +77,4 @@ export const EditKindred: FC<TProps> = ({ kindredId }) => {
       </Dialog>
     </>
   );
-};
+});

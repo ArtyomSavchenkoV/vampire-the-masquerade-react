@@ -21,7 +21,7 @@ export interface State {
   /** База всех зарегистрированных юнитов, проиндексированная по ID */
   units: Record<string, UnitEntry>;
   /** Список ID юнитов, участвующих в текущей сцене */
-  sceneUnits: string[];
+  sceneUnits: { id: string; initiative: number | null }[];
   /** ID юнита, который сейчас находится в фокусе (отображается в карточке персонажа) */
   focusedUnitId: string | null;
 }

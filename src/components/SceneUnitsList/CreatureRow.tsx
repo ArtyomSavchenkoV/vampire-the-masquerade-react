@@ -1,4 +1,3 @@
-import { CheckBox } from "baseComponents/CheckBox";
 import { Td } from "baseComponents/Td";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { FC, memo } from "react";
@@ -16,7 +15,7 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
   const { removeUnit } = useActions();
   const creatureRow = useCreatureRowSelector(id);
-  const { focusUnit, addToScene, removeFromScene } = useActions();
+  const { focusUnit } = useActions();
   if (!creatureRow) {
     return (
       <ErrorIndicator>
@@ -29,18 +28,8 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
       isFocused={creatureRow.isFocused}
       onClick={() => focusUnit(creatureRow.isFocused ? null : id)}
     >
-      {/* Переключатель участия в сцене */}
-      <Td>
-        <CheckBox
-          checked={creatureRow.isOnScene}
-          onClick={(ev) => {
-            ev.stopPropagation();
-          }}
-          onChange={(ev) => {
-            ev.target.checked ? addToScene(id) : removeFromScene(id);
-          }}
-        />
-      </Td>
+      {/* Инициатива */}
+      <Td>{creatureRow.initiative}</Td>
 
       {/* Имя персонажа */}
       <Td>{creatureRow.name}</Td>

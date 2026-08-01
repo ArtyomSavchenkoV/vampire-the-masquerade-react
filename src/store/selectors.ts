@@ -8,10 +8,15 @@ import { useMemo } from "react";
 // import { useShallow } from "zustand/shallow";
 
 /**
- * Получает сырые данные юнита по ID из стора.
- * Возвращает null, если юнит не найден.
+ * Получает список всех юнитов
  */
 export const useUnitsSelector = () => useStore((state) => state.units);
+
+/**
+ * Получает список ID юнитов сцены
+ */
+export const useSceneUnitsSelector = () =>
+  useStore((state) => state.sceneUnits);
 
 /**
  * Получает сырые данные юнита по ID из стора.

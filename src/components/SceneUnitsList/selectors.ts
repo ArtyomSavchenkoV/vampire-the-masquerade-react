@@ -3,20 +3,24 @@ import {
   useCalculatedCreatureSelector,
   useCalculatedHumanSelector,
   useCalculatedKindredSelector,
+  useSceneUnitsSelector as useSceneUnitsIdsSelector,
   useUnitsSelector,
 } from "store/selectors";
 import { useStore } from "store/store";
 
-export const useAllUnitsSelector = () => {
+export const useSceneUnitsSelector = () => {
   const units = useUnitsSelector();
+  const sceneUnits = useSceneUnitsIdsSelector();
 
   return useMemo(
     () =>
-      Object.entries(units).map(([id, { type }]) => ({
-        id,
-        type,
-      })),
-    [units],
+      Object.entries(units)
+        .map(([id, { type }]) => ({
+          id,
+          type,
+        }))
+        .filter(({ id }) => sceneUnits.some((scene) => scene.id === id)),
+    [units, sceneUnits],
   );
 };
 
@@ -30,7 +34,8 @@ export const useKindredRowSelector = (id: string) => {
 
     return {
       isFocused: focusedUnitId === id,
-      isOnScene: sceneUnits.some((scene) => scene.id === id),
+      initiative:
+        sceneUnits.find((scene) => scene.id === id)?.initiative ?? null,
       name: calculatedKindred.name,
       willpower: calculatedKindred.willpower,
       bloodPool: calculatedKindred.bloodPool,
@@ -51,7 +56,8 @@ export const useHumanRowSelector = (id: string) => {
 
     return {
       isFocused: focusedUnitId === id,
-      isOnScene: sceneUnits.some((scene) => scene.id === id),
+      initiative:
+        sceneUnits.find((scene) => scene.id === id)?.initiative ?? null,
       name: calculatedHuman.name,
       willpower: calculatedHuman.willpower,
       bodyDamages: calculatedHuman.bodyDamages,
@@ -71,7 +77,8 @@ export const useCreatureRowSelector = (id: string) => {
 
     return {
       isFocused: focusedUnitId === id,
-      isOnScene: sceneUnits.some((scene) => scene.id === id),
+      initiative:
+        sceneUnits.find((scene) => scene.id === id)?.initiative ?? null,
       name: calculatedCreature.name,
       willpower: calculatedCreature.willpower,
       bodyDamages: calculatedCreature.bodyDamages,

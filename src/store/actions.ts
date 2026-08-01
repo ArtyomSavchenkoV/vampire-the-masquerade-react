@@ -39,7 +39,7 @@ export const createActions = (
   removeUnit: (id: string) =>
     set((draft) => {
       delete draft.units[id];
-      draft.sceneUnits = draft.sceneUnits.filter((i) => i !== id);
+      draft.sceneUnits = draft.sceneUnits.filter((scene) => scene.id !== id);
       if (draft.focusedUnitId === id) {
         draft.focusedUnitId = null;
       }
@@ -51,8 +51,8 @@ export const createActions = (
    */
   addToScene: (id: string) =>
     set((draft) => {
-      if (!draft.sceneUnits.includes(id)) {
-        draft.sceneUnits.push(id);
+      if (!draft.sceneUnits.some((scene) => scene.id === id)) {
+        draft.sceneUnits.push({ id, initiative: null });
       }
     }),
 
@@ -61,7 +61,7 @@ export const createActions = (
    */
   removeFromScene: (id: string) =>
     set((draft) => {
-      draft.sceneUnits = draft.sceneUnits.filter((i) => i !== id);
+      draft.sceneUnits = draft.sceneUnits.filter((scene) => scene.id !== id);
     }),
 
   /**

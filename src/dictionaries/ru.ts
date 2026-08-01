@@ -1,5 +1,10 @@
 export const ru = {
-  title: "Заголовок",
+  header: {
+    allUnitsTab: "Все",
+    sceneUnitsTab: "Сцена",
+    open: "Открыть",
+    save: "Сохранить",
+  },
   createUnit: {
     title: "Создать участника",
     selectUnitType: "Выберите тип участника",

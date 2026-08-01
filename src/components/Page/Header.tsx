@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Button } from "baseComponents/Button";
+import { Tab } from "baseComponents/Tab";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 import { Dialog } from "commonComponents/Dialog";
 import OpenFileButton from "commonComponents/OpenFileButton";
@@ -9,12 +10,23 @@ import useTranslate from "services/translate/useTranslate";
 import { useActions, useUnitsSelector } from "store/selectors";
 
 const HeaderRoot = styled.div`
-  background-color: #fcc;
+  display: flex;
+  gap: 8px;
 `;
 
-interface TProps extends HTMLAttributes<HTMLDivElement> {}
+const PlaceHolder = styled.div`
+  width: 100%;
+  flex: 1;
+`;
 
-export const Header: FC<TProps> = ({ ...props }) => {
+export type Tabs = "allUnits" | "sceneUnits";
+
+interface TProps extends HTMLAttributes<HTMLDivElement> {
+  selectedTab: Tabs;
+  onTabChange: (selectedTab: Tabs) => void;
+}
+
+export const Header: FC<TProps> = ({ selectedTab, onTabChange, ...props }) => {
   const { translate } = useTranslate();
   const { changeUnits } = useActions();
   const units = useUnitsSelector();
@@ -23,10 +35,31 @@ export const Header: FC<TProps> = ({ ...props }) => {
 
   return (
     <HeaderRoot {...props}>
-      {translate("title")}
+      {/* Все */}
+      <Tab
+        isSelected={selectedTab === "allUnits"}
+        onClick={() => selectedTab !== "allUnits" && onTabChange("allUnits")}
+      >
+        {translate("header.allUnitsTab")}
+      </Tab>
+
+      {/* Сцена */}
+      <Tab
+        isSelected={selectedTab === "sceneUnits"}
+        onClick={() =>
+          selectedTab !== "sceneUnits" && onTabChange("sceneUnits")
+        }
+      >
+        {translate("header.sceneUnitsTab")}
+      </Tab>
+
+      <PlaceHolder />
+
       <ConfirmingButton onConfirm={() => {}} confirmWindowTitle="Подтверди!">
         444
       </ConfirmingButton>
+
+      {/* открыть */}
       <OpenFileButton
         onFileOpen={(content) => {
           if (typeof content === "string") {
@@ -37,8 +70,10 @@ export const Header: FC<TProps> = ({ ...props }) => {
           }
         }}
       >
-        ##открыть
+        {translate("header.open")}
       </OpenFileButton>
+
+      {/* Сохранить */}
       <Button
         onClick={() => {
           const blobdtMIME = new Blob([JSON.stringify(units, null, "\t")], {
@@ -60,8 +95,10 @@ export const Header: FC<TProps> = ({ ...props }) => {
           }
         }}
       >
-        ##Сохранить
+        {translate("header.save")}
       </Button>
+
+      {/* Создать участника */}
       <Button onClick={() => setIsCreateUnitOpe(true)}>
         {translate("createUnit.title")}
       </Button>

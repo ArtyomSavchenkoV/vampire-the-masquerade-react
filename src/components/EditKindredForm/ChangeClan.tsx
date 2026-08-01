@@ -14,6 +14,10 @@ const StyledButton = styled(Button)`
   justify-content: center;
 `;
 
+const Attention = styled.div`
+  color: #f30;
+`;
+
 interface TProps extends Omit<ComponentProps<typeof Button>, "onChange"> {
   clanName: ClanName;
   onChange: (clanName: ClanName) => void;
@@ -36,8 +40,10 @@ export const ChangeClan: FC<TProps> = ({ clanName, onChange, ...props }) => {
           onCancel={() => setOpen(false)}
           onClose={() => setOpen(false)}
         >
-          <div>{translate("editClan.attention")}</div>
-          <div>{translate("editClan.confirmTitleMessage")}</div>
+          <div>
+            <Attention>{translate("editClan.attention")}</Attention>
+            <div>{translate("editClan.confirmTitleMessage")}</div>
+          </div>
           <Select
             options={clanNames.map((clanName) => ({
               value: clanName,

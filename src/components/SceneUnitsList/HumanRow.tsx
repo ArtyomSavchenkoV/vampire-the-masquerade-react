@@ -1,4 +1,3 @@
-import { CheckBox } from "baseComponents/CheckBox";
 import { Td } from "baseComponents/Td";
 import { MAX_HEALTH } from "domain/human/Health";
 import { FC, memo } from "react";
@@ -17,7 +16,7 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
   const { removeUnit } = useActions();
   const humanRow = useHumanRowSelector(id);
-  const { focusUnit, addToScene, removeFromScene } = useActions();
+  const { focusUnit } = useActions();
   if (!humanRow) {
     return (
       <ErrorIndicator>Ошибка HumanRow: нет данных humanRow</ErrorIndicator>
@@ -28,18 +27,8 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
       isFocused={humanRow.isFocused}
       onClick={() => focusUnit(humanRow.isFocused ? null : id)}
     >
-      {/* Переключатель участия в сцене */}
-      <Td>
-        <CheckBox
-          checked={humanRow.isOnScene}
-          onClick={(ev) => {
-            ev.stopPropagation();
-          }}
-          onChange={(ev) => {
-            ev.target.checked ? addToScene(id) : removeFromScene(id);
-          }}
-        />
-      </Td>
+      {/* Инициатива */}
+      <Td>{humanRow.initiative}</Td>
 
       {/* Имя персонажа */}
       <Td>{humanRow.name}</Td>

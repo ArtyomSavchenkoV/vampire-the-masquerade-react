@@ -1,7 +1,6 @@
 import { Td } from "baseComponents/Td";
 import { FC, memo } from "react";
 import { useKindredRowSelector } from "./selectors";
-import { CheckBox } from "baseComponents/CheckBox";
 import { useActions } from "store/selectors";
 import useTranslate from "services/translate/useTranslate";
 import { StyledRow } from "commonComponents/StyledRow";
@@ -18,7 +17,7 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
   const { removeUnit } = useActions();
   const kindredRow = useKindredRowSelector(id);
-  const { focusUnit, addToScene, removeFromScene } = useActions();
+  const { focusUnit } = useActions();
   if (!kindredRow) {
     return (
       <ErrorIndicator>Ошибка KindredRow: нет данных kindredRow</ErrorIndicator>
@@ -29,18 +28,8 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
       isFocused={kindredRow.isFocused}
       onClick={() => focusUnit(kindredRow.isFocused ? null : id)}
     >
-      {/* Переключатель участия в сцене */}
-      <Td>
-        <CheckBox
-          checked={kindredRow.isOnScene}
-          onClick={(ev) => {
-            ev.stopPropagation();
-          }}
-          onChange={(ev) => {
-            ev.target.checked ? addToScene(id) : removeFromScene(id);
-          }}
-        />
-      </Td>
+      {/* Инициатива */}
+      <Td>{kindredRow.initiative}</Td>
 
       {/* Имя персонажа */}
       <Td>{kindredRow.name}</Td>
