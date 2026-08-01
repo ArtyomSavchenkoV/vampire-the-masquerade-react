@@ -44,6 +44,8 @@ export interface Actions {
   addToScene: (id: string) => void;
   /** Удаляет юнита из сцены */
   removeFromScene: (id: string) => void;
+  /** Задать инициативу */
+  setInitiative: (props: { id: string; initiative: number | null }) => void;
 
   // Фокус: управление отображаемой карточкой персонажа
   /** Устанавливает фокус на юнита по ID либо сбрасывает фокус (null) */

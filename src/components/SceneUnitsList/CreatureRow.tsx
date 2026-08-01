@@ -6,6 +6,7 @@ import { useCreatureRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { useActions } from "store/selectors";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
+import { EditInitiative } from "components/EditInitiative";
 
 interface TProps {
   id: string;
@@ -29,7 +30,14 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
       onClick={() => focusUnit(creatureRow.isFocused ? null : id)}
     >
       {/* Инициатива */}
-      <Td>{creatureRow.initiative}</Td>
+      <Td>
+        {creatureRow.healthLevel !== "finalDeath" &&
+          creatureRow.healthLevel !== "incapacitated" && (
+            <EditInitiative unitId={id}>
+              {creatureRow.initiative ?? translate("unitRow.initiative")}
+            </EditInitiative>
+          )}
+      </Td>
 
       {/* Имя персонажа */}
       <Td>{creatureRow.name}</Td>

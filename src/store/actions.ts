@@ -65,6 +65,23 @@ export const createActions = (
     }),
 
   /**
+   * Задать инициативу
+   */
+  setInitiative: ({
+    id,
+    initiative,
+  }: {
+    id: string;
+    initiative: number | null;
+  }) =>
+    set((draft) => {
+      const index = draft.sceneUnits.findIndex((unit) => unit.id === id);
+      if (index === -1) return; // юнит не найден — ничего не делаем
+      // Мутируем существующий объект
+      draft.sceneUnits[index].initiative = initiative;
+    }),
+
+  /**
    * Устанавливает ID текущего фокуса (карточка персонажа)
    * или сбрасывает его в null.
    */

@@ -7,6 +7,7 @@ import { useHumanRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
+import { EditInitiative } from "components/EditInitiative";
 
 interface TProps {
   id: string;
@@ -28,7 +29,14 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
       onClick={() => focusUnit(humanRow.isFocused ? null : id)}
     >
       {/* Инициатива */}
-      <Td>{humanRow.initiative}</Td>
+      <Td>
+        {humanRow.healthLevel !== "finalDeath" &&
+          humanRow.healthLevel !== "incapacitated" && (
+            <EditInitiative unitId={id}>
+              {humanRow.initiative ?? translate("unitRow.initiative")}
+            </EditInitiative>
+          )}
+      </Td>
 
       {/* Имя персонажа */}
       <Td>{humanRow.name}</Td>

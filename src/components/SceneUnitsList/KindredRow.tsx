@@ -8,6 +8,7 @@ import { MAX_HEALTH } from "domain/kindred/Health";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 import { EditKindred } from "components/kindred/EditKindred";
+import { EditInitiative } from "components/EditInitiative";
 
 interface TProps {
   id: string;
@@ -29,7 +30,15 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
       onClick={() => focusUnit(kindredRow.isFocused ? null : id)}
     >
       {/* Инициатива */}
-      <Td>{kindredRow.initiative}</Td>
+      <Td>
+        {kindredRow.healthLevel !== "torpor" &&
+          kindredRow.healthLevel !== "finalDeath" &&
+          kindredRow.healthLevel !== "incapacitated" && (
+            <EditInitiative unitId={id}>
+              {kindredRow.initiative ?? translate("unitRow.initiative")}
+            </EditInitiative>
+          )}
+      </Td>
 
       {/* Имя персонажа */}
       <Td>{kindredRow.name}</Td>

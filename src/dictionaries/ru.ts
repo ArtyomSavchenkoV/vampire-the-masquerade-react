@@ -30,6 +30,7 @@ export const ru = {
   unitRow: {
     remove: "Удалить",
     removeUnitConfirmingMessage: "Вы действительно хотите удалить участника?",
+    initiative: "Инициатива",
   },
   confirmWindow: {
     confirm: "Да",
@@ -178,6 +179,14 @@ export const ru = {
   editDamages: {
     add: "Урон",
     delete: "Удалить?",
+  },
+  editInitiative: {
+    title: "Задать инициативу",
+    dexterity: "лвк.",
+    wits: "смк.",
+    commonDiceBonus: "бонус",
+    dice: "дайс",
+    newInitiative: "инициатива",
   },
   mentalStability: {
     morality: "Совесть/решимость",

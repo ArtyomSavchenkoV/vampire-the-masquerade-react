@@ -2,7 +2,7 @@ import { Input } from "baseComponents/Input";
 import { Select } from "baseComponents/Select";
 import { ArrayEditor } from "commonComponents/ArrayEditor";
 import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
-import { KindredLayout } from "commonComponents/KindredLayout";
+import { KindredLayout } from "components/kindred/KindredLayout";
 import { PartialObjectEditor } from "commonComponents/PartialObjectEditor";
 import { PositiveNumberInput } from "commonComponents/PositiveNumberInput";
 import { TitleText } from "commonComponents/TitleText";

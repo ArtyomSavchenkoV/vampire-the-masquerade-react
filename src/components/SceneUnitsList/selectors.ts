@@ -1,3 +1,6 @@
+import { humanHealthLevels } from "data/humanHealthLevels";
+import { getHealthLevel } from "domain/Health";
+import { getKinderedHealthLevel } from "domain/kindred/Health";
 import { useMemo } from "react";
 import {
   useCalculatedCreatureSelector,
@@ -40,6 +43,7 @@ export const useKindredRowSelector = (id: string) => {
       willpower: calculatedKindred.willpower,
       bloodPool: calculatedKindred.bloodPool,
       bodyDamages: calculatedKindred.bodyDamages,
+      healthLevel: getKinderedHealthLevel(calculatedKindred.bodyDamages).name,
     };
   }, [id, focusedUnitId, sceneUnits, calculatedKindred]);
 
@@ -61,6 +65,9 @@ export const useHumanRowSelector = (id: string) => {
       name: calculatedHuman.name,
       willpower: calculatedHuman.willpower,
       bodyDamages: calculatedHuman.bodyDamages,
+      healthLevel: getHealthLevel({ healthLevels: humanHealthLevels })(
+        calculatedHuman.bodyDamages,
+      ).name,
     };
   }, [id, focusedUnitId, sceneUnits, calculatedHuman]);
 
@@ -83,6 +90,9 @@ export const useCreatureRowSelector = (id: string) => {
       willpower: calculatedCreature.willpower,
       bodyDamages: calculatedCreature.bodyDamages,
       maxHealth: calculatedCreature.healthLevels.length - 1,
+      healthLevel: getHealthLevel({
+        healthLevels: calculatedCreature.healthLevels,
+      })(calculatedCreature.bodyDamages).name,
     };
   }, [id, focusedUnitId, sceneUnits, calculatedCreature]);
 
