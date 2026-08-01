@@ -27,7 +27,7 @@ export const useSceneUnitsSelector = () => {
 
 export const useKindredRowSelector = (id: string) => {
   const calculatedKindred = useCalculatedKindredSelector(id);
-  const focusedUnitId = useStore((s) => s.focusedUnitId);
+  const focusedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
   const memoizedValue = useMemo(() => {
@@ -38,6 +38,7 @@ export const useKindredRowSelector = (id: string) => {
       initiative:
         sceneUnits.find((scene) => scene.id === id)?.initiative ?? null,
       name: calculatedKindred.name,
+      player: calculatedKindred.player,
       willpower: calculatedKindred.willpower,
       bloodPool: calculatedKindred.bloodPool,
       bodyDamages: calculatedKindred.bodyDamages,
@@ -50,7 +51,7 @@ export const useKindredRowSelector = (id: string) => {
 
 export const useHumanRowSelector = (id: string) => {
   const calculatedHuman = useCalculatedHumanSelector(id);
-  const focusedUnitId = useStore((s) => s.focusedUnitId);
+  const focusedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
   const memoizedValue = useMemo(() => {
@@ -61,6 +62,7 @@ export const useHumanRowSelector = (id: string) => {
       initiative:
         sceneUnits.find((scene) => scene.id === id)?.initiative ?? null,
       name: calculatedHuman.name,
+      player: calculatedHuman.player,
       willpower: calculatedHuman.willpower,
       bodyDamages: calculatedHuman.bodyDamages,
       healthLevel: getHealthLevel({ healthLevels: humanHealthLevels })(
@@ -74,7 +76,7 @@ export const useHumanRowSelector = (id: string) => {
 
 export const useCreatureRowSelector = (id: string) => {
   const calculatedCreature = useCalculatedCreatureSelector(id);
-  const focusedUnitId = useStore((s) => s.focusedUnitId);
+  const focusedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
   const memoizedValue = useMemo(() => {
@@ -85,6 +87,7 @@ export const useCreatureRowSelector = (id: string) => {
       initiative:
         sceneUnits.find((scene) => scene.id === id)?.initiative ?? null,
       name: calculatedCreature.name,
+      player: calculatedCreature.player,
       willpower: calculatedCreature.willpower,
       bodyDamages: calculatedCreature.bodyDamages,
       maxHealth: calculatedCreature.healthLevels.length - 1,

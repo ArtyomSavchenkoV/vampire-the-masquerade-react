@@ -36,13 +36,19 @@ import {
 } from "domain/MentalStability";
 import { FlawName, MeritName, MeritsAndFlawsData } from "domain/MeritsAndFlaws";
 import { willpowerLevels } from "domain/Willpower";
-import { FC, useEffect } from "react";
+import { FC, HTMLAttributes, useEffect } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { getDefinedEntries } from "utils/getDefinedEntries";
 import { ChangeClan } from "./ChangeClan";
 import { WithoutBorderSelect } from "commonComponents/WithoutBorderSelect";
+import styled from "@emotion/styled";
+import { NameTitleText } from "commonComponents/NameTitleText";
 
-interface TProps {
+const NameInput = styled(Input)`
+  font-size: 0.8em;
+`;
+
+interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   kindred: Kindred;
   onChange: (kindred: Kindred) => void;
   onClanChange: (clan: ClanName) => void;
@@ -52,6 +58,7 @@ export const EditKindredForm: FC<TProps> = ({
   kindred,
   onChange,
   onClanChange,
+  ...props
 }) => {
   const { translate } = useTranslate();
   const attributesMaxLimit = aggregateModifiers(kindred).attributesMaxLimit;
@@ -95,23 +102,23 @@ export const EditKindredForm: FC<TProps> = ({
     <KindredLayout
       name={
         /* Имя */
-        <TitleText title={translate("fields.name")}>
-          <Input
+        <NameTitleText title={translate("fields.name")}>
+          <NameInput
             value={kindred.name}
             onChange={(ev) => onChange({ ...kindred, name: ev.target.value })}
           />
-        </TitleText>
+        </NameTitleText>
       }
       player={
         /* Игрок */
-        <TitleText title={translate("fields.player")}>
-          <Input
+        <NameTitleText title={translate("fields.player")}>
+          <NameInput
             value={kindred.player ?? ""}
             onChange={(ev) =>
               onChange({ ...kindred, player: ev.target.value || null })
             }
           />
-        </TitleText>
+        </NameTitleText>
       }
       chronicle={
         /* Хроника */
@@ -968,6 +975,7 @@ export const EditKindredForm: FC<TProps> = ({
           />
         </>
       }
+      {...props}
     />
   );
 };

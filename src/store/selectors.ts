@@ -19,6 +19,12 @@ export const useSceneUnitsSelector = () =>
   useStore((state) => state.sceneUnits);
 
 /**
+ * Получает ID выбранного юнита
+ */
+export const useSelectedUnitIdSelector = () =>
+  useStore((state) => state.selectedUnitId);
+
+/**
  * Получает сырые данные юнита по ID из стора.
  * Возвращает null, если юнит не найден.
  */

@@ -9,8 +9,10 @@ import { KindredRow } from "./KindredRow";
 // Ширины колонок
 const columnWidths = [
   /** Инициатива */
-  40,
+  100,
   /** Имя */
+  160,
+  /** Игрок */
   160,
   /** Тип */
   100,

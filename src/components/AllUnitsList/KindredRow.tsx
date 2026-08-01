@@ -8,7 +8,6 @@ import { StyledRow } from "commonComponents/StyledRow";
 import { MAX_HEALTH } from "domain/kindred/Health";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
-import { EditKindred } from "components/kindred/EditKindred";
 
 interface TProps {
   id: string;
@@ -17,7 +16,7 @@ interface TProps {
 export const KindredRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
   const kindredRow = useKindredRowSelector(id);
-  const { focusUnit, addToScene, removeFromScene, removeUnit } = useActions();
+  const { selectUnit, addToScene, removeFromScene, removeUnit } = useActions();
   if (!kindredRow) {
     return (
       <ErrorIndicator>Ошибка KindredRow: нет данных kindredRow</ErrorIndicator>
@@ -26,7 +25,7 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
   return (
     <StyledRow
       isFocused={kindredRow.isFocused}
-      onClick={() => focusUnit(kindredRow.isFocused ? null : id)}
+      onClick={() => selectUnit(kindredRow.isFocused ? null : id)}
     >
       {/* Переключатель участия в сцене */}
       <Td>
@@ -44,6 +43,9 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
       {/* Имя персонажа */}
       <Td>{kindredRow.name}</Td>
 
+      {/* Имя игрока */}
+      <Td>{kindredRow.player}</Td>
+
       {/* Тип персонажа */}
       <Td>{translate("unitTypes.kindred")}</Td>
 
@@ -56,7 +58,6 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
 
       {/* Кнопки */}
       <Td>
-        <EditKindred kindredId={id} />
         <ConfirmingButton
           onClick={(ev) => ev.stopPropagation()}
           onConfirm={() => removeUnit(id)}

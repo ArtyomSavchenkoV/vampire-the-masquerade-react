@@ -28,6 +28,9 @@ export const ru = {
     healthLevel: "Уровень здоровья",
     damages: "Раны",
   },
+  details: {
+    title: "Карточка персонажа",
+  },
   unitRow: {
     remove: "Удалить",
     removeUnitConfirmingMessage: "Вы действительно хотите удалить участника?",

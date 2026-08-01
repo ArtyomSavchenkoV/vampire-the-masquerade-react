@@ -6,7 +6,6 @@ import { useActions } from "store/selectors";
 import { useHumanRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
-import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 import { EditInitiative } from "components/EditInitiative";
 
 interface TProps {
@@ -15,7 +14,7 @@ interface TProps {
 
 export const HumanRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
-  const { removeUnit, setInitiative, focusUnit } = useActions();
+  const { setInitiative, selectUnit } = useActions();
   const humanRow = useHumanRowSelector(id);
 
   useEffect(() => {
@@ -37,7 +36,7 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
   return (
     <StyledRow
       isFocused={humanRow.isFocused}
-      onClick={() => focusUnit(humanRow.isFocused ? null : id)}
+      onClick={() => selectUnit(humanRow.isFocused ? null : id)}
     >
       {/* Инициатива */}
       <Td>
@@ -52,6 +51,9 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
       {/* Имя персонажа */}
       <Td>{humanRow.name}</Td>
 
+      {/* Имя игрока */}
+      <Td>{humanRow.player}</Td>
+
       {/* Тип персонажа */}
       <Td>{translate("unitTypes.human")}</Td>
 
@@ -62,18 +64,7 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
       </Td>
 
       {/* Кнопки */}
-      <Td>
-        <ConfirmingButton
-          onClick={(ev) => ev.stopPropagation()}
-          onConfirm={() => removeUnit(id)}
-          confirmWindowTitle={translate("unitRow.remove")}
-          confirmWindowContent={translate(
-            "unitRow.removeUnitConfirmingMessage",
-          )}
-        >
-          {translate("unitRow.remove")}
-        </ConfirmingButton>
-      </Td>
+      <Td></Td>
     </StyledRow>
   );
 });

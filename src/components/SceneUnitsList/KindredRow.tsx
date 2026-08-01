@@ -6,8 +6,6 @@ import useTranslate from "services/translate/useTranslate";
 import { StyledRow } from "commonComponents/StyledRow";
 import { MAX_HEALTH } from "domain/kindred/Health";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
-import { ConfirmingButton } from "commonComponents/ConfirmingButton";
-import { EditKindred } from "components/kindred/EditKindred";
 import { EditInitiative } from "components/EditInitiative";
 
 interface TProps {
@@ -17,7 +15,7 @@ interface TProps {
 export const KindredRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
   const kindredRow = useKindredRowSelector(id);
-  const { removeUnit, focusUnit, setInitiative } = useActions();
+  const { selectUnit, setInitiative } = useActions();
 
   useEffect(() => {
     if (
@@ -39,14 +37,14 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
   return (
     <StyledRow
       isFocused={kindredRow.isFocused}
-      onClick={() => focusUnit(kindredRow.isFocused ? null : id)}
+      onClick={() => selectUnit(kindredRow.isFocused ? null : id)}
     >
       {/* Инициатива */}
       <Td>
         {kindredRow.healthLevel !== "torpor" &&
           kindredRow.healthLevel !== "finalDeath" &&
           kindredRow.healthLevel !== "incapacitated" && (
-            <EditInitiative unitId={id}>
+            <EditInitiative onClick={(ev) => ev.stopPropagation()} unitId={id}>
               {kindredRow.initiative ?? translate("unitRow.initiative")}
             </EditInitiative>
           )}
@@ -54,6 +52,9 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
 
       {/* Имя персонажа */}
       <Td>{kindredRow.name}</Td>
+
+      {/* Имя игрока */}
+      <Td>{kindredRow.player}</Td>
 
       {/* Тип персонажа */}
       <Td>{translate("unitTypes.kindred")}</Td>
@@ -66,19 +67,7 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
       </Td>
 
       {/* Кнопки */}
-      <Td>
-        <EditKindred kindredId={id} />
-        <ConfirmingButton
-          onClick={(ev) => ev.stopPropagation()}
-          onConfirm={() => removeUnit(id)}
-          confirmWindowTitle={translate("unitRow.remove")}
-          confirmWindowContent={translate(
-            "unitRow.removeUnitConfirmingMessage",
-          )}
-        >
-          {translate("unitRow.remove")}
-        </ConfirmingButton>
-      </Td>
+      <Td></Td>
     </StyledRow>
   );
 });

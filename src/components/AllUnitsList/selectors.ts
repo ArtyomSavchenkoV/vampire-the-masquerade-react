@@ -22,7 +22,7 @@ export const useAllUnitsSelector = () => {
 
 export const useKindredRowSelector = (id: string) => {
   const calculatedKindred = useCalculatedKindredSelector(id);
-  const focusedUnitId = useStore((s) => s.focusedUnitId);
+  const focusedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
   const memoizedValue = useMemo(() => {
@@ -32,6 +32,7 @@ export const useKindredRowSelector = (id: string) => {
       isFocused: focusedUnitId === id,
       isOnScene: sceneUnits.some((scene) => scene.id === id),
       name: calculatedKindred.name,
+      player: calculatedKindred.player,
       willpower: calculatedKindred.willpower,
       bloodPool: calculatedKindred.bloodPool,
       bodyDamages: calculatedKindred.bodyDamages,
@@ -43,7 +44,7 @@ export const useKindredRowSelector = (id: string) => {
 
 export const useHumanRowSelector = (id: string) => {
   const calculatedHuman = useCalculatedHumanSelector(id);
-  const focusedUnitId = useStore((s) => s.focusedUnitId);
+  const focusedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
   const memoizedValue = useMemo(() => {
@@ -53,6 +54,7 @@ export const useHumanRowSelector = (id: string) => {
       isFocused: focusedUnitId === id,
       isOnScene: sceneUnits.some((scene) => scene.id === id),
       name: calculatedHuman.name,
+      player: calculatedHuman.player,
       willpower: calculatedHuman.willpower,
       bodyDamages: calculatedHuman.bodyDamages,
     };
@@ -63,7 +65,7 @@ export const useHumanRowSelector = (id: string) => {
 
 export const useCreatureRowSelector = (id: string) => {
   const calculatedCreature = useCalculatedCreatureSelector(id);
-  const focusedUnitId = useStore((s) => s.focusedUnitId);
+  const focusedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
   const memoizedValue = useMemo(() => {
@@ -73,6 +75,7 @@ export const useCreatureRowSelector = (id: string) => {
       isFocused: focusedUnitId === id,
       isOnScene: sceneUnits.some((scene) => scene.id === id),
       name: calculatedCreature.name,
+      player: calculatedCreature.player,
       willpower: calculatedCreature.willpower,
       bodyDamages: calculatedCreature.bodyDamages,
       maxHealth: calculatedCreature.healthLevels.length - 1,

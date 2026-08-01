@@ -40,8 +40,8 @@ export const createActions = (
     set((draft) => {
       delete draft.units[id];
       draft.sceneUnits = draft.sceneUnits.filter((scene) => scene.id !== id);
-      if (draft.focusedUnitId === id) {
-        draft.focusedUnitId = null;
+      if (draft.selectedUnitId === id) {
+        draft.selectedUnitId = null;
       }
     }),
 
@@ -102,8 +102,8 @@ export const createActions = (
    * Устанавливает ID текущего фокуса (карточка персонажа)
    * или сбрасывает его в null.
    */
-  focusUnit: (id: string | null) =>
+  selectUnit: (id: string | null) =>
     set((draft) => {
-      draft.focusedUnitId = id;
+      draft.selectedUnitId = id;
     }),
 });

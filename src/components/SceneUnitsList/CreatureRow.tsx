@@ -5,7 +5,6 @@ import useTranslate from "services/translate/useTranslate";
 import { useCreatureRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { useActions } from "store/selectors";
-import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 import { EditInitiative } from "components/EditInitiative";
 
 interface TProps {
@@ -14,7 +13,7 @@ interface TProps {
 
 export const CreatureRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
-  const { removeUnit, setInitiative, focusUnit } = useActions();
+  const { setInitiative, selectUnit } = useActions();
   const creatureRow = useCreatureRowSelector(id);
 
   useEffect(() => {
@@ -38,7 +37,7 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
   return (
     <StyledRow
       isFocused={creatureRow.isFocused}
-      onClick={() => focusUnit(creatureRow.isFocused ? null : id)}
+      onClick={() => selectUnit(creatureRow.isFocused ? null : id)}
     >
       {/* Инициатива */}
       <Td>
@@ -53,6 +52,9 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
       {/* Имя персонажа */}
       <Td>{creatureRow.name}</Td>
 
+      {/* Имя игрока */}
+      <Td>{creatureRow.player}</Td>
+
       {/* Тип персонажа */}
       <Td>{translate("unitTypes.creature")}</Td>
 
@@ -63,18 +65,7 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
       </Td>
 
       {/* Кнопки */}
-      <Td>
-        <ConfirmingButton
-          onClick={(ev) => ev.stopPropagation()}
-          onConfirm={() => removeUnit(id)}
-          confirmWindowTitle={translate("unitRow.remove")}
-          confirmWindowContent={translate(
-            "unitRow.removeUnitConfirmingMessage",
-          )}
-        >
-          {translate("unitRow.remove")}
-        </ConfirmingButton>
-      </Td>
+      <Td></Td>
     </StyledRow>
   );
 });

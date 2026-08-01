@@ -3,10 +3,12 @@ import styled from "@emotion/styled";
 import { Header, Tabs } from "./Header";
 import { AllUnitsList } from "components/AllUnitsList";
 import { SceneUnitsList } from "components/SceneUnitsList";
+import { Details } from "components/Details";
 
 const PageRoot = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 8px;
 `;
 
 const HeaderRoot = styled(Header)`
@@ -28,6 +30,7 @@ export const Page: FC<TProps> = () => {
         {tab === "allUnits" && <AllUnitsList />}
         {tab === "sceneUnits" && <SceneUnitsList />}
       </ContentRoot>
+      <Details />
     </PageRoot>
   );
 };

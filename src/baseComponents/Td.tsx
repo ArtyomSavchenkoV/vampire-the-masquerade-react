@@ -1,7 +1,5 @@
-import { FC, HTMLAttributes } from "react";
+import styled from "@emotion/styled";
 
-interface TProps extends HTMLAttributes<HTMLTableCellElement> {}
-
-export const Td: FC<TProps> = ({ ...props }) => {
-  return <td {...props} />;
-};
+export const Td = styled.td`
+  padding: 6px;
+`;

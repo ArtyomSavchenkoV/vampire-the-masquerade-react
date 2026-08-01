@@ -15,7 +15,7 @@ interface TProps {
 export const CreatureRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
   const creatureRow = useCreatureRowSelector(id);
-  const { focusUnit, addToScene, removeFromScene, removeUnit } = useActions();
+  const { selectUnit, addToScene, removeFromScene, removeUnit } = useActions();
   if (!creatureRow) {
     return (
       <ErrorIndicator>
@@ -26,7 +26,7 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
   return (
     <StyledRow
       isFocused={creatureRow.isFocused}
-      onClick={() => focusUnit(creatureRow.isFocused ? null : id)}
+      onClick={() => selectUnit(creatureRow.isFocused ? null : id)}
     >
       {/* Переключатель участия в сцене */}
       <Td>
@@ -43,6 +43,9 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
 
       {/* Имя персонажа */}
       <Td>{creatureRow.name}</Td>
+
+      {/* Имя игрока */}
+      <Td>{creatureRow.player}</Td>
 
       {/* Тип персонажа */}
       <Td>{translate("unitTypes.creature")}</Td>

@@ -31,6 +31,7 @@ interface TProps {
 export const Dialog: FC<TProps> = ({ children, open, onClose }) => {
   const handleOverlayClick = useCallback(
     (ev: React.MouseEvent) => {
+      ev.stopPropagation();
       // Закрываем только если клик был прямо по оверлею (не по окну)
       if (onClose && ev.target === ev.currentTarget) {
         onClose();

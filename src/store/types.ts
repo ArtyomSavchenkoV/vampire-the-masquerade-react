@@ -22,8 +22,8 @@ export interface State {
   units: Record<string, UnitEntry>;
   /** Список ID юнитов, участвующих в текущей сцене */
   sceneUnits: { id: string; initiative: number | null }[];
-  /** ID юнита, который сейчас находится в фокусе (отображается в карточке персонажа) */
-  focusedUnitId: string | null;
+  /** ID юнита, который сейчас выбран (отображается в карточке персонажа) */
+  selectedUnitId: string | null;
 }
 
 /**
@@ -49,9 +49,9 @@ export interface Actions {
   /** Сортирует участников по инициативе */
   sortSceneByInitiative: () => void;
 
-  // Фокус: управление отображаемой карточкой персонажа
-  /** Устанавливает фокус на юнита по ID либо сбрасывает фокус (null) */
-  focusUnit: (id: string | null) => void;
+  // Управление отображаемой карточкой персонажа
+  /** Выбирает или снимает выбор персонажа */
+  selectUnit: (id: string | null) => void;
 }
 
 /**

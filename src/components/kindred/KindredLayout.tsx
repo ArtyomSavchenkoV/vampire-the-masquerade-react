@@ -23,9 +23,6 @@ const Names = styled.div`
   flex-direction: column;
   gap: 8px;
 `;
-const Name = styled.div`
-  font-size: 2em;
-`;
 const PersonDetails = styled.div`
   width: 100%;
   display: flex;
@@ -128,8 +125,8 @@ export const KindredLayout: FC<TProps> = ({
     <Page ref={ref} {...props}>
       <Header isSmallScreen={isSmallScreen}>
         <Names>
-          <Name>{name}</Name>
-          <Name>{player}</Name>
+          <div>{name}</div>
+          <div>{player}</div>
           <div>{chronicle}</div>
         </Names>
         <PersonDetails>

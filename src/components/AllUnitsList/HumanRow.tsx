@@ -16,7 +16,7 @@ interface TProps {
 export const HumanRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
   const humanRow = useHumanRowSelector(id);
-  const { focusUnit, addToScene, removeFromScene, removeUnit } = useActions();
+  const { selectUnit, addToScene, removeFromScene, removeUnit } = useActions();
   if (!humanRow) {
     return (
       <ErrorIndicator>Ошибка HumanRow: нет данных humanRow</ErrorIndicator>
@@ -25,7 +25,7 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
   return (
     <StyledRow
       isFocused={humanRow.isFocused}
-      onClick={() => focusUnit(humanRow.isFocused ? null : id)}
+      onClick={() => selectUnit(humanRow.isFocused ? null : id)}
     >
       {/* Переключатель участия в сцене */}
       <Td>
@@ -42,6 +42,9 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
 
       {/* Имя персонажа */}
       <Td>{humanRow.name}</Td>
+
+      {/* Имя игрока */}
+      <Td>{humanRow.player}</Td>
 
       {/* Тип персонажа */}
       <Td>{translate("unitTypes.human")}</Td>
