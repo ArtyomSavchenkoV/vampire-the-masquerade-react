@@ -1,12 +1,7 @@
-import { Input } from "baseComponents/Input";
-import { Select } from "baseComponents/Select";
-import { ArrayEditor } from "commonComponents/ArrayEditor";
-import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
-import { KindredLayout } from "components/kindred/KindredLayout";
-import { PartialObjectEditor } from "commonComponents/PartialObjectEditor";
-import { PositiveNumberInput } from "commonComponents/PositiveNumberInput";
-import { TitleText } from "commonComponents/TitleText";
-import { merits, flaws } from "data/meritsAndFlaws";
+import { Human } from "domain/human/Human";
+import { FC, HTMLAttributes } from "react";
+import { HumanLayout } from "./common/HumanLayout";
+import useTranslate from "services/translate/useTranslate";
 import {
   AbilityName,
   BaseAbilityLevel,
@@ -17,74 +12,55 @@ import {
   BaseAttributeLevel,
   baseAttributeLevels,
 } from "domain/Attributes";
-import { backgroundLevels, backgroundNames } from "domain/Backgrounds";
-import { ClanName } from "domain/Clan";
-import { damageTypes } from "domain/Damage";
-import { disciplineLevels, disciplineNames } from "domain/Discipline";
-import { humanityOrPathRatings } from "domain/HumanityOrPathRating";
-import { aggregateModifiers } from "domain/kindred/CalculatedKindred";
-import {
-  calculateGeneration,
-  getGenerationLevel,
-} from "domain/kindred/Generation";
-import { getKinderedHealthLevel, MAX_HEALTH } from "domain/kindred/Health";
-import { Kindred } from "domain/kindred/Kindred";
 import {
   MentalStability,
   MentalStabilityLevel,
   mentalStabilityLevels,
 } from "domain/MentalStability";
-import { FlawName, MeritName, MeritsAndFlawsData } from "domain/MeritsAndFlaws";
-import { willpowerLevels } from "domain/Willpower";
-import { FC, HTMLAttributes, useEffect } from "react";
-import useTranslate from "services/translate/useTranslate";
-import { getDefinedEntries } from "utils/getDefinedEntries";
-import { ChangeClan } from "./ChangeClan";
-import { WithoutBorderSelect } from "commonComponents/WithoutBorderSelect";
-import styled from "@emotion/styled";
+import { Input } from "baseComponents/Input";
 import { NameTitleText } from "commonComponents/NameTitleText";
-
-const NameInput = styled(Input)`
-  font-size: 0.8em;
-`;
+import { TitleText } from "commonComponents/TitleText";
+import { NameInput } from "./common/NameInput";
+import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
+import { WithoutBorderSelect } from "commonComponents/WithoutBorderSelect";
+import { aggregateModifiers } from "domain/human/CalculatedHuman";
+import { ArrayEditor } from "commonComponents/ArrayEditor";
+import { PartialObjectEditor } from "commonComponents/PartialObjectEditor";
+import { merits, flaws } from "data/meritsAndFlaws";
+import { backgroundNames, backgroundLevels } from "domain/Backgrounds";
+import { MeritName, MeritsAndFlawsData, FlawName } from "domain/MeritsAndFlaws";
+import { getDefinedEntries } from "utils/getDefinedEntries";
+import { Select } from "baseComponents/Select";
+import { humanityOrPathRatings } from "domain/HumanityOrPathRating";
+import { willpowerLevels } from "domain/Willpower";
+import { MAX_HEALTH } from "domain/human/Health";
+import { getHealthLevel } from "domain/Health";
+import { humanHealthLevels } from "data/humanHealthLevels";
+import { damageTypes } from "domain/Damage";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
-  kindred: Kindred;
-  onChange: (kindred: Kindred) => void;
-  onClanChange: (clan: ClanName) => void;
+  human: Human;
+  onChange: (human: Human) => void;
 }
 
-export const EditKindredForm: FC<TProps> = ({
-  kindred,
-  onChange,
-  onClanChange,
-  ...props
-}) => {
+export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
   const { translate } = useTranslate();
-  const attributesMaxLimit = aggregateModifiers(kindred).attributesMaxLimit;
-
-  const realGeneration = calculateGeneration(kindred);
-  const generationLevel = getGenerationLevel(realGeneration);
-  useEffect(() => {
-    if (generationLevel.maxBloodPool < kindred.bloodPool) {
-      onChange({ ...kindred, bloodPool: generationLevel.maxBloodPool });
-    }
-  }, [generationLevel.maxBloodPool, kindred, onChange]);
+  const attributesMaxLimit = aggregateModifiers(human).attributesMaxLimit;
 
   const attributeChangeHandler = (
     name: AttributeName,
     value: BaseAttributeLevel,
   ) => {
     onChange({
-      ...kindred,
-      attributes: { ...kindred.attributes, [name]: value },
+      ...human,
+      attributes: { ...human.attributes, [name]: value },
     });
   };
 
   const abilityChangeHandler = (name: AbilityName, value: BaseAbilityLevel) => {
     onChange({
-      ...kindred,
-      abilities: { ...kindred.abilities, [name]: value },
+      ...human,
+      abilities: { ...human.abilities, [name]: value },
     });
   };
 
@@ -93,19 +69,19 @@ export const EditKindredForm: FC<TProps> = ({
     value: MentalStabilityLevel,
   ) => {
     onChange({
-      ...kindred,
-      mentalStability: { ...kindred.mentalStability, [name]: value },
+      ...human,
+      mentalStability: { ...human.mentalStability, [name]: value },
     });
   };
 
   return (
-    <KindredLayout
+    <HumanLayout
       name={
         /* Имя */
         <NameTitleText title={translate("fields.name")}>
           <NameInput
-            value={kindred.name}
-            onChange={(ev) => onChange({ ...kindred, name: ev.target.value })}
+            value={human.name}
+            onChange={(ev) => onChange({ ...human, name: ev.target.value })}
           />
         </NameTitleText>
       }
@@ -113,9 +89,9 @@ export const EditKindredForm: FC<TProps> = ({
         /* Игрок */
         <NameTitleText title={translate("fields.player")}>
           <NameInput
-            value={kindred.player ?? ""}
+            value={human.player ?? ""}
             onChange={(ev) =>
-              onChange({ ...kindred, player: ev.target.value || null })
+              onChange({ ...human, player: ev.target.value || null })
             }
           />
         </NameTitleText>
@@ -124,9 +100,9 @@ export const EditKindredForm: FC<TProps> = ({
         /* Хроника */
         <TitleText title={translate("fields.chronicle")}>
           <Input
-            value={kindred.chronicle ?? ""}
+            value={human.chronicle ?? ""}
             onChange={(ev) =>
-              onChange({ ...kindred, chronicle: ev.target.value || null })
+              onChange({ ...human, chronicle: ev.target.value || null })
             }
           />
         </TitleText>
@@ -136,57 +112,24 @@ export const EditKindredForm: FC<TProps> = ({
           {/* Натура */}
           <TitleText title={translate("fields.nature")}>
             <Input
-              value={kindred.nature}
-              onChange={(ev) =>
-                onChange({ ...kindred, nature: ev.target.value })
-              }
+              value={human.nature}
+              onChange={(ev) => onChange({ ...human, nature: ev.target.value })}
             />
           </TitleText>
           {/* Маска */}
           <TitleText title={translate("fields.demeanor")}>
             <Input
-              value={kindred.demeanor}
+              value={human.demeanor}
               onChange={(ev) =>
-                onChange({ ...kindred, demeanor: ev.target.value })
+                onChange({ ...human, demeanor: ev.target.value })
               }
             />
           </TitleText>
           {/* Амплуа */}
           <TitleText title={translate("fields.role")}>
             <Input
-              value={kindred.role}
-              onChange={(ev) => onChange({ ...kindred, role: ev.target.value })}
-            />
-          </TitleText>
-        </>
-      }
-      kindredSocialPosition={
-        <>
-          {/* Клан */}
-          <TitleText title={translate("fields.clan")}>
-            <ChangeClan
-              clanName={kindred.clan.clanName}
-              onChange={onClanChange}
-            >
-              {translate(`clanes.${kindred.clan.clanName}`)}
-            </ChangeClan>
-          </TitleText>
-          {/* Поколение */}
-          <TitleText title={translate("fields.initialGeneration")}>
-            <Select
-              options={[9, 10, 11, 12, 13]}
-              value={kindred.generation}
-              onChange={(generation) => onChange({ ...kindred, generation })}
-            />
-            {` (${realGeneration})`}
-          </TitleText>
-          {/* Сир */}
-          <TitleText title={translate("fields.sire")}>
-            <Input
-              value={kindred.sire ?? ""}
-              onChange={(ev) =>
-                onChange({ ...kindred, sire: ev.target.value || null })
-              }
+              value={human.role}
+              onChange={(ev) => onChange({ ...human, role: ev.target.value })}
             />
           </TitleText>
         </>
@@ -206,7 +149,7 @@ export const EditKindredForm: FC<TProps> = ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
                 }))}
-                value={kindred.attributes.strength}
+                value={human.attributes.strength}
                 onChange={(value) => attributeChangeHandler("strength", value)}
                 disabled={attributesMaxLimit?.strength === 0}
               />
@@ -221,7 +164,7 @@ export const EditKindredForm: FC<TProps> = ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
                 }))}
-                value={kindred.attributes.dexterity}
+                value={human.attributes.dexterity}
                 onChange={(value) => attributeChangeHandler("dexterity", value)}
                 disabled={attributesMaxLimit?.dexterity === 0}
               />
@@ -236,7 +179,7 @@ export const EditKindredForm: FC<TProps> = ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
                 }))}
-                value={kindred.attributes.stamina}
+                value={human.attributes.stamina}
                 onChange={(value) => attributeChangeHandler("stamina", value)}
                 disabled={attributesMaxLimit?.stamina === 0}
               />
@@ -259,7 +202,7 @@ export const EditKindredForm: FC<TProps> = ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
                 }))}
-                value={kindred.attributes.charisma}
+                value={human.attributes.charisma}
                 onChange={(value) => attributeChangeHandler("charisma", value)}
                 disabled={attributesMaxLimit?.charisma === 0}
               />
@@ -274,7 +217,7 @@ export const EditKindredForm: FC<TProps> = ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
                 }))}
-                value={kindred.attributes.manipulation}
+                value={human.attributes.manipulation}
                 onChange={(value) =>
                   attributeChangeHandler("manipulation", value)
                 }
@@ -291,7 +234,7 @@ export const EditKindredForm: FC<TProps> = ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
                 }))}
-                value={kindred.attributes.appearance}
+                value={human.attributes.appearance}
                 onChange={(value) =>
                   attributeChangeHandler("appearance", value)
                 }
@@ -315,7 +258,7 @@ export const EditKindredForm: FC<TProps> = ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
                 }))}
-                value={kindred.attributes.perception}
+                value={human.attributes.perception}
                 onChange={(value) =>
                   attributeChangeHandler("perception", value)
                 }
@@ -331,7 +274,7 @@ export const EditKindredForm: FC<TProps> = ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
                 }))}
-                value={kindred.attributes.intelligence}
+                value={human.attributes.intelligence}
                 onChange={(value) =>
                   attributeChangeHandler("intelligence", value)
                 }
@@ -347,7 +290,7 @@ export const EditKindredForm: FC<TProps> = ({
                   value,
                   name: translate(`baseAttributeLevels.${value}`),
                 }))}
-                value={kindred.attributes.wits}
+                value={human.attributes.wits}
                 onChange={(value) => attributeChangeHandler("wits", value)}
               />
             )}
@@ -367,7 +310,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.athletics}
+              value={human.abilities.athletics}
               onChange={(value) => abilityChangeHandler("athletics", value)}
             />
           </TitleText>
@@ -378,7 +321,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.alertness}
+              value={human.abilities.alertness}
               onChange={(value) => abilityChangeHandler("alertness", value)}
             />
           </TitleText>
@@ -389,7 +332,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.brawl}
+              value={human.abilities.brawl}
               onChange={(value) => abilityChangeHandler("brawl", value)}
             />
           </TitleText>
@@ -400,7 +343,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.intimidation}
+              value={human.abilities.intimidation}
               onChange={(value) => abilityChangeHandler("intimidation", value)}
             />
           </TitleText>
@@ -411,7 +354,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.expression}
+              value={human.abilities.expression}
               onChange={(value) => abilityChangeHandler("expression", value)}
             />
           </TitleText>
@@ -422,7 +365,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.leadership}
+              value={human.abilities.leadership}
               onChange={(value) => abilityChangeHandler("leadership", value)}
             />
           </TitleText>
@@ -433,7 +376,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.streetwise}
+              value={human.abilities.streetwise}
               onChange={(value) => abilityChangeHandler("streetwise", value)}
             />
           </TitleText>
@@ -444,7 +387,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.subterfuge}
+              value={human.abilities.subterfuge}
               onChange={(value) => abilityChangeHandler("subterfuge", value)}
             />
           </TitleText>
@@ -455,7 +398,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.awareness}
+              value={human.abilities.awareness}
               onChange={(value) => abilityChangeHandler("awareness", value)}
             />
           </TitleText>
@@ -466,7 +409,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.empathy}
+              value={human.abilities.empathy}
               onChange={(value) => abilityChangeHandler("empathy", value)}
             />
           </TitleText>
@@ -485,7 +428,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.drive}
+              value={human.abilities.drive}
               onChange={(value) => abilityChangeHandler("drive", value)}
             />
           </TitleText>
@@ -496,7 +439,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.larceny}
+              value={human.abilities.larceny}
               onChange={(value) => abilityChangeHandler("larceny", value)}
             />
           </TitleText>
@@ -507,7 +450,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.survival}
+              value={human.abilities.survival}
               onChange={(value) => abilityChangeHandler("survival", value)}
             />
           </TitleText>
@@ -518,7 +461,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.performance}
+              value={human.abilities.performance}
               onChange={(value) => abilityChangeHandler("performance", value)}
             />
           </TitleText>
@@ -529,7 +472,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.animal_ken}
+              value={human.abilities.animal_ken}
               onChange={(value) => abilityChangeHandler("animal_ken", value)}
             />
           </TitleText>
@@ -540,7 +483,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.crafts}
+              value={human.abilities.crafts}
               onChange={(value) => abilityChangeHandler("crafts", value)}
             />
           </TitleText>
@@ -551,7 +494,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.stealth}
+              value={human.abilities.stealth}
               onChange={(value) => abilityChangeHandler("stealth", value)}
             />
           </TitleText>
@@ -562,7 +505,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.firearms}
+              value={human.abilities.firearms}
               onChange={(value) => abilityChangeHandler("firearms", value)}
             />
           </TitleText>
@@ -573,7 +516,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.melee}
+              value={human.abilities.melee}
               onChange={(value) => abilityChangeHandler("melee", value)}
             />
           </TitleText>
@@ -584,7 +527,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.etiquette}
+              value={human.abilities.etiquette}
               onChange={(value) => abilityChangeHandler("etiquette", value)}
             />
           </TitleText>
@@ -603,7 +546,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.academics}
+              value={human.abilities.academics}
               onChange={(value) => abilityChangeHandler("academics", value)}
             />
           </TitleText>
@@ -614,7 +557,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.science}
+              value={human.abilities.science}
               onChange={(value) => abilityChangeHandler("science", value)}
             />
           </TitleText>
@@ -625,7 +568,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.law}
+              value={human.abilities.law}
               onChange={(value) => abilityChangeHandler("law", value)}
             />
           </TitleText>
@@ -636,7 +579,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.computer}
+              value={human.abilities.computer}
               onChange={(value) => abilityChangeHandler("computer", value)}
             />
           </TitleText>
@@ -647,7 +590,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.medicine}
+              value={human.abilities.medicine}
               onChange={(value) => abilityChangeHandler("medicine", value)}
             />
           </TitleText>
@@ -658,7 +601,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.occult}
+              value={human.abilities.occult}
               onChange={(value) => abilityChangeHandler("occult", value)}
             />
           </TitleText>
@@ -669,7 +612,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.politics}
+              value={human.abilities.politics}
               onChange={(value) => abilityChangeHandler("politics", value)}
             />
           </TitleText>
@@ -680,7 +623,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.investigation}
+              value={human.abilities.investigation}
               onChange={(value) => abilityChangeHandler("investigation", value)}
             />
           </TitleText>
@@ -691,7 +634,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.finance}
+              value={human.abilities.finance}
               onChange={(value) => abilityChangeHandler("finance", value)}
             />
           </TitleText>
@@ -702,41 +645,10 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`baseAbilityLevels.${value}`),
               }))}
-              value={kindred.abilities.electronics}
+              value={human.abilities.electronics}
               onChange={(value) => abilityChangeHandler("electronics", value)}
             />
           </TitleText>
-        </>
-      }
-      disciplines={
-        <>
-          {/* Дисциплины */}
-          <DetailsSectionTitle>
-            {translate("createUnit.disciplines")}
-          </DetailsSectionTitle>
-          <PartialObjectEditor
-            object={kindred.clan.disciplines}
-            onChange={(disciplines) =>
-              onChange({
-                ...kindred,
-                clan: {
-                  ...kindred.clan,
-                  disciplines,
-                },
-              })
-            }
-            options={disciplineNames.map((value) => ({
-              value,
-              name: translate(`disciplines.${value}.name`),
-            }))}
-            availableValues={disciplineLevels.map((level) => ({
-              value: level,
-              name: translate(`disciplineLevels.${level}`),
-            }))}
-            addTitle={translate("editDisciplines.add")}
-            deleteTitle={translate("editDisciplines.delete")}
-            isObjectFixed={kindred.clan.clanName !== "Other"}
-          />
         </>
       }
       backgrounds={
@@ -746,8 +658,8 @@ export const EditKindredForm: FC<TProps> = ({
             {translate("createUnit.backgrounds")}
           </DetailsSectionTitle>
           <PartialObjectEditor
-            object={kindred.backgrounds}
-            onChange={(backgrounds) => onChange({ ...kindred, backgrounds })}
+            object={human.backgrounds}
+            onChange={(backgrounds) => onChange({ ...human, backgrounds })}
             options={backgroundNames.map((value) => ({
               value,
               name: translate(`backgrounds.${value}`),
@@ -774,7 +686,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`mentalStabilityLevels.${value}`),
               }))}
-              value={kindred.mentalStability.morality}
+              value={human.mentalStability.morality}
               onChange={(value) => mentalStabilityHandler("morality", value)}
             />
           </TitleText>
@@ -785,7 +697,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`mentalStabilityLevels.${value}`),
               }))}
-              value={kindred.mentalStability.selfControl}
+              value={human.mentalStability.selfControl}
               onChange={(value) => mentalStabilityHandler("selfControl", value)}
             />
           </TitleText>
@@ -796,7 +708,7 @@ export const EditKindredForm: FC<TProps> = ({
                 value,
                 name: translate(`mentalStabilityLevels.${value}`),
               }))}
-              value={kindred.mentalStability.courage}
+              value={human.mentalStability.courage}
               onChange={(value) => mentalStabilityHandler("courage", value)}
             />
           </TitleText>
@@ -809,24 +721,19 @@ export const EditKindredForm: FC<TProps> = ({
             {translate("createUnit.merits")}
           </DetailsSectionTitle>
           <ArrayEditor
-            array={kindred.merits}
+            array={human.merits}
             onChange={(merits) =>
               onChange({
-                ...kindred,
+                ...human,
                 merits,
               })
             }
             options={getDefinedEntries(
               merits as Record<MeritName, MeritsAndFlawsData>,
-            )
-              .filter(
-                ({ value }) =>
-                  !value?.abandonForClans?.includes(kindred.clan.clanName),
-              )
-              .map(({ key }) => ({
-                value: key,
-                name: translate(`merits.${key}`),
-              }))}
+            ).map(({ key }) => ({
+              value: key,
+              name: translate(`merits.${key}`),
+            }))}
             addTitle={translate("editMeritsAndFlaws.addMerit")}
             deleteTitle={translate("editMeritsAndFlaws.delete")}
           />
@@ -835,24 +742,19 @@ export const EditKindredForm: FC<TProps> = ({
             {translate("createUnit.flaws")}
           </DetailsSectionTitle>
           <ArrayEditor
-            array={kindred.flaws}
+            array={human.flaws}
             onChange={(flaws) =>
               onChange({
-                ...kindred,
+                ...human,
                 flaws,
               })
             }
             options={getDefinedEntries(
               flaws as Record<FlawName, MeritsAndFlawsData>,
-            )
-              .filter(
-                ({ value }) =>
-                  !value?.abandonForClans?.includes(kindred.clan.clanName),
-              )
-              .map(({ key }) => ({
-                value: key,
-                name: translate(`flaws.${key}`),
-              }))}
+            ).map(({ key }) => ({
+              value: key,
+              name: translate(`flaws.${key}`),
+            }))}
             addTitle={translate("editMeritsAndFlaws.addFlaw")}
             deleteTitle={translate("editMeritsAndFlaws.delete")}
           />
@@ -866,10 +768,10 @@ export const EditKindredForm: FC<TProps> = ({
           </DetailsSectionTitle>
           <TitleText title={translate("fields.humanityOrPathRating")}>
             <Select
-              value={kindred.humanityOrPathRating}
+              value={human.humanityOrPathRating}
               options={humanityOrPathRatings}
               onChange={(humanityOrPathRating) =>
-                onChange({ ...kindred, humanityOrPathRating })
+                onChange({ ...human, humanityOrPathRating })
               }
             />
           </TitleText>
@@ -877,9 +779,9 @@ export const EditKindredForm: FC<TProps> = ({
           {/* Столп */}
           <TitleText title={translate("fields.pillar")}>
             <Input
-              value={kindred.pillar ?? ""}
+              value={human.pillar ?? ""}
               onChange={(ev) =>
-                onChange({ ...kindred, pillar: ev.target.value || null })
+                onChange({ ...human, pillar: ev.target.value || null })
               }
             />
           </TitleText>
@@ -890,16 +792,16 @@ export const EditKindredForm: FC<TProps> = ({
           {/* Максимальный запас воли */}
           <TitleText title={translate("fields.maxWillpower")}>
             <Select
-              value={kindred.maxWillpower}
+              value={human.maxWillpower}
               options={willpowerLevels}
               onChange={(maxWillpower) =>
                 onChange({
-                  ...kindred,
+                  ...human,
                   maxWillpower,
                   willpower:
-                    kindred.willpower > maxWillpower
+                    human.willpower > maxWillpower
                       ? maxWillpower
-                      : kindred.willpower,
+                      : human.willpower,
                 })
               }
             />
@@ -907,32 +809,11 @@ export const EditKindredForm: FC<TProps> = ({
           {/* Воля */}
           <TitleText title={translate("fields.willpower")}>
             <Select
-              value={kindred.willpower}
+              value={human.willpower}
               options={willpowerLevels.filter(
-                (level) => level <= kindred.maxWillpower,
+                (level) => level <= human.maxWillpower,
               )}
-              onChange={(willpower) => onChange({ ...kindred, willpower })}
-            />
-          </TitleText>
-          {/* Запас крови */}
-          <DetailsSectionTitle>
-            {translate("createUnit.bloodPool")}
-          </DetailsSectionTitle>
-          {/* Макс/предел */}
-          <div>{`${translate("fields.maxBloodPool")}: ${generationLevel.maxBloodPool}, ${translate("fields.bloodConsumptionLimitPerTurn")}: ${generationLevel.bloodConsumptionLimitPerTurn}`}</div>
-          {/* Запас крови */}
-          <TitleText title={translate("fields.bloodPool")}>
-            <PositiveNumberInput
-              value={kindred.bloodPool}
-              onChange={(bloodPool) =>
-                onChange({
-                  ...kindred,
-                  bloodPool:
-                    bloodPool > generationLevel.maxBloodPool
-                      ? generationLevel.maxBloodPool
-                      : bloodPool,
-                })
-              }
+              onChange={(willpower) => onChange({ ...human, willpower })}
             />
           </TitleText>
         </>
@@ -941,11 +822,11 @@ export const EditKindredForm: FC<TProps> = ({
         <>
           {/* Здоровье */}
           <DetailsSectionTitle>
-            {`${translate("createUnit.health")}: ${MAX_HEALTH - kindred.bodyDamages.length}/${MAX_HEALTH}`}
+            {`${translate("createUnit.health")}: ${MAX_HEALTH - human.bodyDamages.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
           <TitleText title={translate("createUnit.healthLevel")}>
             {translate(
-              `healthLevels.${getKinderedHealthLevel(kindred.bodyDamages).name}`,
+              `healthLevels.${getHealthLevel({ healthLevels: humanHealthLevels })(human.bodyDamages).name}`,
             )}
           </TitleText>
           {/* Раны */}
@@ -953,10 +834,10 @@ export const EditKindredForm: FC<TProps> = ({
             {translate("createUnit.damages")}
           </DetailsSectionTitle>
           <ArrayEditor
-            array={kindred.bodyDamages}
+            array={human.bodyDamages}
             onChange={(bodyDamages) =>
               onChange({
-                ...kindred,
+                ...human,
                 bodyDamages,
               })
             }
@@ -968,9 +849,12 @@ export const EditKindredForm: FC<TProps> = ({
             addTitle={translate("editDamages.add")}
             deleteTitle={translate("editDamages.delete")}
             isOverflow={
-              getKinderedHealthLevel(kindred.bodyDamages).name ===
-                "finalDeath" ||
-              getKinderedHealthLevel(kindred.bodyDamages).name === "torpor"
+              getHealthLevel({ healthLevels: humanHealthLevels })(
+                human.bodyDamages,
+              ).name === "finalDeath" ||
+              getHealthLevel({ healthLevels: humanHealthLevels })(
+                human.bodyDamages,
+              ).name === "torpor"
             }
           />
         </>

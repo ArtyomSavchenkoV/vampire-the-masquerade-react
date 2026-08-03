@@ -1,13 +1,10 @@
 import styled from "@emotion/styled";
 import { Button } from "baseComponents/Button";
 import { RightPanel } from "commonComponents/RightPanel";
-import { EditKindredForm } from "components/edit/EditKindredForm";
-import { EditKindred } from "components/edit/EditKindred";
-import { clanes } from "data/clanes";
-import { initialKindred } from "data/initialKindred";
+import { EditHumanForm } from "components/edit/EditHumanForm";
 import { FC } from "react";
 import useTranslate from "services/translate/useTranslate";
-import { useActions, useKindredSelector } from "store/selectors";
+import { useActions, useHumanSelector } from "store/selectors";
 
 const StyledPanel = styled(RightPanel)`
   padding: 24px;
@@ -36,37 +33,27 @@ interface TProps {
   selectedUnitId: string;
 }
 
-export const KindredDetails: FC<TProps> = ({ selectedUnitId }) => {
+export const HumanDetails: FC<TProps> = ({ selectedUnitId }) => {
   const { translate } = useTranslate();
   const { addUnit, selectUnit } = useActions();
-  const kindred = useKindredSelector(selectedUnitId);
+  const human = useHumanSelector(selectedUnitId);
 
   return (
     <>
-      {kindred && (
+      {human && (
         <StyledPanel open>
           <Header>
             <CloseButton onClick={() => selectUnit(null)}>x</CloseButton>
             {translate("details.title")}
-            <EditKindred kindredId={selectedUnitId} />
           </Header>
-          <EditKindredForm
-            kindred={kindred}
-            onChange={(kindred) =>
+          <EditHumanForm
+            human={human}
+            onChange={(human) =>
               addUnit(selectedUnitId, {
-                type: "kindred",
-                unit: kindred,
+                type: "human",
+                unit: human,
               })
             }
-            onClanChange={(clanName) => {
-              addUnit(selectedUnitId, {
-                type: "kindred",
-                unit: {
-                  ...initialKindred,
-                  clan: clanes[clanName],
-                },
-              });
-            }}
           />
         </StyledPanel>
       )}

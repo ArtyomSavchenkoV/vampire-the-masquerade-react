@@ -1,8 +1,8 @@
 import { Select } from "baseComponents/Select";
 import { ConfirmWindow } from "commonComponents/ConfirmWindow";
-import { EditCreatureForm } from "components/EditCreatureForm";
-import { EditHumanForm } from "components/EditHumanForm";
-import { EditKindredForm } from "components/kindred/EditKindredForm";
+import { EditCreatureForm } from "components/edit/EditCreatureForm";
+import { EditHumanForm } from "components/edit/EditHumanForm";
+import { EditKindredForm } from "components/edit/EditKindredForm";
 import { clanes } from "data/clanes";
 import { initialCreature } from "data/initialCreature";
 import { initialHuman } from "data/initialHuman";
