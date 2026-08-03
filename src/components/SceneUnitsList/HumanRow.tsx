@@ -1,5 +1,4 @@
 import { Td } from "baseComponents/Td";
-import { MAX_HEALTH } from "domain/human/Health";
 import { FC, memo, useEffect } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useActions } from "store/selectors";
@@ -7,6 +6,7 @@ import { useHumanRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { EditInitiative } from "components/EditInitiative";
+import { MAX_HEALTH } from "data/humanHealthLevels";
 
 interface TProps {
   id: string;
@@ -18,12 +18,7 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
   const humanRow = useHumanRowSelector(id);
 
   useEffect(() => {
-    if (
-      humanRow &&
-      (humanRow.healthLevel === "finalDeath" ||
-        humanRow.healthLevel === "incapacitated") &&
-      humanRow.initiative != null
-    ) {
+    if (humanRow && humanRow.isIncapacitated && humanRow.initiative != null) {
       setInitiative({ id, initiative: null });
     }
   }, [humanRow, setInitiative, id]);
@@ -35,17 +30,16 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
   }
   return (
     <StyledRow
-      isFocused={humanRow.isFocused}
-      onClick={() => selectUnit(humanRow.isFocused ? null : id)}
+      isSelected={humanRow.isSelected}
+      onClick={() => selectUnit(humanRow.isSelected ? null : id)}
     >
       {/* Инициатива */}
       <Td>
-        {humanRow.healthLevel !== "finalDeath" &&
-          humanRow.healthLevel !== "incapacitated" && (
-            <EditInitiative unitId={id}>
-              {humanRow.initiative ?? translate("unitRow.initiative")}
-            </EditInitiative>
-          )}
+        {!humanRow.isIncapacitated && (
+          <EditInitiative unitId={id}>
+            {humanRow.initiative ?? translate("unitRow.initiative")}
+          </EditInitiative>
+        )}
       </Td>
 
       {/* Имя персонажа */}

@@ -25,8 +25,8 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
   }
   return (
     <StyledRow
-      isFocused={creatureRow.isFocused}
-      onClick={() => selectUnit(creatureRow.isFocused ? null : id)}
+      isSelected={creatureRow.isSelected}
+      onClick={() => selectUnit(creatureRow.isSelected ? null : id)}
     >
       {/* Переключатель участия в сцене */}
       <Td>

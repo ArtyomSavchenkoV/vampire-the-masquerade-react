@@ -29,7 +29,7 @@ const Line = styled.div`
 
 interface IProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
   title: ReactNode;
-  children: ReactNode;
+  children?: ReactNode;
 }
 export const TitleText: FC<IProps> = ({ title, children, ...props }) => {
   const ref = useRef<HTMLDivElement>(null);

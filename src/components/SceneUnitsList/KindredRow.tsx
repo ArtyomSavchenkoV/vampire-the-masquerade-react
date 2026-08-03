@@ -4,9 +4,9 @@ import { useKindredRowSelector } from "./selectors";
 import { useActions } from "store/selectors";
 import useTranslate from "services/translate/useTranslate";
 import { StyledRow } from "commonComponents/StyledRow";
-import { MAX_HEALTH } from "domain/kindred/Health";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { EditInitiative } from "components/EditInitiative";
+import { MAX_HEALTH } from "data/kindredHealthLevels";
 
 interface TProps {
   id: string;
@@ -20,9 +20,7 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
   useEffect(() => {
     if (
       kindredRow &&
-      (kindredRow.healthLevel === "finalDeath" ||
-        kindredRow.healthLevel === "torpor" ||
-        kindredRow.healthLevel === "incapacitated") &&
+      kindredRow.isIncapacitated &&
       kindredRow.initiative != null
     ) {
       setInitiative({ id, initiative: null });
@@ -36,18 +34,16 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
   }
   return (
     <StyledRow
-      isFocused={kindredRow.isFocused}
-      onClick={() => selectUnit(kindredRow.isFocused ? null : id)}
+      isSelected={kindredRow.isSelected}
+      onClick={() => selectUnit(kindredRow.isSelected ? null : id)}
     >
       {/* Инициатива */}
       <Td>
-        {kindredRow.healthLevel !== "torpor" &&
-          kindredRow.healthLevel !== "finalDeath" &&
-          kindredRow.healthLevel !== "incapacitated" && (
-            <EditInitiative onClick={(ev) => ev.stopPropagation()} unitId={id}>
-              {kindredRow.initiative ?? translate("unitRow.initiative")}
-            </EditInitiative>
-          )}
+        {!kindredRow.isIncapacitated && (
+          <EditInitiative onClick={(ev) => ev.stopPropagation()} unitId={id}>
+            {kindredRow.initiative ?? translate("unitRow.initiative")}
+          </EditInitiative>
+        )}
       </Td>
 
       {/* Имя персонажа */}

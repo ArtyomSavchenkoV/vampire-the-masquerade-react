@@ -1,22 +1,25 @@
-export type AttributeName =
+export const attributeNames = [
   /** Физическая сила */
-  | "strength"
+  "strength",
   /** Ловкость */
-  | "dexterity"
+  "dexterity",
   /** Выносливость */
-  | "stamina"
+  "stamina",
   /** Обаяние (социальное притяжение) */
-  | "charisma"
+  "charisma",
   /** Манипуляция (умение управлять другими) */
-  | "manipulation"
+  "manipulation",
   /** Привлекательность (внешность) */
-  | "appearance"
+  "appearance",
   /** Восприятие (замечает детали) */
-  | "perception"
+  "perception",
   /** Интеллект (анализ, обучение) */
-  | "intelligence"
+  "intelligence",
   /** Смекалка (быстрая реакция, импровизация) */
-  | "wits";
+  "wits",
+] as const;
+
+export type AttributeName = ArrayElement<typeof attributeNames>;
 
 /** Допустимые базовые уровни атрибутов персонажа, без каких либо модиыикаторов */
 export const baseAttributeLevels = [1, 2, 3, 4, 5] as const;

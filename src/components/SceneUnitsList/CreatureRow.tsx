@@ -19,8 +19,7 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
   useEffect(() => {
     if (
       creatureRow &&
-      (creatureRow.healthLevel === "finalDeath" ||
-        creatureRow.healthLevel === "incapacitated") &&
+      creatureRow.isIncapacitated &&
       creatureRow.initiative != null
     ) {
       setInitiative({ id, initiative: null });
@@ -36,17 +35,16 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
   }
   return (
     <StyledRow
-      isFocused={creatureRow.isFocused}
-      onClick={() => selectUnit(creatureRow.isFocused ? null : id)}
+      isSelected={creatureRow.isSelected}
+      onClick={() => selectUnit(creatureRow.isSelected ? null : id)}
     >
       {/* Инициатива */}
       <Td>
-        {creatureRow.healthLevel !== "finalDeath" &&
-          creatureRow.healthLevel !== "incapacitated" && (
-            <EditInitiative unitId={id}>
-              {creatureRow.initiative ?? translate("unitRow.initiative")}
-            </EditInitiative>
-          )}
+        {!creatureRow.isIncapacitated && (
+          <EditInitiative unitId={id}>
+            {creatureRow.initiative ?? translate("unitRow.initiative")}
+          </EditInitiative>
+        )}
       </Td>
 
       {/* Имя персонажа */}

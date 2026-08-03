@@ -27,7 +27,7 @@ import {
   calculateGeneration,
   getGenerationLevel,
 } from "domain/kindred/Generation";
-import { getKinderedHealthLevel, MAX_HEALTH } from "domain/kindred/Health";
+import { getKinderedHealthLevel } from "domain/kindred/Health";
 import { Kindred } from "domain/kindred/Kindred";
 import {
   MentalStability,
@@ -43,6 +43,8 @@ import { ChangeClan } from "./ChangeClan";
 import { WithoutBorderSelect } from "commonComponents/WithoutBorderSelect";
 import { NameTitleText } from "commonComponents/NameTitleText";
 import { NameInput } from "../common/NameInput";
+import { getHealthLevelTranslateKey } from "domain/Health";
+import { MAX_HEALTH } from "data/kindredHealthLevels";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   kindred: Kindred;
@@ -200,7 +202,7 @@ export const EditKindredForm: FC<TProps> = ({
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={kindred.attributes.strength}
                 onChange={(value) => attributeChangeHandler("strength", value)}
@@ -215,7 +217,7 @@ export const EditKindredForm: FC<TProps> = ({
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={kindred.attributes.dexterity}
                 onChange={(value) => attributeChangeHandler("dexterity", value)}
@@ -230,7 +232,7 @@ export const EditKindredForm: FC<TProps> = ({
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={kindred.attributes.stamina}
                 onChange={(value) => attributeChangeHandler("stamina", value)}
@@ -253,7 +255,7 @@ export const EditKindredForm: FC<TProps> = ({
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={kindred.attributes.charisma}
                 onChange={(value) => attributeChangeHandler("charisma", value)}
@@ -268,7 +270,7 @@ export const EditKindredForm: FC<TProps> = ({
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={kindred.attributes.manipulation}
                 onChange={(value) =>
@@ -285,7 +287,7 @@ export const EditKindredForm: FC<TProps> = ({
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={kindred.attributes.appearance}
                 onChange={(value) =>
@@ -309,7 +311,7 @@ export const EditKindredForm: FC<TProps> = ({
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={kindred.attributes.perception}
                 onChange={(value) =>
@@ -325,7 +327,7 @@ export const EditKindredForm: FC<TProps> = ({
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={kindred.attributes.intelligence}
                 onChange={(value) =>
@@ -341,7 +343,7 @@ export const EditKindredForm: FC<TProps> = ({
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={kindred.attributes.wits}
                 onChange={(value) => attributeChangeHandler("wits", value)}
@@ -361,7 +363,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.athletics}
               onChange={(value) => abilityChangeHandler("athletics", value)}
@@ -372,7 +374,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.alertness}
               onChange={(value) => abilityChangeHandler("alertness", value)}
@@ -383,7 +385,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.brawl}
               onChange={(value) => abilityChangeHandler("brawl", value)}
@@ -394,7 +396,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.intimidation}
               onChange={(value) => abilityChangeHandler("intimidation", value)}
@@ -405,7 +407,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.expression}
               onChange={(value) => abilityChangeHandler("expression", value)}
@@ -416,7 +418,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.leadership}
               onChange={(value) => abilityChangeHandler("leadership", value)}
@@ -427,7 +429,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.streetwise}
               onChange={(value) => abilityChangeHandler("streetwise", value)}
@@ -438,7 +440,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.subterfuge}
               onChange={(value) => abilityChangeHandler("subterfuge", value)}
@@ -449,7 +451,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.awareness}
               onChange={(value) => abilityChangeHandler("awareness", value)}
@@ -460,7 +462,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.empathy}
               onChange={(value) => abilityChangeHandler("empathy", value)}
@@ -479,7 +481,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.drive}
               onChange={(value) => abilityChangeHandler("drive", value)}
@@ -490,7 +492,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.larceny}
               onChange={(value) => abilityChangeHandler("larceny", value)}
@@ -501,7 +503,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.survival}
               onChange={(value) => abilityChangeHandler("survival", value)}
@@ -512,7 +514,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.performance}
               onChange={(value) => abilityChangeHandler("performance", value)}
@@ -523,7 +525,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.animal_ken}
               onChange={(value) => abilityChangeHandler("animal_ken", value)}
@@ -534,7 +536,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.crafts}
               onChange={(value) => abilityChangeHandler("crafts", value)}
@@ -545,7 +547,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.stealth}
               onChange={(value) => abilityChangeHandler("stealth", value)}
@@ -556,7 +558,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.firearms}
               onChange={(value) => abilityChangeHandler("firearms", value)}
@@ -567,7 +569,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.melee}
               onChange={(value) => abilityChangeHandler("melee", value)}
@@ -578,7 +580,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.etiquette}
               onChange={(value) => abilityChangeHandler("etiquette", value)}
@@ -597,7 +599,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.academics}
               onChange={(value) => abilityChangeHandler("academics", value)}
@@ -608,7 +610,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.science}
               onChange={(value) => abilityChangeHandler("science", value)}
@@ -619,7 +621,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.law}
               onChange={(value) => abilityChangeHandler("law", value)}
@@ -630,7 +632,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.computer}
               onChange={(value) => abilityChangeHandler("computer", value)}
@@ -641,7 +643,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.medicine}
               onChange={(value) => abilityChangeHandler("medicine", value)}
@@ -652,7 +654,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.occult}
               onChange={(value) => abilityChangeHandler("occult", value)}
@@ -663,7 +665,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.politics}
               onChange={(value) => abilityChangeHandler("politics", value)}
@@ -674,7 +676,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.investigation}
               onChange={(value) => abilityChangeHandler("investigation", value)}
@@ -685,7 +687,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.finance}
               onChange={(value) => abilityChangeHandler("finance", value)}
@@ -696,7 +698,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.abilities.electronics}
               onChange={(value) => abilityChangeHandler("electronics", value)}
@@ -727,7 +729,7 @@ export const EditKindredForm: FC<TProps> = ({
             }))}
             availableValues={disciplineLevels.map((level) => ({
               value: level,
-              name: translate(`disciplineLevels.${level}`),
+              name: translate(`parametersEditLevels.${level}`),
             }))}
             addTitle={translate("editDisciplines.add")}
             deleteTitle={translate("editDisciplines.delete")}
@@ -750,7 +752,7 @@ export const EditKindredForm: FC<TProps> = ({
             }))}
             availableValues={backgroundLevels.map((level) => ({
               value: level,
-              name: translate(`backgroundLevels.${level}`),
+              name: translate(`parametersEditLevels.${level}`),
             }))}
             addTitle={translate("editBackgrounds.add")}
             deleteTitle={translate("editBackgrounds.delete")}
@@ -768,7 +770,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={mentalStabilityLevels.map((value) => ({
                 value,
-                name: translate(`mentalStabilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.mentalStability.morality}
               onChange={(value) => mentalStabilityHandler("morality", value)}
@@ -779,7 +781,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={mentalStabilityLevels.map((value) => ({
                 value,
-                name: translate(`mentalStabilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.mentalStability.selfControl}
               onChange={(value) => mentalStabilityHandler("selfControl", value)}
@@ -790,7 +792,7 @@ export const EditKindredForm: FC<TProps> = ({
             <WithoutBorderSelect
               options={mentalStabilityLevels.map((value) => ({
                 value,
-                name: translate(`mentalStabilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={kindred.mentalStability.courage}
               onChange={(value) => mentalStabilityHandler("courage", value)}
@@ -941,7 +943,7 @@ export const EditKindredForm: FC<TProps> = ({
           </DetailsSectionTitle>
           <TitleText title={translate("createUnit.healthLevel")}>
             {translate(
-              `healthLevels.${getKinderedHealthLevel(kindred.bodyDamages).name}`,
+              `healthLevels.${getHealthLevelTranslateKey(getKinderedHealthLevel(kindred.bodyDamages))}`,
             )}
           </TitleText>
           {/* Раны */}
@@ -964,9 +966,7 @@ export const EditKindredForm: FC<TProps> = ({
             addTitle={translate("editDamages.add")}
             deleteTitle={translate("editDamages.delete")}
             isOverflow={
-              getKinderedHealthLevel(kindred.bodyDamages).name ===
-                "finalDeath" ||
-              getKinderedHealthLevel(kindred.bodyDamages).name === "torpor"
+              getKinderedHealthLevel(kindred.bodyDamages).name === "final"
             }
           />
         </>

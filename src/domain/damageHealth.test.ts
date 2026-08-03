@@ -1,3 +1,4 @@
+import { healthLevels } from "data/healthLevels";
 import { damageHealth } from "./Health";
 
 describe("src/domain/damageHealth", () => {
@@ -5,8 +6,8 @@ describe("src/domain/damageHealth", () => {
     expect(
       damageHealth({
         bodyDamages: [],
-        healthLevelName: "unimpaired",
-        maxHealth: 7,
+        healthLevels,
+        isKindred: false,
         damageEvent: { type: "damage", damageType: "bashing", value: 3 },
       }),
     ).toEqual(["bashing", "bashing", "bashing"]);
@@ -16,8 +17,8 @@ describe("src/domain/damageHealth", () => {
     expect(
       damageHealth({
         bodyDamages: ["bashing"],
-        healthLevelName: "unimpaired",
-        maxHealth: 7,
+        healthLevels,
+        isKindred: false,
         damageEvent: {
           type: "damage",
           damageType: "lethal",
@@ -31,8 +32,8 @@ describe("src/domain/damageHealth", () => {
     expect(
       damageHealth({
         bodyDamages: ["bashing", "lethal", "aggravated", "bashing"],
-        healthLevelName: "unimpaired",
-        maxHealth: 7,
+        healthLevels,
+        isKindred: false,
         damageEvent: {
           type: "damage",
           damageType: "lethal",
@@ -62,8 +63,8 @@ describe("src/domain/damageHealth", () => {
           "lethal",
           "lethal",
         ],
-        healthLevelName: "finalDeath",
-        maxHealth: 7,
+        healthLevels,
+        isKindred: false,
         damageEvent: {
           type: "damage",
           damageType: "lethal",

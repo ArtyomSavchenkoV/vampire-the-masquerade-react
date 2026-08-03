@@ -33,10 +33,9 @@ import { getDefinedEntries } from "utils/getDefinedEntries";
 import { Select } from "baseComponents/Select";
 import { humanityOrPathRatings } from "domain/HumanityOrPathRating";
 import { willpowerLevels } from "domain/Willpower";
-import { MAX_HEALTH } from "domain/human/Health";
-import { getHealthLevel } from "domain/Health";
-import { humanHealthLevels } from "data/humanHealthLevels";
+import { getHealthLevel, getHealthLevelTranslateKey } from "domain/Health";
 import { damageTypes } from "domain/Damage";
+import { humanHealthLevels, MAX_HEALTH } from "data/humanHealthLevels";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   human: Human;
@@ -147,7 +146,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={human.attributes.strength}
                 onChange={(value) => attributeChangeHandler("strength", value)}
@@ -162,7 +161,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={human.attributes.dexterity}
                 onChange={(value) => attributeChangeHandler("dexterity", value)}
@@ -177,7 +176,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={human.attributes.stamina}
                 onChange={(value) => attributeChangeHandler("stamina", value)}
@@ -200,7 +199,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={human.attributes.charisma}
                 onChange={(value) => attributeChangeHandler("charisma", value)}
@@ -215,7 +214,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={human.attributes.manipulation}
                 onChange={(value) =>
@@ -232,7 +231,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={human.attributes.appearance}
                 onChange={(value) =>
@@ -256,7 +255,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={human.attributes.perception}
                 onChange={(value) =>
@@ -272,7 +271,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={human.attributes.intelligence}
                 onChange={(value) =>
@@ -288,7 +287,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               <WithoutBorderSelect
                 options={baseAttributeLevels.map((value) => ({
                   value,
-                  name: translate(`baseAttributeLevels.${value}`),
+                  name: translate(`parametersEditLevels.${value}`),
                 }))}
                 value={human.attributes.wits}
                 onChange={(value) => attributeChangeHandler("wits", value)}
@@ -308,7 +307,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.athletics}
               onChange={(value) => abilityChangeHandler("athletics", value)}
@@ -319,7 +318,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.alertness}
               onChange={(value) => abilityChangeHandler("alertness", value)}
@@ -330,7 +329,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.brawl}
               onChange={(value) => abilityChangeHandler("brawl", value)}
@@ -341,7 +340,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.intimidation}
               onChange={(value) => abilityChangeHandler("intimidation", value)}
@@ -352,7 +351,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.expression}
               onChange={(value) => abilityChangeHandler("expression", value)}
@@ -363,7 +362,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.leadership}
               onChange={(value) => abilityChangeHandler("leadership", value)}
@@ -374,7 +373,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.streetwise}
               onChange={(value) => abilityChangeHandler("streetwise", value)}
@@ -385,7 +384,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.subterfuge}
               onChange={(value) => abilityChangeHandler("subterfuge", value)}
@@ -396,7 +395,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.awareness}
               onChange={(value) => abilityChangeHandler("awareness", value)}
@@ -407,7 +406,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.empathy}
               onChange={(value) => abilityChangeHandler("empathy", value)}
@@ -426,7 +425,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.drive}
               onChange={(value) => abilityChangeHandler("drive", value)}
@@ -437,7 +436,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.larceny}
               onChange={(value) => abilityChangeHandler("larceny", value)}
@@ -448,7 +447,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.survival}
               onChange={(value) => abilityChangeHandler("survival", value)}
@@ -459,7 +458,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.performance}
               onChange={(value) => abilityChangeHandler("performance", value)}
@@ -470,7 +469,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.animal_ken}
               onChange={(value) => abilityChangeHandler("animal_ken", value)}
@@ -481,7 +480,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.crafts}
               onChange={(value) => abilityChangeHandler("crafts", value)}
@@ -492,7 +491,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.stealth}
               onChange={(value) => abilityChangeHandler("stealth", value)}
@@ -503,7 +502,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.firearms}
               onChange={(value) => abilityChangeHandler("firearms", value)}
@@ -514,7 +513,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.melee}
               onChange={(value) => abilityChangeHandler("melee", value)}
@@ -525,7 +524,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.etiquette}
               onChange={(value) => abilityChangeHandler("etiquette", value)}
@@ -544,7 +543,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.academics}
               onChange={(value) => abilityChangeHandler("academics", value)}
@@ -555,7 +554,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.science}
               onChange={(value) => abilityChangeHandler("science", value)}
@@ -566,7 +565,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.law}
               onChange={(value) => abilityChangeHandler("law", value)}
@@ -577,7 +576,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.computer}
               onChange={(value) => abilityChangeHandler("computer", value)}
@@ -588,7 +587,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.medicine}
               onChange={(value) => abilityChangeHandler("medicine", value)}
@@ -599,7 +598,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.occult}
               onChange={(value) => abilityChangeHandler("occult", value)}
@@ -610,7 +609,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.politics}
               onChange={(value) => abilityChangeHandler("politics", value)}
@@ -621,7 +620,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.investigation}
               onChange={(value) => abilityChangeHandler("investigation", value)}
@@ -632,7 +631,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.finance}
               onChange={(value) => abilityChangeHandler("finance", value)}
@@ -643,7 +642,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={baseAbilityLevels.map((value) => ({
                 value,
-                name: translate(`baseAbilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.abilities.electronics}
               onChange={(value) => abilityChangeHandler("electronics", value)}
@@ -666,7 +665,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             }))}
             availableValues={backgroundLevels.map((level) => ({
               value: level,
-              name: translate(`backgroundLevels.${level}`),
+              name: translate(`parametersEditLevels.${level}`),
             }))}
             addTitle={translate("editBackgrounds.add")}
             deleteTitle={translate("editBackgrounds.delete")}
@@ -684,7 +683,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={mentalStabilityLevels.map((value) => ({
                 value,
-                name: translate(`mentalStabilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.mentalStability.morality}
               onChange={(value) => mentalStabilityHandler("morality", value)}
@@ -695,7 +694,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={mentalStabilityLevels.map((value) => ({
                 value,
-                name: translate(`mentalStabilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.mentalStability.selfControl}
               onChange={(value) => mentalStabilityHandler("selfControl", value)}
@@ -706,7 +705,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             <WithoutBorderSelect
               options={mentalStabilityLevels.map((value) => ({
                 value,
-                name: translate(`mentalStabilityLevels.${value}`),
+                name: translate(`parametersEditLevels.${value}`),
               }))}
               value={human.mentalStability.courage}
               onChange={(value) => mentalStabilityHandler("courage", value)}
@@ -826,7 +825,13 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
           </DetailsSectionTitle>
           <TitleText title={translate("createUnit.healthLevel")}>
             {translate(
-              `healthLevels.${getHealthLevel({ healthLevels: humanHealthLevels })(human.bodyDamages).name}`,
+              `healthLevels.${getHealthLevelTranslateKey(
+                getHealthLevel({
+                  healthLevels: humanHealthLevels,
+                  bodyDamages: human.bodyDamages,
+                  isKindred: false,
+                }),
+              )}`,
             )}
           </TitleText>
           {/* Раны */}
@@ -849,12 +854,11 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             addTitle={translate("editDamages.add")}
             deleteTitle={translate("editDamages.delete")}
             isOverflow={
-              getHealthLevel({ healthLevels: humanHealthLevels })(
-                human.bodyDamages,
-              ).name === "finalDeath" ||
-              getHealthLevel({ healthLevels: humanHealthLevels })(
-                human.bodyDamages,
-              ).name === "torpor"
+              getHealthLevel({
+                healthLevels: humanHealthLevels,
+                bodyDamages: human.bodyDamages,
+                isKindred: false,
+              }).name === "final"
             }
           />
         </>

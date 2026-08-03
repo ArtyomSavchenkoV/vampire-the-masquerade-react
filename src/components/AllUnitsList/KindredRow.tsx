@@ -5,9 +5,9 @@ import { CheckBox } from "baseComponents/CheckBox";
 import { useActions } from "store/selectors";
 import useTranslate from "services/translate/useTranslate";
 import { StyledRow } from "commonComponents/StyledRow";
-import { MAX_HEALTH } from "domain/kindred/Health";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
+import { MAX_HEALTH } from "data/kindredHealthLevels";
 
 interface TProps {
   id: string;
@@ -24,8 +24,8 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
   }
   return (
     <StyledRow
-      isFocused={kindredRow.isFocused}
-      onClick={() => selectUnit(kindredRow.isFocused ? null : id)}
+      isSelected={kindredRow.isSelected}
+      onClick={() => selectUnit(kindredRow.isSelected ? null : id)}
     >
       {/* Переключатель участия в сцене */}
       <Td>

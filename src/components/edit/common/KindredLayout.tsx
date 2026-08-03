@@ -35,35 +35,11 @@ const Divider = styled.div`
   background: #ccc;
   margin: 8px 0;
 `;
-
-const Attributes = styled.div<{ isSmallScreen: boolean }>(
-  ({ isSmallScreen }) => ({
-    display: "flex",
-    gap: 16,
-    ...(isSmallScreen ? { width: "100%", flexDirection: "column" } : {}),
-  }),
-);
-const Abilities = styled.div<{ isSmallScreen: boolean }>(
-  ({ isSmallScreen }) => ({
-    display: "flex",
-    gap: 16,
-    ...(isSmallScreen ? { width: "100%", flexDirection: "column" } : {}),
-  }),
-);
-const Advantages = styled.div<{ isSmallScreen: boolean }>(
-  ({ isSmallScreen }) => ({
-    display: "flex",
-    gap: 16,
-    ...(isSmallScreen ? { width: "100%", flexDirection: "column" } : {}),
-  }),
-);
-const BottomDiv = styled.div<{ isSmallScreen: boolean }>(
-  ({ isSmallScreen }) => ({
-    display: "flex",
-    gap: 16,
-    ...(isSmallScreen ? { width: "100%", flexDirection: "column" } : {}),
-  }),
-);
+const Section = styled.div<{ isSmallScreen: boolean }>(({ isSmallScreen }) => ({
+  display: "flex",
+  gap: 16,
+  ...(isSmallScreen ? { width: "100%", flexDirection: "column" } : {}),
+}));
 const List = styled(Card)<{ isSmallScreen: boolean }>(({ isSmallScreen }) => ({
   display: "flex",
   gap: 8,
@@ -135,26 +111,26 @@ export const KindredLayout: FC<TProps> = ({
           {kindredSocialPosition}
         </PersonDetails>
       </Header>
-      <Attributes isSmallScreen={isSmallScreen}>
+      <Section isSmallScreen={isSmallScreen}>
         <List isSmallScreen={isSmallScreen}>{physical}</List>
         <List isSmallScreen={isSmallScreen}>{social}</List>
         <List isSmallScreen={isSmallScreen}>{mental}</List>
-      </Attributes>
-      <Abilities isSmallScreen={isSmallScreen}>
+      </Section>
+      <Section isSmallScreen={isSmallScreen}>
         <List isSmallScreen={isSmallScreen}>{talents}</List>
         <List isSmallScreen={isSmallScreen}>{skills}</List>
         <List isSmallScreen={isSmallScreen}>{knowledges}</List>
-      </Abilities>
-      <Advantages isSmallScreen={isSmallScreen}>
+      </Section>
+      <Section isSmallScreen={isSmallScreen}>
         <List isSmallScreen={isSmallScreen}>{disciplines}</List>
         <List isSmallScreen={isSmallScreen}>{backgrounds}</List>
         <List isSmallScreen={isSmallScreen}>{mentalStability}</List>
-      </Advantages>
-      <BottomDiv isSmallScreen={isSmallScreen}>
+      </Section>
+      <Section isSmallScreen={isSmallScreen}>
         <List isSmallScreen={isSmallScreen}>{meritsAndFlaws}</List>
         <List isSmallScreen={isSmallScreen}>{centerBottom}</List>
         <List isSmallScreen={isSmallScreen}>{health}</List>
-      </BottomDiv>
+      </Section>
     </Page>
   );
 };

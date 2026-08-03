@@ -45,8 +45,9 @@ export const calculateChangebleParams = (
     (accum, change) => {
       const healthLevelName = getHealthLevel({
         healthLevels: [...data.healthLevels],
-      })(accum).name;
-      const maxHealth = data.healthLevels.length - 1;
+        bodyDamages: accum,
+        isKindred: false,
+      }).name;
       if (change.effect.type === "heal") {
         if (!change.effect.value) {
           return accum;
@@ -63,9 +64,9 @@ export const calculateChangebleParams = (
         }
         return damageHealth({
           bodyDamages: accum,
-          healthLevelName,
+          healthLevels: [...data.healthLevels],
           damageEvent: change.effect,
-          maxHealth,
+          isKindred: false,
         });
       }
       return accum as never;

@@ -1,6 +1,5 @@
 import { CheckBox } from "baseComponents/CheckBox";
 import { Td } from "baseComponents/Td";
-import { MAX_HEALTH } from "domain/human/Health";
 import { FC, memo } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useActions } from "store/selectors";
@@ -8,6 +7,7 @@ import { useHumanRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
+import { MAX_HEALTH } from "data/humanHealthLevels";
 
 interface TProps {
   id: string;
@@ -24,8 +24,8 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
   }
   return (
     <StyledRow
-      isFocused={humanRow.isFocused}
-      onClick={() => selectUnit(humanRow.isFocused ? null : id)}
+      isSelected={humanRow.isSelected}
+      onClick={() => selectUnit(humanRow.isSelected ? null : id)}
     >
       {/* Переключатель участия в сцене */}
       <Td>

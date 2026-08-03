@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useDetailsSelector } from "./selectors";
 import { KindredDetails } from "./KindredDetails";
 import { HumanDetails } from "./HumanDetails";
+import { CreatureDetails } from "./CreatureDetails";
 
 interface TProps {}
 
@@ -15,7 +16,9 @@ export const Details: FC<TProps> = () => {
       {selectedUnit?.type === "human" && (
         <HumanDetails selectedUnitId={selectedUnit.id} />
       )}
-      {selectedUnit?.type === "creature" && null}
+      {selectedUnit?.type === "creature" && (
+        <CreatureDetails selectedUnitId={selectedUnit.id} />
+      )}
     </>
   );
 };

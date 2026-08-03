@@ -4,12 +4,14 @@ describe("src/domain/kindred-getKinderedHealthLevel", () => {
   it("Персонаж полностью здоров", () => {
     expect(getKinderedHealthLevel([])).toEqual({
       name: "unimpaired",
+      isIncapacitated: false,
     });
   });
 
   it("Помят", () => {
     expect(getKinderedHealthLevel(["aggravated"])).toEqual({
       name: "battered",
+      isIncapacitated: false,
     });
   });
 
@@ -25,6 +27,7 @@ describe("src/domain/kindred-getKinderedHealthLevel", () => {
       ]),
     ).toEqual({
       name: "nearlyDown",
+      isIncapacitated: false,
       modifiers: {
         commonDiceBonus: -5,
       },
@@ -44,6 +47,7 @@ describe("src/domain/kindred-getKinderedHealthLevel", () => {
       ]),
     ).toEqual({
       name: "incapacitated",
+      isIncapacitated: true,
     });
   });
 
@@ -61,6 +65,7 @@ describe("src/domain/kindred-getKinderedHealthLevel", () => {
       ]),
     ).toEqual({
       name: "torpor",
+      isIncapacitated: true,
     });
   });
 
@@ -78,6 +83,7 @@ describe("src/domain/kindred-getKinderedHealthLevel", () => {
       ]),
     ).toEqual({
       name: "torpor",
+      isIncapacitated: true,
     });
   });
 
@@ -95,6 +101,7 @@ describe("src/domain/kindred-getKinderedHealthLevel", () => {
       ]),
     ).toEqual({
       name: "finalDeath",
+      isIncapacitated: true,
     });
   });
 });

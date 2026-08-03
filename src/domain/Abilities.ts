@@ -1,66 +1,69 @@
-export type AbilityName =
+export const abilityNames = [
   /** Атлетика */
-  | "athletics"
+  "athletics",
   /** Бдительность */
-  | "alertness"
+  "alertness",
   /** Драка */
-  | "brawl"
+  "brawl",
   /** Запугивание */
-  | "intimidation"
+  "intimidation",
   /** Красноречие */
-  | "expression" // в V20 часто "Expression" вместо "Eloquence"
+  "expression", // в V20 часто "Expression" вместо "Eloquence"
   /** Лидерство */
-  | "leadership"
+  "leadership",
   /** Уличное чутьё */
-  | "streetwise"
+  "streetwise",
   /** Хитрость */
-  | "subterfuge"
+  "subterfuge",
   /** Шестое чувство */
-  | "awareness"
+  "awareness",
   /** Эмпатия */
-  | "empathy"
+  "empathy",
 
   /** Вождение */
-  | "drive"
+  "drive",
   /** Воровство */
-  | "larceny"
+  "larceny",
   /** Выживание */
-  | "survival"
+  "survival",
   /** Исполнение (выступления, музыка, театр) */
-  | "performance"
+  "performance",
   /** Обращение с животными */
-  | "animal_ken"
+  "animal_ken",
   /** Ремесло */
-  | "crafts"
+  "crafts",
   /** Скрытность */
-  | "stealth"
+  "stealth",
   /** Стрельба */
-  | "firearms"
+  "firearms",
   /** Фехтование */
-  | "melee"
+  "melee",
 
   /** Этикет */
-  | "etiquette"
+  "etiquette",
   /** Гуманитарные науки */
-  | "academics"
+  "academics",
   /** Естественные науки */
-  | "science"
+  "science",
   /** Законы */
-  | "law"
+  "law",
   /** Информатика */
-  | "computer"
+  "computer",
   /** Медицина */
-  | "medicine"
+  "medicine",
   /** Оккультизм */
-  | "occult"
+  "occult",
   /** Политика */
-  | "politics"
+  "politics",
   /** Расследование */
-  | "investigation"
+  "investigation",
   /** Финансы */
-  | "finance"
+  "finance",
   /** Электроника */
-  | "electronics";
+  "electronics",
+] as const;
+
+export type AbilityName = ArrayElement<typeof abilityNames>;
 
 /** Допустимые базовые уровни абилок персонажа, без каких либо модиыикаторов */
 export const baseAbilityLevels = [0, 1, 2, 3, 4, 5] as const;

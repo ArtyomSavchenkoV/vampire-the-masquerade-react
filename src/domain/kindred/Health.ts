@@ -1,19 +1,14 @@
-import {
-  finalDeath,
-  torpor,
-  kindredHealthLevels,
-} from "data/kindredHealthLevels";
-import { DamageType } from "domain/Damage";
+import { kindredHealthLevels as healthLevels } from "data/kindredHealthLevels";
 import {
   DamageEvent,
   HealEvent,
   healHealth as commonHealHealth,
+  damageHealth as commonDamageHealth,
   HealthDamages,
   HealthLevelData,
   sortHealthDamages,
+  getHealthLevel,
 } from "domain/Health";
-
-export const MAX_HEALTH = kindredHealthLevels.length - 1;
 
 export type AwakeningEvent = {
   type: "torpor";
@@ -25,14 +20,11 @@ export type AwakeningEvent = {
 export const getKinderedHealthLevel = (
   bodyDamages: HealthDamages,
 ): HealthLevelData => {
-  if (bodyDamages.length > 7) {
-    if (bodyDamages[7] === "aggravated") {
-      return finalDeath;
-    } else {
-      return torpor;
-    }
-  }
-  return kindredHealthLevels[bodyDamages.length];
+  return getHealthLevel({
+    healthLevels,
+    bodyDamages,
+    isKindred: true,
+  });
 };
 
 /**
@@ -42,28 +34,12 @@ export const damageHealth = (
   bodyDamages: HealthDamages,
   damageEvent: DamageEvent,
 ): HealthDamages => {
-  const healthDamages = [...bodyDamages];
-  const healthLevelName = getKinderedHealthLevel(healthDamages).name;
-  // Тип наносимого урона
-  const damageType = damageEvent.damageType;
-  // Если финальная смерть - урон не применяется
-  if (healthLevelName === "finalDeath") {
-    return healthDamages;
-  }
-  // Если персонаж в отключке - он может получить урон "aggravated" и умереть окончательно
-  if (healthLevelName === "torpor" && damageType === "aggravated") {
-    healthDamages[7] = "aggravated";
-    return healthDamages;
-  }
-  // Доступные слоты урона
-  const availableCells = MAX_HEALTH - healthDamages.length;
-  // количество наносимого урона
-  const damageCount = damageEvent.value;
-  const damages = Array<DamageType>(
-    // персонаж получает урон не выше максимума (кроме финального) или 1 единицу финального урона при условии что damageCount не 0
-    (damageCount > availableCells ? availableCells : damageCount) || 1,
-  ).fill(damageType);
-  return [...healthDamages, ...damages];
+  return commonDamageHealth({
+    isKindred: true,
+    bodyDamages,
+    healthLevels,
+    damageEvent,
+  });
 };
 
 /**
@@ -86,8 +62,8 @@ export const healHealth = (
  */
 export const awakening = (bodyDamages: HealthDamages): HealthDamages => {
   const healthDamages = [...bodyDamages];
-  const healthLevelName = getKinderedHealthLevel(healthDamages).name;
-  if (healthLevelName !== "torpor") {
+  const healthLevel = getKinderedHealthLevel(healthDamages);
+  if (healthLevel.name !== "final" || healthLevel.variant !== "torpor") {
     return healthDamages;
   }
   // Выход из торпора снимает два последних повреждения (index 6 и 7)

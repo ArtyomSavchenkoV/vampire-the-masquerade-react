@@ -27,6 +27,7 @@ export const ru = {
     health: "Здоровье",
     healthLevel: "Уровень здоровья",
     damages: "Раны",
+    healthLevels: "Настройка уровней здоровья",
   },
   details: {
     title: "Карточка персонажа",
@@ -55,6 +56,8 @@ export const ru = {
     clan: "Клан",
     initialGeneration: "Исходное поколение",
     sire: "Сир",
+    attributes: "Характеристики",
+    abilities: "Способности",
     humanityOrPathRating: "Человечность/Путь",
     pillar: "Столп",
     maxWillpower: "Макс. запас воли",
@@ -167,6 +170,14 @@ export const ru = {
     generation: "Поколение",
     resources: "Богатство",
   },
+  editAttributes: {
+    add: "Характеристики",
+    delete: "Удалить?",
+  },
+  editAbilities: {
+    add: "Способности",
+    delete: "Удалить?",
+  },
   editDisciplines: {
     add: "Дисциплины",
     delete: "Удалить?",
@@ -182,6 +193,10 @@ export const ru = {
   },
   editDamages: {
     add: "Урон",
+    delete: "Удалить?",
+  },
+  editHealthLevels: {
+    add: "Уровни здоровья",
     delete: "Удалить?",
   },
   editInitiative: {
@@ -222,6 +237,7 @@ export const ru = {
     heavilyWounded: "Тяжело ранен",
     nearlyDown: "Едва жив",
     incapacitated: "Небоеспособен",
+    final: "Финальное состояние (torpor/Окончательная смерть)",
     torpor: "В отключке (torpor)",
     finalDeath: "Окончательная смерть",
   },
@@ -235,36 +251,8 @@ export const ru = {
     willpower: "Воля",
     bloodPool: "Запас крови",
   },
-  baseAttributeLevels: {
-    "1": "⚫⚪⚪⚪⚪",
-    "2": "⚫⚫⚪⚪⚪",
-    "3": "⚫⚫⚫⚪⚪",
-    "4": "⚫⚫⚫⚫⚪",
-    "5": "⚫⚫⚫⚫⚫",
-  },
-  baseAbilityLevels: {
+  parametersEditLevels: {
     "0": "⚪⚪⚪⚪⚪",
-    "1": "⚫⚪⚪⚪⚪",
-    "2": "⚫⚫⚪⚪⚪",
-    "3": "⚫⚫⚫⚪⚪",
-    "4": "⚫⚫⚫⚫⚪",
-    "5": "⚫⚫⚫⚫⚫",
-  },
-  disciplineLevels: {
-    "1": "⚫⚪⚪⚪⚪",
-    "2": "⚫⚫⚪⚪⚪",
-    "3": "⚫⚫⚫⚪⚪",
-    "4": "⚫⚫⚫⚫⚪",
-    "5": "⚫⚫⚫⚫⚫",
-  },
-  backgroundLevels: {
-    "1": "⚫⚪⚪⚪⚪",
-    "2": "⚫⚫⚪⚪⚪",
-    "3": "⚫⚫⚫⚪⚪",
-    "4": "⚫⚫⚫⚫⚪",
-    "5": "⚫⚫⚫⚫⚫",
-  },
-  mentalStabilityLevels: {
     "1": "⚫⚪⚪⚪⚪",
     "2": "⚫⚫⚪⚪⚪",
     "3": "⚫⚫⚫⚪⚪",

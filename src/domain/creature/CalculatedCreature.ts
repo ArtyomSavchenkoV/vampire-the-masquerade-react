@@ -1,5 +1,5 @@
-import { AbilityName, ModifiedAbilityLevel } from "domain/Abilities";
-import { AttributeName, ModifiedAttributeLevel } from "domain/Attributes";
+import { ModifiedAbilityLevel } from "domain/Abilities";
+import { ModifiedAttributeLevel } from "domain/Attributes";
 import { getHealthLevel } from "domain/Health";
 import { Modifiers, applyModifiers, mergeModifiers } from "domain/Modifiers";
 import { Creature } from "./Creature";
@@ -8,9 +8,12 @@ import { calculateChangebleParams } from "./ResourcesHistory";
 /**
  * Вычисленная модель существа
  */
+// Сначала берём всё кроме attributes/abilities, потом явно переопределяем их
 export type CalculatedCreature = Omit<Creature, "attributes" | "abilities"> & {
-  attributes: Record<AttributeName, ModifiedAttributeLevel>;
-  abilities: Record<AbilityName, ModifiedAbilityLevel>;
+  attributes: Partial<
+    Record<keyof Creature["attributes"], ModifiedAttributeLevel>
+  >;
+  abilities: Partial<Record<keyof Creature["abilities"], ModifiedAbilityLevel>>;
 } & Pick<Modifiers, "absorptionDice" | "commonDiceBonus">;
 
 /**
@@ -41,7 +44,9 @@ export const aggregateModifiers = (
   // Эффекты от здоровья
   const healthLevelModifiers = getHealthLevel({
     healthLevels: [...character.healthLevels],
-  })(character.bodyDamages).modifiers;
+    bodyDamages: character.bodyDamages,
+    isKindred: false,
+  }).modifiers;
   if (healthLevelModifiers) {
     result = mergeModifiers(result, healthLevelModifiers);
   }
@@ -52,9 +57,9 @@ export const aggregateModifiers = (
 /**
  * Вычисляет все текущие показатели
  */
-export const calculateCreature = (human: Creature): CalculatedCreature => {
+export const calculateCreature = (creature: Creature): CalculatedCreature => {
   // 1. Начинаем строить вычисленную модель. Сразу делаем копию, чтобы не мутировать оригинал.
-  const calculated: CalculatedCreature = { ...human };
+  const calculated: CalculatedCreature = { ...creature };
 
   // 2. Применение изменений ресурсов из историй
   const changebleParams = calculateChangebleParams(calculated);
@@ -66,9 +71,12 @@ export const calculateCreature = (human: Creature): CalculatedCreature => {
 
   // 4. Объединяем результаты. Используем spread, чтобы не менять объекты attributes/abilities напрямую.
   return {
+    // Копируем базовые поля Creature (кроме attributes/abilities — они будут перезаписаны)
     ...calculated,
+    // Перезаписываем attributes и abilities вычисленными значениями
     attributes: { ...calculated.attributes, ...changedParameters.attributes },
     abilities: { ...calculated.abilities, ...changedParameters.abilities },
+    // Добавляем поля из модификаторов
     absorptionDice: modifiers.absorptionDice,
     commonDiceBonus: modifiers.commonDiceBonus,
   };

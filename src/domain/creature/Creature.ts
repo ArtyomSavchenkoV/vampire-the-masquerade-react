@@ -15,9 +15,9 @@ export interface Creature {
   /** Игрок */
   player: string | null;
   /** Характеристики */
-  attributes: Record<AttributeName, BaseAttributeLevel>;
+  attributes: Partial<Record<AttributeName, BaseAttributeLevel>>;
   /** Способности */
-  abilities: Record<AbilityName, BaseAbilityLevel>;
+  abilities: Partial<Record<AbilityName, BaseAbilityLevel>>;
   /** Ментальные устойчивости */
   mentalStability: Record<MentalStability, MentalStabilityLevel>;
   /** Воля (Willpower) — текущий запас кубиков воли */

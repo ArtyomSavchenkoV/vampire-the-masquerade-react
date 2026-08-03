@@ -23,12 +23,7 @@ const Names = styled.div`
   flex-direction: column;
   gap: 8px;
 `;
-const PersonDetails = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
+
 const Section = styled.div<{ isSmallScreen: boolean }>(({ isSmallScreen }) => ({
   display: "flex",
   gap: 16,
@@ -44,41 +39,25 @@ const List = styled(Card)<{ isSmallScreen: boolean }>(({ isSmallScreen }) => ({
 interface TProps extends HTMLAttributes<HTMLDivElement> {
   name: ReactNode;
   player: ReactNode;
-  chronicle: ReactNode;
-  personality: ReactNode;
   // Характеристики
-  physical: ReactNode;
-  social: ReactNode;
-  mental: ReactNode;
-  // Способности
-  talents: ReactNode;
-  skills: ReactNode;
-  knowledges: ReactNode;
-  // Преимущества
-  backgrounds: ReactNode;
+  attributes: ReactNode;
+  abilities: ReactNode;
   mentalStability: ReactNode;
   // Нижний блок
-  meritsAndFlaws: ReactNode;
-  centerBottom: ReactNode;
+  willpower: ReactNode;
   health: ReactNode;
+  healthLevels: ReactNode;
 }
 
-export const HumanLayout: FC<TProps> = ({
+export const CreatureLayout: FC<TProps> = ({
   name,
   player,
-  chronicle,
-  personality,
-  physical,
-  social,
-  mental,
-  talents,
-  skills,
-  knowledges,
-  backgrounds,
+  attributes,
+  abilities,
   mentalStability,
-  meritsAndFlaws,
-  centerBottom,
+  willpower,
   health,
+  healthLevels,
   ...props
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -93,28 +72,17 @@ export const HumanLayout: FC<TProps> = ({
         <Names>
           <div>{name}</div>
           <div>{player}</div>
-          <div>{chronicle}</div>
         </Names>
-        <PersonDetails>{personality}</PersonDetails>
       </Header>
       <Section isSmallScreen={isSmallScreen}>
-        <List isSmallScreen={isSmallScreen}>{physical}</List>
-        <List isSmallScreen={isSmallScreen}>{social}</List>
-        <List isSmallScreen={isSmallScreen}>{mental}</List>
-      </Section>
-      <Section isSmallScreen={isSmallScreen}>
-        <List isSmallScreen={isSmallScreen}>{talents}</List>
-        <List isSmallScreen={isSmallScreen}>{skills}</List>
-        <List isSmallScreen={isSmallScreen}>{knowledges}</List>
-      </Section>
-      <Section isSmallScreen={isSmallScreen}>
-        <List isSmallScreen={isSmallScreen}>{meritsAndFlaws}</List>
-        <List isSmallScreen={isSmallScreen}>{backgrounds}</List>
+        <List isSmallScreen={isSmallScreen}>{attributes}</List>
+        <List isSmallScreen={isSmallScreen}>{abilities}</List>
         <List isSmallScreen={isSmallScreen}>{mentalStability}</List>
       </Section>
       <Section isSmallScreen={isSmallScreen}>
-        <List isSmallScreen={isSmallScreen}>{centerBottom}</List>
+        <List isSmallScreen={isSmallScreen}>{willpower}</List>
         <List isSmallScreen={isSmallScreen}>{health}</List>
+        <List isSmallScreen={isSmallScreen}>{healthLevels}</List>
       </Section>
     </Page>
   );

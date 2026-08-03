@@ -67,7 +67,7 @@ describe("src/domain/healHealth", () => {
     expect(
       healHealth({
         bodyDamages: healthDamages,
-        healthLevelName: "finalDeath",
+        healthLevelName: "final",
         healEvent: {
           type: "heal",
           damageType: "aggravated",
