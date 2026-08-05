@@ -1,7 +1,7 @@
 import { AddElementButton } from "commonComponents/editPersonForm/AddElementButton";
 import { RemoveElementButton } from "commonComponents/editPersonForm/RemoveElementButton";
 import { TitleText } from "commonComponents/TitleText";
-import { healthLevels as healthLevelsData } from "data/healthLevels";
+import { hasModifiers, healthLevels as healthLevelsData } from "domain/Health";
 import { getHealthLevelTranslateKey, HealthLevelData } from "domain/Health";
 import { FC, useMemo } from "react";
 import useTranslate from "services/translate/useTranslate";
@@ -33,13 +33,6 @@ export const EditHealthLevels: FC<TProps> = ({
               !healthLevels.some((el) => el.name === healthLevelData.name),
           )
       ).map((healthLevelData) => {
-        function hasModifiers(
-          state: typeof healthLevelData,
-        ): state is typeof healthLevelData & {
-          modifiers: { commonDiceBonus?: number };
-        } {
-          return "modifiers" in state;
-        }
         const commonDiceBonus = hasModifiers(healthLevelData)
           ? healthLevelData.modifiers.commonDiceBonus
           : null;
@@ -90,12 +83,13 @@ export const EditHealthLevels: FC<TProps> = ({
       ) && <TitleText title={translate("healthLevels.unimpaired")} />}
 
       {healthLevelsValues.map((healthLevelData, index) => {
+        const commonDiceBonus = hasModifiers(healthLevelData)
+          ? healthLevelData.modifiers.commonDiceBonus
+          : null;
         return (
           <TitleText
             key={allowDuplicates ? index : healthLevelData.name}
-            title={translate(
-              `healthLevels.${getHealthLevelTranslateKey(healthLevelData)}`,
-            )}
+            title={`${translate(`healthLevels.${healthLevelData.name}`)}${commonDiceBonus ? ` (${commonDiceBonus})` : ""}`}
           >
             <RemoveElementButton
               onDelete={() => {

@@ -1,15 +1,8 @@
 import { ResourceHistory } from "domain/ResourceHistory";
 import { Human } from "./Human";
-import {
-  DamageEvent,
-  damageHealth,
-  getHealthLevel,
-  HealEvent,
-  healHealth,
-  HealthDamages,
-} from "domain/Health";
+import { DamageEvent, HealEvent, HealthDamages } from "domain/Health";
 import { numberToMaxMinDiapason } from "utils/numberToMaxminDiapason";
-import { healthLevels } from "data/healthLevels";
+import { damageHumanHealth, healHumanHealth } from "./Health";
 
 export type HealthHistory = HealEvent | DamageEvent;
 
@@ -40,31 +33,17 @@ export const calculateChangebleParams = (
 
   const bodyDamages = sortedHealthHistory.reduce<HealthDamages>(
     (accum, change) => {
-      const healthLevelName = getHealthLevel({
-        healthLevels,
-        bodyDamages: accum,
-        isKindred: false,
-      }).name;
       if (change.effect.type === "heal") {
         if (!change.effect.value) {
           return accum;
         }
-        return healHealth({
-          bodyDamages: accum,
-          healthLevelName,
-          healEvent: change.effect,
-        });
+        return healHumanHealth(accum, change.effect);
       }
       if (change.effect.type === "damage") {
         if (!change.effect.value) {
           return accum;
         }
-        return damageHealth({
-          bodyDamages: accum,
-          healthLevels,
-          damageEvent: change.effect,
-          isKindred: false,
-        });
+        return damageHumanHealth(accum, change.effect);
       }
       return accum as never;
     },

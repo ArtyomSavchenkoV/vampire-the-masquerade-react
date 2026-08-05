@@ -2,6 +2,90 @@ import { DamageType } from "./Damage";
 import { Modifiers } from "./Modifiers";
 
 /**
+ * Список уровней здоровья
+ */
+export const healthLevels = [
+  /** Персонаж полностью здоров. */
+  {
+    name: "unimpaired",
+    isIncapacitated: false,
+  },
+  /** Помят — небольшие ушибы и ссадины. */
+  {
+    name: "battered",
+    isIncapacitated: false,
+  },
+  /** Легко ранен — раны мешают действовать, появляются штрафы. */
+  {
+    name: "lightlyWounded",
+    isIncapacitated: false,
+    modifiers: {
+      commonDiceBonus: -1,
+    },
+  },
+  /** Ранен — раны мешают действовать. */
+  {
+    name: "wounded",
+    isIncapacitated: false,
+    modifiers: {
+      commonDiceBonus: -1,
+    },
+  },
+  /** Серьёзно ранен */
+  {
+    name: "seriouslyWounded",
+    isIncapacitated: false,
+    modifiers: {
+      commonDiceBonus: -2,
+    },
+  },
+  /** Тяжело ранен */
+  {
+    name: "heavilyWounded",
+    isIncapacitated: false,
+    modifiers: {
+      commonDiceBonus: -2,
+    },
+  },
+  /** Едва жив — персонаж почти не способен двигаться. */
+  {
+    name: "nearlyDown",
+    isIncapacitated: false,
+    modifiers: {
+      commonDiceBonus: -5,
+    },
+  },
+  /** Небоеспособен. — на грани потери сознания и смерти. */
+  {
+    name: "incapacitated",
+    isIncapacitated: true,
+  },
+  /** Окончательная смерть. */
+  {
+    name: "final",
+    isIncapacitated: true,
+    variant: "death",
+  },
+] as const;
+
+/**
+ * Названия уровней здоровья
+ */
+export type HealthLevelName = (typeof healthLevels)[number]["name"];
+
+/**
+ * Получить ключ перевода
+ */
+export const getHealthLevelTranslateKey = (
+  healthLevelData: HealthLevelData,
+): Exclude<HealthLevelName, "final"> | "torpor" | "finalDeath" =>
+  healthLevelData.name !== "final"
+    ? healthLevelData.name
+    : healthLevelData.variant === "torpor"
+      ? "torpor"
+      : "finalDeath";
+
+/**
  * Данные полученного урона
  */
 export type HealthDamages = DamageType[];
@@ -22,31 +106,6 @@ export const sortHealthDamages = (
   return [...healthDamages].sort((a, b) => order[a] - order[b]);
 };
 
-/**
- * Уровни здоровья по правилам V20.
- */
-export const healthLevelNames = [
-  /** Персонаж полностью здоров. */
-  "unimpaired",
-  /** Помят — Лёгкий дискомфорт, почти не мешает. */
-  "battered",
-  /** Легко ранен — Заметные травмы, небольшие штрафы. */
-  "lightlyWounded",
-  /** Ранен — Существенные травмы, небольшие штрафы. */
-  "wounded",
-  /** Серьёзно ранен — Серьёзные травмы, ощутимые штрафы */
-  "seriouslyWounded",
-  /** Тяжело ранен — Тяжёлые травмы, ощутимые штрафы */
-  "heavilyWounded",
-  /** Едва жив — персонаж почти не способен двигаться. */
-  "nearlyDown",
-  /** Небоеспособен. — на грани потери сознания и смерти. */
-  "incapacitated",
-  /** Окончательная смерть/torpor */
-  "final",
-] as const;
-export type HealthLevelName = ArrayElement<typeof healthLevelNames>;
-
 export type HealthLevelData =
   | {
       name: Exclude<HealthLevelName, "final">;
@@ -60,6 +119,17 @@ export type HealthLevelData =
       variant: "death" | "torpor";
       modifiers?: Modifiers;
     };
+
+/**
+ * Проверка что в уровне есть модификаторы
+ */
+export const hasModifiers = (
+  state: HealthLevelData,
+): state is HealthLevelData & {
+  modifiers: { commonDiceBonus?: number };
+} => {
+  return "modifiers" in state;
+};
 
 /** Полученное лечение */
 export interface HealEvent {
@@ -80,16 +150,13 @@ export interface DamageEvent {
 
 /**
  * Получить данные о здоровье.
+ * Не использовать напрямую! Только функцию из папки типа персонажа!
  */
-export const getHealthLevel = ({
-  healthLevels,
-  bodyDamages,
-  isKindred,
-}: {
-  healthLevels: Readonly<HealthLevelData[]>;
-  bodyDamages: HealthDamages;
-  isKindred: boolean;
-}): HealthLevelData => {
+export const getHealthLevel = (
+  healthLevels: Readonly<HealthLevelData[]>,
+  bodyDamages: HealthDamages,
+  isKindred: boolean,
+): HealthLevelData => {
   const getVariant = (
     healthLevelData: HealthLevelData,
     damageType: DamageType,
@@ -126,36 +193,20 @@ export const getHealthLevel = ({
 };
 
 /**
- * Получить ключ перевода
- */
-export const getHealthLevelTranslateKey = (
-  healthLevelData: HealthLevelData,
-): Exclude<HealthLevelName, "final"> | "torpor" | "finalDeath" =>
-  healthLevelData.name !== "final"
-    ? healthLevelData.name
-    : healthLevelData.variant === "torpor"
-      ? "torpor"
-      : "finalDeath";
-
-/**
  * Применение урона
+ * Не использовать напрямую! Только функцию из папки типа персонажа!
  */
-export const damageHealth = ({
-  isKindred,
-  bodyDamages,
-  healthLevels,
-  damageEvent,
-}: {
-  isKindred: boolean;
-  bodyDamages: HealthDamages;
-  healthLevels: Readonly<HealthLevelData[]>;
-  damageEvent: DamageEvent;
-}): HealthDamages => {
+export const damageHealth = (
+  healthLevels: Readonly<HealthLevelData[]>,
+  bodyDamages: HealthDamages,
+  damageEvent: DamageEvent,
+  isKindred: boolean,
+): HealthDamages => {
   const healthDamages = [...bodyDamages];
   // Максимальное количество элементов урона
   const maxDamages = healthLevels.length - 1; // 0 элемент healthLevels - это состояние "Здоров"
   // Текущий уровень здоровья
-  const healthLevel = getHealthLevel({ healthLevels, bodyDamages, isKindred });
+  const healthLevel = getHealthLevel(healthLevels, bodyDamages, isKindred);
   // Тип наносимого урона
   const damageType = damageEvent.damageType;
   // Если финальный урон
@@ -169,7 +220,13 @@ export const damageHealth = ({
     return healthDamages;
   }
   // Доступные слоты урона
-  const availableCells = maxDamages - healthDamages.length;
+  const availableCells = isKindred
+    ? // Сородич не может получить финальный урон из "пачки цифр",
+      // поэтому уменьшаем количество доступных слотов на 1, если количество доступних слотов и так  1 - оставляем как есть
+      maxDamages - bodyDamages.length > 1
+      ? maxDamages - bodyDamages.length - 1
+      : maxDamages - bodyDamages.length
+    : maxDamages - bodyDamages.length;
   // количество наносимого урона
   const damageCount = damageEvent.value;
 
@@ -183,16 +240,13 @@ export const damageHealth = ({
 
 /**
  * применение исцеления
+ * Не использовать напрямую! Только функцию из папки типа персонажа!
  */
-export const healHealth = ({
-  bodyDamages,
-  healthLevelName,
-  healEvent,
-}: {
-  bodyDamages: HealthDamages;
-  healthLevelName: HealthLevelName;
-  healEvent: HealEvent;
-}): HealthDamages => {
+export const healHealth = (
+  bodyDamages: HealthDamages,
+  healthLevelName: HealthLevelName,
+  healEvent: HealEvent,
+): HealthDamages => {
   const healthDamages = [...bodyDamages];
   // количество исцеления
   const healCount = healEvent.value;

@@ -64,8 +64,9 @@ describe("src/domain/kindred-getKinderedHealthLevel", () => {
         "bashing",
       ]),
     ).toEqual({
-      name: "torpor",
+      name: "final",
       isIncapacitated: true,
+      variant: "torpor",
     });
   });
 
@@ -82,8 +83,9 @@ describe("src/domain/kindred-getKinderedHealthLevel", () => {
         "lethal",
       ]),
     ).toEqual({
-      name: "torpor",
+      name: "final",
       isIncapacitated: true,
+      variant: "torpor",
     });
   });
 
@@ -100,8 +102,9 @@ describe("src/domain/kindred-getKinderedHealthLevel", () => {
         "aggravated",
       ]),
     ).toEqual({
-      name: "finalDeath",
+      name: "final",
       isIncapacitated: true,
+      variant: "death",
     });
   });
 });

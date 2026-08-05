@@ -28,22 +28,14 @@ describe("src/domain/getHealthLevel", () => {
   ] as const satisfies Readonly<HealthLevelData[]>;
 
   it("Персонаж полностью здоров", () => {
-    expect(
-      getHealthLevel({ healthLevels, isKindred: false, bodyDamages: [] }),
-    ).toEqual({
+    expect(getHealthLevel(healthLevels, [], false)).toEqual({
       name: "unimpaired",
       isIncapacitated: false,
     });
   });
 
   it("Ранен", () => {
-    expect(
-      getHealthLevel({
-        healthLevels,
-        isKindred: false,
-        bodyDamages: ["aggravated"],
-      }),
-    ).toEqual({
+    expect(getHealthLevel(healthLevels, ["aggravated"], false)).toEqual({
       name: "wounded",
       isIncapacitated: false,
       modifiers: {
@@ -54,11 +46,7 @@ describe("src/domain/getHealthLevel", () => {
 
   it("Едва жив", () => {
     expect(
-      getHealthLevel({
-        healthLevels,
-        isKindred: false,
-        bodyDamages: ["aggravated", "aggravated"],
-      }),
+      getHealthLevel(healthLevels, ["aggravated", "aggravated"], false),
     ).toEqual({
       name: "nearlyDown",
       isIncapacitated: false,
@@ -70,11 +58,11 @@ describe("src/domain/getHealthLevel", () => {
 
   it("Окончательная смерть.", () => {
     expect(
-      getHealthLevel({
+      getHealthLevel(
         healthLevels,
-        isKindred: false,
-        bodyDamages: ["aggravated", "aggravated", "aggravated"],
-      }),
+        ["aggravated", "aggravated", "aggravated"],
+        false,
+      ),
     ).toEqual({
       name: "final",
       isIncapacitated: true,

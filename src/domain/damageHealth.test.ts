@@ -1,45 +1,48 @@
-import { healthLevels } from "data/healthLevels";
-import { damageHealth } from "./Health";
+import { damageHealth, healthLevels as dataHealthLevels } from "./Health";
 
 describe("src/domain/damageHealth", () => {
+  const healthLevels = dataHealthLevels.filter(
+    ({ name }) => name !== "incapacitated",
+  );
   it("Урон по полному здоровью", () => {
     expect(
-      damageHealth({
-        bodyDamages: [],
+      damageHealth(
         healthLevels,
-        isKindred: false,
-        damageEvent: { type: "damage", damageType: "bashing", value: 3 },
-      }),
+        [],
+        { type: "damage", damageType: "bashing", value: 3 },
+        false,
+      ),
     ).toEqual(["bashing", "bashing", "bashing"]);
   });
 
   it("Урон по не полному здоровью", () => {
     expect(
-      damageHealth({
-        bodyDamages: ["bashing"],
+      damageHealth(
         healthLevels,
-        isKindred: false,
-        damageEvent: {
+        ["bashing"],
+        {
           type: "damage",
           damageType: "lethal",
           value: 3,
         },
-      }),
+        false,
+      ),
     ).toEqual(["bashing", "lethal", "lethal", "lethal"]);
   });
 
   it("Избыточный урон", () => {
+    expect(healthLevels.length).toBe(8);
     expect(
-      damageHealth({
-        bodyDamages: ["bashing", "lethal", "aggravated", "bashing"],
+      damageHealth(
         healthLevels,
-        isKindred: false,
-        damageEvent: {
+        ["bashing", "lethal", "aggravated", "bashing"],
+        {
           type: "damage",
           damageType: "lethal",
           value: 6,
         },
-      }),
+        false,
+      ),
     ).toEqual([
       "bashing",
       "lethal",
@@ -53,8 +56,9 @@ describe("src/domain/damageHealth", () => {
 
   it("Урон по погибшему персонажу", () => {
     expect(
-      damageHealth({
-        bodyDamages: [
+      damageHealth(
+        healthLevels,
+        [
           "bashing",
           "lethal",
           "aggravated",
@@ -63,14 +67,13 @@ describe("src/domain/damageHealth", () => {
           "lethal",
           "lethal",
         ],
-        healthLevels,
-        isKindred: false,
-        damageEvent: {
+        {
           type: "damage",
           damageType: "lethal",
           value: 6,
         },
-      }),
+        false,
+      ),
     ).toEqual([
       "bashing",
       "lethal",

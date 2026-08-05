@@ -1,9 +1,9 @@
 import { ModifiedAbilityLevel } from "domain/Abilities";
 import { ModifiedAttributeLevel } from "domain/Attributes";
-import { getHealthLevel } from "domain/Health";
 import { Modifiers, applyModifiers, mergeModifiers } from "domain/Modifiers";
 import { Creature } from "./Creature";
 import { calculateChangebleParams } from "./ResourcesHistory";
+import { getCreatureHealthLevel } from "./Health";
 
 /**
  * Вычисленная модель существа
@@ -42,11 +42,10 @@ export const aggregateModifiers = (
   }
 
   // Эффекты от здоровья
-  const healthLevelModifiers = getHealthLevel({
-    healthLevels: [...character.healthLevels],
-    bodyDamages: character.bodyDamages,
-    isKindred: false,
-  }).modifiers;
+  const healthLevelModifiers = getCreatureHealthLevel(
+    [...character.healthLevels],
+    character.bodyDamages,
+  ).modifiers;
   if (healthLevelModifiers) {
     result = mergeModifiers(result, healthLevelModifiers);
   }

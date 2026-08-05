@@ -33,9 +33,10 @@ import { getDefinedEntries } from "utils/getDefinedEntries";
 import { Select } from "baseComponents/Select";
 import { humanityOrPathRatings } from "domain/HumanityOrPathRating";
 import { willpowerLevels } from "domain/Willpower";
-import { getHealthLevel, getHealthLevelTranslateKey } from "domain/Health";
+import { getHealthLevelTranslateKey } from "domain/Health";
 import { damageTypes } from "domain/Damage";
-import { humanHealthLevels, MAX_HEALTH } from "data/humanHealthLevels";
+import { MAX_HEALTH } from "data/humanHealthLevels";
+import { getHumanHealthLevel } from "domain/human/Health";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   human: Human;
@@ -826,11 +827,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
           <TitleText title={translate("createUnit.healthLevel")}>
             {translate(
               `healthLevels.${getHealthLevelTranslateKey(
-                getHealthLevel({
-                  healthLevels: humanHealthLevels,
-                  bodyDamages: human.bodyDamages,
-                  isKindred: false,
-                }),
+                getHumanHealthLevel(human.bodyDamages),
               )}`,
             )}
           </TitleText>
@@ -853,13 +850,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             allowDuplicates
             addTitle={translate("editDamages.add")}
             deleteTitle={translate("editDamages.delete")}
-            isOverflow={
-              getHealthLevel({
-                healthLevels: humanHealthLevels,
-                bodyDamages: human.bodyDamages,
-                isKindred: false,
-              }).name === "final"
-            }
+            isOverflow={getHumanHealthLevel(human.bodyDamages).name === "final"}
           />
         </>
       }

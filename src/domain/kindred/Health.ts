@@ -20,11 +20,7 @@ export type AwakeningEvent = {
 export const getKinderedHealthLevel = (
   bodyDamages: HealthDamages,
 ): HealthLevelData => {
-  return getHealthLevel({
-    healthLevels,
-    bodyDamages,
-    isKindred: true,
-  });
+  return getHealthLevel(healthLevels, bodyDamages, true);
 };
 
 /**
@@ -34,12 +30,7 @@ export const damageHealth = (
   bodyDamages: HealthDamages,
   damageEvent: DamageEvent,
 ): HealthDamages => {
-  return commonDamageHealth({
-    isKindred: true,
-    bodyDamages,
-    healthLevels,
-    damageEvent,
-  });
+  return commonDamageHealth(healthLevels, bodyDamages, damageEvent, true);
 };
 
 /**
@@ -50,11 +41,7 @@ export const healHealth = (
   healEvent: HealEvent,
 ): HealthDamages => {
   const healthLevelName = getKinderedHealthLevel(bodyDamages).name;
-  return commonHealHealth({
-    bodyDamages,
-    healthLevelName,
-    healEvent,
-  });
+  return commonHealHealth(bodyDamages, healthLevelName, healEvent);
 };
 
 /**

@@ -1,14 +1,8 @@
 import { ResourceHistory } from "domain/ResourceHistory";
 import { Creature } from "./Creature";
-import {
-  DamageEvent,
-  damageHealth,
-  getHealthLevel,
-  HealEvent,
-  healHealth,
-  HealthDamages,
-} from "domain/Health";
+import { DamageEvent, HealEvent, HealthDamages } from "domain/Health";
 import { numberToMaxMinDiapason } from "utils/numberToMaxminDiapason";
+import { damageCreatureHealth, healCreatureHealth } from "./Health";
 
 export type HealthHistory = HealEvent | DamageEvent;
 
@@ -43,31 +37,21 @@ export const calculateChangebleParams = (
 
   const bodyDamages = sortedHealthHistory.reduce<HealthDamages>(
     (accum, change) => {
-      const healthLevelName = getHealthLevel({
-        healthLevels: [...data.healthLevels],
-        bodyDamages: accum,
-        isKindred: false,
-      }).name;
       if (change.effect.type === "heal") {
         if (!change.effect.value) {
           return accum;
         }
-        return healHealth({
-          bodyDamages: accum,
-          healthLevelName,
-          healEvent: change.effect,
-        });
+        return healCreatureHealth([...data.healthLevels], accum, change.effect);
       }
       if (change.effect.type === "damage") {
         if (!change.effect.value) {
           return accum;
         }
-        return damageHealth({
-          bodyDamages: accum,
-          healthLevels: [...data.healthLevels],
-          damageEvent: change.effect,
-          isKindred: false,
-        });
+        return damageCreatureHealth(
+          [...data.healthLevels],
+          accum,
+          change.effect,
+        );
       }
       return accum as never;
     },

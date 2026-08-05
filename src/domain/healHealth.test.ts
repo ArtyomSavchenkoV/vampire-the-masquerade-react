@@ -13,66 +13,50 @@ describe("src/domain/healHealth", () => {
   ] satisfies HealthDamages;
   it("Вылечен", () => {
     expect(
-      healHealth({
-        bodyDamages: [],
-        healthLevelName: "unimpaired",
-        healEvent: { type: "heal", damageType: "bashing", value: 2 },
+      healHealth([], "unimpaired", {
+        type: "heal",
+        damageType: "bashing",
+        value: 2,
       }),
     ).toEqual([]);
   });
 
   it("bashing", () => {
     expect(
-      healHealth({
-        bodyDamages: healthDamages,
-        healthLevelName: "heavilyWounded",
-        healEvent: {
-          type: "heal",
-          damageType: "bashing",
-          value: 8,
-        },
+      healHealth(healthDamages, "heavilyWounded", {
+        type: "heal",
+        damageType: "bashing",
+        value: 8,
       }),
     ).toEqual(["aggravated", "lethal", "lethal", "lethal"]);
   });
 
   it("lethal", () => {
     expect(
-      healHealth({
-        bodyDamages: healthDamages,
-        healthLevelName: "heavilyWounded",
-        healEvent: {
-          type: "heal",
-          damageType: "lethal",
-          value: 5,
-        },
+      healHealth(healthDamages, "heavilyWounded", {
+        type: "heal",
+        damageType: "lethal",
+        value: 5,
       }),
     ).toEqual(["aggravated", "bashing"]);
   });
 
   it("aggravated", () => {
     expect(
-      healHealth({
-        bodyDamages: healthDamages,
-        healthLevelName: "heavilyWounded",
-        healEvent: {
-          type: "heal",
-          damageType: "aggravated",
-          value: 6,
-        },
+      healHealth(healthDamages, "heavilyWounded", {
+        type: "heal",
+        damageType: "aggravated",
+        value: 6,
       }),
     ).toEqual(["bashing"]);
   });
 
   it("Лечение в конечном статусе не возможно", () => {
     expect(
-      healHealth({
-        bodyDamages: healthDamages,
-        healthLevelName: "final",
-        healEvent: {
-          type: "heal",
-          damageType: "aggravated",
-          value: 6,
-        },
+      healHealth(healthDamages, "final", {
+        type: "heal",
+        damageType: "aggravated",
+        value: 6,
       }),
     ).toEqual([...healthDamages]);
   });

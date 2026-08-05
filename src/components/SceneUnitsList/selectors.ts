@@ -1,5 +1,5 @@
-import { healthLevels } from "data/healthLevels";
-import { getHealthLevel } from "domain/Health";
+import { getCreatureHealthLevel } from "domain/creature/Health";
+import { getHumanHealthLevel } from "domain/human/Health";
 import { getKinderedHealthLevel } from "domain/kindred/Health";
 import { useMemo } from "react";
 import {
@@ -66,11 +66,8 @@ export const useHumanRowSelector = (id: string) => {
       player: calculatedHuman.player,
       willpower: calculatedHuman.willpower,
       bodyDamages: calculatedHuman.bodyDamages,
-      isIncapacitated: getHealthLevel({
-        healthLevels: healthLevels,
-        bodyDamages: calculatedHuman.bodyDamages,
-        isKindred: false,
-      }).isIncapacitated,
+      isIncapacitated: getHumanHealthLevel(calculatedHuman.bodyDamages)
+        .isIncapacitated,
     };
   }, [id, selectedUnitId, sceneUnits, calculatedHuman]);
 
@@ -94,11 +91,10 @@ export const useCreatureRowSelector = (id: string) => {
       willpower: calculatedCreature.willpower,
       bodyDamages: calculatedCreature.bodyDamages,
       maxHealth: calculatedCreature.healthLevels.length - 1,
-      isIncapacitated: getHealthLevel({
-        healthLevels: healthLevels,
-        bodyDamages: calculatedCreature.bodyDamages,
-        isKindred: false,
-      }).isIncapacitated,
+      isIncapacitated: getCreatureHealthLevel(
+        calculatedCreature.healthLevels,
+        calculatedCreature.bodyDamages,
+      ).isIncapacitated,
     };
   }, [id, selectedUnitId, sceneUnits, calculatedCreature]);
 

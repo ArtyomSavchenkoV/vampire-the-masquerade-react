@@ -19,8 +19,9 @@ import { Select } from "baseComponents/Select";
 import { willpowerLevels } from "domain/Willpower";
 import { ArrayEditor } from "commonComponents/ArrayEditor";
 import { damageTypes } from "domain/Damage";
-import { getHealthLevel, getHealthLevelTranslateKey } from "domain/Health";
+import { getHealthLevelTranslateKey } from "domain/Health";
 import { EditHealthLevels } from "./common/EditHealthLevels";
+import { getCreatureHealthLevel } from "domain/creature/Health";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   creature: Creature;
@@ -195,11 +196,10 @@ export const EditCreatureForm: FC<TProps> = ({
           <TitleText title={translate("createUnit.healthLevel")}>
             {translate(
               `healthLevels.${getHealthLevelTranslateKey(
-                getHealthLevel({
-                  healthLevels: creature.healthLevels,
-                  bodyDamages: creature.bodyDamages,
-                  isKindred: false,
-                }),
+                getCreatureHealthLevel(
+                  creature.healthLevels,
+                  creature.bodyDamages,
+                ),
               )}`,
             )}
           </TitleText>
@@ -223,11 +223,10 @@ export const EditCreatureForm: FC<TProps> = ({
             addTitle={translate("editDamages.add")}
             deleteTitle={translate("editDamages.delete")}
             isOverflow={
-              getHealthLevel({
-                healthLevels: creature.healthLevels,
-                bodyDamages: creature.bodyDamages,
-                isKindred: false,
-              }).name === "final"
+              getCreatureHealthLevel(
+                creature.healthLevels,
+                creature.bodyDamages,
+              ).name === "final"
             }
           />
         </>

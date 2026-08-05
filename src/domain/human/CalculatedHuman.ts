@@ -1,12 +1,11 @@
-import { healthLevels } from "data/healthLevels";
 import { flaws, merits } from "data/meritsAndFlaws";
 import { AbilityName, ModifiedAbilityLevel } from "domain/Abilities";
 import { AttributeName, ModifiedAttributeLevel } from "domain/Attributes";
-import { getHealthLevel } from "domain/Health";
 import { MeritsAndFlawsData } from "domain/MeritsAndFlaws";
 import { Modifiers, applyModifiers, mergeModifiers } from "domain/Modifiers";
 import { Human } from "./Human";
 import { calculateChangebleParams } from "./ResourcesHistory";
+import { getHumanHealthLevel } from "./Health";
 
 /**
  * Вычисленная модель человека
@@ -58,11 +57,9 @@ export const aggregateModifiers = (character: CalculatedHuman): Modifiers => {
   }
 
   // Эффекты от здоровья
-  const healthLevelModifiers = getHealthLevel({
-    healthLevels: healthLevels,
-    bodyDamages: character.bodyDamages,
-    isKindred: false,
-  }).modifiers;
+  const healthLevelModifiers = getHumanHealthLevel(
+    character.bodyDamages,
+  ).modifiers;
   if (healthLevelModifiers) {
     result = mergeModifiers(result, healthLevelModifiers);
   }
