@@ -5,6 +5,7 @@ import { ColGroup } from "baseComponents/ColGroup";
 import { CreatureRow } from "./CreatureRow";
 import { HumanRow } from "./HumanRow";
 import { KindredRow } from "./KindredRow";
+import { Tbody } from "baseComponents/Tbody";
 
 // Ширины колонок
 const columnWidths = [
@@ -34,7 +35,7 @@ export const SceneUnitsList: FC<TProps> = () => {
         {/* Компонент устанавливает ширину столбцов */}
         <ColGroup widths={columnWidths} />
         {/* Список участников */}
-        <tbody>
+        <Tbody>
           {sceneUnits.map(({ id, type }) => (
             <Fragment key={id}>
               {type === "kindred" && <KindredRow id={id} />}
@@ -42,7 +43,7 @@ export const SceneUnitsList: FC<TProps> = () => {
               {type === "creature" && <CreatureRow id={id} />}
             </Fragment>
           ))}
-        </tbody>
+        </Tbody>
       </Table>
       {/* Карточка */}
     </>

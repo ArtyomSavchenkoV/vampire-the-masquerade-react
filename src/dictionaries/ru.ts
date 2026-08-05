@@ -25,7 +25,6 @@ export const ru = {
     willpower: "Воля",
     bloodPool: "Запас крови",
     health: "Здоровье",
-    healthLevel: "Уровень здоровья",
     damages: "Раны",
     healthLevels: "Настройка уровней здоровья",
   },
