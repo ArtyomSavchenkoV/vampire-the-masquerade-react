@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import { Button } from "baseComponents/Button";
 import { RightPanel } from "commonComponents/RightPanel";
 import { EditCreatureForm } from "components/edit/EditCreatureForm";
 import { FC } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useActions, useCreatureSelector } from "store/selectors";
+import { Header } from "./common/Header";
 
 const StyledPanel = styled(RightPanel)`
   padding: 24px;
@@ -13,20 +13,6 @@ const StyledPanel = styled(RightPanel)`
   display: flex;
   flex-direction: column;
   gap: 24px;
-`;
-
-const Header = styled.div`
-  font-size: 2em;
-  display: flex;
-  gap: 24px;
-`;
-
-const CloseButton = styled(Button)`
-  height: 32px;
-  width: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 interface TProps {
@@ -42,10 +28,10 @@ export const CreatureDetails: FC<TProps> = ({ selectedUnitId }) => {
     <>
       {creature && (
         <StyledPanel open>
-          <Header>
-            <CloseButton onClick={() => selectUnit(null)}>x</CloseButton>
-            {translate("details.title")}
-          </Header>
+          <Header
+            title={translate("details.title")}
+            onClose={() => selectUnit(null)}
+          />
           <EditCreatureForm
             creature={creature}
             onChange={(creature) =>

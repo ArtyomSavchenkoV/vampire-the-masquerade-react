@@ -2,7 +2,7 @@ import { AddElementButton } from "commonComponents/editPersonForm/AddElementButt
 import { RemoveElementButton } from "commonComponents/editPersonForm/RemoveElementButton";
 import { TitleText } from "commonComponents/TitleText";
 import { hasModifiers, healthLevels as healthLevelsData } from "domain/Health";
-import { getHealthLevelTranslateKey, HealthLevelData } from "domain/Health";
+import { HealthLevelData } from "domain/Health";
 import { FC, useMemo } from "react";
 import useTranslate from "services/translate/useTranslate";
 
@@ -92,16 +92,12 @@ export const EditHealthLevels: FC<TProps> = ({
             title={`${translate(`healthLevels.${healthLevelData.name}`)}${commonDiceBonus ? ` (${commonDiceBonus})` : ""}`}
           >
             <RemoveElementButton
-              onDelete={() => {
+              onClick={() => {
                 // Удаляем строго по индексу — безопасно даже при дублях
                 const nextArray = [...healthLevelsValues];
                 nextArray.splice(index, 1);
                 changeHandler([...nextArray]);
               }}
-              deleteTitle={translate("editHealthLevels.delete")}
-              deleteDescription={translate(
-                `healthLevels.${getHealthLevelTranslateKey(healthLevelData)}`,
-              )}
             />
           </TitleText>
         );

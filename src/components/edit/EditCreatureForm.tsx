@@ -22,7 +22,7 @@ import { damageTypes } from "domain/Damage";
 import { getHealthLevelTranslateKey } from "domain/Health";
 import { EditHealthLevels } from "./common/EditHealthLevels";
 import { getCreatureHealthLevel } from "domain/creature/Health";
-import { HealthLevel } from "./common/HealthLevel";
+import { Info } from "./common/Info";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   creature: Creature;
@@ -45,6 +45,12 @@ export const EditCreatureForm: FC<TProps> = ({
       mentalStability: { ...creature.mentalStability, [name]: value },
     });
   };
+
+  const healthLevel = getCreatureHealthLevel(
+    creature.healthLevels,
+    creature.bodyDamages,
+  );
+
   const MAX_HEALTH = creature.healthLevels.length - 1;
   return (
     <CreatureLayout
@@ -86,7 +92,6 @@ export const EditCreatureForm: FC<TProps> = ({
               name: translate(`parametersEditLevels.${level}`),
             }))}
             addTitle={translate("editAttributes.add")}
-            deleteTitle={translate("editAttributes.delete")}
           />
         </>
       }
@@ -108,7 +113,6 @@ export const EditCreatureForm: FC<TProps> = ({
               name: translate(`parametersEditLevels.${level}`),
             }))}
             addTitle={translate("editAbilities.add")}
-            deleteTitle={translate("editAbilities.delete")}
           />
         </>
       }
@@ -195,16 +199,11 @@ export const EditCreatureForm: FC<TProps> = ({
             {`${translate("createUnit.health")}: ${MAX_HEALTH - creature.bodyDamages.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
           {/* Уровень здоровья */}
-          <HealthLevel>
-            {`(${translate(
-              `healthLevels.${getHealthLevelTranslateKey(
-                getCreatureHealthLevel(
-                  creature.healthLevels,
-                  creature.bodyDamages,
-                ),
-              )}`,
-            )})`}
-          </HealthLevel>
+          <Info>
+            {`${translate(
+              `healthLevels.${getHealthLevelTranslateKey(healthLevel)}`,
+            )}${healthLevel.modifiers?.commonDiceBonus ? ` (${healthLevel.modifiers.commonDiceBonus})` : ""}`}
+          </Info>
           {/* Раны */}
           <DetailsSectionTitle>
             {translate("createUnit.damages")}
@@ -223,7 +222,6 @@ export const EditCreatureForm: FC<TProps> = ({
             }))}
             allowDuplicates
             addTitle={translate("editDamages.add")}
-            deleteTitle={translate("editDamages.delete")}
             isOverflow={
               getCreatureHealthLevel(
                 creature.healthLevels,

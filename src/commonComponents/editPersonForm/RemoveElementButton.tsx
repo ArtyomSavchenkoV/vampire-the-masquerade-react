@@ -1,9 +1,9 @@
 import TrashBinIcon from "icons/TrashBinIcon";
 import styled from "@emotion/styled";
-import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 import { ComponentProps, FC } from "react";
+import { Button } from "baseComponents/Button";
 
-const TrashButton = styled(ConfirmingButton)`
+const TrashButton = styled(Button)`
   height: 19px;
   width: 19px;
   display: flex;
@@ -12,28 +12,11 @@ const TrashButton = styled(ConfirmingButton)`
   font-size: 0.54em;
 `;
 
-interface TProps extends Omit<
-  ComponentProps<typeof ConfirmingButton>,
-  "onConfirm" | "confirmWindowTitle" | "confirmWindowContent"
-> {
-  onDelete: () => void;
-  deleteTitle: string;
-  deleteDescription?: string;
-}
+interface TProps extends Omit<ComponentProps<typeof Button>, "children"> {}
 
-export const RemoveElementButton: FC<TProps> = ({
-  onDelete,
-  deleteTitle,
-  deleteDescription,
-  ...props
-}) => {
+export const RemoveElementButton: FC<TProps> = ({ ...props }) => {
   return (
-    <TrashButton
-      onConfirm={onDelete}
-      confirmWindowTitle={deleteTitle}
-      confirmWindowContent={deleteDescription}
-      {...props}
-    >
+    <TrashButton {...props}>
       <TrashBinIcon />
     </TrashButton>
   );

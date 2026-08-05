@@ -171,32 +171,25 @@ export const ru = {
   },
   editAttributes: {
     add: "Характеристики",
-    delete: "Удалить?",
   },
   editAbilities: {
     add: "Способности",
-    delete: "Удалить?",
   },
   editDisciplines: {
     add: "Дисциплины",
-    delete: "Удалить?",
   },
   editBackgrounds: {
     add: "Факты биографии",
-    delete: "Удалить?",
   },
   editMeritsAndFlaws: {
     addMerit: "Достоинства",
     addFlaw: "Недостатки",
-    delete: "Удалить?",
   },
   editDamages: {
     add: "Урон",
-    delete: "Удалить?",
   },
   editHealthLevels: {
     add: "Уровни здоровья",
-    delete: "Удалить?",
   },
   editInitiative: {
     title: "Задать инициативу",

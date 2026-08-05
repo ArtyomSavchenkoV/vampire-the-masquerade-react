@@ -7,7 +7,6 @@ export const ArrayEditor = <Value extends string>({
   onChange,
   options,
   addTitle,
-  deleteTitle,
   allowDuplicates = false,
   isOverflow = false,
 }: {
@@ -15,7 +14,6 @@ export const ArrayEditor = <Value extends string>({
   onChange: (array: Value[]) => void;
   options: { value: Value; name: string }[];
   addTitle: string;
-  deleteTitle: string;
   allowDuplicates?: boolean;
   isOverflow?: boolean;
 }) => {
@@ -32,14 +30,12 @@ export const ArrayEditor = <Value extends string>({
         return (
           <TitleText key={allowDuplicates ? index : key} title={name}>
             <RemoveElementButton
-              onDelete={() => {
+              onClick={() => {
                 // Удаляем строго по индексу — безопасно даже при дублях
                 const nextArray = [...array];
                 nextArray.splice(index, 1);
                 onChange(nextArray);
               }}
-              deleteTitle={deleteTitle}
-              deleteDescription={name}
             />
           </TitleText>
         );

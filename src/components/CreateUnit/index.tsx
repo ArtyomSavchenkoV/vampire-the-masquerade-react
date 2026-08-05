@@ -109,6 +109,7 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
             }))}
             value={unitType}
             onChange={(unitType) => setUnitType(unitType)}
+            size={3}
           />
         </>
       )}
@@ -123,6 +124,7 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
             }))}
             value={clan}
             onChange={changeClanHandler}
+            size={7}
           />
         </>
       )}

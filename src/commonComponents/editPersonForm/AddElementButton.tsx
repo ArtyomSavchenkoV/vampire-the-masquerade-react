@@ -1,5 +1,4 @@
-import { Select } from "baseComponents/Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "baseComponents/Button";
 import styled from "@emotion/styled";
 import { ConfirmWindow } from "commonComponents/ConfirmWindow";
@@ -9,22 +8,28 @@ const AddButton = styled(Button)`
   padding: 1px;
 `;
 
+const Options = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const AddElementButton = <ElementName extends string>({
   onAdd,
   notUsedFields,
   addTitle,
-  allowDuplicates = false,
 }: {
   onAdd: (object: ElementName) => void;
   notUsedFields: { value: ElementName; name: string }[];
   addTitle: string;
   allowDuplicates?: boolean;
+  selectSize?: number;
 }) => {
-  const [selectedValue, setSelectedValue] = useState<ElementName | undefined>(
-    notUsedFields[0]?.value,
-  );
-
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (notUsedFields.length === 0) {
+      setOpen(false);
+    }
+  }, [notUsedFields.length]);
 
   return (
     <>
@@ -33,41 +38,19 @@ export const AddElementButton = <ElementName extends string>({
       )}
 
       <Dialog open={open}>
-        <ConfirmWindow
-          title={addTitle}
-          onConfirm={() => {
-            if (selectedValue == null) {
-              setOpen(false);
-              return;
-            }
-
-            onAdd(selectedValue);
-
-            // Выбираем следующее доступное поле или сбрасываем в undefined
-            const nextAvailable = allowDuplicates
-              ? notUsedFields.at(0)
-              : notUsedFields
-                  .filter(({ value }) => value !== selectedValue)
-                  .at(0);
-
-            setSelectedValue(nextAvailable?.value);
-            setOpen(false);
-          }}
-          onCancel={() => setOpen(false)}
-          onClose={() => setOpen(false)}
-        >
-          {selectedValue && (
-            <Select
-              // Для этого селекта options — это список полей (не значений)
-              options={notUsedFields}
-              value={selectedValue}
-              onChange={(field) => {
-                setSelectedValue(field);
-              }}
-              // Важно: Select ожидает value того же типа, что и в options
-              // У нас options: { value: Field, name: string }[], значит value=Field
-            />
-          )}
+        <ConfirmWindow title={addTitle} onClose={() => setOpen(false)}>
+          <Options>
+            {notUsedFields.map(({ value, name }) => (
+              <Button
+                key={value}
+                onClick={() => {
+                  onAdd(value);
+                }}
+              >
+                {name}
+              </Button>
+            ))}
+          </Options>
         </ConfirmWindow>
       </Dialog>
     </>

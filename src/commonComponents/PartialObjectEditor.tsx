@@ -18,7 +18,6 @@ export const PartialObjectEditor = <
   options,
   availableValues,
   addTitle,
-  deleteTitle,
   isObjectFixed = false,
 }: {
   object: Partial<Record<Field, Value>>;
@@ -26,7 +25,6 @@ export const PartialObjectEditor = <
   options: { value: Field; name: string }[];
   availableValues: readonly (Value | { value: Value; name: string })[];
   addTitle: string;
-  deleteTitle: string;
   isObjectFixed?: boolean;
 }) => {
   const array = getDefinedEntries(object);
@@ -58,13 +56,11 @@ export const PartialObjectEditor = <
 
             {!isObjectFixed && (
               <TrashButton
-                onDelete={() => {
+                onClick={() => {
                   const nextObject = { ...object };
                   delete nextObject[key];
                   onChange(nextObject);
                 }}
-                deleteTitle={deleteTitle}
-                deleteDescription={name}
               />
             )}
           </TitleText>

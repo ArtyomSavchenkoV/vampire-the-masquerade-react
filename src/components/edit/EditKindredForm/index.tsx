@@ -45,7 +45,7 @@ import { NameTitleText } from "commonComponents/NameTitleText";
 import { NameInput } from "../common/NameInput";
 import { getHealthLevelTranslateKey } from "domain/Health";
 import { MAX_HEALTH } from "data/kindredHealthLevels";
-import { HealthLevel } from "../common/HealthLevel";
+import { Info } from "../common/Info";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   kindred: Kindred;
@@ -96,6 +96,8 @@ export const EditKindredForm: FC<TProps> = ({
       mentalStability: { ...kindred.mentalStability, [name]: value },
     });
   };
+
+  const healthLevel = getKinderedHealthLevel(kindred.bodyDamages);
 
   return (
     <KindredLayout
@@ -733,7 +735,6 @@ export const EditKindredForm: FC<TProps> = ({
               name: translate(`parametersEditLevels.${level}`),
             }))}
             addTitle={translate("editDisciplines.add")}
-            deleteTitle={translate("editDisciplines.delete")}
             isObjectFixed={kindred.clan.clanName !== "Other"}
           />
         </>
@@ -756,7 +757,6 @@ export const EditKindredForm: FC<TProps> = ({
               name: translate(`parametersEditLevels.${level}`),
             }))}
             addTitle={translate("editBackgrounds.add")}
-            deleteTitle={translate("editBackgrounds.delete")}
           />
         </>
       }
@@ -827,7 +827,6 @@ export const EditKindredForm: FC<TProps> = ({
                 name: translate(`merits.${key}`),
               }))}
             addTitle={translate("editMeritsAndFlaws.addMerit")}
-            deleteTitle={translate("editMeritsAndFlaws.delete")}
           />
           {/* Недостатки */}
           <DetailsSectionTitle>
@@ -853,7 +852,6 @@ export const EditKindredForm: FC<TProps> = ({
                 name: translate(`flaws.${key}`),
               }))}
             addTitle={translate("editMeritsAndFlaws.addFlaw")}
-            deleteTitle={translate("editMeritsAndFlaws.delete")}
           />
         </>
       }
@@ -918,7 +916,7 @@ export const EditKindredForm: FC<TProps> = ({
             {translate("createUnit.bloodPool")}
           </DetailsSectionTitle>
           {/* Макс/предел */}
-          <div>{`${translate("fields.maxBloodPool")}: ${generationLevel.maxBloodPool}, ${translate("fields.bloodConsumptionLimitPerTurn")}: ${generationLevel.bloodConsumptionLimitPerTurn}`}</div>
+          <Info>{`${translate("fields.maxBloodPool")}: ${generationLevel.maxBloodPool}, ${translate("fields.bloodConsumptionLimitPerTurn")}: ${generationLevel.bloodConsumptionLimitPerTurn}`}</Info>
           {/* Запас крови */}
           <TitleText title={translate("fields.bloodPool")}>
             <PositiveNumberInput
@@ -943,13 +941,11 @@ export const EditKindredForm: FC<TProps> = ({
             {`${translate("createUnit.health")}: ${MAX_HEALTH - kindred.bodyDamages.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
           {/* Уровень здоровья */}
-          <HealthLevel>
-            {`(${translate(
-              `healthLevels.${getHealthLevelTranslateKey(
-                getKinderedHealthLevel(kindred.bodyDamages),
-              )}`,
-            )})`}
-          </HealthLevel>
+          <Info>
+            {`${translate(
+              `healthLevels.${getHealthLevelTranslateKey(healthLevel)}`,
+            )}${healthLevel.modifiers?.commonDiceBonus ? ` (${healthLevel.modifiers.commonDiceBonus})` : ""}`}
+          </Info>
           {/* Раны */}
           <DetailsSectionTitle>
             {translate("createUnit.damages")}
@@ -968,7 +964,6 @@ export const EditKindredForm: FC<TProps> = ({
             }))}
             allowDuplicates
             addTitle={translate("editDamages.add")}
-            deleteTitle={translate("editDamages.delete")}
             isOverflow={
               getKinderedHealthLevel(kindred.bodyDamages).name === "final"
             }

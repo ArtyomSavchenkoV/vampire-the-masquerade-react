@@ -37,7 +37,7 @@ import { getHealthLevelTranslateKey } from "domain/Health";
 import { damageTypes } from "domain/Damage";
 import { getHumanHealthLevel } from "domain/human/Health";
 import { EditHealthLevels } from "./common/EditHealthLevels";
-import { HealthLevel } from "./common/HealthLevel";
+import { Info } from "./common/Info";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   human: Human;
@@ -74,6 +74,11 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
       mentalStability: { ...human.mentalStability, [name]: value },
     });
   };
+
+  const healthLevel = getHumanHealthLevel(
+    human.healthLevels,
+    human.bodyDamages,
+  );
 
   const MAX_HEALTH = human.healthLevels.length - 1;
 
@@ -672,7 +677,6 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               name: translate(`parametersEditLevels.${level}`),
             }))}
             addTitle={translate("editBackgrounds.add")}
-            deleteTitle={translate("editBackgrounds.delete")}
           />
         </>
       }
@@ -738,7 +742,6 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               name: translate(`merits.${key}`),
             }))}
             addTitle={translate("editMeritsAndFlaws.addMerit")}
-            deleteTitle={translate("editMeritsAndFlaws.delete")}
           />
           {/* Недостатки */}
           <DetailsSectionTitle>
@@ -759,7 +762,6 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               name: translate(`flaws.${key}`),
             }))}
             addTitle={translate("editMeritsAndFlaws.addFlaw")}
-            deleteTitle={translate("editMeritsAndFlaws.delete")}
           />
         </>
       }
@@ -828,13 +830,11 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             {`${translate("createUnit.health")}: ${MAX_HEALTH - human.bodyDamages.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
           {/* Уровень здоровья */}
-          <HealthLevel>
-            {`(${translate(
-              `healthLevels.${getHealthLevelTranslateKey(
-                getHumanHealthLevel(human.healthLevels, human.bodyDamages),
-              )}`,
-            )})`}
-          </HealthLevel>
+          <Info>
+            {`${translate(
+              `healthLevels.${getHealthLevelTranslateKey(healthLevel)}`,
+            )}${healthLevel.modifiers?.commonDiceBonus ? ` (${healthLevel.modifiers.commonDiceBonus})` : ""}`}
+          </Info>
           {/* Раны */}
           <DetailsSectionTitle>
             {translate("createUnit.damages")}
@@ -853,7 +853,6 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             }))}
             allowDuplicates
             addTitle={translate("editDamages.add")}
-            deleteTitle={translate("editDamages.delete")}
             isOverflow={
               getHumanHealthLevel(human.healthLevels, human.bodyDamages)
                 .name === "final"

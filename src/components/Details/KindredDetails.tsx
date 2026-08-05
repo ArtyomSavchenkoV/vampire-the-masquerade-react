@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { Button } from "baseComponents/Button";
 import { RightPanel } from "commonComponents/RightPanel";
 import { EditKindredForm } from "components/edit/EditKindredForm";
 import { EditKindred } from "components/edit/EditKindred";
@@ -8,6 +7,7 @@ import { initialKindred } from "data/initialKindred";
 import { FC } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useActions, useKindredSelector } from "store/selectors";
+import { Header } from "./common/Header";
 
 const StyledPanel = styled(RightPanel)`
   padding: 24px;
@@ -16,20 +16,6 @@ const StyledPanel = styled(RightPanel)`
   display: flex;
   flex-direction: column;
   gap: 24px;
-`;
-
-const Header = styled.div`
-  font-size: 2em;
-  display: flex;
-  gap: 24px;
-`;
-
-const CloseButton = styled(Button)`
-  height: 32px;
-  width: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 interface TProps {
@@ -45,11 +31,11 @@ export const KindredDetails: FC<TProps> = ({ selectedUnitId }) => {
     <>
       {kindred && (
         <StyledPanel open>
-          <Header>
-            <CloseButton onClick={() => selectUnit(null)}>x</CloseButton>
-            {translate("details.title")}
-            <EditKindred kindredId={selectedUnitId} />
-          </Header>
+          <Header
+            title={translate("details.title")}
+            buttons={<EditKindred kindredId={selectedUnitId} />}
+            onClose={() => selectUnit(null)}
+          />
           <EditKindredForm
             kindred={kindred}
             onChange={(kindred) =>

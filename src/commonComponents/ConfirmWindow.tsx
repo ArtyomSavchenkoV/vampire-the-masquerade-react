@@ -42,15 +42,18 @@ const Buttons = styled.div`
   gap: 8px;
 `;
 
-const StyledButton = styled(Button)`
-  width: 100%;
-`;
+const StyledButton = styled(Button)<{ isVisible: boolean }>(
+  ({ isVisible }) => ({
+    width: "100%",
+    ...(isVisible ? {} : { visibility: "hidden" }),
+  }),
+);
 
 interface TProps {
   title: ReactNode;
   children: ReactNode;
-  onConfirm: () => void;
-  onCancel: () => void;
+  onConfirm?: () => void;
+  onCancel?: () => void;
   onClose: () => void;
 }
 
@@ -71,14 +74,16 @@ export const ConfirmWindow: FC<TProps> = ({
       </Head>
       <Body>
         {children}
-        <Buttons>
-          <StyledButton onClick={onCancel}>
-            {translate("confirmWindow.cancel")}
-          </StyledButton>
-          <StyledButton onClick={onConfirm}>
-            {translate("confirmWindow.confirm")}
-          </StyledButton>
-        </Buttons>
+        {(!!onCancel || !!onConfirm) && (
+          <Buttons>
+            <StyledButton isVisible={!!onCancel} onClick={onCancel}>
+              {translate("confirmWindow.cancel")}
+            </StyledButton>
+            <StyledButton isVisible={!!onConfirm} onClick={onConfirm}>
+              {translate("confirmWindow.confirm")}
+            </StyledButton>
+          </Buttons>
+        )}
       </Body>
     </ConfirmWindowRoot>
   );
