@@ -54,9 +54,11 @@ export const Header: FC<TProps> = ({ selectedTab, onTabChange, ...props }) => {
       </Tab>
 
       {/* отсортировать по инициативе */}
-      <Button onClick={() => sortSceneByInitiative()}>
-        {translate("header.sortSceneByInitiative")}
-      </Button>
+      {selectedTab === "sceneUnits" && (
+        <Button onClick={() => sortSceneByInitiative()}>
+          {translate("header.sortSceneByInitiative")}
+        </Button>
+      )}
 
       <PlaceHolder />
 
