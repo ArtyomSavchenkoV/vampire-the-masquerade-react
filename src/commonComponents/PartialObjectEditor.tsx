@@ -1,7 +1,7 @@
 import { getDefinedEntries } from "utils/getDefinedEntries";
 import { TitleText } from "./TitleText";
-import { AddElementButton } from "./editPersonForm/AddElementButton";
-import { RemoveElementButton } from "./editPersonForm/RemoveElementButton";
+import { AddElementButton } from "./AddElementButton";
+import { RemoveElementButton } from "./RemoveElementButton";
 import styled from "@emotion/styled";
 import { WithoutBorderSelect } from "./WithoutBorderSelect";
 

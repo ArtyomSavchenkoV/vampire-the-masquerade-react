@@ -37,7 +37,7 @@ export const AddElementButton = <ElementName extends string>({
         <AddButton onClick={() => setOpen(true)}>+</AddButton>
       )}
 
-      <Dialog open={open}>
+      <Dialog open={open} onClose={() => setOpen(false)}>
         <ConfirmWindow title={addTitle} onClose={() => setOpen(false)}>
           <Options>
             {notUsedFields.map(({ value, name }) => (

@@ -1,6 +1,6 @@
 import { TitleText } from "./TitleText";
-import { AddElementButton } from "./editPersonForm/AddElementButton";
-import { RemoveElementButton } from "./editPersonForm/RemoveElementButton";
+import { AddElementButton } from "./AddElementButton";
+import { RemoveElementButton } from "./RemoveElementButton";
 
 export const ArrayEditor = <Value extends string>({
   array,

@@ -27,25 +27,20 @@ interface TProps {}
 
 export const SceneUnitsList: FC<TProps> = () => {
   const sceneUnits = useSceneUnitsSelector();
-  console.log(sceneUnits);
   return (
-    <>
-      {/* Таблица */}
-      <Table>
-        {/* Компонент устанавливает ширину столбцов */}
-        <ColGroup widths={columnWidths} />
-        {/* Список участников */}
-        <Tbody>
-          {sceneUnits.map(({ id, type }) => (
-            <Fragment key={id}>
-              {type === "kindred" && <KindredRow id={id} />}
-              {type === "human" && <HumanRow id={id} />}
-              {type === "creature" && <CreatureRow id={id} />}
-            </Fragment>
-          ))}
-        </Tbody>
-      </Table>
-      {/* Карточка */}
-    </>
+    <Table>
+      {/* Компонент устанавливает ширину столбцов */}
+      <ColGroup widths={columnWidths} />
+      {/* Список участников */}
+      <Tbody>
+        {sceneUnits.map(({ id, type }) => (
+          <Fragment key={id}>
+            {type === "kindred" && <KindredRow id={id} />}
+            {type === "human" && <HumanRow id={id} />}
+            {type === "creature" && <CreatureRow id={id} />}
+          </Fragment>
+        ))}
+      </Tbody>
+    </Table>
   );
 };

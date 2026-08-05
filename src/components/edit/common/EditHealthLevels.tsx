@@ -1,5 +1,5 @@
-import { AddElementButton } from "commonComponents/editPersonForm/AddElementButton";
-import { RemoveElementButton } from "commonComponents/editPersonForm/RemoveElementButton";
+import { AddElementButton } from "commonComponents/AddElementButton";
+import { RemoveElementButton } from "commonComponents/RemoveElementButton";
 import { TitleText } from "commonComponents/TitleText";
 import { hasModifiers, healthLevels as healthLevelsData } from "domain/Health";
 import { HealthLevelData } from "domain/Health";
