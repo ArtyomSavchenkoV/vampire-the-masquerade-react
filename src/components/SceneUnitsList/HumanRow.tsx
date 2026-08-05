@@ -6,7 +6,6 @@ import { useHumanRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { EditInitiative } from "components/EditInitiative";
-import { MAX_HEALTH } from "data/humanHealthLevels";
 
 interface TProps {
   id: string;
@@ -53,7 +52,7 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
 
       {/* Ресурсы персонажа */}
       <Td>
-        {`${translate("resources.health")}: ${MAX_HEALTH - humanRow.bodyDamages.length}/${MAX_HEALTH}, `}
+        {`${translate("resources.health")}: ${humanRow.maxHealth - humanRow.bodyDamages.length}/${humanRow.maxHealth}, `}
         {`${translate("resources.willpower")}: ${humanRow.willpower}, `}
       </Td>
 

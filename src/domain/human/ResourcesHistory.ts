@@ -17,7 +17,11 @@ export interface ResourcesHistory {
 export const calculateChangebleParams = (
   data: Pick<
     Human,
-    "maxWillpower" | "resourcesHistory" | "willpower" | "bodyDamages"
+    | "maxWillpower"
+    | "resourcesHistory"
+    | "willpower"
+    | "bodyDamages"
+    | "healthLevels"
   >,
 ): Pick<Human, "willpower" | "bodyDamages"> => {
   const maxWillpower = data.maxWillpower;
@@ -37,13 +41,13 @@ export const calculateChangebleParams = (
         if (!change.effect.value) {
           return accum;
         }
-        return healHumanHealth(accum, change.effect);
+        return healHumanHealth([...data.healthLevels], accum, change.effect);
       }
       if (change.effect.type === "damage") {
         if (!change.effect.value) {
           return accum;
         }
-        return damageHumanHealth(accum, change.effect);
+        return damageHumanHealth([...data.healthLevels], accum, change.effect);
       }
       return accum as never;
     },

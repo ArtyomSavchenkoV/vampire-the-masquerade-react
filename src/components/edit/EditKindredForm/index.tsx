@@ -45,6 +45,7 @@ import { NameTitleText } from "commonComponents/NameTitleText";
 import { NameInput } from "../common/NameInput";
 import { getHealthLevelTranslateKey } from "domain/Health";
 import { MAX_HEALTH } from "data/kindredHealthLevels";
+import { HealthLevel } from "../common/HealthLevel";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   kindred: Kindred;
@@ -941,11 +942,14 @@ export const EditKindredForm: FC<TProps> = ({
           <DetailsSectionTitle>
             {`${translate("createUnit.health")}: ${MAX_HEALTH - kindred.bodyDamages.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
-          <TitleText title={translate("createUnit.healthLevel")}>
-            {translate(
-              `healthLevels.${getHealthLevelTranslateKey(getKinderedHealthLevel(kindred.bodyDamages))}`,
-            )}
-          </TitleText>
+          {/* Уровень здоровья */}
+          <HealthLevel>
+            {`(${translate(
+              `healthLevels.${getHealthLevelTranslateKey(
+                getKinderedHealthLevel(kindred.bodyDamages),
+              )}`,
+            )})`}
+          </HealthLevel>
           {/* Раны */}
           <DetailsSectionTitle>
             {translate("createUnit.damages")}

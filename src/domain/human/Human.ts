@@ -3,7 +3,7 @@ import { ActiveEffect } from "domain/ActiveEffect";
 import { AttributeName, BaseAttributeLevel } from "domain/Attributes";
 import { BackgroundName, BackgroundLevel } from "domain/Backgrounds";
 import { EquipmentItem } from "domain/EquipmentItem";
-import { HealthDamages } from "domain/Health";
+import { HealthDamages, HealthLevelData } from "domain/Health";
 import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
 import { FlawName, MeritName } from "domain/MeritsAndFlaws";
 import { ResourcesHistory } from "./ResourcesHistory";
@@ -47,6 +47,8 @@ export interface Human {
   maxWillpower: number;
   /** Повреждения */
   bodyDamages: HealthDamages;
+  /** Уровни здоровья */
+  healthLevels: HealthLevelData[];
   /** Экипировка */
   equipment: EquipmentItem[];
   /** Активные эффекты (бафф/дебафф, состояние и пр.) */

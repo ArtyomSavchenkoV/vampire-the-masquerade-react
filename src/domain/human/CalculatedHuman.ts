@@ -58,6 +58,7 @@ export const aggregateModifiers = (character: CalculatedHuman): Modifiers => {
 
   // Эффекты от здоровья
   const healthLevelModifiers = getHumanHealthLevel(
+    character.healthLevels,
     character.bodyDamages,
   ).modifiers;
   if (healthLevelModifiers) {

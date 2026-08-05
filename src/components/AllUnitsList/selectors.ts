@@ -57,6 +57,7 @@ export const useHumanRowSelector = (id: string) => {
       player: calculatedHuman.player,
       willpower: calculatedHuman.willpower,
       bodyDamages: calculatedHuman.bodyDamages,
+      maxHealth: calculatedHuman.healthLevels.length - 1,
     };
   }, [id, selectedUnitId, sceneUnits, calculatedHuman]);
 

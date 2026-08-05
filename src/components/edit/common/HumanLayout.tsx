@@ -61,6 +61,7 @@ interface TProps extends HTMLAttributes<HTMLDivElement> {
   meritsAndFlaws: ReactNode;
   centerBottom: ReactNode;
   health: ReactNode;
+  healthLevels: ReactNode;
 }
 
 export const HumanLayout: FC<TProps> = ({
@@ -79,6 +80,7 @@ export const HumanLayout: FC<TProps> = ({
   meritsAndFlaws,
   centerBottom,
   health,
+  healthLevels,
   ...props
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -115,6 +117,7 @@ export const HumanLayout: FC<TProps> = ({
       <Section isSmallScreen={isSmallScreen}>
         <List isSmallScreen={isSmallScreen}>{centerBottom}</List>
         <List isSmallScreen={isSmallScreen}>{health}</List>
+        <List isSmallScreen={isSmallScreen}>{healthLevels}</List>
       </Section>
     </Page>
   );

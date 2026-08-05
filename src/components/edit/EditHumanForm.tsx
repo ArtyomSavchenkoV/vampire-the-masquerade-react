@@ -35,8 +35,9 @@ import { humanityOrPathRatings } from "domain/HumanityOrPathRating";
 import { willpowerLevels } from "domain/Willpower";
 import { getHealthLevelTranslateKey } from "domain/Health";
 import { damageTypes } from "domain/Damage";
-import { MAX_HEALTH } from "data/humanHealthLevels";
 import { getHumanHealthLevel } from "domain/human/Health";
+import { EditHealthLevels } from "./common/EditHealthLevels";
+import { HealthLevel } from "./common/HealthLevel";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   human: Human;
@@ -73,6 +74,8 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
       mentalStability: { ...human.mentalStability, [name]: value },
     });
   };
+
+  const MAX_HEALTH = human.healthLevels.length - 1;
 
   return (
     <HumanLayout
@@ -824,13 +827,14 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
           <DetailsSectionTitle>
             {`${translate("createUnit.health")}: ${MAX_HEALTH - human.bodyDamages.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
-          <TitleText title={translate("createUnit.healthLevel")}>
-            {translate(
+          {/* Уровень здоровья */}
+          <HealthLevel>
+            {`(${translate(
               `healthLevels.${getHealthLevelTranslateKey(
-                getHumanHealthLevel(human.bodyDamages),
+                getHumanHealthLevel(human.healthLevels, human.bodyDamages),
               )}`,
-            )}
-          </TitleText>
+            )})`}
+          </HealthLevel>
           {/* Раны */}
           <DetailsSectionTitle>
             {translate("createUnit.damages")}
@@ -850,7 +854,24 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             allowDuplicates
             addTitle={translate("editDamages.add")}
             deleteTitle={translate("editDamages.delete")}
-            isOverflow={getHumanHealthLevel(human.bodyDamages).name === "final"}
+            isOverflow={
+              getHumanHealthLevel(human.healthLevels, human.bodyDamages)
+                .name === "final"
+            }
+          />
+        </>
+      }
+      healthLevels={
+        <>
+          {/* Уровни здоровья */}
+          <DetailsSectionTitle>
+            {translate("createUnit.healthLevels")}
+          </DetailsSectionTitle>
+          <EditHealthLevels
+            healthLevels={human.healthLevels}
+            onChange={(healthLevels) =>
+              onChange({ ...human, healthLevels, bodyDamages: [] })
+            }
           />
         </>
       }

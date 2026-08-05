@@ -22,6 +22,7 @@ import { damageTypes } from "domain/Damage";
 import { getHealthLevelTranslateKey } from "domain/Health";
 import { EditHealthLevels } from "./common/EditHealthLevels";
 import { getCreatureHealthLevel } from "domain/creature/Health";
+import { HealthLevel } from "./common/HealthLevel";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   creature: Creature;
@@ -193,16 +194,17 @@ export const EditCreatureForm: FC<TProps> = ({
           <DetailsSectionTitle>
             {`${translate("createUnit.health")}: ${MAX_HEALTH - creature.bodyDamages.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
-          <TitleText title={translate("createUnit.healthLevel")}>
-            {translate(
+          {/* Уровень здоровья */}
+          <HealthLevel>
+            {`(${translate(
               `healthLevels.${getHealthLevelTranslateKey(
                 getCreatureHealthLevel(
                   creature.healthLevels,
                   creature.bodyDamages,
                 ),
               )}`,
-            )}
-          </TitleText>
+            )})`}
+          </HealthLevel>
           {/* Раны */}
           <DetailsSectionTitle>
             {translate("createUnit.damages")}

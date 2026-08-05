@@ -63,6 +63,56 @@ export const initialHuman: Human = {
   willpower: 0,
   maxWillpower: 0,
   bodyDamages: [],
+  healthLevels: [
+    {
+      name: "unimpaired",
+      isIncapacitated: false,
+    },
+    {
+      name: "battered",
+      isIncapacitated: false,
+    },
+    {
+      name: "lightlyWounded",
+      isIncapacitated: false,
+      modifiers: {
+        commonDiceBonus: -1,
+      },
+    },
+    {
+      name: "wounded",
+      isIncapacitated: false,
+      modifiers: {
+        commonDiceBonus: -1,
+      },
+    },
+    {
+      name: "seriouslyWounded",
+      isIncapacitated: false,
+      modifiers: {
+        commonDiceBonus: -2,
+      },
+    },
+    {
+      name: "heavilyWounded",
+      isIncapacitated: false,
+      modifiers: {
+        commonDiceBonus: -2,
+      },
+    },
+    {
+      name: "nearlyDown",
+      isIncapacitated: false,
+      modifiers: {
+        commonDiceBonus: -5,
+      },
+    },
+    {
+      name: "final",
+      isIncapacitated: true,
+      variant: "death",
+    },
+  ],
   equipment: [],
   activeEffects: [],
   resourcesHistory: {
