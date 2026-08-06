@@ -1,19 +1,19 @@
-import { BaseAbilityLevel, AbilityName } from "domain/Abilities";
+import { AbilityName, BaseAbilityLevel } from "domain/Abilities";
 import { ActiveEffect } from "domain/ActiveEffect";
-import { BaseAttributeLevel, AttributeName } from "domain/Attributes";
+import { AttributeName, BaseAttributeLevel } from "domain/Attributes";
 import { BackgroundName, BackgroundLevel } from "domain/Backgrounds";
-import { Clan } from "domain/Clan";
-import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
-import { FlawName, MeritName } from "domain/MeritsAndFlaws";
 import { EquipmentItem } from "domain/EquipmentItem";
 import { HealthDamages } from "domain/Health";
-import { ResourcesHistory } from "./ResourcesHistory";
 import { HumanityOrPathRating } from "domain/HumanityOrPathRating";
+import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
+import { MeritName, FlawName } from "domain/MeritsAndFlaws";
+import { ResourcesHistory } from "./ResourcesHistory";
+import { DisciplineName, DisciplineLevel } from "domain/Discipline";
 
 /**
- * Базовая модель сородича
+ * Базовая модель гуля
  */
-export interface Kindred {
+export interface Ghoul {
   /** Имя персонажа */
   name: string;
   /** Игрок */
@@ -26,16 +26,14 @@ export interface Kindred {
   demeanor: string; // например: "Душка", "Холодный профессионал", "Клоун"
   /** Амплуа (социальная роль в секте/городе) */
   role: string; // например: "Осведомитель", "Телохранитель", "Дипломат", "Ищейка"
-  /** Клан */
-  clan: Clan;
-  /** Поколение (чем меньше — тем сильнее) */
-  generation: number;
-  /** Сир (имя сира или null, если не известен) */
-  sire: string | null;
+  /** Домитор (имя домитора или null, если нет определённого домитора) */
+  domitor: string | null;
   /** Характеристики */
   attributes: Record<AttributeName, BaseAttributeLevel>;
   /** Способности */
   abilities: Record<AbilityName, BaseAbilityLevel>;
+  /** Дисциплины */
+  disciplines: Partial<Record<DisciplineName, DisciplineLevel>>;
   /** Факты биографии */
   backgrounds: Partial<Record<BackgroundName, BackgroundLevel>>;
   /** Ментальные устойчивости */
@@ -54,6 +52,8 @@ export interface Kindred {
   maxWillpower: number;
   /** Запас крови (Blood Pool) — сколько пунктов крови сейчас. maxBloodPool - значение вычисляемое из поколения */
   bloodPool: number;
+  /** Максимальный запас крови */
+  maxBloodPool: number;
   /** Повреждения, 8-ое повреждение - смерть если повреждение "aggravated" иначе отключка */
   bodyDamages: HealthDamages;
   /** Экипировка */

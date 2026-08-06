@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import {
   useCalculatedCreatureSelector,
+  useCalculatedGhoulSelector,
   useCalculatedHumanSelector,
   useCalculatedKindredSelector,
   useUnitsSelector,
@@ -38,6 +39,28 @@ export const useKindredRowSelector = (id: string) => {
       bodyDamages: calculatedKindred.bodyDamages,
     };
   }, [id, selectedUnitId, sceneUnits, calculatedKindred]);
+
+  return memoizedValue;
+};
+
+export const useGhoulRowSelector = (id: string) => {
+  const calculatedGhoul = useCalculatedGhoulSelector(id);
+  const selectedUnitId = useStore((s) => s.selectedUnitId);
+  const sceneUnits = useStore((s) => s.sceneUnits);
+
+  const memoizedValue = useMemo(() => {
+    if (!calculatedGhoul) return null;
+
+    return {
+      isSelected: selectedUnitId === id,
+      isOnScene: sceneUnits.some((scene) => scene.id === id),
+      name: calculatedGhoul.name,
+      player: calculatedGhoul.player,
+      willpower: calculatedGhoul.willpower,
+      bloodPool: calculatedGhoul.bloodPool,
+      bodyDamages: calculatedGhoul.bodyDamages,
+    };
+  }, [id, selectedUnitId, sceneUnits, calculatedGhoul]);
 
   return memoizedValue;
 };

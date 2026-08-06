@@ -4,6 +4,7 @@ import { getKinderedHealthLevel } from "domain/kindred/Health";
 import { useMemo } from "react";
 import {
   useCalculatedCreatureSelector,
+  useCalculatedGhoulSelector,
   useCalculatedHumanSelector,
   useCalculatedKindredSelector,
   useSceneUnitsSelector as useSceneUnitsIdsSelector,
@@ -46,6 +47,31 @@ export const useKindredRowSelector = (id: string) => {
         .isIncapacitated,
     };
   }, [id, selectedUnitId, sceneUnits, calculatedKindred]);
+
+  return memoizedValue;
+};
+
+export const useGhoulRowSelector = (id: string) => {
+  const calculatedGhoul = useCalculatedGhoulSelector(id);
+  const selectedUnitId = useStore((s) => s.selectedUnitId);
+  const sceneUnits = useStore((s) => s.sceneUnits);
+
+  const memoizedValue = useMemo(() => {
+    if (!calculatedGhoul) return null;
+
+    return {
+      isSelected: selectedUnitId === id,
+      initiative:
+        sceneUnits.find((scene) => scene.id === id)?.initiative ?? null,
+      name: calculatedGhoul.name,
+      player: calculatedGhoul.player,
+      willpower: calculatedGhoul.willpower,
+      bloodPool: calculatedGhoul.bloodPool,
+      bodyDamages: calculatedGhoul.bodyDamages,
+      isIncapacitated: getKinderedHealthLevel(calculatedGhoul.bodyDamages)
+        .isIncapacitated,
+    };
+  }, [id, selectedUnitId, sceneUnits, calculatedGhoul]);
 
   return memoizedValue;
 };

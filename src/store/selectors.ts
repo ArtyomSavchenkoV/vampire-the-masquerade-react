@@ -3,6 +3,7 @@ import { calculateHuman } from "domain/human/CalculatedHuman";
 import { useStore } from "./store";
 import { calculateKindred } from "domain/kindred/CalculatedKindred";
 import { useMemo } from "react";
+import { calculateGhoul } from "domain/ghoul/CalculatedGhoul";
 
 // TODO:
 // import { useShallow } from "zustand/shallow";
@@ -45,12 +46,32 @@ export const useKindredSelector = (id: string) => {
 
 /**
  * Вычисляет итоговую модель Kindred с учётом всех модификаторов и правил.
- * Расчёт мемоизирован: выполняется только при изменении исходных данных.
  */
 export const useCalculatedKindredSelector = (id: string) => {
   const kindred = useKindredSelector(id);
 
   return useMemo(() => (kindred ? calculateKindred(kindred) : null), [kindred]);
+};
+
+/**
+ * Извлекает объект Kindred из юнита, если тип сущности — "kindred".
+ * Возвращает null для других типов или при отсутствии юнита.
+ */
+export const useGhoulSelector = (id: string) => {
+  const unit = useUnitSelector(id);
+  if (!unit || unit.type !== "ghoul") {
+    return null;
+  }
+  return unit.unit;
+};
+
+/**
+ * Вычисляет итоговую модель Ghoul с учётом всех модификаторов и правил.
+ */
+export const useCalculatedGhoulSelector = (id: string) => {
+  const ghoul = useGhoulSelector(id);
+
+  return useMemo(() => (ghoul ? calculateGhoul(ghoul) : null), [ghoul]);
 };
 
 /**
@@ -67,7 +88,6 @@ export const useHumanSelector = (id: string) => {
 
 /**
  * Вычисляет итоговую модель Human с учётом всех модификаторов и правил.
- * Расчёт мемоизирован: выполняется только при изменении исходных данных.
  */
 export const useCalculatedHumanSelector = (id: string) => {
   const human = useHumanSelector(id);
@@ -89,7 +109,6 @@ export const useCreatureSelector = (id: string) => {
 
 /**
  * Вычисляет итоговую модель Creature с учётом всех модификаторов и правил.
- * Расчёт мемоизирован: выполняется только при изменении исходных данных.
  */
 export const useCalculatedCreatureSelector = (id: string) => {
   const creature = useCreatureSelector(id);

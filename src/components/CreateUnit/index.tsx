@@ -1,14 +1,17 @@
 import { Select } from "baseComponents/Select";
 import { ConfirmWindow } from "commonComponents/ConfirmWindow";
 import { EditCreatureForm } from "components/edit/EditCreatureForm";
+import { EditGhoulForm } from "components/edit/EditGhoulForm";
 import { EditHumanForm } from "components/edit/EditHumanForm";
 import { EditKindredForm } from "components/edit/EditKindredForm";
 import { clanes } from "data/clanes";
 import { initialCreature } from "data/initialCreature";
+import { initialGhoul } from "data/initialGhoul";
 import { initialHuman } from "data/initialHuman";
 import { initialKindred } from "data/initialKindred";
 import { ClanName, clanNames } from "domain/Clan";
 import { Creature } from "domain/creature/Creature";
+import { Ghoul } from "domain/ghoul/Ghoul";
 import { Human } from "domain/human/Human";
 import { Kindred } from "domain/kindred/Kindred";
 import { UnitType, unitTypes } from "domain/UnitType";
@@ -37,6 +40,7 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
     ...initialKindred,
     clan: clanes[INITIAL_CLAN],
   });
+  const [ghoul, setGhoul] = useState<Ghoul>(initialGhoul);
   const [human, setHuman] = useState<Human>(initialHuman);
   const [creature, setCreature] = useState<Creature>(initialCreature);
 
@@ -64,6 +68,14 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
           addUnit(uuidV4(), {
             type: "kindred",
             unit: kindred,
+          });
+          onClose();
+          return;
+        }
+        if (isUnitTypeSelected && unitType === "ghoul") {
+          addUnit(uuidV4(), {
+            type: "ghoul",
+            unit: ghoul,
           });
           onClose();
           return;
@@ -109,7 +121,7 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
             }))}
             value={unitType}
             onChange={(unitType) => setUnitType(unitType)}
-            size={3}
+            size={4}
           />
         </>
       )}
@@ -135,6 +147,9 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
           onChange={setKindred}
           onClanChange={changeClanHandler}
         />
+      )}
+      {isUnitTypeSelected && unitType === "ghoul" && (
+        <EditGhoulForm ghoul={ghoul} onChange={setGhoul} />
       )}
       {isUnitTypeSelected && unitType === "human" && (
         <EditHumanForm human={human} onChange={setHuman} />

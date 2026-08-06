@@ -1,5 +1,3 @@
-import styled from "@emotion/styled";
-import { RightPanel } from "commonComponents/RightPanel";
 import { EditKindredForm } from "components/edit/EditKindredForm";
 import { EditKindred } from "components/edit/EditKindred";
 import { clanes } from "data/clanes";
@@ -8,15 +6,7 @@ import { FC } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useActions, useKindredSelector } from "store/selectors";
 import { Header } from "./common/Header";
-
-const StyledPanel = styled(RightPanel)`
-  padding: 24px;
-  max-width: calc(60% - 48px);
-  height: calc(100% - 48px);
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-`;
+import { Panel } from "./common/Panel";
 
 interface TProps {
   selectedUnitId: string;
@@ -30,7 +20,7 @@ export const KindredDetails: FC<TProps> = ({ selectedUnitId }) => {
   return (
     <>
       {kindred && (
-        <StyledPanel open>
+        <Panel open>
           <Header
             title={translate("details.title")}
             buttons={<EditKindred kindredId={selectedUnitId} />}
@@ -54,7 +44,7 @@ export const KindredDetails: FC<TProps> = ({ selectedUnitId }) => {
               });
             }}
           />
-        </StyledPanel>
+        </Panel>
       )}
     </>
   );

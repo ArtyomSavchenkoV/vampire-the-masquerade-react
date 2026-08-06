@@ -44,6 +44,7 @@ export const ru = {
     kindred: "Сородич",
     human: "Человек",
     creature: "Существо",
+    ghoul: "Гуль",
   },
   fields: {
     name: "Имя",
@@ -55,6 +56,7 @@ export const ru = {
     clan: "Клан",
     initialGeneration: "Исходное поколение",
     sire: "Сир",
+    domitor: "Домитор",
     attributes: "Характеристики",
     abilities: "Способности",
     humanityOrPathRating: "Человечность/Путь",

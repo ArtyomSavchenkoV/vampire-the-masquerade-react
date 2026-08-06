@@ -1,7 +1,7 @@
-import { EditCreatureForm } from "components/edit/EditCreatureForm";
+import { EditGhoulForm } from "components/edit/EditGhoulForm";
 import { FC } from "react";
 import useTranslate from "services/translate/useTranslate";
-import { useActions, useCreatureSelector } from "store/selectors";
+import { useActions, useGhoulSelector } from "store/selectors";
 import { Header } from "./common/Header";
 import { Panel } from "./common/Panel";
 
@@ -9,25 +9,25 @@ interface TProps {
   selectedUnitId: string;
 }
 
-export const CreatureDetails: FC<TProps> = ({ selectedUnitId }) => {
+export const GhoulDetails: FC<TProps> = ({ selectedUnitId }) => {
   const { translate } = useTranslate();
   const { addUnit, selectUnit } = useActions();
-  const creature = useCreatureSelector(selectedUnitId);
+  const ghoul = useGhoulSelector(selectedUnitId);
 
   return (
     <>
-      {creature && (
+      {ghoul && (
         <Panel open>
           <Header
             title={translate("details.title")}
             onClose={() => selectUnit(null)}
           />
-          <EditCreatureForm
-            creature={creature}
-            onChange={(creature) =>
+          <EditGhoulForm
+            ghoul={ghoul}
+            onChange={(ghoul) =>
               addUnit(selectedUnitId, {
-                type: "creature",
-                unit: creature,
+                type: "ghoul",
+                unit: ghoul,
               })
             }
           />

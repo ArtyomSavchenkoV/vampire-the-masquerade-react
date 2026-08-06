@@ -33,7 +33,7 @@ export interface Human {
   backgrounds: Partial<Record<BackgroundName, BackgroundLevel>>;
   /** Ментальные устойчивости */
   mentalStability: Record<MentalStability, MentalStabilityLevel>;
-  /** Достоинства и недостатки */
+  /** Достоинства */
   merits: MeritName[];
   /** Hедостатки */
   flaws: FlawName[];

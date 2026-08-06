@@ -1,4 +1,5 @@
 import { Creature } from "domain/creature/Creature";
+import { Ghoul } from "domain/ghoul/Ghoul";
 import { Human } from "domain/human/Human";
 import { Kindred } from "domain/kindred/Kindred";
 
@@ -9,6 +10,8 @@ import { Kindred } from "domain/kindred/Kindred";
 export type UnitEntry =
   /** Сородич (вампир) — основная игровая роль в V20 */
   | { type: "kindred"; unit: Kindred }
+  /** Человек — второстепенные персонажи, NPC без сверхъестественных сил */
+  | { type: "ghoul"; unit: Ghoul }
   /** Человек — второстепенные персонажи, NPC без сверхъестественных сил */
   | { type: "human"; unit: Human }
   /** Существо — животные, монстры и прочие не‑разумные или иные сущности (например, медведь, крыса) */
