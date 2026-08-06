@@ -6,6 +6,7 @@ import { CreatureRow } from "./CreatureRow";
 import { HumanRow } from "./HumanRow";
 import { KindredRow } from "./KindredRow";
 import { Tbody } from "baseComponents/Tbody";
+import { GhoulRow } from "./GhoulRow";
 
 // Ширины колонок
 const columnWidths = [
@@ -36,6 +37,7 @@ export const SceneUnitsList: FC<TProps> = () => {
         {sceneUnits.map(({ id, type }) => (
           <Fragment key={id}>
             {type === "kindred" && <KindredRow id={id} />}
+            {type === "ghoul" && <GhoulRow id={id} />}
             {type === "human" && <HumanRow id={id} />}
             {type === "creature" && <CreatureRow id={id} />}
           </Fragment>
