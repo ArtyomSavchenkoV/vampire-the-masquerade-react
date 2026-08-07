@@ -47,6 +47,7 @@ describe("src/domain/kindred-getKinderedHealthLevel", () => {
       ]),
     ).toEqual({
       name: "incapacitated",
+      cutExcessDamage: true,
       isIncapacitated: true,
     });
   });

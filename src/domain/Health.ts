@@ -59,6 +59,8 @@ export const healthLevels = [
   {
     name: "incapacitated",
     isIncapacitated: true,
+    // Не пропускает превышающий урон до следующего повреждения
+    cutExcessDamage: true,
   },
   /** Окончательная смерть. */
   {
@@ -108,9 +110,15 @@ export const sortHealthDamages = (
 
 export type HealthLevelData =
   | {
-      name: Exclude<HealthLevelName, "final">;
+      name: Exclude<HealthLevelName, "final" | "incapacitated">;
       /** Небоеспособен */
       isIncapacitated: boolean;
+      modifiers?: Modifiers;
+    }
+  | {
+      name: "incapacitated";
+      isIncapacitated: true;
+      cutExcessDamage: true;
       modifiers?: Modifiers;
     }
   | {
@@ -129,6 +137,17 @@ export const hasModifiers = (
   modifiers: { commonDiceBonus?: number };
 } => {
   return "modifiers" in state;
+};
+
+/**
+ * Проверка что в уровне есть cutExcessDamage
+ */
+export const hasCutExcessDamage = (
+  state: HealthLevelData,
+): state is HealthLevelData & {
+  cutExcessDamage: boolean;
+} => {
+  return "cutExcessDamage" in state;
 };
 
 /** Полученное лечение */
@@ -155,15 +174,15 @@ export interface DamageEvent {
 export const getHealthLevel = (
   healthLevels: Readonly<HealthLevelData[]>,
   bodyDamages: HealthDamages,
-  isKindred: boolean,
+  isTorporPossible: boolean,
 ): HealthLevelData => {
   const getVariant = (
     healthLevelData: HealthLevelData,
     damageType: DamageType,
-    isKindred: boolean,
+    isTorporPossible: boolean,
   ): HealthLevelData => {
     if (healthLevelData.name === "final") {
-      if (isKindred && damageType !== "aggravated") {
+      if (isTorporPossible && damageType !== "aggravated") {
         return {
           name: "final",
           isIncapacitated: true,
@@ -182,13 +201,13 @@ export const getHealthLevel = (
     return getVariant(
       healthLevels[healthLevels.length],
       bodyDamages[healthLevels.length - 1],
-      isKindred,
+      isTorporPossible,
     );
   }
   return getVariant(
     healthLevels[bodyDamages.length],
     bodyDamages[bodyDamages.length - 1],
-    isKindred,
+    isTorporPossible,
   );
 };
 
@@ -200,13 +219,17 @@ export const damageHealth = (
   healthLevels: Readonly<HealthLevelData[]>,
   bodyDamages: HealthDamages,
   damageEvent: DamageEvent,
-  isKindred: boolean,
+  isTorporPossible: boolean,
 ): HealthDamages => {
   const healthDamages = [...bodyDamages];
   // Максимальное количество элементов урона
   const maxDamages = healthLevels.length - 1; // 0 элемент healthLevels - это состояние "Здоров"
   // Текущий уровень здоровья
-  const healthLevel = getHealthLevel(healthLevels, bodyDamages, isKindred);
+  const healthLevel = getHealthLevel(
+    healthLevels,
+    bodyDamages,
+    isTorporPossible,
+  );
   // Тип наносимого урона
   const damageType = damageEvent.damageType;
   // Если финальный урон
@@ -219,14 +242,22 @@ export const damageHealth = (
     // иначе ничего не делаем
     return healthDamages;
   }
+
+  // Остаточные слоты ран:
+  const remainsHealthLevels = healthLevels.slice(bodyDamages.length + 1);
+  // Количество ран до ближайшего предела
+  const cutExcessDamageIndex =
+    remainsHealthLevels.findIndex(
+      (healthLevel) =>
+        hasCutExcessDamage(healthLevel) && healthLevel.cutExcessDamage,
+    ) + 1;
+
   // Доступные слоты урона
-  const availableCells = isKindred
-    ? // Сородич не может получить финальный урон из "пачки цифр",
-      // поэтому уменьшаем количество доступных слотов на 1, если количество доступних слотов и так  1 - оставляем как есть
-      maxDamages - bodyDamages.length > 1
-      ? maxDamages - bodyDamages.length - 1
-      : maxDamages - bodyDamages.length
-    : maxDamages - bodyDamages.length;
+  const availableCells =
+    cutExcessDamageIndex !== 0
+      ? Math.min(cutExcessDamageIndex, maxDamages - bodyDamages.length)
+      : maxDamages - bodyDamages.length;
+
   // количество наносимого урона
   const damageCount = damageEvent.value;
 

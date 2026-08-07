@@ -54,6 +54,50 @@ describe("src/domain/damageHealth", () => {
     ]);
   });
 
+  it("Избыточный при уровне ограничения", () => {
+    expect(healthLevels.length).toBe(8);
+    expect(
+      damageHealth(
+        dataHealthLevels.filter(
+          ({ name }) =>
+            name === "unimpaired" ||
+            name === "wounded" ||
+            name === "incapacitated" ||
+            name === "final",
+        ),
+        ["bashing"],
+        {
+          type: "damage",
+          damageType: "lethal",
+          value: 6,
+        },
+        false,
+      ),
+    ).toEqual(["bashing", "lethal"]);
+  });
+
+  it("Избыточный после ограничения", () => {
+    expect(healthLevels.length).toBe(8);
+    expect(
+      damageHealth(
+        dataHealthLevels.filter(
+          ({ name }) =>
+            name === "unimpaired" ||
+            name === "wounded" ||
+            name === "incapacitated" ||
+            name === "final",
+        ),
+        ["bashing", "lethal"],
+        {
+          type: "damage",
+          damageType: "lethal",
+          value: 6,
+        },
+        false,
+      ),
+    ).toEqual(["bashing", "lethal", "lethal"]);
+  });
+
   it("Урон по погибшему персонажу", () => {
     expect(
       damageHealth(
