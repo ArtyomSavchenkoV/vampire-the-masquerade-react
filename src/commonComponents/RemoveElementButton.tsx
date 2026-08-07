@@ -1,18 +1,13 @@
 import TrashBinIcon from "icons/TrashBinIcon";
 import styled from "@emotion/styled";
 import { ComponentProps, FC } from "react";
-import { Button } from "baseComponents/Button";
+import { IconButton } from "baseComponents/IconButton";
 
-const TrashButton = styled(Button)`
-  height: 19px;
-  width: 19px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.54em;
+const TrashButton = styled(IconButton)`
+  font-size: 0.8em;
 `;
 
-interface TProps extends Omit<ComponentProps<typeof Button>, "children"> {}
+interface TProps extends Omit<ComponentProps<typeof IconButton>, "children"> {}
 
 export const RemoveElementButton: FC<TProps> = ({ ...props }) => {
   return (

@@ -1,13 +1,16 @@
 import { Td } from "baseComponents/Td";
 import { FC, memo } from "react";
 import { useGhoulRowSelector } from "./selectors";
-import { CheckBox } from "baseComponents/CheckBox";
 import { useActions } from "store/selectors";
 import useTranslate from "services/translate/useTranslate";
 import { StyledRow } from "commonComponents/StyledRow";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 import { MAX_HEALTH } from "data/ghoulHealthLevels";
+import { ButtonsTd } from "commonComponents/ButtonsTd";
+import { TableCheckbox } from "commonComponents/TableCheckbox";
+import { IconButton } from "baseComponents/IconButton";
+import TrashBinIcon from "icons/TrashBinIcon";
 
 interface TProps {
   id: string;
@@ -28,17 +31,17 @@ export const GhoulRow: FC<TProps> = memo(({ id }) => {
       onClick={() => selectUnit(ghoulRow.isSelected ? null : id)}
     >
       {/* Переключатель участия в сцене */}
-      <Td>
-        <CheckBox
+      <ButtonsTd>
+        <TableCheckbox
           checked={ghoulRow.isOnScene}
           onClick={(ev) => {
             ev.stopPropagation();
           }}
-          onChange={(ev) => {
-            ev.target.checked ? addToScene(id) : removeFromScene(id);
+          onChange={(checked) => {
+            checked ? addToScene(id) : removeFromScene(id);
           }}
         />
-      </Td>
+      </ButtonsTd>
 
       {/* Имя персонажа */}
       <Td>{ghoulRow.name}</Td>
@@ -65,8 +68,9 @@ export const GhoulRow: FC<TProps> = memo(({ id }) => {
           confirmWindowContent={translate(
             "unitRow.removeUnitConfirmingMessage",
           )}
+          ButtonComponent={IconButton}
         >
-          {translate("unitRow.remove")}
+          <TrashBinIcon />
         </ConfirmingButton>
       </Td>
     </StyledRow>

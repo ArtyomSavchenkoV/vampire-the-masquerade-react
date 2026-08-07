@@ -4,6 +4,7 @@ import { Dialog } from "./Dialog";
 import { ConfirmWindow } from "./ConfirmWindow";
 
 interface TProps extends ComponentProps<typeof Button> {
+  ButtonComponent?: FC<ComponentProps<typeof Button>>;
   onConfirm: () => void;
   confirmWindowTitle: ReactNode;
   confirmWindowContent?: ReactNode;
@@ -15,19 +16,32 @@ export const ConfirmingButton: FC<TProps> = ({
   confirmWindowTitle,
   confirmWindowContent,
   disabled,
+  ButtonComponent,
   ...props
 }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button
-        onClick={(ev) => {
-          onClick?.(ev);
-          !disabled && setOpen(true);
-        }}
-        disabled={disabled}
-        {...props}
-      />
+      {!ButtonComponent && (
+        <Button
+          onClick={(ev) => {
+            onClick?.(ev);
+            !disabled && setOpen(true);
+          }}
+          disabled={disabled}
+          {...props}
+        />
+      )}
+      {ButtonComponent && (
+        <ButtonComponent
+          onClick={(ev) => {
+            onClick?.(ev);
+            !disabled && setOpen(true);
+          }}
+          disabled={disabled}
+          {...props}
+        />
+      )}
       <Dialog open={open}>
         <ConfirmWindow
           title={confirmWindowTitle}

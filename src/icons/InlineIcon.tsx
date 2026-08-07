@@ -6,13 +6,13 @@ const Svg = styled.svg({
   width: "1em",
   height: "1em",
   display: "inline-block",
-  fontSize: "1.5em",
+  fontSize: "1em",
   transition: "fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
   flexShrink: 0,
   userSelect: "none",
 });
 
 interface IProps extends SVGProps<SVGSVGElement> {}
-export const InlineIcon: FC<IProps> = ({ className, ...props }) => {
+export const InlineIcon: FC<IProps> = ({ ...props }) => {
   return <Svg focusable="false" viewBox="0 0 24 24" {...props} />;
 };

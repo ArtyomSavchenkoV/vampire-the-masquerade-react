@@ -1,12 +1,11 @@
-import { FC } from "react";
+import { ComponentProps, FC } from "react";
 import { InlineIcon } from "./InlineIcon";
 
-interface IProps {}
-const TrashBinIcon: FC<IProps> = () => {
+interface TProps extends Omit<ComponentProps<typeof InlineIcon>, "children"> {}
+const TrashBinIcon: FC<TProps> = ({ ...props }) => {
   return (
-    <InlineIcon>
+    <InlineIcon {...props}>
       <path
-        fill="currentColor"
         fillRule="evenodd"
         clipRule="evenodd"
         d="						

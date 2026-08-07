@@ -1,7 +1,7 @@
-import { Button } from "baseComponents/Button";
+import { IconButton } from "baseComponents/IconButton";
 import { ChangeEventHandler, ComponentProps, FC, useRef } from "react";
 
-interface TProps extends ComponentProps<typeof Button> {
+interface TProps extends ComponentProps<typeof IconButton> {
   onFileOpen: (fileContent: string | ArrayBuffer | null | undefined) => void;
 }
 const OpenFileButton: FC<TProps> = ({ onFileOpen, onClick, ...props }) => {
@@ -28,7 +28,7 @@ const OpenFileButton: FC<TProps> = ({ onFileOpen, onClick, ...props }) => {
 
   return (
     <>
-      <Button
+      <IconButton
         onClick={(event) => {
           handleClick();
           onClick?.(event);

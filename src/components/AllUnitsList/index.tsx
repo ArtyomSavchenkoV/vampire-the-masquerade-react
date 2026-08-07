@@ -21,7 +21,7 @@ const columnWidths = [
   /** Ресурсы */
   "auto",
   /** Кнопки */
-  80,
+  40,
 ] as const;
 
 interface TProps {}

@@ -1,10 +1,13 @@
 import styled from "@emotion/styled";
 import { Button } from "baseComponents/Button";
+import { IconButton } from "baseComponents/IconButton";
 import { Tab } from "baseComponents/Tab";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 import { Dialog } from "commonComponents/Dialog";
 import OpenFileButton from "commonComponents/OpenFileButton";
 import { CreateUnit } from "components/CreateUnit";
+import { OpenIcon } from "icons/OpenIcon";
+import { SaveIcon } from "icons/SaveIcon";
 import { HTMLAttributes, FC, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useActions, useUnitsSelector } from "store/selectors";
@@ -17,6 +20,18 @@ const HeaderRoot = styled.div`
 const PlaceHolder = styled.div`
   width: 100%;
   flex: 1;
+`;
+
+const OpenButton = styled(OpenFileButton)`
+  width: 30px;
+  min-height: 30px;
+  font-size: 24px;
+`;
+
+const SaveButton = styled(IconButton)`
+  width: 30px;
+  min-height: 30px;
+  font-size: 24px;
 `;
 
 export type Tabs = "allUnits" | "sceneUnits";
@@ -67,7 +82,7 @@ export const Header: FC<TProps> = ({ selectedTab, onTabChange, ...props }) => {
       </ConfirmingButton>
 
       {/* открыть */}
-      <OpenFileButton
+      <OpenButton
         onFileOpen={(content) => {
           if (typeof content === "string") {
             const data = JSON.parse(content);
@@ -77,11 +92,11 @@ export const Header: FC<TProps> = ({ selectedTab, onTabChange, ...props }) => {
           }
         }}
       >
-        {translate("header.open")}
-      </OpenFileButton>
+        <OpenIcon />
+      </OpenButton>
 
       {/* Сохранить */}
-      <Button
+      <SaveButton
         onClick={() => {
           const blobdtMIME = new Blob([JSON.stringify(units, null, "\t")], {
             type: "application/json",
@@ -102,8 +117,8 @@ export const Header: FC<TProps> = ({ selectedTab, onTabChange, ...props }) => {
           }
         }}
       >
-        {translate("header.save")}
-      </Button>
+        <SaveIcon />
+      </SaveButton>
 
       {/* Создать участника */}
       <Button onClick={() => setIsCreateUnitOpe(true)}>

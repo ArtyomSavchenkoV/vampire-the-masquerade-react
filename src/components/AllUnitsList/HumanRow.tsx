@@ -1,4 +1,3 @@
-import { CheckBox } from "baseComponents/CheckBox";
 import { Td } from "baseComponents/Td";
 import { FC, memo } from "react";
 import useTranslate from "services/translate/useTranslate";
@@ -7,6 +6,10 @@ import { useHumanRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
+import { ButtonsTd } from "commonComponents/ButtonsTd";
+import { TableCheckbox } from "commonComponents/TableCheckbox";
+import { IconButton } from "baseComponents/IconButton";
+import TrashBinIcon from "icons/TrashBinIcon";
 
 interface TProps {
   id: string;
@@ -27,17 +30,17 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
       onClick={() => selectUnit(humanRow.isSelected ? null : id)}
     >
       {/* Переключатель участия в сцене */}
-      <Td>
-        <CheckBox
+      <ButtonsTd>
+        <TableCheckbox
           checked={humanRow.isOnScene}
           onClick={(ev) => {
             ev.stopPropagation();
           }}
-          onChange={(ev) => {
-            ev.target.checked ? addToScene(id) : removeFromScene(id);
+          onChange={(checked) => {
+            checked ? addToScene(id) : removeFromScene(id);
           }}
         />
-      </Td>
+      </ButtonsTd>
 
       {/* Имя персонажа */}
       <Td>{humanRow.name}</Td>
@@ -63,8 +66,9 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
           confirmWindowContent={translate(
             "unitRow.removeUnitConfirmingMessage",
           )}
+          ButtonComponent={IconButton}
         >
-          {translate("unitRow.remove")}
+          <TrashBinIcon />
         </ConfirmingButton>
       </Td>
     </StyledRow>

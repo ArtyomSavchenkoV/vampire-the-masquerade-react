@@ -2,14 +2,16 @@ export const ru = {
   header: {
     allUnitsTab: "Все",
     sceneUnitsTab: "Сцена",
-    open: "Открыть",
-    save: "Сохранить",
     sortSceneByInitiative: "Отсортировать по инициативе",
   },
   createUnit: {
     title: "Создать участника",
     selectUnitType: "Выберите тип участника",
     selectClan: "Выберите клан",
+    editKindred: "Настройка сородича",
+    editGhoul: "Настройка гуля",
+    editHuman: "Настройка человека",
+    editCreature: "Настройка существа",
     physical: "Физические",
     social: "Социальные",
     mental: "Ментальные",

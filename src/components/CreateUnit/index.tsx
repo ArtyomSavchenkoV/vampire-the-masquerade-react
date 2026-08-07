@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import { Select } from "baseComponents/Select";
 import { ConfirmWindow } from "commonComponents/ConfirmWindow";
 import { EditCreatureForm } from "components/edit/EditCreatureForm";
@@ -19,6 +20,11 @@ import { FC, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useActions } from "store/selectors";
 import { v4 as uuidV4 } from "uuid";
+
+const FormTitle = styled.div`
+  font-size: 1.5em;
+  text-align: center;
+`;
 
 const INITIAL_CLAN: ClanName = "Gangrel";
 
@@ -142,20 +148,32 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
       )}
       {/* 3 шаг - открытие формы под определённый тип */}
       {isClanSelected && (
-        <EditKindredForm
-          kindred={kindred}
-          onChange={setKindred}
-          onClanChange={changeClanHandler}
-        />
+        <>
+          <FormTitle>{translate("createUnit.editKindred")}</FormTitle>
+          <EditKindredForm
+            kindred={kindred}
+            onChange={setKindred}
+            onClanChange={changeClanHandler}
+          />
+        </>
       )}
       {isUnitTypeSelected && unitType === "ghoul" && (
-        <EditGhoulForm ghoul={ghoul} onChange={setGhoul} />
+        <>
+          <FormTitle>{translate("createUnit.editGhoul")}</FormTitle>
+          <EditGhoulForm ghoul={ghoul} onChange={setGhoul} />
+        </>
       )}
       {isUnitTypeSelected && unitType === "human" && (
-        <EditHumanForm human={human} onChange={setHuman} />
+        <>
+          <FormTitle>{translate("createUnit.editHuman")}</FormTitle>
+          <EditHumanForm human={human} onChange={setHuman} />
+        </>
       )}
       {isUnitTypeSelected && unitType === "creature" && (
-        <EditCreatureForm creature={creature} onChange={setCreature} />
+        <>
+          <FormTitle>{translate("createUnit.editCreature")}</FormTitle>
+          <EditCreatureForm creature={creature} onChange={setCreature} />
+        </>
       )}
     </ConfirmWindow>
   );

@@ -1,4 +1,3 @@
-import { CheckBox } from "baseComponents/CheckBox";
 import { Td } from "baseComponents/Td";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { FC, memo } from "react";
@@ -7,6 +6,10 @@ import { useCreatureRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { useActions } from "store/selectors";
 import { ConfirmingButton } from "commonComponents/ConfirmingButton";
+import { ButtonsTd } from "commonComponents/ButtonsTd";
+import { TableCheckbox } from "commonComponents/TableCheckbox";
+import TrashBinIcon from "icons/TrashBinIcon";
+import { IconButton } from "baseComponents/IconButton";
 
 interface TProps {
   id: string;
@@ -29,17 +32,17 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
       onClick={() => selectUnit(creatureRow.isSelected ? null : id)}
     >
       {/* Переключатель участия в сцене */}
-      <Td>
-        <CheckBox
+      <ButtonsTd>
+        <TableCheckbox
           checked={creatureRow.isOnScene}
           onClick={(ev) => {
             ev.stopPropagation();
           }}
-          onChange={(ev) => {
-            ev.target.checked ? addToScene(id) : removeFromScene(id);
+          onChange={(checked) => {
+            checked ? addToScene(id) : removeFromScene(id);
           }}
         />
-      </Td>
+      </ButtonsTd>
 
       {/* Имя персонажа */}
       <Td>{creatureRow.name}</Td>
@@ -65,8 +68,9 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
           confirmWindowContent={translate(
             "unitRow.removeUnitConfirmingMessage",
           )}
+          ButtonComponent={IconButton}
         >
-          {translate("unitRow.remove")}
+          <TrashBinIcon />
         </ConfirmingButton>
       </Td>
     </StyledRow>
