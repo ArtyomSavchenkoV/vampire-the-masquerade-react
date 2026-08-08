@@ -1,9 +1,9 @@
 import { Input } from "baseComponents/Input";
 import { Select } from "baseComponents/Select";
-import { ArrayEditor } from "commonComponents/ArrayEditor";
+import { ArrayEditor } from "./common/ArrayEditor";
 import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { GhoulLayout } from "components/edit/common/GhoulLayout";
-import { PartialObjectEditor } from "commonComponents/PartialObjectEditor";
+import { PartialObjectEditor } from "./common/PartialObjectEditor";
 import { PositiveNumberInput } from "commonComponents/PositiveNumberInput";
 import { TitleText } from "commonComponents/TitleText";
 import { merits, flaws } from "data/meritsAndFlaws";

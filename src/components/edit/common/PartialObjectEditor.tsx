@@ -1,9 +1,9 @@
 import { getDefinedEntries } from "utils/getDefinedEntries";
-import { TitleText } from "./TitleText";
+import { TitleText } from "commonComponents/TitleText";
 import { AddElementButton } from "./AddElementButton";
 import { RemoveElementButton } from "./RemoveElementButton";
 import styled from "@emotion/styled";
-import { WithoutBorderSelect } from "./WithoutBorderSelect";
+import { WithoutBorderSelect } from "commonComponents/WithoutBorderSelect";
 
 const TrashButton = styled(RemoveElementButton)`
   margin-left: 4px;

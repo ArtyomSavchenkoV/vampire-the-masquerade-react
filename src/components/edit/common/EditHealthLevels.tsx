@@ -1,6 +1,6 @@
-import { AddElementButton } from "commonComponents/AddElementButton";
-import { ArrayEditorRow } from "commonComponents/ArrayEditorRow";
-import { RemoveElementButton } from "commonComponents/RemoveElementButton";
+import { AddElementButton } from "./AddElementButton";
+import { ArrayEditorRow } from "./ArrayEditorRow";
+import { RemoveElementButton } from "./RemoveElementButton";
 import {
   hasCutExcessDamage,
   hasModifiers,
