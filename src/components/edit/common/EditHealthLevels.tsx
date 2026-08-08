@@ -1,7 +1,11 @@
 import { AddElementButton } from "commonComponents/AddElementButton";
+import { ArrayEditorRow } from "commonComponents/ArrayEditorRow";
 import { RemoveElementButton } from "commonComponents/RemoveElementButton";
-import { TitleText } from "commonComponents/TitleText";
-import { hasModifiers, healthLevels as healthLevelsData } from "domain/Health";
+import {
+  hasCutExcessDamage,
+  hasModifiers,
+  healthLevels as healthLevelsData,
+} from "domain/Health";
 import { HealthLevelData } from "domain/Health";
 import { FC, useMemo } from "react";
 import useTranslate from "services/translate/useTranslate";
@@ -38,7 +42,7 @@ export const EditHealthLevels: FC<TProps> = ({
           : null;
         return {
           value: healthLevelData.name,
-          name: `${translate(`healthLevels.${healthLevelData.name}`)}${commonDiceBonus ? ` (${commonDiceBonus})` : ""}`,
+          name: `${translate(`health.healthLevels.${healthLevelData.name}`)}${commonDiceBonus ? ` (${commonDiceBonus})` : ""}`,
         };
       }),
     [allowDuplicates, healthLevels, translate],
@@ -80,31 +84,46 @@ export const EditHealthLevels: FC<TProps> = ({
     <>
       {healthLevels.some(
         (healthLevel) => healthLevel.name === "unimpaired",
-      ) && <TitleText title={translate("healthLevels.unimpaired")} />}
+      ) && (
+        <ArrayEditorRow>
+          {translate("health.healthLevels.unimpaired")}
+        </ArrayEditorRow>
+      )}
 
       {healthLevelsValues.map((healthLevelData, index) => {
         const commonDiceBonus = hasModifiers(healthLevelData)
           ? healthLevelData.modifiers.commonDiceBonus
           : null;
+        const cutExcessDamage = hasCutExcessDamage(healthLevelData)
+          ? healthLevelData.cutExcessDamage
+          : false;
         return (
-          <TitleText
+          <ArrayEditorRow
             key={allowDuplicates ? index : healthLevelData.name}
-            title={`${translate(`healthLevels.${healthLevelData.name}`)}${commonDiceBonus ? ` (${commonDiceBonus})` : ""}`}
+            removeButton={
+              <RemoveElementButton
+                onClick={() => {
+                  // Удаляем строго по индексу — безопасно даже при дублях
+                  const nextArray = [...healthLevelsValues];
+                  nextArray.splice(index, 1);
+                  changeHandler([...nextArray]);
+                }}
+              />
+            }
           >
-            <RemoveElementButton
-              onClick={() => {
-                // Удаляем строго по индексу — безопасно даже при дублях
-                const nextArray = [...healthLevelsValues];
-                nextArray.splice(index, 1);
-                changeHandler([...nextArray]);
-              }}
-            />
-          </TitleText>
+            <>
+              {`${translate(`health.healthLevels.${healthLevelData.name}`)}${commonDiceBonus ? ` (${commonDiceBonus})` : ""}`}
+              <br />
+              {cutExcessDamage && translate("health.cutExcessDamage")}
+            </>
+          </ArrayEditorRow>
         );
       })}
 
       {healthLevels.some((healthLevel) => healthLevel.name === "final") && (
-        <TitleText title={translate("healthLevels.final")} />
+        <ArrayEditorRow>
+          {translate("health.healthLevels.final")}
+        </ArrayEditorRow>
       )}
 
       {/** Кнопка добавить */}

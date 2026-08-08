@@ -1,6 +1,6 @@
-import { TitleText } from "./TitleText";
 import { AddElementButton } from "./AddElementButton";
 import { RemoveElementButton } from "./RemoveElementButton";
+import { ArrayEditorRow } from "./ArrayEditorRow";
 
 export const ArrayEditor = <Value extends string>({
   array,
@@ -28,16 +28,21 @@ export const ArrayEditor = <Value extends string>({
         const option = options.find((el) => el.value === key);
         const name = option?.name;
         return (
-          <TitleText key={allowDuplicates ? index : key} title={name}>
-            <RemoveElementButton
-              onClick={() => {
-                // Удаляем строго по индексу — безопасно даже при дублях
-                const nextArray = [...array];
-                nextArray.splice(index, 1);
-                onChange(nextArray);
-              }}
-            />
-          </TitleText>
+          <ArrayEditorRow
+            key={allowDuplicates ? index : key}
+            removeButton={
+              <RemoveElementButton
+                onClick={() => {
+                  // Удаляем строго по индексу — безопасно даже при дублях
+                  const nextArray = [...array];
+                  nextArray.splice(index, 1);
+                  onChange(nextArray);
+                }}
+              />
+            }
+          >
+            {name}
+          </ArrayEditorRow>
         );
       })}
 

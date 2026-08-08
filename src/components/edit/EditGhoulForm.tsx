@@ -903,7 +903,7 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
           {/* Уровень здоровья */}
           <Info>
             {`${translate(
-              `healthLevels.${getHealthLevelTranslateKey(healthLevel)}`,
+              `health.healthLevels.${getHealthLevelTranslateKey(healthLevel)}`,
             )}${healthLevel.modifiers?.commonDiceBonus ? ` (${healthLevel.modifiers.commonDiceBonus})` : ""}`}
           </Info>
           {/* Раны */}

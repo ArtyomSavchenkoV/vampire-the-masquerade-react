@@ -943,7 +943,7 @@ export const EditKindredForm: FC<TProps> = ({
           {/* Уровень здоровья */}
           <Info>
             {`${translate(
-              `healthLevels.${getHealthLevelTranslateKey(healthLevel)}`,
+              `health.healthLevels.${getHealthLevelTranslateKey(healthLevel)}`,
             )}${healthLevel.modifiers?.commonDiceBonus ? ` (${healthLevel.modifiers.commonDiceBonus})` : ""}`}
           </Info>
           {/* Раны */}

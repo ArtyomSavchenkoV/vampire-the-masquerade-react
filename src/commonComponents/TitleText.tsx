@@ -9,7 +9,7 @@ const Root = styled.div<{ isSmallElement: boolean }>(({ isSmallElement }) => ({
     ? {}
     : {
         display: "grid",
-        gridTemplateColumns: "1.3fr minmax(125px, 1fr)",
+        gridTemplateColumns: "1fr 125px",
       }),
 }));
 

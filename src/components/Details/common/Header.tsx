@@ -6,6 +6,7 @@ const StyledHeader = styled.div`
   font-size: 2em;
   display: flex;
   gap: 24px;
+  flex-wrap: wrap;
 `;
 
 const CloseButton = styled(Button)`

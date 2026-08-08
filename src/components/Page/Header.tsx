@@ -15,6 +15,7 @@ import { useActions, useUnitsSelector } from "store/selectors";
 const HeaderRoot = styled.div`
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 `;
 
 const PlaceHolder = styled.div`
