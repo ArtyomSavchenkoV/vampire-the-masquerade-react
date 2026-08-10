@@ -6,11 +6,18 @@ import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 import { Dialog } from "commonComponents/Dialog";
 import OpenFileButton from "commonComponents/OpenFileButton";
 import { CreateUnit } from "components/CreateUnit";
+import {
+  detectVersion,
+  serializeToFile,
+  dataMigrators,
+} from "services/migrations/versionsMigrators";
 import { OpenIcon } from "icons/OpenIcon";
 import { SaveIcon } from "icons/SaveIcon";
-import { HTMLAttributes, FC, useState } from "react";
+import { HTMLAttributes, FC, useState, memo } from "react";
 import useTranslate from "services/translate/useTranslate";
-import { useActions, useUnitsSelector } from "store/selectors";
+import { useActions } from "store/selectors";
+import { useStore } from "store/store";
+import { formatTimestampForFilename } from "utils/formatTimestampForFilename";
 
 const HeaderRoot = styled.div`
   display: flex;
@@ -42,92 +49,107 @@ interface TProps extends HTMLAttributes<HTMLDivElement> {
   onTabChange: (selectedTab: Tabs) => void;
 }
 
-export const Header: FC<TProps> = ({ selectedTab, onTabChange, ...props }) => {
-  const { translate } = useTranslate();
-  const { changeUnits, sortSceneByInitiative } = useActions();
-  const units = useUnitsSelector();
+export const Header: FC<TProps> = memo(
+  ({ selectedTab, onTabChange, ...props }) => {
+    const { translate } = useTranslate();
+    const { setStoreState, sortSceneByInitiative } = useActions();
 
-  const [isCreateUnitOpen, setIsCreateUnitOpe] = useState(false);
+    const [isCreateUnitOpen, setIsCreateUnitOpe] = useState(false);
 
-  return (
-    <HeaderRoot {...props}>
-      {/* Все */}
-      <Tab
-        isSelected={selectedTab === "allUnits"}
-        onClick={() => selectedTab !== "allUnits" && onTabChange("allUnits")}
-      >
-        {translate("header.allUnitsTab")}
-      </Tab>
+    const handleSave = async () => {
+      try {
+        // 1. Получаем стейт ровно один раз
+        const currentState = useStore.getState();
 
-      {/* Сцена */}
-      <Tab
-        isSelected={selectedTab === "sceneUnits"}
-        onClick={() =>
-          selectedTab !== "sceneUnits" && onTabChange("sceneUnits")
+        // 2. Преобразуем в формат файла — только здесь и только один раз
+        const fileData = serializeToFile(currentState);
+
+        const blob = new Blob([JSON.stringify(fileData, null, "\t")], {
+          type: "application/json",
+        });
+
+        const fileName = `${formatTimestampForFilename()}.json`;
+
+        if ((window as any).navigator?.msSaveBlob) {
+          // IE fallback
+          (window as any).navigator.msSaveBlob(blob, fileName);
+        } else {
+          const link = document.createElement("a");
+          const url = window.URL.createObjectURL(blob);
+          link.href = url;
+          link.setAttribute("download", fileName);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
         }
-      >
-        {translate("header.sceneUnitsTab")}
-      </Tab>
+      } catch (error) {
+        console.error("Ошибка при сохранении файла", error);
+        alert("Не удалось сохранить файл. Проверьте консоль для деталей.");
+      }
+    };
 
-      {/* отсортировать по инициативе */}
-      {selectedTab === "sceneUnits" && (
-        <Button onClick={() => sortSceneByInitiative()}>
-          {translate("header.sortSceneByInitiative")}
+    return (
+      <HeaderRoot {...props}>
+        {/* Все */}
+        <Tab
+          isSelected={selectedTab === "allUnits"}
+          onClick={() => selectedTab !== "allUnits" && onTabChange("allUnits")}
+        >
+          {translate("header.allUnitsTab")}
+        </Tab>
+
+        {/* Сцена */}
+        <Tab
+          isSelected={selectedTab === "sceneUnits"}
+          onClick={() =>
+            selectedTab !== "sceneUnits" && onTabChange("sceneUnits")
+          }
+        >
+          {translate("header.sceneUnitsTab")}
+        </Tab>
+
+        {/* отсортировать по инициативе */}
+        {selectedTab === "sceneUnits" && (
+          <Button onClick={() => sortSceneByInitiative()}>
+            {translate("header.sortSceneByInitiative")}
+          </Button>
+        )}
+
+        <PlaceHolder />
+
+        <ConfirmingButton onConfirm={() => {}} confirmWindowTitle="Подтверди!">
+          444
+        </ConfirmingButton>
+
+        {/* открыть */}
+        <OpenButton
+          onFileOpen={(content) => {
+            if (typeof content === "string") {
+              const data = JSON.parse(content);
+              const dataVersion = detectVersion(data);
+              setStoreState(dataMigrators[dataVersion].toStore(data));
+            } else {
+              throw new Error("Не верный формат файла");
+            }
+          }}
+        >
+          <OpenIcon />
+        </OpenButton>
+
+        {/* Сохранить */}
+        <SaveButton onClick={handleSave}>
+          <SaveIcon />
+        </SaveButton>
+
+        {/* Создать участника */}
+        <Button onClick={() => setIsCreateUnitOpe(true)}>
+          {translate("createUnit.title")}
         </Button>
-      )}
-
-      <PlaceHolder />
-
-      <ConfirmingButton onConfirm={() => {}} confirmWindowTitle="Подтверди!">
-        444
-      </ConfirmingButton>
-
-      {/* открыть */}
-      <OpenButton
-        onFileOpen={(content) => {
-          if (typeof content === "string") {
-            const data = JSON.parse(content);
-            changeUnits(data);
-          } else {
-            throw new Error("Не верный формат файла");
-          }
-        }}
-      >
-        <OpenIcon />
-      </OpenButton>
-
-      {/* Сохранить */}
-      <SaveButton
-        onClick={() => {
-          const blobdtMIME = new Blob([JSON.stringify(units, null, "\t")], {
-            type: "application/json",
-          });
-          const fileName = [+new Date(), "VTM"].join(" - ");
-          // @ts-ignore
-          if (window.navigator.msSaveBlob) {
-            // для IE
-            // @ts-ignore
-            window.navigator.msSaveBlob(blobdtMIME, fileName);
-          } else {
-            const link = document.createElement("a");
-            const url = window.URL.createObjectURL(blobdtMIME);
-            link.href = url;
-            link.setAttribute("download", fileName);
-            document.body.appendChild(link);
-            link.click();
-          }
-        }}
-      >
-        <SaveIcon />
-      </SaveButton>
-
-      {/* Создать участника */}
-      <Button onClick={() => setIsCreateUnitOpe(true)}>
-        {translate("createUnit.title")}
-      </Button>
-      <Dialog open={isCreateUnitOpen}>
-        <CreateUnit onClose={() => setIsCreateUnitOpe(false)} />
-      </Dialog>
-    </HeaderRoot>
-  );
-};
+        <Dialog open={isCreateUnitOpen}>
+          <CreateUnit onClose={() => setIsCreateUnitOpe(false)} />
+        </Dialog>
+      </HeaderRoot>
+    );
+  },
+);

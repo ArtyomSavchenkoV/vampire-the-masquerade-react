@@ -3,6 +3,7 @@ import React from "react";
 import { ErrorIndicator } from "./ErrorIndicator";
 import { useActions } from "store/selectors";
 import { Button } from "baseComponents/Button";
+import { initialState } from "store/initialState";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -19,8 +20,8 @@ export const ErrorBoundary = ({ children }: ErrorBoundaryProps) => {
         <p>Попробуйте сбросить состояние системы.</p>
         <Button
           onClick={() => {
-            if (actions?.resetStore) {
-              actions.resetStore();
+            if (actions?.setStoreState) {
+              actions.setStoreState(initialState);
               setError(null);
             } else {
               console.error("Actions not available to reset store");

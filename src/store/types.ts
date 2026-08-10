@@ -34,7 +34,7 @@ export interface State {
  */
 export interface Actions {
   /** Сброс стора */
-  resetStore: () => void;
+  setStoreState: (state: State) => void;
   /** Перезаписывает юниты новым объектом */
   changeUnits: (units: Record<string, UnitEntry>) => void;
   /** Добавляет юнита в хранилище по уникальному ID */

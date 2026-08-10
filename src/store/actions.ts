@@ -12,8 +12,8 @@ export const createActions = (
   /**
    * Сброс стора
    */
-  resetStore: () => {
-    set(initialState);
+  setStoreState: (state) => {
+    set(state);
   },
   /**
    * Перезаписывает юниты новым объектом
