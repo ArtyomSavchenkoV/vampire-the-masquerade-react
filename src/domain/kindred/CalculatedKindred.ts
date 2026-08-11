@@ -1,4 +1,3 @@
-import { disciplines } from "data/disciplines";
 import { merits, flaws } from "data/meritsAndFlaws";
 import { AbilityName, ModifiedAbilityLevel } from "domain/Abilities";
 import { AttributeName, ModifiedAttributeLevel } from "domain/Attributes";
@@ -8,6 +7,7 @@ import { calculateGeneration, getGenerationLevel } from "./Generation";
 import { getKinderedHealthLevel } from "./Health";
 import { Kindred } from "./Kindred";
 import { calculateChangebleParams } from "./ResourcesHistory";
+import { getDisciplinesEffects } from "domain/Discipline";
 
 /**
  * Вычисленная модель сородича
@@ -73,31 +73,16 @@ export const aggregateModifiers = (character: CalculatedKindred): Modifiers => {
   }
 
   // Пассивные эффекты от дисциплин
-  const { disciplines: charDisciplines } = character.clan;
+  result = mergeModifiers(
+    result,
+    getDisciplinesEffects(character.clan.disciplines),
+  );
 
-  // Приводим ключи к строгому типу
-  const disciplineKeys = Object.keys(charDisciplines) as Array<
-    keyof typeof charDisciplines
-  >;
-
-  for (const disciplineName of disciplineKeys) {
-    const level = charDisciplines[disciplineName];
-    if (!level) continue;
-
-    const disciplineLevels = disciplines[disciplineName];
-    if (!disciplineLevels) continue;
-
-    // Уровень в V20 обычно 1–5, поэтому индекс level - 1
-    const levelData = disciplineLevels[level - 1];
-    if (!levelData) continue;
-    const variants = Array.isArray(levelData) ? levelData : [levelData];
-
-    for (const variant of variants) {
-      if (variant.type === "passive" && variant.effects) {
-        result = mergeModifiers(result, variant.effects);
-      }
-    }
-  }
+  // Пассивные эффекты от приобретённых дисциплин
+  result = mergeModifiers(
+    result,
+    getDisciplinesEffects(character.acquiredDisciplines),
+  );
 
   return result;
 };

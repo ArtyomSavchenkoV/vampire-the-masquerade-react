@@ -1,4 +1,3 @@
-import { disciplines } from "data/disciplines";
 import { merits, flaws } from "data/meritsAndFlaws";
 import { AbilityName, ModifiedAbilityLevel } from "domain/Abilities";
 import { AttributeName, ModifiedAttributeLevel } from "domain/Attributes";
@@ -7,6 +6,7 @@ import { Modifiers, mergeModifiers, applyModifiers } from "domain/Modifiers";
 import { getGhoulHealthLevel } from "./Health";
 import { Ghoul } from "./Ghoul";
 import { calculateChangebleParams } from "./ResourcesHistory";
+import { getDisciplinesEffects } from "domain/Discipline";
 
 /**
  * Вычисленная модель сородича
@@ -67,31 +67,13 @@ export const aggregateModifiers = (character: CalculatedGhoul): Modifiers => {
   }
 
   // Пассивные эффекты от дисциплин
-  const { disciplines: charDisciplines } = character;
+  result = mergeModifiers(result, getDisciplinesEffects(character.disciplines));
 
-  // Приводим ключи к строгому типу
-  const disciplineKeys = Object.keys(charDisciplines) as Array<
-    keyof typeof charDisciplines
-  >;
-
-  for (const disciplineName of disciplineKeys) {
-    const level = charDisciplines[disciplineName];
-    if (!level) continue;
-
-    const disciplineLevels = disciplines[disciplineName];
-    if (!disciplineLevels) continue;
-
-    // Уровень в V20 обычно 1–5, поэтому индекс level - 1
-    const levelData = disciplineLevels[level - 1];
-    if (!levelData) continue;
-    const variants = Array.isArray(levelData) ? levelData : [levelData];
-
-    for (const variant of variants) {
-      if (variant.type === "passive" && variant.effects) {
-        result = mergeModifiers(result, variant.effects);
-      }
-    }
-  }
+  // Пассивные эффекты от приобретённых дисциплин
+  result = mergeModifiers(
+    result,
+    getDisciplinesEffects(character.acquiredDisciplines),
+  );
 
   return result;
 };

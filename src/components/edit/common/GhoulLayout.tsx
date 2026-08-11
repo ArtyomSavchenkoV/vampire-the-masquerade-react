@@ -10,11 +10,11 @@ const Page = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
-const Header = styled(Card)<{ isSmallScreen: boolean }>(
-  ({ isSmallScreen }) => ({
+const Header = styled(Card)<{ isSmallElement: boolean }>(
+  ({ isSmallElement }) => ({
     display: "flex",
     gap: 16,
-    ...(isSmallScreen ? { flexDirection: "column" } : {}),
+    ...(isSmallElement ? { flexDirection: "column" } : {}),
   }),
 );
 const Names = styled.div`
@@ -35,17 +35,21 @@ const Divider = styled.div`
   background: #ccc;
   margin: 8px 0;
 `;
-const Section = styled.div<{ isSmallScreen: boolean }>(({ isSmallScreen }) => ({
-  display: "flex",
-  gap: 16,
-  ...(isSmallScreen ? { width: "100%", flexDirection: "column" } : {}),
-}));
-const List = styled(Card)<{ isSmallScreen: boolean }>(({ isSmallScreen }) => ({
-  display: "flex",
-  gap: 8,
-  flexDirection: "column",
-  ...(isSmallScreen ? {} : { width: "100%" }),
-}));
+const Section = styled.div<{ isSmallElement: boolean }>(
+  ({ isSmallElement }) => ({
+    display: "flex",
+    gap: 16,
+    ...(isSmallElement ? { width: "100%", flexDirection: "column" } : {}),
+  }),
+);
+const List = styled(Card)<{ isSmallElement: boolean }>(
+  ({ isSmallElement }) => ({
+    display: "flex",
+    gap: 8,
+    flexDirection: "column",
+    ...(isSmallElement ? {} : { width: "100%" }),
+  }),
+);
 
 interface TProps extends HTMLAttributes<HTMLDivElement> {
   name: ReactNode;
@@ -92,14 +96,14 @@ export const GhoulLayout: FC<TProps> = ({
   ...props
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isSmallElement, setisSmallElement] = useState(false);
   useOnElementResize({
     elementRef: ref,
-    onResize: (size) => setIsSmallScreen(size.width < 600),
+    onResize: (size) => setisSmallElement(size.width < 600),
   });
   return (
     <Page ref={ref} {...props}>
-      <Header isSmallScreen={isSmallScreen}>
+      <Header isSmallElement={isSmallElement}>
         <Names>
           <div>{name}</div>
           <div>{player}</div>
@@ -111,25 +115,25 @@ export const GhoulLayout: FC<TProps> = ({
           {domitor}
         </PersonDetails>
       </Header>
-      <Section isSmallScreen={isSmallScreen}>
-        <List isSmallScreen={isSmallScreen}>{physical}</List>
-        <List isSmallScreen={isSmallScreen}>{social}</List>
-        <List isSmallScreen={isSmallScreen}>{mental}</List>
+      <Section isSmallElement={isSmallElement}>
+        <List isSmallElement={isSmallElement}>{physical}</List>
+        <List isSmallElement={isSmallElement}>{social}</List>
+        <List isSmallElement={isSmallElement}>{mental}</List>
       </Section>
-      <Section isSmallScreen={isSmallScreen}>
-        <List isSmallScreen={isSmallScreen}>{talents}</List>
-        <List isSmallScreen={isSmallScreen}>{skills}</List>
-        <List isSmallScreen={isSmallScreen}>{knowledges}</List>
+      <Section isSmallElement={isSmallElement}>
+        <List isSmallElement={isSmallElement}>{talents}</List>
+        <List isSmallElement={isSmallElement}>{skills}</List>
+        <List isSmallElement={isSmallElement}>{knowledges}</List>
       </Section>
-      <Section isSmallScreen={isSmallScreen}>
-        <List isSmallScreen={isSmallScreen}>{disciplines}</List>
-        <List isSmallScreen={isSmallScreen}>{backgrounds}</List>
-        <List isSmallScreen={isSmallScreen}>{mentalStability}</List>
+      <Section isSmallElement={isSmallElement}>
+        <List isSmallElement={isSmallElement}>{disciplines}</List>
+        <List isSmallElement={isSmallElement}>{backgrounds}</List>
+        <List isSmallElement={isSmallElement}>{mentalStability}</List>
       </Section>
-      <Section isSmallScreen={isSmallScreen}>
-        <List isSmallScreen={isSmallScreen}>{meritsAndFlaws}</List>
-        <List isSmallScreen={isSmallScreen}>{centerBottom}</List>
-        <List isSmallScreen={isSmallScreen}>{health}</List>
+      <Section isSmallElement={isSmallElement}>
+        <List isSmallElement={isSmallElement}>{meritsAndFlaws}</List>
+        <List isSmallElement={isSmallElement}>{centerBottom}</List>
+        <List isSmallElement={isSmallElement}>{health}</List>
       </Section>
     </Page>
   );

@@ -22,7 +22,7 @@ interface TProps extends Omit<
 export const EditKindred: FC<TProps> = memo(({ kindredId }) => {
   const { translate } = useTranslate();
 
-  const { addUnit } = useActions();
+  const { editKindred } = useActions();
   const selectedKindred = useKindredSelector(kindredId);
   const kindred = selectedKindred
     ? selectedKindred
@@ -53,10 +53,7 @@ export const EditKindred: FC<TProps> = memo(({ kindredId }) => {
         <ConfirmWindow
           title={translate("editKindred.title")}
           onConfirm={() => {
-            addUnit(kindredId, {
-              type: "kindred",
-              unit: kindredForm,
-            });
+            editKindred(kindredId, kindredForm);
             setOpen(false);
           }}
           onCancel={() => {

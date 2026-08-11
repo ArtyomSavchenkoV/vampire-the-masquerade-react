@@ -74,6 +74,7 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
           addUnit(uuidV4(), {
             type: "kindred",
             unit: kindred,
+            notes: "",
           });
           onClose();
           return;
@@ -82,6 +83,7 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
           addUnit(uuidV4(), {
             type: "ghoul",
             unit: ghoul,
+            notes: "",
           });
           onClose();
           return;
@@ -90,6 +92,7 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
           addUnit(uuidV4(), {
             type: "human",
             unit: human,
+            notes: "",
           });
           onClose();
           return;
@@ -98,6 +101,7 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
           addUnit(uuidV4(), {
             type: "creature",
             unit: creature,
+            notes: "",
           });
           onClose();
           return;

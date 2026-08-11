@@ -2,7 +2,7 @@ import { disciplines } from "data/disciplines";
 import { AbilityName } from "./Abilities";
 import { AttributeName } from "./Attributes";
 import { MentalStability } from "./MentalStability";
-import { Modifiers } from "./Modifiers";
+import { mergeModifiers, Modifiers } from "./Modifiers";
 
 /**
  * Названия дисциплин (V20).
@@ -162,4 +162,39 @@ export const getDisciplineEffect = (
   }
 
   return levels[index];
+};
+
+/**
+ * Выбирает и складывает модификаторы пассивных дисциплин
+ */
+export const getDisciplinesEffects = (
+  charDisciplines: Partial<Record<DisciplineName, DisciplineLevel>>,
+): Modifiers => {
+  let result: Modifiers = {};
+
+  // Приводим ключи к строгому типу
+  const disciplineKeys = Object.keys(charDisciplines) as Array<
+    keyof typeof charDisciplines
+  >;
+
+  for (const disciplineName of disciplineKeys) {
+    const level = charDisciplines[disciplineName];
+    if (!level) continue;
+
+    const disciplineLevels = disciplines[disciplineName];
+    if (!disciplineLevels) continue;
+
+    // Уровень в V20 обычно 1–5, поэтому индекс level - 1
+    const levelData = disciplineLevels[level - 1];
+    if (!levelData) continue;
+    const variants = Array.isArray(levelData) ? levelData : [levelData];
+
+    for (const variant of variants) {
+      if (variant.type === "passive" && variant.effects) {
+        result = mergeModifiers(result, variant.effects);
+      }
+    }
+  }
+
+  return result;
 };

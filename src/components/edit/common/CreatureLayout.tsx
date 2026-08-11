@@ -10,11 +10,11 @@ const Page = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
-const Header = styled(Card)<{ isSmallScreen: boolean }>(
-  ({ isSmallScreen }) => ({
+const Header = styled(Card)<{ isSmallElement: boolean }>(
+  ({ isSmallElement }) => ({
     display: "flex",
     gap: 16,
-    ...(isSmallScreen ? { flexDirection: "column" } : {}),
+    ...(isSmallElement ? { flexDirection: "column" } : {}),
   }),
 );
 const Names = styled.div`
@@ -24,17 +24,21 @@ const Names = styled.div`
   gap: 8px;
 `;
 
-const Section = styled.div<{ isSmallScreen: boolean }>(({ isSmallScreen }) => ({
-  display: "flex",
-  gap: 16,
-  ...(isSmallScreen ? { width: "100%", flexDirection: "column" } : {}),
-}));
-const List = styled(Card)<{ isSmallScreen: boolean }>(({ isSmallScreen }) => ({
-  display: "flex",
-  gap: 8,
-  flexDirection: "column",
-  ...(isSmallScreen ? {} : { width: "100%" }),
-}));
+const Section = styled.div<{ isSmallElement: boolean }>(
+  ({ isSmallElement }) => ({
+    display: "flex",
+    gap: 16,
+    ...(isSmallElement ? { width: "100%", flexDirection: "column" } : {}),
+  }),
+);
+const List = styled(Card)<{ isSmallElement: boolean }>(
+  ({ isSmallElement }) => ({
+    display: "flex",
+    gap: 8,
+    flexDirection: "column",
+    ...(isSmallElement ? {} : { width: "100%" }),
+  }),
+);
 
 interface TProps extends HTMLAttributes<HTMLDivElement> {
   name: ReactNode;
@@ -61,28 +65,28 @@ export const CreatureLayout: FC<TProps> = ({
   ...props
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isSmallElement, setIsSmallElement] = useState(false);
   useOnElementResize({
     elementRef: ref,
-    onResize: (size) => setIsSmallScreen(size.width < 600),
+    onResize: (size) => setIsSmallElement(size.width < 600),
   });
   return (
     <Page ref={ref} {...props}>
-      <Header isSmallScreen={isSmallScreen}>
+      <Header isSmallElement={isSmallElement}>
         <Names>
           <div>{name}</div>
           <div>{player}</div>
         </Names>
       </Header>
-      <Section isSmallScreen={isSmallScreen}>
-        <List isSmallScreen={isSmallScreen}>{attributes}</List>
-        <List isSmallScreen={isSmallScreen}>{abilities}</List>
-        <List isSmallScreen={isSmallScreen}>{mentalStability}</List>
+      <Section isSmallElement={isSmallElement}>
+        <List isSmallElement={isSmallElement}>{attributes}</List>
+        <List isSmallElement={isSmallElement}>{abilities}</List>
+        <List isSmallElement={isSmallElement}>{mentalStability}</List>
       </Section>
-      <Section isSmallScreen={isSmallScreen}>
-        <List isSmallScreen={isSmallScreen}>{willpower}</List>
-        <List isSmallScreen={isSmallScreen}>{health}</List>
-        <List isSmallScreen={isSmallScreen}>{healthLevels}</List>
+      <Section isSmallElement={isSmallElement}>
+        <List isSmallElement={isSmallElement}>{willpower}</List>
+        <List isSmallElement={isSmallElement}>{health}</List>
+        <List isSmallElement={isSmallElement}>{healthLevels}</List>
       </Section>
     </Page>
   );

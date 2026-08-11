@@ -4,15 +4,19 @@ import useTranslate from "services/translate/useTranslate";
 import { useActions, useHumanSelector } from "store/selectors";
 import { Header } from "./common/Header";
 import { Panel } from "./common/Panel";
+import { useHumanDetailsSelector } from "./selectors";
+import { TextArea } from "baseComponents/TextArea";
 
 interface TProps {
-  selectedUnitId: string;
+  unitId: string;
 }
 
-export const HumanDetails: FC<TProps> = ({ selectedUnitId }) => {
+export const HumanDetails: FC<TProps> = ({ unitId }) => {
   const { translate } = useTranslate();
-  const { addUnit, selectUnit } = useActions();
-  const human = useHumanSelector(selectedUnitId);
+  const { editHuman, selectUnit, editNotes } = useActions();
+  const humanDetails = useHumanDetailsSelector(unitId);
+  // TODO: Временное отображение базовых данных
+  const human = useHumanSelector(unitId);
 
   return (
     <>
@@ -22,14 +26,15 @@ export const HumanDetails: FC<TProps> = ({ selectedUnitId }) => {
             title={translate("details.title")}
             onClose={() => selectUnit(null)}
           />
+          {/* Заметки */}
+          <TextArea
+            value={humanDetails.notes}
+            onChange={(ev) => editNotes(unitId, ev.target.value)}
+            rows={5}
+          />
           <EditHumanForm
             human={human}
-            onChange={(human) =>
-              addUnit(selectedUnitId, {
-                type: "human",
-                unit: human,
-              })
-            }
+            onChange={(human) => editHuman(unitId, human)}
           />
         </Panel>
       )}

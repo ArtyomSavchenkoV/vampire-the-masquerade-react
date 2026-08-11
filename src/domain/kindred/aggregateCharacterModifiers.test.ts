@@ -36,6 +36,9 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
         attributesMaxLimit: { appearance: 0 },
       },
     },
+    acquiredDisciplines: {
+      potence: 1, // strength: 1
+    },
     activeEffects: [
       {
         name: "Berserk",
@@ -72,7 +75,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
     /*
     Расчёт по фикстуре:
       - dexterity: 2 (celerity: 2) = 2
-      - strength: 1 (potence: 1) + 3 (Berserk) + 2 (Calm) = 6
+      - strength: 1 (potence: 1) + 3 (Berserk) + 2 (Calm) + 1(acquiredDisciplines) = 7
       - stamina: -1 (Berserk) = -1
       - intimidation: 3 (Calm)
       - commonDiceBonus: 2 (Berserk) + -1(health: 4) = 1
@@ -84,7 +87,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
 
     expect(result).toEqual({
       attributesModifiers: {
-        strength: 6,
+        strength: 7,
         stamina: -1,
         dexterity: 2,
       },
@@ -140,6 +143,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
         disciplines: { animalism: 1, dominate: 1, presence: 1 },
         modifiers: undefined, // нет клановых бонусов
       },
+      acquiredDisciplines: {},
       activeEffects: [],
       merits: [],
       flaws: [],
@@ -163,6 +167,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
           attributesModifiers: { presence: 1 },
         },
       },
+      acquiredDisciplines: {},
       activeEffects: [],
       merits: [],
       flaws: [],
@@ -193,6 +198,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
           attributesModifiers: { appearance: 5 }, // «бонус» к внешности, который должен быть перекрыт
         },
       },
+      acquiredDisciplines: {},
       activeEffects: [
         {
           name: "Glamour Boost",

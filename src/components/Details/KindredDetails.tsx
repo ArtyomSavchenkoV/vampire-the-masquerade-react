@@ -7,15 +7,19 @@ import useTranslate from "services/translate/useTranslate";
 import { useActions, useKindredSelector } from "store/selectors";
 import { Header } from "./common/Header";
 import { Panel } from "./common/Panel";
+import { useKindredDetailsSelector } from "./selectors";
+import { TextArea } from "baseComponents/TextArea";
 
 interface TProps {
-  selectedUnitId: string;
+  unitId: string;
 }
 
-export const KindredDetails: FC<TProps> = ({ selectedUnitId }) => {
+export const KindredDetails: FC<TProps> = ({ unitId }) => {
   const { translate } = useTranslate();
-  const { addUnit, selectUnit } = useActions();
-  const kindred = useKindredSelector(selectedUnitId);
+  const { editKindred, selectUnit, editNotes } = useActions();
+  const kindredDetails = useKindredDetailsSelector(unitId);
+  // TODO: Временное отображение базовых данных
+  const kindred = useKindredSelector(unitId);
 
   return (
     <>
@@ -23,24 +27,22 @@ export const KindredDetails: FC<TProps> = ({ selectedUnitId }) => {
         <Panel open>
           <Header
             title={translate("details.title")}
-            buttons={<EditKindred kindredId={selectedUnitId} />}
+            buttons={<EditKindred kindredId={unitId} />}
             onClose={() => selectUnit(null)}
+          />
+          {/* Заметки */}
+          <TextArea
+            value={kindredDetails.notes}
+            onChange={(ev) => editNotes(unitId, ev.target.value)}
+            rows={5}
           />
           <EditKindredForm
             kindred={kindred}
-            onChange={(kindred) =>
-              addUnit(selectedUnitId, {
-                type: "kindred",
-                unit: kindred,
-              })
-            }
+            onChange={(kindred) => editKindred(unitId, kindred)}
             onClanChange={(clanName) => {
-              addUnit(selectedUnitId, {
-                type: "kindred",
-                unit: {
-                  ...initialKindred,
-                  clan: clanes[clanName],
-                },
+              editKindred(unitId, {
+                ...initialKindred,
+                clan: clanes[clanName],
               });
             }}
           />

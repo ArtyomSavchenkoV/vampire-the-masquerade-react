@@ -1,5 +1,13 @@
 import { InputHTMLAttributes } from "react";
 import { SelectOption } from "./SelectOption";
+import styled from "@emotion/styled";
+
+const StyledSelect = styled.select`
+  border-radius: 4px;
+  border-width: 1px;
+  padding: 2px;
+  margin: -3px 0 -2px 0;
+`;
 
 interface TProps extends Omit<
   InputHTMLAttributes<HTMLSelectElement>,
@@ -28,7 +36,7 @@ export const Select = <T extends string | number>({
   const stringValue = String(value);
 
   return (
-    <select
+    <StyledSelect
       value={stringValue}
       onChange={(event) => {
         const rawValue = event.target.value;
@@ -48,6 +56,6 @@ export const Select = <T extends string | number>({
           {name}
         </SelectOption>
       ))}
-    </select>
+    </StyledSelect>
   );
 };

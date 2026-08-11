@@ -33,7 +33,11 @@ export interface Ghoul {
   /** Способности */
   abilities: Record<AbilityName, BaseAbilityLevel>;
   /** Дисциплины */
-  disciplines: Partial<Record<DisciplineName, DisciplineLevel>>;
+  disciplines: Record<"potence", DisciplineLevel>;
+  /** Обретённые дисциплины */
+  acquiredDisciplines: Partial<
+    Record<Exclude<DisciplineName, "potence">, DisciplineLevel>
+  >;
   /** Факты биографии */
   backgrounds: Partial<Record<BackgroundName, BackgroundLevel>>;
   /** Ментальные устойчивости */

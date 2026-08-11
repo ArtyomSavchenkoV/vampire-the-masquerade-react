@@ -54,6 +54,7 @@ export const initialGhoul: Ghoul = {
   disciplines: {
     potence: 1,
   },
+  acquiredDisciplines: {},
   backgrounds: {},
   mentalStability: {
     morality: 1,

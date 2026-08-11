@@ -12,16 +12,16 @@ export const Details: FC<TProps> = () => {
   return (
     <>
       {selectedUnit?.type === "kindred" && (
-        <KindredDetails selectedUnitId={selectedUnit.id} />
+        <KindredDetails unitId={selectedUnit.id} />
       )}
       {selectedUnit?.type === "ghoul" && (
-        <GhoulDetails selectedUnitId={selectedUnit.id} />
+        <GhoulDetails unitId={selectedUnit.id} />
       )}
       {selectedUnit?.type === "human" && (
-        <HumanDetails selectedUnitId={selectedUnit.id} />
+        <HumanDetails unitId={selectedUnit.id} />
       )}
       {selectedUnit?.type === "creature" && (
-        <CreatureDetails selectedUnitId={selectedUnit.id} />
+        <CreatureDetails unitId={selectedUnit.id} />
       )}
     </>
   );

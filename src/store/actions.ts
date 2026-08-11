@@ -1,6 +1,10 @@
+import { Kindred } from "domain/kindred/Kindred";
 import { initialState } from "./initialState";
-import { Actions, UnitEntry } from "./types";
+import { Actions, CommonUnitEntry } from "./types";
 import { State } from "./types";
+import { Ghoul } from "domain/ghoul/Ghoul";
+import { Human } from "domain/human/Human";
+import { Creature } from "domain/creature/Creature";
 
 /**
  * Фабрика экшенов для управления юнитами в сторе.
@@ -27,7 +31,7 @@ export const createActions = (
   /**
    * Добавляет юнита в хранилище по ID.
    */
-  addUnit: (id: string, entry: UnitEntry) =>
+  addUnit: (id: string, entry: CommonUnitEntry) =>
     set((draft) => {
       draft.units[id] = entry;
     }),
@@ -43,6 +47,50 @@ export const createActions = (
       if (draft.selectedUnitId === id) {
         draft.selectedUnitId = null;
       }
+    }),
+
+  /**
+   * Изменяет заметки
+   */
+  editNotes: (id: string, notes: string) =>
+    set((draft) => {
+      draft.units[id].notes = notes;
+    }),
+
+  /**
+   * Изменяет юнита в хранилище по уникальному ID
+   */
+  editKindred: (id: string, unit: Kindred) =>
+    set((draft) => {
+      draft.units[id] = {
+        ...draft.units[id],
+        type: "kindred",
+        unit,
+      };
+    }),
+  editGhoul: (id: string, unit: Ghoul) =>
+    set((draft) => {
+      draft.units[id] = {
+        ...draft.units[id],
+        type: "ghoul",
+        unit,
+      };
+    }),
+  editHuman: (id: string, unit: Human) =>
+    set((draft) => {
+      draft.units[id] = {
+        ...draft.units[id],
+        type: "human",
+        unit,
+      };
+    }),
+  editCreature: (id: string, unit: Creature) =>
+    set((draft) => {
+      draft.units[id] = {
+        ...draft.units[id],
+        type: "creature",
+        unit,
+      };
     }),
 
   /**

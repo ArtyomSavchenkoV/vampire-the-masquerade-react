@@ -10,7 +10,7 @@ import {
   detectVersion,
   serializeToFile,
   dataMigrators,
-} from "services/migrations/versionsMigrators";
+} from "services/dataMigration/migrators";
 import { OpenIcon } from "icons/OpenIcon";
 import { SaveIcon } from "icons/SaveIcon";
 import { HTMLAttributes, FC, useState, memo } from "react";

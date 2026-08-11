@@ -7,6 +7,7 @@ export const StyledSelect = styled(Select)({
   backgroundColor: "transparent",
   fontSize: ".7em",
   padding: "0.15em 0",
+  margin: 0,
 });
 
 interface TProps extends Omit<

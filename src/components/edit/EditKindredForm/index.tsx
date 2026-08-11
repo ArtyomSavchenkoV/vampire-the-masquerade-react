@@ -713,7 +713,7 @@ export const EditKindredForm: FC<TProps> = ({
         <>
           {/* Дисциплины */}
           <DetailsSectionTitle>
-            {translate("createUnit.disciplines")}
+            {translate("fields.disciplines")}
           </DetailsSectionTitle>
           <PartialObjectEditor
             object={kindred.clan.disciplines}
@@ -726,16 +726,52 @@ export const EditKindredForm: FC<TProps> = ({
                 },
               })
             }
-            options={disciplineNames.map((value) => ({
-              value,
-              name: translate(`disciplines.${value}.name`),
-            }))}
+            options={disciplineNames
+              .filter(
+                (disciplineName) =>
+                  !Object.keys(kindred.acquiredDisciplines).includes(
+                    disciplineName,
+                  ),
+              )
+              .map((value) => ({
+                value,
+                name: translate(`disciplines.${value}.name`),
+              }))}
             availableValues={disciplineLevels.map((level) => ({
               value: level,
               name: translate(`parametersEditLevels.${level}`),
             }))}
             addTitle={translate("editDisciplines.add")}
             isObjectFixed={kindred.clan.clanName !== "Other"}
+          />
+          {/* Обретённые дисциплины */}
+          <DetailsSectionTitle>
+            {translate("fields.acquiredDisciplines")}
+          </DetailsSectionTitle>
+          <PartialObjectEditor
+            object={kindred.acquiredDisciplines}
+            onChange={(disciplines) =>
+              onChange({
+                ...kindred,
+                acquiredDisciplines: disciplines,
+              })
+            }
+            options={disciplineNames
+              .filter(
+                (disciplineName) =>
+                  !Object.keys(kindred.clan.disciplines).includes(
+                    disciplineName,
+                  ),
+              )
+              .map((value) => ({
+                value,
+                name: translate(`disciplines.${value}.name`),
+              }))}
+            availableValues={disciplineLevels.map((level) => ({
+              value: level,
+              name: translate(`parametersEditLevels.${level}`),
+            }))}
+            addTitle={translate("editDisciplines.add")}
           />
         </>
       }

@@ -52,6 +52,7 @@ export const initialKindred: Omit<Kindred, "clan"> = {
     finance: 0,
     electronics: 0,
   },
+  acquiredDisciplines: {},
   backgrounds: {},
   mentalStability: {
     morality: 1,

@@ -19,7 +19,11 @@ import {
 } from "domain/Attributes";
 import { backgroundLevels, backgroundNames } from "domain/Backgrounds";
 import { damageTypes } from "domain/Damage";
-import { disciplineLevels, disciplineNames } from "domain/Discipline";
+import {
+  disciplineLevels,
+  DisciplineName,
+  disciplineNames,
+} from "domain/Discipline";
 import { humanityOrPathRatings } from "domain/HumanityOrPathRating";
 import { aggregateModifiers } from "domain/ghoul/CalculatedGhoul";
 import { getGhoulHealthLevel } from "domain/ghoul/Health";
@@ -673,20 +677,49 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
         <>
           {/* Дисциплины */}
           <DetailsSectionTitle>
-            {translate("createUnit.disciplines")}
+            {translate("fields.disciplines")}
+          </DetailsSectionTitle>
+          <TitleText title={translate("disciplines.potence.name")}>
+            <WithoutBorderSelect
+              options={disciplineLevels.map((value) => ({
+                value,
+                name: translate(`parametersEditLevels.${value}`),
+              }))}
+              value={ghoul.disciplines.potence}
+              onChange={(value) =>
+                onChange({
+                  ...ghoul,
+                  disciplines: {
+                    ...ghoul.disciplines,
+                    potence: value,
+                  },
+                })
+              }
+            />
+          </TitleText>
+          {/* Обретённые дисциплины */}
+          <DetailsSectionTitle>
+            {translate("fields.acquiredDisciplines")}
           </DetailsSectionTitle>
           <PartialObjectEditor
-            object={ghoul.disciplines}
+            object={ghoul.acquiredDisciplines}
             onChange={(disciplines) =>
               onChange({
                 ...ghoul,
-                disciplines,
+                acquiredDisciplines: disciplines,
               })
             }
-            options={disciplineNames.map((value) => ({
-              value,
-              name: translate(`disciplines.${value}.name`),
-            }))}
+            options={disciplineNames
+              .filter(
+                (
+                  discipline,
+                ): discipline is Exclude<DisciplineName, "potence"> =>
+                  discipline !== "potence",
+              )
+              .map((value) => ({
+                value,
+                name: translate(`disciplines.${value}.name`),
+              }))}
             availableValues={disciplineLevels.map((level) => ({
               value: level,
               name: translate(`parametersEditLevels.${level}`),

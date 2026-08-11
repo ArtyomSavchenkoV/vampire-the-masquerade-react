@@ -9,6 +9,7 @@ import { EquipmentItem } from "domain/EquipmentItem";
 import { HealthDamages } from "domain/Health";
 import { ResourcesHistory } from "./ResourcesHistory";
 import { HumanityOrPathRating } from "domain/HumanityOrPathRating";
+import { DisciplineName, DisciplineLevel } from "domain/Discipline";
 
 /**
  * Базовая модель сородича
@@ -36,6 +37,8 @@ export interface Kindred {
   attributes: Record<AttributeName, BaseAttributeLevel>;
   /** Способности */
   abilities: Record<AbilityName, BaseAbilityLevel>;
+  /** Обретённые дисциплины */
+  acquiredDisciplines: Partial<Record<DisciplineName, DisciplineLevel>>;
   /** Факты биографии */
   backgrounds: Partial<Record<BackgroundName, BackgroundLevel>>;
   /** Ментальные устойчивости */
