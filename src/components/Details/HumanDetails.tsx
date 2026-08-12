@@ -1,4 +1,4 @@
-import { EditHumanForm } from "components/edit/EditHumanForm";
+import { EditHumanForm } from "commonComponents/editUnitForms/EditHumanForm";
 import { FC } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useActions, useHumanSelector } from "store/selectors";

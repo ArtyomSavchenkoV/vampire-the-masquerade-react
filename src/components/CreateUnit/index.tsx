@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 import { Select } from "baseComponents/Select";
 import { ConfirmWindow } from "commonComponents/ConfirmWindow";
-import { EditCreatureForm } from "components/edit/EditCreatureForm";
-import { EditGhoulForm } from "components/edit/EditGhoulForm";
-import { EditHumanForm } from "components/edit/EditHumanForm";
-import { EditKindredForm } from "components/edit/EditKindredForm";
+import { EditCreatureForm } from "commonComponents/editUnitForms/EditCreatureForm";
+import { EditGhoulForm } from "commonComponents/editUnitForms/EditGhoulForm";
+import { EditHumanForm } from "commonComponents/editUnitForms/EditHumanForm";
+import { EditKindredForm } from "commonComponents/editUnitForms/EditKindredForm";
 import { clanes } from "data/clanes";
 import { initialCreature } from "data/initialCreature";
 import { initialGhoul } from "data/initialGhoul";

@@ -1,4 +1,4 @@
-import { EditGhoulForm } from "components/edit/EditGhoulForm";
+import { EditGhoulForm } from "commonComponents/editUnitForms/EditGhoulForm";
 import { FC } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useActions, useGhoulSelector } from "store/selectors";

@@ -3,7 +3,7 @@ import { ConfirmWindow } from "commonComponents/ConfirmWindow";
 import { Dialog } from "commonComponents/Dialog";
 import { ComponentProps, FC, memo, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
-import { EditKindredForm } from "./EditKindredForm";
+import { EditKindredForm } from "commonComponents/editUnitForms/EditKindredForm";
 import { useActions, useKindredSelector } from "store/selectors";
 import { clanes } from "data/clanes";
 import { initialKindred } from "data/initialKindred";

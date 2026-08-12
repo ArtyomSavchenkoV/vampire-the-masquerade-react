@@ -1,4 +1,4 @@
-import { EditCreatureForm } from "components/edit/EditCreatureForm";
+import { EditCreatureForm } from "commonComponents/editUnitForms/EditCreatureForm";
 import { FC } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useActions, useCreatureSelector } from "store/selectors";

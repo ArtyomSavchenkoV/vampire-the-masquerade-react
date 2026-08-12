@@ -1,5 +1,5 @@
-import { EditKindredForm } from "components/edit/EditKindredForm";
-import { EditKindred } from "components/edit/EditKindred";
+import { EditKindredForm } from "commonComponents/editUnitForms/EditKindredForm";
+import { EditKindred } from "components/Details/EditKindred";
 import { clanes } from "data/clanes";
 import { initialKindred } from "data/initialKindred";
 import { FC } from "react";
