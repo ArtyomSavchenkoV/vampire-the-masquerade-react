@@ -10,6 +10,7 @@ import { ButtonsTd } from "commonComponents/ButtonsTd";
 import { TableCheckbox } from "commonComponents/TableCheckbox";
 import { IconButton } from "baseComponents/IconButton";
 import TrashBinIcon from "icons/TrashBinIcon";
+import { HealUnit } from "components/HealUnit";
 
 interface TProps {
   id: string;
@@ -58,7 +59,11 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
       </Td>
 
       {/* Кнопки */}
-      <Td>
+      <ButtonsTd>
+        {/* Лечить персонажа */}
+        <HealUnit unitId={id} onClick={(ev) => ev.stopPropagation()} />
+
+        {/* Удалить персонажа */}
         <ConfirmingButton
           onClick={(ev) => ev.stopPropagation()}
           onConfirm={() => removeUnit(id)}
@@ -70,7 +75,7 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
         >
           <TrashBinIcon />
         </ConfirmingButton>
-      </Td>
+      </ButtonsTd>
     </StyledRow>
   );
 });

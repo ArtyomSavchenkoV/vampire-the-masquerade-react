@@ -1,6 +1,8 @@
 import { Creature } from "domain/creature/Creature";
 import { Ghoul } from "domain/ghoul/Ghoul";
+import { HealEvent, DamageEvent } from "domain/Health";
 import { Human } from "domain/human/Human";
+import { AwakeningEvent } from "domain/kindred/Health";
 import { Kindred } from "domain/kindred/Kindred";
 import { StoreUnitEntry } from "domain/StoreUnitEntry";
 
@@ -49,6 +51,12 @@ export interface Actions {
   editGhoul: (id: string, unit: Ghoul) => void;
   editHuman: (id: string, unit: Human) => void;
   editCreature: (id: string, unit: Creature) => void;
+  /** Изменяет здоровье персонажа */
+  changeHealth: (
+    unitId: string,
+    event: AwakeningEvent | HealEvent | DamageEvent,
+    description: string,
+  ) => void;
 
   // Сцена: управление списком участников сцены
   /** Добавляет юнита в сцену (если его там ещё нет) */

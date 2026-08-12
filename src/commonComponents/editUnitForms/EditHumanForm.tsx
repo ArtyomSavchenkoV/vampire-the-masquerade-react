@@ -845,6 +845,10 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               onChange({
                 ...human,
                 bodyDamages,
+                resourcesHistory: {
+                  ...human.resourcesHistory,
+                  health: [],
+                },
               })
             }
             options={damageTypes.map((damage) => ({
@@ -869,7 +873,15 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
           <EditHealthLevels
             healthLevels={human.healthLevels}
             onChange={(healthLevels) =>
-              onChange({ ...human, healthLevels, bodyDamages: [] })
+              onChange({
+                ...human,
+                healthLevels,
+                bodyDamages: [],
+                resourcesHistory: {
+                  ...human.resourcesHistory,
+                  health: [],
+                },
+              })
             }
           />
         </>

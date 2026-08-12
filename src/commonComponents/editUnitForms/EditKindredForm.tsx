@@ -992,6 +992,10 @@ export const EditKindredForm: FC<TProps> = ({
               onChange({
                 ...kindred,
                 bodyDamages,
+                resourcesHistory: {
+                  ...kindred.resourcesHistory,
+                  health: [],
+                },
               })
             }
             options={damageTypes.map((damage) => ({

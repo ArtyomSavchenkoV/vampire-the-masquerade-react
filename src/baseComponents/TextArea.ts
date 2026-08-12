@@ -5,5 +5,5 @@ export const TextArea = styled.textarea<{ rows?: number }>(({ rows = 4 }) => ({
   borderWidth: 1,
   borderRadius: 4,
   width: `calc(100% - 4px - 2px)`,
-  height: `calc(${rows} * 1em + (${rows} - 1) * 1px + 4px)`,
+  minHeight: `calc(${rows} * 1em + (${rows} - 1) * 1px + 4px)`,
 }));

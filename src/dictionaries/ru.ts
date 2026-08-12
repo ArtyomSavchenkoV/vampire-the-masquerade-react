@@ -204,6 +204,11 @@ export const ru = {
     dice: "дайс",
     newInitiative: "инициатива",
   },
+  healUnit: {
+    title: "Лечение",
+    healCount: "Количество исцеления",
+    description: "Описание",
+  },
   mentalStability: {
     morality: "Совесть/решимость",
     selfControl: "Самоконтроль/инстинкты",

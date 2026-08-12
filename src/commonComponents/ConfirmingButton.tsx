@@ -5,6 +5,7 @@ import { ConfirmWindow } from "./ConfirmWindow";
 
 interface TProps extends ComponentProps<typeof Button> {
   ButtonComponent?: FC<ComponentProps<typeof Button>>;
+  disableBackdropClick?: boolean;
   onConfirm: () => void;
   confirmWindowTitle: ReactNode;
   confirmWindowContent?: ReactNode;
@@ -13,6 +14,7 @@ interface TProps extends ComponentProps<typeof Button> {
 export const ConfirmingButton: FC<TProps> = ({
   onConfirm,
   onClick,
+  disableBackdropClick,
   confirmWindowTitle,
   confirmWindowContent,
   disabled,
@@ -42,7 +44,10 @@ export const ConfirmingButton: FC<TProps> = ({
           {...props}
         />
       )}
-      <Dialog open={open}>
+      <Dialog
+        onClose={() => !disableBackdropClick && setOpen(false)}
+        open={open}
+      >
         <ConfirmWindow
           title={confirmWindowTitle}
           onConfirm={() => {

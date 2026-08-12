@@ -12,6 +12,33 @@ export interface ResourcesHistory {
   health: ResourceHistory<HealthHistory>[];
 }
 
+export const completeHealthEvents = (
+  bodyDamages: HealthDamages,
+  healthHistory: ResourceHistory<HealthHistory>[],
+) => {
+  const sortedHealthHistory = [...healthHistory].sort(
+    (a, b) => a.date - b.date,
+  );
+  return sortedHealthHistory.reduce<HealthDamages>((accum, change) => {
+    if (change.effect.type === "torpor") {
+      return awakening(accum);
+    }
+    if (change.effect.type === "heal") {
+      if (!change.effect.value) {
+        return accum;
+      }
+      return healHealth(accum, change.effect);
+    }
+    if (change.effect.type === "damage") {
+      if (!change.effect.value) {
+        return accum;
+      }
+      return damageHealth(accum, change.effect);
+    }
+    return accum as never;
+  }, bodyDamages);
+};
+
 /**
  * Рассчитываем изменяемые параметры
  */
@@ -38,30 +65,9 @@ export const calculateChangebleParams = (
     0,
   );
 
-  const sortedHealthHistory = [...kindredData.resourcesHistory.health].sort(
-    (a, b) => a.date - b.date,
-  );
-
-  const bodyDamages = sortedHealthHistory.reduce<HealthDamages>(
-    (accum, change) => {
-      if (change.effect.type === "torpor") {
-        return awakening(accum);
-      }
-      if (change.effect.type === "heal") {
-        if (!change.effect.value) {
-          return accum;
-        }
-        return healHealth(accum, change.effect);
-      }
-      if (change.effect.type === "damage") {
-        if (!change.effect.value) {
-          return accum;
-        }
-        return damageHealth(accum, change.effect);
-      }
-      return accum as never;
-    },
+  const bodyDamages = completeHealthEvents(
     kindredData.bodyDamages,
+    kindredData.resourcesHistory.health,
   );
 
   return {

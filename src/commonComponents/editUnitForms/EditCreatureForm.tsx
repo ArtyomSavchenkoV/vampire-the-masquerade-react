@@ -214,6 +214,10 @@ export const EditCreatureForm: FC<TProps> = ({
               onChange({
                 ...creature,
                 bodyDamages,
+                resourcesHistory: {
+                  ...creature.resourcesHistory,
+                  health: [],
+                },
               })
             }
             options={damageTypes.map((damage) => ({
@@ -240,7 +244,15 @@ export const EditCreatureForm: FC<TProps> = ({
           <EditHealthLevels
             healthLevels={creature.healthLevels}
             onChange={(healthLevels) =>
-              onChange({ ...creature, healthLevels, bodyDamages: [] })
+              onChange({
+                ...creature,
+                healthLevels,
+                bodyDamages: [],
+                resourcesHistory: {
+                  ...creature.resourcesHistory,
+                  health: [],
+                },
+              })
             }
           />
         </>

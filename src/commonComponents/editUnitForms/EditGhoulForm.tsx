@@ -949,6 +949,10 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
               onChange({
                 ...ghoul,
                 bodyDamages,
+                resourcesHistory: {
+                  ...ghoul.resourcesHistory,
+                  health: [],
+                },
               })
             }
             options={damageTypes.map((damage) => ({

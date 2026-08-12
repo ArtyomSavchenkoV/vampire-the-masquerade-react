@@ -20,3 +20,10 @@ export type ResourceHistory<T> = {
    */
   description: string;
 };
+
+/**
+ * Ограничение на максимальную длину историй
+ *
+ * По достижении предела, наиболее старые должны мёржиться в поле ресурсов персонажа, для освобождения места для новых
+ */
+export const RESOURCE_HISTORY_LENGTH_LIMIT = 10;

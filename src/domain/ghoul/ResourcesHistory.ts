@@ -12,6 +12,30 @@ export interface ResourcesHistory {
   health: ResourceHistory<HealthHistory>[];
 }
 
+export const completeHealthEvents = (
+  bodyDamages: HealthDamages,
+  healthHistory: ResourceHistory<HealthHistory>[],
+) => {
+  const sortedHealthHistory = [...healthHistory].sort(
+    (a, b) => a.date - b.date,
+  );
+  return sortedHealthHistory.reduce<HealthDamages>((accum, change) => {
+    if (change.effect.type === "heal") {
+      if (!change.effect.value) {
+        return accum;
+      }
+      return healGhoulHealth(accum, change.effect);
+    }
+    if (change.effect.type === "damage") {
+      if (!change.effect.value) {
+        return accum;
+      }
+      return damageGhoulHealth(accum, change.effect);
+    }
+    return accum as never;
+  }, bodyDamages);
+};
+
 /**
  * Рассчитываем изменяемые параметры
  */
@@ -38,27 +62,9 @@ export const calculateChangebleParams = (
     0,
   );
 
-  const sortedHealthHistory = [...ghoulData.resourcesHistory.health].sort(
-    (a, b) => a.date - b.date,
-  );
-
-  const bodyDamages = sortedHealthHistory.reduce<HealthDamages>(
-    (accum, change) => {
-      if (change.effect.type === "heal") {
-        if (!change.effect.value) {
-          return accum;
-        }
-        return healGhoulHealth(accum, change.effect);
-      }
-      if (change.effect.type === "damage") {
-        if (!change.effect.value) {
-          return accum;
-        }
-        return damageGhoulHealth(accum, change.effect);
-      }
-      return accum as never;
-    },
+  const bodyDamages = completeHealthEvents(
     ghoulData.bodyDamages,
+    ghoulData.resourcesHistory.health,
   );
 
   return {
