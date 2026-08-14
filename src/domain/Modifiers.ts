@@ -14,7 +14,7 @@ import {
 } from "./Attributes";
 import { DamageType } from "./Damage";
 import { mergeMultipliers } from "utils/mergeMultipliers";
-import { filterEmptyAndZeroValues } from "utils/filterEmptyValues";
+import { filterEmptyAndZeroValues } from "utils/object/filterEmptyValues";
 
 /**
  * Набор модификаторов, влияющих на характеристики персонажа.
@@ -49,18 +49,15 @@ export interface Modifiers {
   absorptionDice?: Partial<Record<DamageType, number>>;
 
   /**
+   * Множители урона (итоговый урон округляется в меньшую сторону)
+   */
+  damageMultipliers?: Partial<Record<DamageType, number>>;
+
+  /**
    * Общее изменение количества кубиков при всех бросках.
    * Работает как глобальный бонус/штраф к пулу кубиков.
    */
   commonDiceBonus?: number;
-
-  /**
-   * Множитель для атрибутов (например, ×1.5 к Силе).
-   * Поле опционально: позволяет реализовать механики вроде «Ярость: +50% к урону»
-   * без необходимости пересчитывать абсолютные значения вручную.
-   */
-  // TODO: пока нигде не используется
-  attributeMultipliers?: Partial<Record<AttributeName, number>>;
 }
 
 export const mergeModifiers = (
@@ -88,9 +85,9 @@ export const mergeModifiers = (
   const incomingBonus = incoming.commonDiceBonus ?? 0;
   const commonDiceBonus = baseBonus + incomingBonus;
 
-  const attributeMultipliers = mergeMultipliers(
-    base.attributeMultipliers,
-    incoming.attributeMultipliers,
+  const damageMultipliers = mergeMultipliers(
+    base.damageMultipliers,
+    incoming.damageMultipliers,
   );
 
   // Создаём объект со всеми полями
@@ -100,7 +97,7 @@ export const mergeModifiers = (
     abilityModifiers,
     absorptionDice,
     commonDiceBonus,
-    attributeMultipliers,
+    damageMultipliers,
   } satisfies Record<keyof Modifiers, unknown>;
 
   return filterEmptyAndZeroValues(result);

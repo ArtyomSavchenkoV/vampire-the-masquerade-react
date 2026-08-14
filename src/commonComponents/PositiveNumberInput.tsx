@@ -34,6 +34,8 @@ export const PositiveNumberInput: FC<TProps> = ({
         if (/^\d*,?\d*$/.test(newValue)) {
           setStringValue(newValue);
           if (newValue === "") {
+            setNumberValue(0);
+            onChange(0);
           } else {
             setNumberValue(+newValue.replace(",", "."));
             onChange(+newValue.replace(",", "."));

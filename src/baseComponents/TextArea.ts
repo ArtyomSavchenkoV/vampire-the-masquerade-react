@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 
 export const TextArea = styled.textarea<{ rows?: number }>(({ rows = 4 }) => ({
+  fontSize: "0.85em",
   padding: 2,
   borderWidth: 1,
   borderRadius: 4,

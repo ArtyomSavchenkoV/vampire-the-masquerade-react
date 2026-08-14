@@ -14,7 +14,7 @@ import { getDisciplinesEffects } from "domain/Discipline";
 export type CalculatedGhoul = Omit<Ghoul, "attributes" | "abilities"> & {
   attributes: Record<AttributeName, ModifiedAttributeLevel>;
   abilities: Record<AbilityName, ModifiedAbilityLevel>;
-} & Pick<Modifiers, "absorptionDice" | "commonDiceBonus">;
+} & Pick<Modifiers, "absorptionDice" | "commonDiceBonus" | "damageMultipliers">;
 
 /**
  * Собирает все модификаторы для персонажа: активные эффекты,
@@ -25,6 +25,11 @@ export type CalculatedGhoul = Omit<Ghoul, "attributes" | "abilities"> & {
  */
 export const aggregateModifiers = (character: CalculatedGhoul): Modifiers => {
   let result: Modifiers = {};
+
+  // Модификаторы от типа юнита
+  if (character.unitTypeFeatures.modifiers) {
+    result = mergeModifiers(result, character.unitTypeFeatures.modifiers);
+  }
 
   // Эффекты экипировки
   for (const effect of character.equipment) {
@@ -99,6 +104,7 @@ export const calculateGhoul = (character: Ghoul): CalculatedGhoul => {
     attributes: { ...calculated.attributes, ...changedParameters.attributes },
     abilities: { ...calculated.abilities, ...changedParameters.abilities },
     absorptionDice: modifiers.absorptionDice,
+    damageMultipliers: modifiers.damageMultipliers,
     commonDiceBonus: modifiers.commonDiceBonus,
   };
 };

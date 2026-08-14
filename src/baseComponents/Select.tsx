@@ -3,10 +3,11 @@ import { SelectOption } from "./SelectOption";
 import styled from "@emotion/styled";
 
 const StyledSelect = styled.select`
+  font-size: 0.85em;
   border-radius: 4px;
   border-width: 1px;
   padding: 2px;
-  margin: -3px 0 -2px 0;
+  margin-top: -2px;
 `;
 
 interface TProps extends Omit<

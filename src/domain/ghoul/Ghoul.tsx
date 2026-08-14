@@ -9,6 +9,7 @@ import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
 import { MeritName, FlawName } from "domain/MeritsAndFlaws";
 import { ResourcesHistory } from "./ResourcesHistory";
 import { DisciplineName, DisciplineLevel } from "domain/Discipline";
+import { UnitTypeFeatures } from "domain/UnitTypeFeatures";
 
 /**
  * Базовая модель гуля
@@ -28,6 +29,8 @@ export interface Ghoul {
   role: string; // например: "Осведомитель", "Телохранитель", "Дипломат", "Ищейка"
   /** Домитор (имя домитора или null, если нет определённого домитора) */
   domitor: string | null;
+  /** Особенности этого типа существ */
+  unitTypeFeatures: UnitTypeFeatures;
   /** Характеристики */
   attributes: Record<AttributeName, BaseAttributeLevel>;
   /** Способности */

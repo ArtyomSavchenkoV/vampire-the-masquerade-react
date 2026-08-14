@@ -1,4 +1,4 @@
-import { getDefinedEntries } from "utils/getDefinedEntries";
+import { getDefinedEntries } from "utils/object/getDefinedEntries";
 import { TitleText } from "commonComponents/TitleText";
 import { AddElementButton } from "./AddElementButton";
 import { RemoveElementButton } from "./RemoveElementButton";

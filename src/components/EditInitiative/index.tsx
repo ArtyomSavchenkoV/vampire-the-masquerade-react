@@ -7,6 +7,8 @@ import { useEditIniciativeSelector } from "./selectors";
 import { useActions } from "store/selectors";
 import { NullablePositiveNumberInput } from "commonComponents/NullablePositiveNumberInput";
 import styled from "@emotion/styled";
+import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
+import { joinStrings } from "utils/string/joinStrings";
 
 const Input = styled(NullablePositiveNumberInput)`
   display: inline;
@@ -21,7 +23,7 @@ interface TProps extends ComponentProps<typeof Button> {
 
 export const EditInitiative: FC<TProps> = ({ unitId, onClick, ...props }) => {
   const { translate } = useTranslate();
-  const { commonDiceBonus, dexterity, wits } =
+  const { name, player, commonDiceBonus, dexterity, wits } =
     useEditIniciativeSelector(unitId);
   const { setInitiative } = useActions();
   const [open, setOpen] = useState(false);
@@ -57,6 +59,13 @@ export const EditInitiative: FC<TProps> = ({ unitId, onClick, ...props }) => {
           onCancel={() => setOpen(false)}
           onClose={() => setOpen(false)}
         >
+          <DetailsSectionTitle>
+            {joinStrings(
+              " ",
+              name ? name : null,
+              player ? `(${player})` : null,
+            )}
+          </DetailsSectionTitle>
           <Formula>
             {`${translate("editInitiative.dexterity")} + ${translate("editInitiative.wits")} + `}
             {`${translate("editInitiative.dice")} + ${translate("editInitiative.commonDiceBonus")} = ${translate("editInitiative.newInitiative")}`}

@@ -5,11 +5,20 @@ export const mergeMultipliers = <T extends Record<string, number>>(
   if (!incoming) return base;
   if (!base) return incoming;
 
-  const result: Record<string, number> = { ...base };
+  const result: Partial<Record<string, number>> = {};
 
-  for (const [key, limit] of Object.entries(incoming)) {
-    const current = result[key];
-    result[key] = current === undefined ? limit : Math.max(current, limit);
+  // Сначала копируем все ключи из base
+  for (const [key, value] of Object.entries(base)) {
+    result[key] = value;
+  }
+
+  // Затем обрабатываем incoming: если ключ уже есть — перемножаем, если нет — копируем
+  for (const [key, value] of Object.entries(incoming)) {
+    if (key in result) {
+      result[key] = (result[key] ?? 1) * value;
+    } else {
+      result[key] = value;
+    }
   }
 
   return result as T;

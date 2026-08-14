@@ -15,7 +15,7 @@ import { getDisciplinesEffects } from "domain/Discipline";
 export type CalculatedKindred = Omit<Kindred, "attributes" | "abilities"> & {
   attributes: Record<AttributeName, ModifiedAttributeLevel>;
   abilities: Record<AbilityName, ModifiedAbilityLevel>;
-} & Pick<Modifiers, "absorptionDice" | "commonDiceBonus">;
+} & Pick<Modifiers, "absorptionDice" | "commonDiceBonus" | "damageMultipliers">;
 
 /**
  * Собирает все модификаторы для персонажа: клан, активные эффекты,
@@ -26,6 +26,11 @@ export type CalculatedKindred = Omit<Kindred, "attributes" | "abilities"> & {
  */
 export const aggregateModifiers = (character: CalculatedKindred): Modifiers => {
   let result: Modifiers = {};
+
+  // Модификаторы от типа юнита
+  if (character.unitTypeFeatures.modifiers) {
+    result = mergeModifiers(result, character.unitTypeFeatures.modifiers);
+  }
 
   // Модификаторы от клана
   if (character.clan.modifiers) {
@@ -114,6 +119,7 @@ export const calculateKindred = (kindred: Kindred): CalculatedKindred => {
     attributes: { ...calculated.attributes, ...changedParameters.attributes },
     abilities: { ...calculated.abilities, ...changedParameters.abilities },
     absorptionDice: modifiers.absorptionDice,
+    damageMultipliers: modifiers.damageMultipliers,
     commonDiceBonus: modifiers.commonDiceBonus,
   };
 };

@@ -8,6 +8,11 @@ export const initialGhoul: Ghoul = {
   demeanor: "",
   role: "",
   domitor: null,
+  unitTypeFeatures: {
+    staminaChecks: {
+      bashing: true,
+    },
+  },
   attributes: {
     strength: 1,
     dexterity: 1,

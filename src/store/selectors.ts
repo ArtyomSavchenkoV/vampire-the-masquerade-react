@@ -1,9 +1,9 @@
-import { calculateCreature } from "domain/creature/CalculatedCreature";
-import { calculateHuman } from "domain/human/CalculatedHuman";
+import { useMemo } from "react";
 import { useStore } from "./store";
 import { calculateKindred } from "domain/kindred/CalculatedKindred";
-import { useMemo } from "react";
 import { calculateGhoul } from "domain/ghoul/CalculatedGhoul";
+import { calculateHuman } from "domain/human/CalculatedHuman";
+import { calculateCreature } from "domain/creature/CalculatedCreature";
 
 // TODO:
 // import { useShallow } from "zustand/shallow";

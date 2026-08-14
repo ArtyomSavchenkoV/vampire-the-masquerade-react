@@ -13,7 +13,7 @@ import { NameTitleText } from "commonComponents/NameTitleText";
 import { NameInput } from "./common/NameInput";
 import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { PartialObjectEditor } from "./common/PartialObjectEditor";
-import { TitleText } from "commonComponents/TitleText";
+import { TitleText } from "./common/TitleText";
 import { WithoutBorderSelect } from "commonComponents/WithoutBorderSelect";
 import { Select } from "baseComponents/Select";
 import { willpowerLevels } from "domain/Willpower";
@@ -23,6 +23,7 @@ import { getHealthLevelTranslateKey } from "domain/Health";
 import { EditHealthLevels } from "./common/EditHealthLevels";
 import { getCreatureHealthLevel } from "domain/creature/Health";
 import { Info } from "./common/Info";
+import { completeHealthEvents } from "domain/creature/ResourcesHistory";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   creature: Creature;
@@ -46,9 +47,15 @@ export const EditCreatureForm: FC<TProps> = ({
     });
   };
 
-  const healthLevel = getCreatureHealthLevel(
+  const bodyDamages = completeHealthEvents(
     creature.healthLevels,
     creature.bodyDamages,
+    creature.resourcesHistory.health,
+  );
+
+  const healthLevel = getCreatureHealthLevel(
+    creature.healthLevels,
+    bodyDamages,
   );
 
   const MAX_HEALTH = creature.healthLevels.length - 1;
@@ -196,7 +203,7 @@ export const EditCreatureForm: FC<TProps> = ({
         <>
           {/* Здоровье */}
           <DetailsSectionTitle>
-            {`${translate("createUnit.health")}: ${MAX_HEALTH - creature.bodyDamages.length}/${MAX_HEALTH}`}
+            {`${translate("createUnit.health")}: ${MAX_HEALTH - bodyDamages.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
           {/* Уровень здоровья */}
           <Info>
@@ -209,7 +216,7 @@ export const EditCreatureForm: FC<TProps> = ({
             {translate("createUnit.damages")}
           </DetailsSectionTitle>
           <ArrayEditor
-            array={creature.bodyDamages}
+            array={bodyDamages}
             onChange={(bodyDamages) =>
               onChange({
                 ...creature,
@@ -227,10 +234,8 @@ export const EditCreatureForm: FC<TProps> = ({
             allowDuplicates
             addTitle={translate("editDamages.add")}
             isOverflow={
-              getCreatureHealthLevel(
-                creature.healthLevels,
-                creature.bodyDamages,
-              ).name === "final"
+              getCreatureHealthLevel(creature.healthLevels, bodyDamages)
+                .name === "final"
             }
           />
         </>

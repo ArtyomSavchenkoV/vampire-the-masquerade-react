@@ -8,7 +8,7 @@ import { ComponentProps, FC, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 
 const StyledButton = styled(Button)`
-  height: 19px;
+  padding: 2px;
   display: flex;
   align-items: center;
   justify-content: center;

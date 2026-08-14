@@ -3,6 +3,11 @@ import { Creature } from "domain/creature/Creature";
 export const initialCreature: Creature = {
   name: "",
   player: null,
+  unitTypeFeatures: {
+    staminaChecks: {
+      bashing: true,
+    },
+  },
   attributes: {},
   abilities: {},
   mentalStability: {

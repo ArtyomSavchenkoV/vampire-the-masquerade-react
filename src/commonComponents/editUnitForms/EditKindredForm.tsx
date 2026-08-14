@@ -38,7 +38,7 @@ import { FlawName, MeritName, MeritsAndFlawsData } from "domain/MeritsAndFlaws";
 import { willpowerLevels } from "domain/Willpower";
 import { FC, HTMLAttributes, useEffect } from "react";
 import useTranslate from "services/translate/useTranslate";
-import { getDefinedEntries } from "utils/getDefinedEntries";
+import { getDefinedEntries } from "utils/object/getDefinedEntries";
 import { ChangeClan } from "./common/ChangeClan";
 import { WithoutBorderSelect } from "commonComponents/WithoutBorderSelect";
 import { NameTitleText } from "commonComponents/NameTitleText";
@@ -46,6 +46,7 @@ import { NameInput } from "./common/NameInput";
 import { getHealthLevelTranslateKey } from "domain/Health";
 import { MAX_HEALTH } from "data/kindredHealthLevels";
 import { Info } from "./common/Info";
+import { completeHealthEvents } from "domain/kindred/ResourcesHistory";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   kindred: Kindred;
@@ -97,7 +98,12 @@ export const EditKindredForm: FC<TProps> = ({
     });
   };
 
-  const healthLevel = getKinderedHealthLevel(kindred.bodyDamages);
+  const bodyDamages = completeHealthEvents(
+    kindred.bodyDamages,
+    kindred.resourcesHistory.health,
+  );
+
+  const healthLevel = getKinderedHealthLevel(bodyDamages);
 
   return (
     <KindredLayout
@@ -974,7 +980,7 @@ export const EditKindredForm: FC<TProps> = ({
         <>
           {/* Здоровье */}
           <DetailsSectionTitle>
-            {`${translate("createUnit.health")}: ${MAX_HEALTH - kindred.bodyDamages.length}/${MAX_HEALTH}`}
+            {`${translate("createUnit.health")}: ${MAX_HEALTH - bodyDamages.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
           {/* Уровень здоровья */}
           <Info>
@@ -987,7 +993,7 @@ export const EditKindredForm: FC<TProps> = ({
             {translate("createUnit.damages")}
           </DetailsSectionTitle>
           <ArrayEditor
-            array={kindred.bodyDamages}
+            array={bodyDamages}
             onChange={(bodyDamages) =>
               onChange({
                 ...kindred,
@@ -1004,9 +1010,7 @@ export const EditKindredForm: FC<TProps> = ({
             }))}
             allowDuplicates
             addTitle={translate("editDamages.add")}
-            isOverflow={
-              getKinderedHealthLevel(kindred.bodyDamages).name === "final"
-            }
+            isOverflow={getKinderedHealthLevel(bodyDamages).name === "final"}
           />
         </>
       }

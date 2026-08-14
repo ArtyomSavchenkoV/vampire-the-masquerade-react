@@ -5,6 +5,13 @@ describe("src/domain/creature/calculateCreature", () => {
   const creature = {
     name: "Name",
     player: "Player",
+    unitTypeFeatures: {
+      modifiers: {
+        damageMultipliers: {
+          bashing: 0.5,
+        },
+      },
+    },
     attributes: {
       strength: 2,
       dexterity: 1,

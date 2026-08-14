@@ -2,11 +2,11 @@ import { GetByType } from "utils/types/GetByType";
 import { SavedData as PrevSavedData } from "./1";
 import { mapObject } from "utils/object/mapObject";
 
+/* 
+  Получаем исходные типы 
+*/
 type PrevUnits = PrevSavedData["units"];
-
-// Сначала получаем объединение всех возможных значений Units[key]
 type PrevUnitEntry = PrevUnits[string];
-
 type UnitType = PrevUnitEntry["type"];
 
 type KindredType = GetByType<PrevUnitEntry, "kindred">["unit"];
@@ -14,7 +14,9 @@ type GhoulType = GetByType<PrevUnitEntry, "ghoul">["unit"];
 type HumanType = GetByType<PrevUnitEntry, "human">["unit"];
 type CreatureType = GetByType<PrevUnitEntry, "creature">["unit"];
 
-// Формируем новый тип:
+/*
+  Формируем новые типы:
+*/
 
 // Изменившиеся метаданные
 type StoreUnitEntry<Type extends UnitType, Unit extends Object> = {

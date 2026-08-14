@@ -22,6 +22,13 @@ function deepFreeze(obj: any): any {
 describe("src/domain/kindred-aggregateCharacterModifiers", () => {
   const baseCharacter = {
     name: "Test Nosferatu",
+    unitTypeFeatures: {
+      modifiers: {
+        damageMultipliers: {
+          bashing: 0.5,
+        },
+      },
+    },
     clan: {
       clanName: "Nosferatu",
       // Дисциплины: уровни строго 1–5
@@ -57,7 +64,15 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
     ],
     merits: [],
     flaws: [],
-    equipment: [],
+    equipment: [
+      {
+        modifiers: {
+          damageMultipliers: {
+            bashing: 0.5,
+          },
+        },
+      },
+    ],
     bodyDamages: ["bashing", "bashing", "bashing"],
   } as unknown as Kindred;
 
@@ -103,6 +118,9 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
         lethal: 1,
         aggravated: 1,
       },
+      damageMultipliers: {
+        bashing: 0.25,
+      },
     });
   });
 
@@ -138,6 +156,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
   it("корректно обрабатывает отсутствие modifiers в отдельных источниках", () => {
     const characterWithEmptySources = {
       name: "Empty Vampire",
+      unitTypeFeatures: {},
       clan: {
         clanName: "Toreador",
         disciplines: { animalism: 1, dominate: 1, presence: 1 },
@@ -160,6 +179,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
   it("правильно применяет discipline levels и не ломает структуру disciplines", () => {
     const character = {
       name: "Discipline Test",
+      unitTypeFeatures: {},
       clan: {
         clanName: "Ventrue",
         disciplines: { potence: 3, dominate: 1 },
@@ -189,6 +209,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
     const cursedCharacter = {
       id: "cursed-nosferatu",
       name: "Cursed Nosferatu",
+      unitTypeFeatures: {},
       clan: {
         clanName: "Nosferatu",
         disciplines: {},

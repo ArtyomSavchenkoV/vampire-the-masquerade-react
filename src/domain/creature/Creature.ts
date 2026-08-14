@@ -5,6 +5,7 @@ import { EquipmentItem } from "domain/EquipmentItem";
 import { HealthDamages, HealthLevelData } from "domain/Health";
 import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
 import { ResourcesHistory } from "./ResourcesHistory";
+import { UnitTypeFeatures } from "domain/UnitTypeFeatures";
 
 /**
  * Базовая модель существа (Собака, крыса, медведь и пр.)
@@ -14,6 +15,8 @@ export interface Creature {
   name: string;
   /** Игрок */
   player: string | null;
+  /** Особенности этого типа существ */
+  unitTypeFeatures: UnitTypeFeatures;
   /** Характеристики */
   attributes: Partial<Record<AttributeName, BaseAttributeLevel>>;
   /** Способности */

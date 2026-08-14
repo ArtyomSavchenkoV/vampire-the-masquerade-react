@@ -1,9 +1,9 @@
 import { ComponentProps, FC } from "react";
 import { InlineIcon } from "./InlineIcon";
-import AddPath from "./AddPath";
+import { AddPath } from "./AddPath";
 
 interface TProps extends Omit<ComponentProps<typeof InlineIcon>, "children"> {}
-export const HealIcon: FC<TProps> = ({ ...props }) => {
+export const HealUnitIcon: FC<TProps> = ({ ...props }) => {
   return (
     <InlineIcon {...props}>
       {/* Чаша */}
@@ -66,39 +66,3 @@ export const HealIcon: FC<TProps> = ({ ...props }) => {
     </InlineIcon>
   );
 };
-
-/**
-      <path
-        stroke="red"
-        fill="none"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="								
-          M12 22 
-          Q5 20.5 12 19 
-          Q19 17.5 12 16 
-          Q5 14.5 12 13        
-          Q17 12 18 8
-          Q22 -1 15 3 
-        "
-      />
-      <path
-        stroke="currentColor"
-        fill="red"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        d="M15 6 C14 5 13.5 3.5 14.5 2.5 C15.5 1.5 17 2 16.5 3 C16 4 15.5 4.5 15 5 L14.5 5.5 Z"
-      />
- */
-
-/*
-
-            <path
-        fill="currentColor"
-        strokeLinecap="round"
-        d="
-          M9 6 A0.5 0.5 0 0 1 8.2 4.5 Q9.5 2.7 11.5 2.5 A1 1 0 0 1 13 5.5 Z
-        "
-      />*/

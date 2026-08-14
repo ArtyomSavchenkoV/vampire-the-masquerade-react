@@ -2,6 +2,7 @@ import { FC, ButtonHTMLAttributes } from "react";
 import styled from "@emotion/styled";
 
 const ButtonRoot = styled.button<TProps>`
+  font-size: 0.85em;
   position: relative;
   border: 1px solid #999;
   border-radius: 4px;

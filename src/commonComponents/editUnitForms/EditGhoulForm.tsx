@@ -37,13 +37,14 @@ import { FlawName, MeritName, MeritsAndFlawsData } from "domain/MeritsAndFlaws";
 import { willpowerLevels } from "domain/Willpower";
 import { FC, HTMLAttributes } from "react";
 import useTranslate from "services/translate/useTranslate";
-import { getDefinedEntries } from "utils/getDefinedEntries";
+import { getDefinedEntries } from "utils/object/getDefinedEntries";
 import { WithoutBorderSelect } from "commonComponents/WithoutBorderSelect";
 import { NameTitleText } from "commonComponents/NameTitleText";
 import { NameInput } from "./common/NameInput";
 import { getHealthLevelTranslateKey } from "domain/Health";
 import { MAX_HEALTH } from "data/ghoulHealthLevels";
 import { Info } from "./common/Info";
+import { completeHealthEvents } from "domain/ghoul/ResourcesHistory";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   ghoul: Ghoul;
@@ -81,7 +82,12 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
     });
   };
 
-  const healthLevel = getGhoulHealthLevel(ghoul.bodyDamages);
+  const bodyDamages = completeHealthEvents(
+    ghoul.bodyDamages,
+    ghoul.resourcesHistory.health,
+  );
+
+  const healthLevel = getGhoulHealthLevel(bodyDamages);
 
   return (
     <GhoulLayout
@@ -931,7 +937,7 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
         <>
           {/* Здоровье */}
           <DetailsSectionTitle>
-            {`${translate("createUnit.health")}: ${MAX_HEALTH - ghoul.bodyDamages.length}/${MAX_HEALTH}`}
+            {`${translate("createUnit.health")}: ${MAX_HEALTH - bodyDamages.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
           {/* Уровень здоровья */}
           <Info>
@@ -944,7 +950,7 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
             {translate("createUnit.damages")}
           </DetailsSectionTitle>
           <ArrayEditor
-            array={ghoul.bodyDamages}
+            array={bodyDamages}
             onChange={(bodyDamages) =>
               onChange({
                 ...ghoul,
@@ -961,7 +967,7 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
             }))}
             allowDuplicates
             addTitle={translate("editDamages.add")}
-            isOverflow={getGhoulHealthLevel(ghoul.bodyDamages).name === "final"}
+            isOverflow={getGhoulHealthLevel(bodyDamages).name === "final"}
           />
         </>
       }

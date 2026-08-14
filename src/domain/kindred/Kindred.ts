@@ -10,6 +10,7 @@ import { HealthDamages } from "domain/Health";
 import { ResourcesHistory } from "./ResourcesHistory";
 import { HumanityOrPathRating } from "domain/HumanityOrPathRating";
 import { DisciplineName, DisciplineLevel } from "domain/Discipline";
+import { UnitTypeFeatures } from "domain/UnitTypeFeatures";
 
 /**
  * Базовая модель сородича
@@ -33,6 +34,8 @@ export interface Kindred {
   generation: number;
   /** Сир (имя сира или null, если не известен) */
   sire: string | null;
+  /** Особенности этого типа существ */
+  unitTypeFeatures: UnitTypeFeatures;
   /** Характеристики */
   attributes: Record<AttributeName, BaseAttributeLevel>;
   /** Способности */

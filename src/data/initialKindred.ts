@@ -9,6 +9,17 @@ export const initialKindred: Omit<Kindred, "clan"> = {
   role: "",
   generation: 13,
   sire: null,
+  unitTypeFeatures: {
+    modifiers: {
+      damageMultipliers: {
+        bashing: 0.5,
+      },
+    },
+    staminaChecks: {
+      bashing: true,
+      lethal: true,
+    },
+  },
   attributes: {
     strength: 1,
     dexterity: 1,

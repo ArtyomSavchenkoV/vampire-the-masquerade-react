@@ -29,7 +29,7 @@ import { PartialObjectEditor } from "./common/PartialObjectEditor";
 import { merits, flaws } from "data/meritsAndFlaws";
 import { backgroundNames, backgroundLevels } from "domain/Backgrounds";
 import { MeritName, MeritsAndFlawsData, FlawName } from "domain/MeritsAndFlaws";
-import { getDefinedEntries } from "utils/getDefinedEntries";
+import { getDefinedEntries } from "utils/object/getDefinedEntries";
 import { Select } from "baseComponents/Select";
 import { humanityOrPathRatings } from "domain/HumanityOrPathRating";
 import { willpowerLevels } from "domain/Willpower";
@@ -38,6 +38,7 @@ import { damageTypes } from "domain/Damage";
 import { getHumanHealthLevel } from "domain/human/Health";
 import { EditHealthLevels } from "./common/EditHealthLevels";
 import { Info } from "./common/Info";
+import { completeHealthEvents } from "domain/human/ResourcesHistory";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   human: Human;
@@ -75,10 +76,13 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
     });
   };
 
-  const healthLevel = getHumanHealthLevel(
+  const bodyDamages = completeHealthEvents(
     human.healthLevels,
     human.bodyDamages,
+    human.resourcesHistory.health,
   );
+
+  const healthLevel = getHumanHealthLevel(human.healthLevels, bodyDamages);
 
   const MAX_HEALTH = human.healthLevels.length - 1;
 
@@ -827,7 +831,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
         <>
           {/* Здоровье */}
           <DetailsSectionTitle>
-            {`${translate("createUnit.health")}: ${MAX_HEALTH - human.bodyDamages.length}/${MAX_HEALTH}`}
+            {`${translate("createUnit.health")}: ${MAX_HEALTH - bodyDamages.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
           {/* Уровень здоровья */}
           <Info>
@@ -840,7 +844,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             {translate("createUnit.damages")}
           </DetailsSectionTitle>
           <ArrayEditor
-            array={human.bodyDamages}
+            array={bodyDamages}
             onChange={(bodyDamages) =>
               onChange({
                 ...human,
@@ -858,8 +862,8 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
             allowDuplicates
             addTitle={translate("editDamages.add")}
             isOverflow={
-              getHumanHealthLevel(human.healthLevels, human.bodyDamages)
-                .name === "final"
+              getHumanHealthLevel(human.healthLevels, bodyDamages).name ===
+              "final"
             }
           />
         </>

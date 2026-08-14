@@ -7,6 +7,11 @@ export const initialHuman: Human = {
   nature: "",
   demeanor: "",
   role: "",
+  unitTypeFeatures: {
+    staminaChecks: {
+      bashing: true,
+    },
+  },
   attributes: {
     strength: 1,
     dexterity: 1,

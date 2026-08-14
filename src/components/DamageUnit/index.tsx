@@ -1,12 +1,12 @@
 import { IconButton } from "baseComponents/IconButton";
-import { ConfirmWindow } from "commonComponents/ConfirmWindow";
-import { Dialog } from "commonComponents/Dialog";
-import { HealUnitIcon } from "icons/HealUnitIcon";
+import { DamageUnitIcon } from "icons/DamageUnitIcon";
 import { ComponentProps, FC, useState } from "react";
-import { Form } from "./Form";
 import useTranslate from "services/translate/useTranslate";
 import { useActions } from "store/selectors";
-import { useHealUnitSelector } from "./selectors";
+import { Form } from "./Form";
+import { ConfirmWindow } from "commonComponents/ConfirmWindow";
+import { Dialog } from "commonComponents/Dialog";
+import { useDamageUnitSelector } from "./selectors";
 import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { joinStrings } from "utils/string/joinStrings";
 
@@ -14,10 +14,17 @@ interface TProps extends Omit<ComponentProps<typeof IconButton>, "children"> {
   unitId: string;
 }
 
-export const HealUnit: FC<TProps> = ({ unitId, onClick, ...props }) => {
+export const DamageUnit: FC<TProps> = ({ unitId, onClick, ...props }) => {
   const { translate } = useTranslate();
   const { changeHealth } = useActions();
-  const { name, player } = useHealUnitSelector(unitId);
+  const {
+    name,
+    player,
+    staminaChecks,
+    stamina,
+    absorptionDice,
+    damageMultipliers,
+  } = useDamageUnitSelector(unitId);
   const [open, setOpen] = useState(false);
 
   return (
@@ -29,12 +36,12 @@ export const HealUnit: FC<TProps> = ({ unitId, onClick, ...props }) => {
         }}
         {...props}
       >
-        <HealUnitIcon />
+        <DamageUnitIcon />
       </IconButton>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <ConfirmWindow
           onClose={() => setOpen(false)}
-          title={translate("healUnit.title")}
+          title={translate("damageUnit.title")}
         >
           <DetailsSectionTitle>
             {joinStrings(
@@ -44,11 +51,15 @@ export const HealUnit: FC<TProps> = ({ unitId, onClick, ...props }) => {
             )}
           </DetailsSectionTitle>
           <Form
-            onHeal={(values) => {
+            staminaChecks={staminaChecks}
+            stamina={stamina}
+            absorptionDice={absorptionDice}
+            damageMultipliers={damageMultipliers}
+            onDamage={(values) => {
               changeHealth(
                 unitId,
                 {
-                  type: "heal",
+                  type: "damage",
                   value: values.value,
                   damageType: values.type,
                 },

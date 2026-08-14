@@ -70,6 +70,9 @@ export const ru = {
     bloodConsumptionLimitPerTurn: "Предел траты",
     bloodPool: "Запас крови",
   },
+  calculatedFields: {
+    fortitude: "Стойкость",
+  },
   attributes: {
     strength: "Сила",
     dexterity: "Ловкость",
@@ -204,6 +207,13 @@ export const ru = {
     dice: "дайс",
     newInitiative: "инициатива",
   },
+  damageUnit: {
+    title: "Нанесение урона",
+    healCount: "Количество урона",
+    description: "Описание",
+    calculateDamage: "Рассчёт урона",
+    complete: "Применить",
+  },
   healUnit: {
     title: "Лечение",
     healCount: "Количество исцеления",
@@ -263,5 +273,9 @@ export const ru = {
     "3": "⚫⚫⚫⚪⚪",
     "4": "⚫⚫⚫⚫⚪",
     "5": "⚫⚫⚫⚫⚫",
+  },
+  dice: {
+    dicesToRoll: "Дайсов для броска",
+    successes: "Успехов",
   },
 };
