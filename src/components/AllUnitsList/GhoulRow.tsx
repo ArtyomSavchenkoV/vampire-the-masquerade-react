@@ -11,8 +11,7 @@ import { ButtonsTd } from "commonComponents/ButtonsTd";
 import { TableCheckbox } from "commonComponents/TableCheckbox";
 import { IconButton } from "baseComponents/IconButton";
 import TrashBinIcon from "icons/TrashBinIcon";
-import { HealUnit } from "components/HealUnit";
-import { DamageUnit } from "components/DamageUnit";
+import { UnitActions } from "components/UnitActions";
 
 interface TProps {
   id: string;
@@ -63,11 +62,8 @@ export const GhoulRow: FC<TProps> = memo(({ id }) => {
 
       {/* Кнопки */}
       <ButtonsTd>
-        {/* Нанести урон персонажу */}
-        <DamageUnit unitId={id} onClick={(ev) => ev.stopPropagation()} />
-
-        {/* Лечить персонажа */}
-        <HealUnit unitId={id} onClick={(ev) => ev.stopPropagation()} />
+        {/* Действия над персонажем */}
+        <UnitActions unitId={id} />
 
         {/* Удалить персонажа */}
         <ConfirmingButton

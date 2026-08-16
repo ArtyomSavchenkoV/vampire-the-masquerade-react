@@ -1,5 +1,7 @@
+import { getKinderedHealthLevel } from "domain/kindred/Health";
 import { useMemo } from "react";
 import {
+  useCalculatedKindredSelector,
   useSelectedUnitIdSelector,
   useUnitSelector,
   useUnitsSelector,
@@ -19,11 +21,15 @@ export const useDetailsSelector = () => {
 
 export const useKindredDetailsSelector = (unitId: string) => {
   const unit = useUnitSelector(unitId);
+  const calculatedKindred = useCalculatedKindredSelector(unitId);
   return useMemo(
     () => ({
       notes: unit.notes,
+      healthLevel: calculatedKindred?.bodyDamages
+        ? getKinderedHealthLevel(calculatedKindred.bodyDamages)
+        : null,
     }),
-    [unit.notes],
+    [unit.notes, calculatedKindred?.bodyDamages],
   );
 };
 

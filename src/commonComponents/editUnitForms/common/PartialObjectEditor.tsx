@@ -1,5 +1,5 @@
 import { getDefinedEntries } from "utils/object/getDefinedEntries";
-import { TitleText } from "commonComponents/TitleText";
+import { TitleText } from "./TitleText";
 import { AddElementButton } from "./AddElementButton";
 import { RemoveElementButton } from "./RemoveElementButton";
 import styled from "@emotion/styled";

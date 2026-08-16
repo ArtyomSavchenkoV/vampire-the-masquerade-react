@@ -19,7 +19,7 @@ import {
 } from "domain/MentalStability";
 import { Input } from "baseComponents/Input";
 import { NameTitleText } from "commonComponents/NameTitleText";
-import { TitleText } from "commonComponents/TitleText";
+import { TitleText } from "./common/TitleText";
 import { NameInput } from "./common/NameInput";
 import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { WithoutBorderSelect } from "commonComponents/WithoutBorderSelect";

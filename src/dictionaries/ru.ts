@@ -178,26 +178,26 @@ export const ru = {
     resources: "Богатство",
   },
   editAttributes: {
-    add: "Характеристики",
+    add: "Добавить характеристику",
   },
   editAbilities: {
-    add: "Способности",
+    add: "Добавить способность",
   },
   editDisciplines: {
-    add: "Дисциплины",
+    add: "Добавить дисциплину",
   },
   editBackgrounds: {
-    add: "Факты биографии",
+    add: "Добавить факт биографии",
   },
   editMeritsAndFlaws: {
-    addMerit: "Достоинства",
-    addFlaw: "Недостатки",
+    addMerit: "Добавить достоинство",
+    addFlaw: "Добавить недостаток",
   },
   editDamages: {
-    add: "Урон",
+    add: "Добавить урон",
   },
   editHealthLevels: {
-    add: "Уровни здоровья",
+    add: "Добавить уровень здоровья",
   },
   editInitiative: {
     title: "Задать инициативу",
@@ -211,12 +211,16 @@ export const ru = {
     title: "Нанесение урона",
     healCount: "Количество урона",
     description: "Описание",
-    calculateDamage: "Рассчёт урона",
+    calculateDamage: "Расчёт урона",
     complete: "Применить",
   },
   healUnit: {
     title: "Лечение",
     healCount: "Количество исцеления",
+    description: "Описание",
+  },
+  torporAwakeningUnit: {
+    title: "Пробудить от торпор",
     description: "Описание",
   },
   mentalStability: {
@@ -254,12 +258,12 @@ export const ru = {
       torpor: "В отключке (torpor)",
       finalDeath: "Окончательная смерть",
     },
-    cutExcessDamage: "Обрезает остаточный урон одного удара",
+    cutExcessDamage: "Отсекает избыточный урон от одного удара",
   },
   damages: {
     bashing: "Обычный урон",
     lethal: "Летальный урон",
-    aggravated: "Сверхестественный урон",
+    aggravated: "Сверхъестественный урон",
   },
   resources: {
     health: "Здоровье",

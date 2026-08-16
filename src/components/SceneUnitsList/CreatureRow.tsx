@@ -6,6 +6,8 @@ import { useCreatureRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { useActions } from "store/selectors";
 import { EditInitiative } from "components/EditInitiative";
+import { ButtonsTd } from "commonComponents/ButtonsTd";
+import { UnitActions } from "components/UnitActions";
 
 interface TProps {
   id: string;
@@ -39,13 +41,13 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
       onClick={() => selectUnit(creatureRow.isSelected ? null : id)}
     >
       {/* Инициатива */}
-      <Td>
+      <ButtonsTd>
         {!creatureRow.isIncapacitated && (
           <EditInitiative unitId={id}>
             {creatureRow.initiative ?? translate("unitRow.initiative")}
           </EditInitiative>
         )}
-      </Td>
+      </ButtonsTd>
 
       {/* Имя персонажа */}
       <Td>{creatureRow.name}</Td>
@@ -63,7 +65,10 @@ export const CreatureRow: FC<TProps> = memo(({ id }) => {
       </Td>
 
       {/* Кнопки */}
-      <Td></Td>
+      <ButtonsTd>
+        {/* Действия над персонажем */}
+        <UnitActions unitId={id} />
+      </ButtonsTd>
     </StyledRow>
   );
 });

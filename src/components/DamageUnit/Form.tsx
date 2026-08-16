@@ -48,6 +48,10 @@ export const Form: FC<TProps> = ({
   const damageTypeAbsorptionDice = absorptionDice?.[damageType] ?? null;
   const damageTypeDamageMultipliers = damageMultipliers?.[damageType] ?? 1;
 
+  const dicesCount =
+    (isDamageTypeStaminaCheck ? (stamina ?? 0) : 0) +
+    (damageTypeAbsorptionDice ?? 0);
+
   const preparedDamage =
     initialDamage - successes > 0 ? initialDamage - successes : 0;
 
@@ -101,18 +105,20 @@ export const Form: FC<TProps> = ({
             {`${joinStrings(
               " + ",
               isDamageTypeStaminaCheck
-                ? `${stamina} (${translate("attributes.stamina")})`
+                ? `${stamina ?? 0} (${translate("attributes.stamina")})`
                 : null,
               damageTypeAbsorptionDice != null
                 ? `${damageTypeAbsorptionDice} (${translate("calculatedFields.fortitude")})`
                 : null,
-            )} = ${(isDamageTypeStaminaCheck ? (stamina ?? 0) : 0) + (damageTypeAbsorptionDice ?? 0)}`}
+            )} = ${dicesCount}`}
           </TitleText>
           {/* Количество успехов */}
           <TitleText title={translate("dice.successes")}>
             <PositiveNumberInput
               value={successes}
-              onChange={(value) => setSuccesses(value)}
+              onChange={(value) =>
+                setSuccesses(value > dicesCount ? dicesCount : value)
+              }
             />
           </TitleText>
         </>

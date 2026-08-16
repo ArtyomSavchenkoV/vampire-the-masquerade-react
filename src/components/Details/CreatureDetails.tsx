@@ -6,6 +6,7 @@ import { Header } from "./common/Header";
 import { Panel } from "./common/Panel";
 import { useCreatureDetailsSelector } from "./selectors";
 import { TextArea } from "baseComponents/TextArea";
+import { UnitActions } from "components/UnitActions";
 
 interface TProps {
   unitId: string;
@@ -25,6 +26,7 @@ export const CreatureDetails: FC<TProps> = ({ unitId }) => {
           <Header
             title={translate("details.title")}
             onClose={() => selectUnit(null)}
+            buttons={<UnitActions unitId={unitId} />}
           />
           {/* Заметки */}
           <TextArea

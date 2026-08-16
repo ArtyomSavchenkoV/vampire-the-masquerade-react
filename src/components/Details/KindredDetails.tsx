@@ -9,6 +9,8 @@ import { Header } from "./common/Header";
 import { Panel } from "./common/Panel";
 import { useKindredDetailsSelector } from "./selectors";
 import { TextArea } from "baseComponents/TextArea";
+import { UnitActions } from "components/UnitActions";
+import { TorporAwakeningUnit } from "components/TorporAwakeningUnit";
 
 interface TProps {
   unitId: string;
@@ -18,6 +20,10 @@ export const KindredDetails: FC<TProps> = ({ unitId }) => {
   const { translate } = useTranslate();
   const { editKindred, selectUnit, editNotes } = useActions();
   const kindredDetails = useKindredDetailsSelector(unitId);
+  const isTorpor =
+    kindredDetails.healthLevel &&
+    kindredDetails.healthLevel.name === "final" &&
+    kindredDetails.healthLevel.variant === "torpor";
   // TODO: Временное отображение базовых данных
   const kindred = useKindredSelector(unitId);
 
@@ -27,7 +33,13 @@ export const KindredDetails: FC<TProps> = ({ unitId }) => {
         <Panel open>
           <Header
             title={translate("details.title")}
-            buttons={<EditKindred kindredId={unitId} />}
+            buttons={
+              <>
+                <UnitActions unitId={unitId} />
+                {isTorpor && <TorporAwakeningUnit unitId={unitId} />}
+                <EditKindred kindredId={unitId} />
+              </>
+            }
             onClose={() => selectUnit(null)}
           />
           {/* Заметки */}

@@ -5,7 +5,7 @@ import { FC, ReactNode } from "react";
 const StyledHeader = styled.div`
   font-size: 2em;
   display: flex;
-  gap: 24px;
+  gap: 12px;
   flex-wrap: wrap;
 `;
 

@@ -1,11 +1,10 @@
 import { useMemo } from "react";
-import { useUnitsSelector } from "store/selectors";
+import { useUnitSelector } from "store/selectors";
 
 export const useHealUnitSelector = (unitId: string) => {
-  const units = useUnitsSelector();
-  const unit = units[unitId]?.unit;
-  const name = unit.name;
-  const player = unit.player;
+  const unitMeta = useUnitSelector(unitId);
+  const name = unitMeta?.unit.name;
+  const player = unitMeta?.unit.player;
 
   return useMemo(
     () => ({

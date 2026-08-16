@@ -6,6 +6,8 @@ import { useHumanRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { EditInitiative } from "components/EditInitiative";
+import { ButtonsTd } from "commonComponents/ButtonsTd";
+import { UnitActions } from "components/UnitActions";
 
 interface TProps {
   id: string;
@@ -33,13 +35,13 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
       onClick={() => selectUnit(humanRow.isSelected ? null : id)}
     >
       {/* Инициатива */}
-      <Td>
+      <ButtonsTd>
         {!humanRow.isIncapacitated && (
           <EditInitiative unitId={id}>
             {humanRow.initiative ?? translate("unitRow.initiative")}
           </EditInitiative>
         )}
-      </Td>
+      </ButtonsTd>
 
       {/* Имя персонажа */}
       <Td>{humanRow.name}</Td>
@@ -57,7 +59,10 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
       </Td>
 
       {/* Кнопки */}
-      <Td></Td>
+      <ButtonsTd>
+        {/* Действия над персонажем */}
+        <UnitActions unitId={id} />
+      </ButtonsTd>
     </StyledRow>
   );
 });

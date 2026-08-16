@@ -7,6 +7,8 @@ import { StyledRow } from "commonComponents/StyledRow";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
 import { EditInitiative } from "components/EditInitiative";
 import { MAX_HEALTH } from "data/kindredHealthLevels";
+import { ButtonsTd } from "commonComponents/ButtonsTd";
+import { UnitActions } from "components/UnitActions";
 
 interface TProps {
   id: string;
@@ -38,13 +40,13 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
       onClick={() => selectUnit(kindredRow.isSelected ? null : id)}
     >
       {/* Инициатива */}
-      <Td>
+      <ButtonsTd>
         {!kindredRow.isIncapacitated && (
           <EditInitiative onClick={(ev) => ev.stopPropagation()} unitId={id}>
             {kindredRow.initiative ?? translate("unitRow.initiative")}
           </EditInitiative>
         )}
-      </Td>
+      </ButtonsTd>
 
       {/* Имя персонажа */}
       <Td>{kindredRow.name}</Td>
@@ -63,7 +65,10 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
       </Td>
 
       {/* Кнопки */}
-      <Td></Td>
+      <ButtonsTd>
+        {/* Действия над персонажем */}
+        <UnitActions unitId={id} />
+      </ButtonsTd>
     </StyledRow>
   );
 });

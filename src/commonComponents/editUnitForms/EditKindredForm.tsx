@@ -5,7 +5,7 @@ import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { KindredLayout } from "./common/KindredLayout";
 import { PartialObjectEditor } from "./common/PartialObjectEditor";
 import { PositiveNumberInput } from "commonComponents/PositiveNumberInput";
-import { TitleText } from "commonComponents/TitleText";
+import { TitleText } from "./common/TitleText";
 import { merits, flaws } from "data/meritsAndFlaws";
 import {
   AbilityName,
