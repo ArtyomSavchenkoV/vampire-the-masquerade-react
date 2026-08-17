@@ -175,7 +175,7 @@ export const EditKindredForm: FC<TProps> = ({
               clanName={kindred.clan.clanName}
               onChange={onClanChange}
             >
-              {translate(`clanes.${kindred.clan.clanName}`)}
+              {translate(`clanes.${kindred.clan.clanName}.name`)}
             </ChangeClan>
           </TitleText>
           {/* Поколение */}
@@ -198,6 +198,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
         </>
       }
+      curse={translate(`clanes.${kindred.clan.clanName}.curse`)}
       physical={
         <>
           {/* Физические */}

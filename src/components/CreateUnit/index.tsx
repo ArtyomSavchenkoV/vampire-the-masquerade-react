@@ -142,7 +142,7 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
           <Select
             options={clanNames.map((clanName) => ({
               value: clanName,
-              name: translate(`clanes.${clanName}`),
+              name: translate(`clanes.${clanName}.name`),
             }))}
             value={clan}
             onChange={changeClanHandler}

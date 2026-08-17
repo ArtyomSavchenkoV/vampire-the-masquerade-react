@@ -47,7 +47,7 @@ export const ChangeClan: FC<TProps> = ({ clanName, onChange, ...props }) => {
           <Select
             options={clanNames.map((clanName) => ({
               value: clanName,
-              name: translate(`clanes.${clanName}`),
+              name: translate(`clanes.${clanName}.name`),
             }))}
             value={selectedClanName}
             onChange={setSelectedClanName}

@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
 import { Card } from "baseComponents/Card";
+import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { useOnElementResize } from "hooks/useOnElementResize";
 import { FC, HTMLAttributes, ReactNode, useRef, useState } from "react";
+import useTranslate from "services/translate/useTranslate";
 
 const Page = styled.div`
   width: 1000px;
@@ -9,25 +11,6 @@ const Page = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`;
-const Header = styled(Card)<{ isSmallElement: boolean }>(
-  ({ isSmallElement }) => ({
-    display: "flex",
-    gap: 16,
-    ...(isSmallElement ? { flexDirection: "column" } : {}),
-  }),
-);
-const Names = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-const PersonDetails = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 `;
 const Divider = styled.div`
   width: 100%;
@@ -50,6 +33,10 @@ const List = styled(Card)<{ isSmallElement: boolean }>(
     ...(isSmallElement ? {} : { width: "100%" }),
   }),
 );
+const ClanCurse = styled.div({
+  maxHeight: "9em",
+  overflow: "auto",
+});
 
 interface TProps extends HTMLAttributes<HTMLDivElement> {
   name: ReactNode;
@@ -57,6 +44,7 @@ interface TProps extends HTMLAttributes<HTMLDivElement> {
   chronicle: ReactNode;
   personality: ReactNode;
   kindredSocialPosition: ReactNode;
+  curse: ReactNode;
   // Характеристики
   physical: ReactNode;
   social: ReactNode;
@@ -81,6 +69,7 @@ export const KindredLayout: FC<TProps> = ({
   chronicle,
   personality,
   kindredSocialPosition,
+  curse,
   physical,
   social,
   mental,
@@ -95,6 +84,7 @@ export const KindredLayout: FC<TProps> = ({
   health,
   ...props
 }) => {
+  const { translate } = useTranslate();
   const ref = useRef<HTMLDivElement>(null);
   const [isSmallElement, setisSmallElement] = useState(false);
   useOnElementResize({
@@ -103,18 +93,22 @@ export const KindredLayout: FC<TProps> = ({
   });
   return (
     <Page ref={ref} {...props}>
-      <Header isSmallElement={isSmallElement}>
-        <Names>
-          <div>{name}</div>
-          <div>{player}</div>
-          <div>{chronicle}</div>
-        </Names>
-        <PersonDetails>
-          {personality}
+      <Section isSmallElement={isSmallElement}>
+        <List isSmallElement={isSmallElement}>
+          {name}
+          {player}
+          {chronicle}
           <Divider />
+          {personality}
+        </List>
+        <List isSmallElement={isSmallElement}>
           {kindredSocialPosition}
-        </PersonDetails>
-      </Header>
+          <DetailsSectionTitle>
+            {translate("createUnit.clanCurse")}
+          </DetailsSectionTitle>
+          <ClanCurse>{curse}</ClanCurse>
+        </List>
+      </Section>
       <Section isSmallElement={isSmallElement}>
         <List isSmallElement={isSmallElement}>{physical}</List>
         <List isSmallElement={isSmallElement}>{social}</List>
