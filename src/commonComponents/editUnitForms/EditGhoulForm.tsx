@@ -45,6 +45,7 @@ import { getHealthLevelTranslateKey } from "domain/Health";
 import { MAX_HEALTH } from "data/ghoulHealthLevels";
 import { Info } from "./common/Info";
 import { completeHealthEvents } from "domain/ghoul/ResourcesHistory";
+import { NumberCheckboxesInput } from "./common/NumberCheckboxesInput";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   ghoul: Ghoul;
@@ -867,8 +868,13 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
           </TitleText>
           {/* Воля */}
           <DetailsSectionTitle>
-            {translate("createUnit.willpower")}
+            {translate("fields.willpower")}
           </DetailsSectionTitle>
+          <NumberCheckboxesInput
+            value={ghoul.willpower}
+            max={ghoul.maxWillpower}
+            onChange={(willpower) => onChange({ ...ghoul, willpower })}
+          />
           {/* Максимальный запас воли */}
           <TitleText title={translate("fields.maxWillpower")}>
             <Select
@@ -886,19 +892,9 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
               }
             />
           </TitleText>
-          {/* Воля */}
-          <TitleText title={translate("fields.willpower")}>
-            <Select
-              value={ghoul.willpower}
-              options={willpowerLevels.filter(
-                (level) => level <= ghoul.maxWillpower,
-              )}
-              onChange={(willpower) => onChange({ ...ghoul, willpower })}
-            />
-          </TitleText>
           {/* Запас крови */}
           <DetailsSectionTitle>
-            {translate("createUnit.bloodPool")}
+            {translate("fields.bloodPool")}
           </DetailsSectionTitle>
           {/* Макс/предел */}
           <TitleText title={translate("fields.maxBloodPool")}>
@@ -916,21 +912,19 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
               }
             />
           </TitleText>
-          {/* Запас крови */}
-          <TitleText title={translate("fields.bloodPool")}>
-            <PositiveNumberInput
-              value={ghoul.bloodPool}
-              onChange={(bloodPool) =>
-                onChange({
-                  ...ghoul,
-                  bloodPool:
-                    bloodPool > ghoul.maxBloodPool
-                      ? ghoul.maxBloodPool
-                      : bloodPool,
-                })
-              }
-            />
-          </TitleText>
+          <NumberCheckboxesInput
+            value={ghoul.bloodPool}
+            max={ghoul.maxBloodPool}
+            onChange={(bloodPool) =>
+              onChange({
+                ...ghoul,
+                bloodPool:
+                  bloodPool > ghoul.maxBloodPool
+                    ? ghoul.maxBloodPool
+                    : bloodPool,
+              })
+            }
+          />
         </>
       }
       health={

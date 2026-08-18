@@ -24,8 +24,6 @@ export const ru = {
     merits: "Достоинства",
     flaws: "Недостатки",
     humanityOrPathRating: "Человечность/Путь",
-    willpower: "Воля",
-    bloodPool: "Запас крови",
     health: "Здоровье",
     damages: "Раны",
     healthLevels: "Настройка уровней здоровья",

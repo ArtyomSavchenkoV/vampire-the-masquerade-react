@@ -24,6 +24,7 @@ import { EditHealthLevels } from "./common/EditHealthLevels";
 import { getCreatureHealthLevel } from "domain/creature/Health";
 import { Info } from "./common/Info";
 import { completeHealthEvents } from "domain/creature/ResourcesHistory";
+import { NumberCheckboxesInput } from "commonComponents/NumberCheckboxesInput";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   creature: Creature;
@@ -168,8 +169,13 @@ export const EditCreatureForm: FC<TProps> = ({
         <>
           {/* Воля */}
           <DetailsSectionTitle>
-            {translate("createUnit.willpower")}
+            {translate("fields.willpower")}
           </DetailsSectionTitle>
+          <NumberCheckboxesInput
+            value={creature.willpower}
+            max={creature.maxWillpower}
+            onChange={(willpower) => onChange({ ...creature, willpower })}
+          />
           {/* Максимальный запас воли */}
           <TitleText title={translate("fields.maxWillpower")}>
             <Select
@@ -185,16 +191,6 @@ export const EditCreatureForm: FC<TProps> = ({
                       : creature.willpower,
                 })
               }
-            />
-          </TitleText>
-          {/* Воля */}
-          <TitleText title={translate("fields.willpower")}>
-            <Select
-              value={creature.willpower}
-              options={willpowerLevels.filter(
-                (level) => level <= creature.maxWillpower,
-              )}
-              onChange={(willpower) => onChange({ ...creature, willpower })}
             />
           </TitleText>
         </>

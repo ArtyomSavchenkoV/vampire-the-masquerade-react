@@ -39,6 +39,7 @@ import { getHumanHealthLevel } from "domain/human/Health";
 import { EditHealthLevels } from "./common/EditHealthLevels";
 import { Info } from "./common/Info";
 import { completeHealthEvents } from "domain/human/ResourcesHistory";
+import { NumberCheckboxesInput } from "commonComponents/NumberCheckboxesInput";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   human: Human;
@@ -796,8 +797,13 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
           </TitleText>
           {/* Воля */}
           <DetailsSectionTitle>
-            {translate("createUnit.willpower")}
+            {translate("fields.willpower")}
           </DetailsSectionTitle>
+          <NumberCheckboxesInput
+            value={human.willpower}
+            max={human.maxWillpower}
+            onChange={(willpower) => onChange({ ...human, willpower })}
+          />
           {/* Максимальный запас воли */}
           <TitleText title={translate("fields.maxWillpower")}>
             <Select
@@ -813,16 +819,6 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
                       : human.willpower,
                 })
               }
-            />
-          </TitleText>
-          {/* Воля */}
-          <TitleText title={translate("fields.willpower")}>
-            <Select
-              value={human.willpower}
-              options={willpowerLevels.filter(
-                (level) => level <= human.maxWillpower,
-              )}
-              onChange={(willpower) => onChange({ ...human, willpower })}
             />
           </TitleText>
         </>

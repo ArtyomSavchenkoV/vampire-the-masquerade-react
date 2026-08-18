@@ -4,7 +4,6 @@ import { ArrayEditor } from "./common/ArrayEditor";
 import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { KindredLayout } from "./common/KindredLayout";
 import { PartialObjectEditor } from "./common/PartialObjectEditor";
-import { PositiveNumberInput } from "commonComponents/PositiveNumberInput";
 import { TitleText } from "./common/TitleText";
 import { merits, flaws } from "data/meritsAndFlaws";
 import {
@@ -47,6 +46,7 @@ import { getHealthLevelTranslateKey } from "domain/Health";
 import { MAX_HEALTH } from "data/kindredHealthLevels";
 import { Info } from "./common/Info";
 import { completeHealthEvents } from "domain/kindred/ResourcesHistory";
+import { NumberCheckboxesInput } from "./common/NumberCheckboxesInput";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   kindred: Kindred;
@@ -925,8 +925,14 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
           {/* Воля */}
           <DetailsSectionTitle>
-            {translate("createUnit.willpower")}
+            {translate("fields.willpower")}
           </DetailsSectionTitle>
+          {/* Воля */}
+          <NumberCheckboxesInput
+            value={kindred.willpower}
+            max={kindred.maxWillpower}
+            onChange={(willpower) => onChange({ ...kindred, willpower })}
+          />
           {/* Максимальный запас воли */}
           <TitleText title={translate("fields.maxWillpower")}>
             <Select
@@ -944,37 +950,25 @@ export const EditKindredForm: FC<TProps> = ({
               }
             />
           </TitleText>
-          {/* Воля */}
-          <TitleText title={translate("fields.willpower")}>
-            <Select
-              value={kindred.willpower}
-              options={willpowerLevels.filter(
-                (level) => level <= kindred.maxWillpower,
-              )}
-              onChange={(willpower) => onChange({ ...kindred, willpower })}
-            />
-          </TitleText>
           {/* Запас крови */}
           <DetailsSectionTitle>
-            {translate("createUnit.bloodPool")}
+            {translate("fields.bloodPool")}
           </DetailsSectionTitle>
+          <NumberCheckboxesInput
+            value={kindred.bloodPool}
+            max={generationLevel.maxBloodPool}
+            onChange={(bloodPool) =>
+              onChange({
+                ...kindred,
+                bloodPool:
+                  bloodPool > generationLevel.maxBloodPool
+                    ? generationLevel.maxBloodPool
+                    : bloodPool,
+              })
+            }
+          />
           {/* Макс/предел */}
           <Info>{`${translate("fields.maxBloodPool")}: ${generationLevel.maxBloodPool}, ${translate("fields.bloodConsumptionLimitPerTurn")}: ${generationLevel.bloodConsumptionLimitPerTurn}`}</Info>
-          {/* Запас крови */}
-          <TitleText title={translate("fields.bloodPool")}>
-            <PositiveNumberInput
-              value={kindred.bloodPool}
-              onChange={(bloodPool) =>
-                onChange({
-                  ...kindred,
-                  bloodPool:
-                    bloodPool > generationLevel.maxBloodPool
-                      ? generationLevel.maxBloodPool
-                      : bloodPool,
-                })
-              }
-            />
-          </TitleText>
         </>
       }
       health={
