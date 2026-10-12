@@ -74,7 +74,7 @@ export const initialGhoul: Ghoul = {
   maxWillpower: 0,
   bloodPool: 1,
   maxBloodPool: 2,
-  bodyDamages: [],
+  bodyWounds: [],
   equipment: [],
   activeEffects: [],
   resourcesHistory: {

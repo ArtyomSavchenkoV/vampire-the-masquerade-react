@@ -5,7 +5,7 @@ import { Tab } from "baseComponents/Tab";
 import { PositiveNumberInput } from "commonComponents/PositiveNumberInput";
 import { TitleText } from "commonComponents/TitleText";
 import { ModifiedAttributeLevel } from "domain/Attributes";
-import { DamageType } from "domain/Damage";
+import { WoundType } from "domain/Wound";
 import { FC, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { joinStrings } from "utils/string/joinStrings";
@@ -15,38 +15,39 @@ const Buttons = styled.div({
   gap: 8,
 });
 
+// TODO: полностью переделать экшен, на входе не типы ран, а материал, тип нанесения урона и значение
 interface TProps {
-  staminaChecks: Partial<Record<DamageType, boolean>> | null;
+  staminaChecks: Partial<Record<WoundType, boolean>> | null;
   stamina: ModifiedAttributeLevel | null;
-  absorptionDice: Partial<Record<DamageType, number>> | null;
-  damageMultipliers: Partial<Record<DamageType, number>> | null;
+  absorptionDice: Partial<Record<WoundType, number>> | null;
+  woundMultipliers: Partial<Record<WoundType, number>> | null;
   onDamage: (values: {
     value: number;
     description: string;
-    type: DamageType;
+    type: WoundType;
   }) => void;
 }
 export const Form: FC<TProps> = ({
   staminaChecks,
   stamina,
   absorptionDice,
-  damageMultipliers,
+  woundMultipliers,
   onDamage,
 }) => {
   const { translate } = useTranslate();
   const [description, setDescription] = useState<string>("");
   const [initialDamage, setInitialDamage] = useState<number>(1);
-  const [damageType, setDamageType] = useState<DamageType>("bashing");
+  const [damageType, setDamageType] = useState<WoundType>("bashing");
   const [successes, setSuccesses] = useState<number>(0);
 
-  const damageTypeChangeHandler = (damageType: DamageType) => {
+  const damageTypeChangeHandler = (damageType: WoundType) => {
     setDamageType(damageType);
     setSuccesses(0);
   };
 
   const isDamageTypeStaminaCheck = staminaChecks?.[damageType] || false;
   const damageTypeAbsorptionDice = absorptionDice?.[damageType] ?? null;
-  const damageTypeDamageMultipliers = damageMultipliers?.[damageType] ?? 1;
+  const damageTypeDamageMultipliers = woundMultipliers?.[damageType] ?? 1;
 
   const dicesCount =
     (isDamageTypeStaminaCheck ? (stamina ?? 0) : 0) +
@@ -66,21 +67,21 @@ export const Form: FC<TProps> = ({
           onClick={() => damageTypeChangeHandler("bashing")}
           isSelected={damageType === "bashing"}
         >
-          {translate("damages.bashing")}
+          {translate("wounds.bashing")}
         </Tab>
         {/* Летальный урон */}
         <Tab
           onClick={() => damageTypeChangeHandler("lethal")}
           isSelected={damageType === "lethal"}
         >
-          {translate("damages.lethal")}
+          {translate("wounds.lethal")}
         </Tab>
         {/* Сверхестественный урон */}
         <Tab
           onClick={() => damageTypeChangeHandler("aggravated")}
           isSelected={damageType === "aggravated"}
         >
-          {translate("damages.aggravated")}
+          {translate("wounds.aggravated")}
         </Tab>
       </Buttons>
       {/* Количество урона */}
@@ -137,7 +138,7 @@ export const Form: FC<TProps> = ({
           })
         }
       >
-        {`${translate("damageUnit.complete")}: ${translate(`damages.${damageType}`)} (${realDamage})`}
+        {`${translate("damageUnit.complete")}: ${translate(`wounds.${damageType}`)} (${realDamage})`}
       </Button>
     </>
   );

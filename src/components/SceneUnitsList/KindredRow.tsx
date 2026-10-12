@@ -59,7 +59,7 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
 
       {/* Ресурсы персонажа */}
       <Td>
-        {`${translate("resources.health")}: ${MAX_HEALTH - kindredRow.bodyDamages.length}/${MAX_HEALTH}, `}
+        {`${translate("resources.health")}: ${MAX_HEALTH - kindredRow.bodyWounds.length}/${MAX_HEALTH}, `}
         {`${translate("resources.willpower")}: ${kindredRow.willpower}, `}
         {`${translate("resources.bloodPool")}: ${kindredRow.bloodPool}`}
       </Td>

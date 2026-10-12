@@ -25,7 +25,7 @@ export const ru = {
     flaws: "Недостатки",
     humanityOrPathRating: "Человечность/Путь",
     health: "Здоровье",
-    damages: "Раны",
+    wounds: "Раны",
     healthLevels: "Настройка уровней здоровья",
   },
   details: {
@@ -222,7 +222,7 @@ export const ru = {
     addMerit: "Добавить достоинство",
     addFlaw: "Добавить недостаток",
   },
-  editDamages: {
+  editWounds: {
     add: "Добавить урон",
   },
   editHealthLevels: {
@@ -289,10 +289,10 @@ export const ru = {
     },
     cutExcessDamage: "Отсекает избыточный урон от одного удара",
   },
-  damages: {
-    bashing: "Обычный урон",
-    lethal: "Летальный урон",
-    aggravated: "Сверхъестественный урон",
+  wounds: {
+    bashing: "Обычная",
+    lethal: "Летальная",
+    aggravated: "Сверхъестественная",
   },
   resources: {
     health: "Здоровье",

@@ -24,7 +24,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
     name: "Test Nosferatu",
     unitTypeFeatures: {
       modifiers: {
-        damageMultipliers: {
+        woundMultipliers: {
           bashing: 0.5,
         },
       },
@@ -67,13 +67,13 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
     equipment: [
       {
         modifiers: {
-          damageMultipliers: {
+          woundMultipliers: {
             bashing: 0.5,
           },
         },
       },
     ],
-    bodyDamages: ["bashing", "bashing", "bashing"],
+    bodyWounds: ["bashing", "bashing", "bashing"],
   } as unknown as Kindred;
 
   beforeEach(() => {
@@ -118,7 +118,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
         lethal: 1,
         aggravated: 1,
       },
-      damageMultipliers: {
+      woundMultipliers: {
         bashing: 0.25,
       },
     });
@@ -167,7 +167,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
       merits: [],
       flaws: [],
       equipment: [],
-      bodyDamages: [],
+      bodyWounds: [],
     } as unknown as Kindred;
 
     const result = aggregateModifiers(characterWithEmptySources);
@@ -192,7 +192,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
       merits: [],
       flaws: [],
       equipment: [],
-      bodyDamages: [],
+      bodyWounds: [],
     } as unknown as Kindred;
 
     const result = aggregateModifiers(character);
@@ -231,7 +231,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
       merits: [],
       flaws: [],
       equipment: [],
-      bodyDamages: [],
+      bodyWounds: [],
     } as unknown as Kindred;
 
     deepFreeze(cursedCharacter);

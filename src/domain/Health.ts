@@ -1,4 +1,4 @@
-import { DamageType } from "./Damage";
+import { WoundType } from "./Wound";
 import { Modifiers } from "./Modifiers";
 
 /**
@@ -88,24 +88,22 @@ export const getHealthLevelTranslateKey = (
       : "finalDeath";
 
 /**
- * Данные полученного урона
+ * Ранения
  */
-export type HealthDamages = DamageType[];
+export type Wounds = WoundType[];
 
 /**
- * Отсортировать HealthDamages по типам урона от aggravated до bashing
+ * Отсортировать Wounds по типам ран от aggravated до bashing
  */
-export const sortHealthDamages = (
-  healthDamages: HealthDamages,
-): HealthDamages => {
-  const order: Record<DamageType, number> = {
+export const sortWounds = (wounds: Wounds): Wounds => {
+  const order: Record<WoundType, number> = {
     aggravated: 0,
     lethal: 1,
     bashing: 2,
   };
 
   // Создаём копию, чтобы не мутировать исходный массив
-  return [...healthDamages].sort((a, b) => order[a] - order[b]);
+  return [...wounds].sort((a, b) => order[a] - order[b]);
 };
 
 export type HealthLevelData =
@@ -140,7 +138,7 @@ export const hasModifiers = (
 };
 
 /**
- * Проверка что в уровне есть cutExcessDamage
+ * Проверка что в уровне есть cutExcessDamage (Ограничение избыточного урона этим уровнем)
  */
 export const hasCutExcessDamage = (
   state: HealthLevelData,
@@ -153,16 +151,18 @@ export const hasCutExcessDamage = (
 /** Полученное лечение */
 export interface HealEvent {
   type: "heal";
-  damageType: DamageType;
+  /** Предельный тип сложности исцеляемых ран */
+  woundType: WoundType;
   /** Точное значение на которое должно измениться здоровье, всегда положительное значение */
   value: number;
 }
 
+// TODO:
 /** Полученный урон */
-export interface DamageEvent {
-  type: "damage";
+export interface WoundEvent {
+  type: "wound";
   /** Уже не принимает участие в вычислении урона, который должен получить Сородич, а нужен для того, чтобы здоровье сородича не упало ниже 1 для не "aggravated" */
-  damageType: DamageType;
+  woundType: WoundType;
   /** Точное значение на которое должно измениться здоровье, всегда положительное значение, уже с учётом всех снижений урона, множителей от типа урона и пр. */
   value: number;
 }
@@ -173,12 +173,12 @@ export interface DamageEvent {
  */
 export const getHealthLevel = (
   healthLevels: Readonly<HealthLevelData[]>,
-  bodyDamages: HealthDamages,
+  bodyWounds: Wounds,
   isTorporPossible: boolean,
 ): HealthLevelData => {
   const getVariant = (
     healthLevelData: HealthLevelData,
-    damageType: DamageType,
+    damageType: WoundType,
     isTorporPossible: boolean,
   ): HealthLevelData => {
     if (healthLevelData.name === "final") {
@@ -197,54 +197,59 @@ export const getHealthLevel = (
     }
     return healthLevelData;
   };
-  if (bodyDamages.length > healthLevels.length) {
+  if (bodyWounds.length > healthLevels.length) {
     return getVariant(
       healthLevels[healthLevels.length],
-      bodyDamages[healthLevels.length - 1],
+      bodyWounds[healthLevels.length - 1],
       isTorporPossible,
     );
   }
   return getVariant(
-    healthLevels[bodyDamages.length],
-    bodyDamages[bodyDamages.length - 1],
+    healthLevels[bodyWounds.length],
+    bodyWounds[bodyWounds.length - 1],
     isTorporPossible,
   );
 };
 
+// TODO:
+/*
+1 определение типа ран
+2 модифицирование урона в соответствии с множителями и успехами проверок
+3 применение урона
+*/
 /**
  * Применение урона
  * Не использовать напрямую! Только функцию из папки типа персонажа!
  */
 export const damageHealth = (
   healthLevels: Readonly<HealthLevelData[]>,
-  bodyDamages: HealthDamages,
-  damageEvent: DamageEvent,
+  bodyWounds: Wounds,
+  woundType: WoundType,
+  woundCount: number,
   isTorporPossible: boolean,
-): HealthDamages => {
-  const healthDamages = [...bodyDamages];
+): Wounds => {
+  const wounds = [...bodyWounds];
   // Максимальное количество элементов урона
   const maxDamages = healthLevels.length - 1; // 0 элемент healthLevels - это состояние "Здоров"
   // Текущий уровень здоровья
   const healthLevel = getHealthLevel(
     healthLevels,
-    bodyDamages,
+    bodyWounds,
     isTorporPossible,
   );
-  // Тип наносимого урона
-  const damageType = damageEvent.damageType;
   // Если финальный урон
   if (healthLevel.name === "final") {
-    // Если персонаж по торпору ловит aggravated - заменяем последний урон в bodyDamages на "aggravated"
-    if (healthLevel.variant === "torpor" && damageType === "aggravated") {
-      healthDamages[maxDamages - 1] = "aggravated";
-      return healthDamages;
+    // Если персонаж по торпору ловит aggravated - заменяем последний урон в bodyWounds на "aggravated"
+    if (healthLevel.variant === "torpor" && woundType === "aggravated") {
+      wounds[maxDamages - 1] = "aggravated";
+      return wounds;
     }
     // иначе ничего не делаем
-    return healthDamages;
+    return wounds;
   }
 
   // Остаточные слоты ран:
-  const remainsHealthLevels = healthLevels.slice(bodyDamages.length + 1);
+  const remainsHealthLevels = healthLevels.slice(bodyWounds.length + 1);
   // Количество ран до ближайшего предела
   const cutExcessDamageIndex =
     remainsHealthLevels.findIndex(
@@ -255,18 +260,15 @@ export const damageHealth = (
   // Доступные слоты урона
   const availableCells =
     cutExcessDamageIndex !== 0
-      ? Math.min(cutExcessDamageIndex, maxDamages - bodyDamages.length)
-      : maxDamages - bodyDamages.length;
+      ? Math.min(cutExcessDamageIndex, maxDamages - bodyWounds.length)
+      : maxDamages - bodyWounds.length;
 
-  // количество наносимого урона
-  const damageCount = damageEvent.value;
-
-  const damages = Array<DamageType>(
+  const damages = Array<WoundType>(
     // персонаж получает урон не выше максимума
-    damageCount > availableCells ? availableCells : damageCount,
-  ).fill(damageType);
+    woundCount > availableCells ? availableCells : woundCount,
+  ).fill(woundType);
 
-  return [...healthDamages, ...damages];
+  return [...wounds, ...damages];
 };
 
 /**
@@ -274,25 +276,23 @@ export const damageHealth = (
  * Не использовать напрямую! Только функцию из папки типа персонажа!
  */
 export const healHealth = (
-  bodyDamages: HealthDamages,
+  bodyWounds: Wounds,
   healthLevelName: HealthLevelName,
   healEvent: HealEvent,
-): HealthDamages => {
-  const healthDamages = [...bodyDamages];
+): Wounds => {
+  const wounds = [...bodyWounds];
   // количество исцеления
   const healCount = healEvent.value;
   // Исцеляемый тип урона
-  const healDamageType = healEvent.damageType;
+  const healWoundType = healEvent.woundType;
   // Если финальная смерть или torpor - исцеление не применяется
   if (healthLevelName === "final") {
-    return healthDamages;
+    return wounds;
   }
-  const aggravatedDamages = healthDamages.filter(
-    (damage) => damage === "aggravated",
-  );
-  const lethalDamages = healthDamages.filter((damage) => damage === "lethal");
-  const bashingDamages = healthDamages.filter((damage) => damage === "bashing");
-  if (healDamageType === "aggravated") {
+  const aggravatedDamages = wounds.filter((damage) => damage === "aggravated");
+  const lethalDamages = wounds.filter((damage) => damage === "lethal");
+  const bashingDamages = wounds.filter((damage) => damage === "bashing");
+  if (healWoundType === "aggravated") {
     let remaining = healCount;
     const aggravatedDamagesDeleteCount = Math.min(
       aggravatedDamages.length,
@@ -317,7 +317,7 @@ export const healHealth = (
       ...bashingDamages.slice(bashingDamagesDeleteCount),
     ];
   }
-  if (healDamageType === "lethal") {
+  if (healWoundType === "lethal") {
     let remaining = healCount;
     const lethalDamagesDeleteCount = Math.min(lethalDamages.length, remaining);
     remaining =
@@ -334,7 +334,7 @@ export const healHealth = (
       ...bashingDamages.slice(bashingDamagesDeleteCount),
     ];
   }
-  if (healDamageType === "bashing") {
+  if (healWoundType === "bashing") {
     const bashingDamagesDeleteCount = Math.min(
       bashingDamages.length,
       healCount,
@@ -345,5 +345,5 @@ export const healHealth = (
       ...bashingDamages.slice(bashingDamagesDeleteCount),
     ];
   }
-  return healthDamages as never;
+  return wounds as never;
 };

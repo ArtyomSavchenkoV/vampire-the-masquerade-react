@@ -1,14 +1,14 @@
 import { kindredHealthLevels as healthLevels } from "data/kindredHealthLevels";
 import {
-  DamageEvent,
   HealEvent,
   healHealth as commonHealHealth,
   damageHealth as commonDamageHealth,
-  HealthDamages,
   HealthLevelData,
-  sortHealthDamages,
   getHealthLevel,
+  Wounds,
+  sortWounds,
 } from "domain/Health";
+import { WoundType } from "domain/Wound";
 
 export type AwakeningEvent = {
   type: "torpor";
@@ -17,37 +17,42 @@ export type AwakeningEvent = {
 /**
  * Получить данные о здоровье сородича.
  */
-export const getKinderedHealthLevel = (
-  bodyDamages: HealthDamages,
-): HealthLevelData => {
-  return getHealthLevel(healthLevels, bodyDamages, true);
+export const getKinderedHealthLevel = (bodyWounds: Wounds): HealthLevelData => {
+  return getHealthLevel(healthLevels, bodyWounds, true);
 };
 
 /**
  * Применение урона
  */
 export const damageHealth = (
-  bodyDamages: HealthDamages,
-  damageEvent: DamageEvent,
-): HealthDamages => {
-  return commonDamageHealth(healthLevels, bodyDamages, damageEvent, true);
+  bodyWounds: Wounds,
+  woundType: WoundType,
+  woundCount: number,
+): Wounds => {
+  return commonDamageHealth(
+    healthLevels,
+    bodyWounds,
+    woundType,
+    woundCount,
+    true,
+  );
 };
 
 /**
  * применение исцеления
  */
 export const healHealth = (
-  bodyDamages: HealthDamages,
+  bodyWounds: Wounds,
   healEvent: HealEvent,
-): HealthDamages => {
-  const healthLevelName = getKinderedHealthLevel(bodyDamages).name;
-  return commonHealHealth(bodyDamages, healthLevelName, healEvent);
+): Wounds => {
+  const healthLevelName = getKinderedHealthLevel(bodyWounds).name;
+  return commonHealHealth(bodyWounds, healthLevelName, healEvent);
 };
 
 /**
  * Пробудиться после torpor
  */
-export const awakening = (bodyDamages: HealthDamages): HealthDamages => {
+export const awakening = (bodyDamages: Wounds): Wounds => {
   const healthDamages = [...bodyDamages];
   const healthLevel = getKinderedHealthLevel(healthDamages);
   if (healthLevel.name !== "final" || healthLevel.variant !== "torpor") {
@@ -57,7 +62,7 @@ export const awakening = (bodyDamages: HealthDamages): HealthDamages => {
   // снимаем последнее 8 повреждение, которое отвечает за конечное состояние
   let damages = healthDamages.slice(0, healthDamages.length - 1);
   // сортируем
-  damages = sortHealthDamages(damages);
+  damages = sortWounds(damages);
   // снимаем последнее из повреждений здоровья.
   return damages.slice(0, damages.length - 1);
 };

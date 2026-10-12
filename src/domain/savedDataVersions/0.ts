@@ -147,7 +147,7 @@ type HealthLevelData =
       modifiers?: Modifiers;
     };
 
-type ResourceHistory<T> = {
+export type ResourceHistory<T> = {
   date: number;
   effect: T;
   description: string;

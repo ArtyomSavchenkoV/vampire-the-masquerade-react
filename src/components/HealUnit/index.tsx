@@ -50,7 +50,7 @@ export const HealUnit: FC<TProps> = ({ unitId, onClick, ...props }) => {
                 {
                   type: "heal",
                   value: values.value,
-                  damageType: values.type,
+                  woundType: values.type,
                 },
                 values.description,
               );

@@ -34,7 +34,7 @@ import { Select } from "baseComponents/Select";
 import { humanityOrPathRatings } from "domain/HumanityOrPathRating";
 import { willpowerLevels } from "domain/Willpower";
 import { getHealthLevelTranslateKey } from "domain/Health";
-import { damageTypes } from "domain/Damage";
+import { woundTypes } from "domain/Wound";
 import { getHumanHealthLevel } from "domain/human/Health";
 import { EditHealthLevels } from "./common/EditHealthLevels";
 import { Info } from "./common/Info";
@@ -77,13 +77,13 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
     });
   };
 
-  const bodyDamages = completeHealthEvents(
+  const bodyWounds = completeHealthEvents(
     human.healthLevels,
-    human.bodyDamages,
+    human.bodyWounds,
     human.resourcesHistory.health,
   );
 
-  const healthLevel = getHumanHealthLevel(human.healthLevels, bodyDamages);
+  const healthLevel = getHumanHealthLevel(human.healthLevels, bodyWounds);
 
   const MAX_HEALTH = human.healthLevels.length - 1;
 
@@ -827,7 +827,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
         <>
           {/* Здоровье */}
           <DetailsSectionTitle>
-            {`${translate("createUnit.health")}: ${MAX_HEALTH - bodyDamages.length}/${MAX_HEALTH}`}
+            {`${translate("createUnit.health")}: ${MAX_HEALTH - bodyWounds.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
           {/* Уровень здоровья */}
           <Info>
@@ -837,28 +837,28 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
           </Info>
           {/* Раны */}
           <DetailsSectionTitle>
-            {translate("createUnit.damages")}
+            {translate("createUnit.wounds")}
           </DetailsSectionTitle>
           <ArrayEditor
-            array={bodyDamages}
-            onChange={(bodyDamages) =>
+            array={bodyWounds}
+            onChange={(bodyWounds) =>
               onChange({
                 ...human,
-                bodyDamages,
+                bodyWounds,
                 resourcesHistory: {
                   ...human.resourcesHistory,
                   health: [],
                 },
               })
             }
-            options={damageTypes.map((damage) => ({
-              value: damage,
-              name: translate(`damages.${damage}`),
+            options={woundTypes.map((wound) => ({
+              value: wound,
+              name: translate(`wounds.${wound}`),
             }))}
             allowDuplicates
-            addTitle={translate("editDamages.add")}
+            addTitle={translate("editWounds.add")}
             isOverflow={
-              getHumanHealthLevel(human.healthLevels, bodyDamages).name ===
+              getHumanHealthLevel(human.healthLevels, bodyWounds).name ===
               "final"
             }
           />
@@ -876,7 +876,7 @@ export const EditHumanForm: FC<TProps> = ({ human, onChange, ...props }) => {
               onChange({
                 ...human,
                 healthLevels,
-                bodyDamages: [],
+                bodyWounds: [],
                 resourcesHistory: {
                   ...human.resourcesHistory,
                   health: [],

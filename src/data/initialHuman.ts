@@ -67,7 +67,7 @@ export const initialHuman: Human = {
   pillar: null,
   willpower: 0,
   maxWillpower: 0,
-  bodyDamages: [],
+  bodyWounds: [],
   healthLevels: [
     {
       name: "unimpaired",

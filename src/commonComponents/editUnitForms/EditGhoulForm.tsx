@@ -18,7 +18,7 @@ import {
   baseAttributeLevels,
 } from "domain/Attributes";
 import { backgroundLevels, backgroundNames } from "domain/Backgrounds";
-import { damageTypes } from "domain/Damage";
+import { woundTypes } from "domain/Wound";
 import {
   disciplineLevels,
   DisciplineName,
@@ -83,12 +83,12 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
     });
   };
 
-  const bodyDamages = completeHealthEvents(
-    ghoul.bodyDamages,
+  const bodyWounds = completeHealthEvents(
+    ghoul.bodyWounds,
     ghoul.resourcesHistory.health,
   );
 
-  const healthLevel = getGhoulHealthLevel(bodyDamages);
+  const healthLevel = getGhoulHealthLevel(bodyWounds);
 
   return (
     <GhoulLayout
@@ -931,7 +931,7 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
         <>
           {/* Здоровье */}
           <DetailsSectionTitle>
-            {`${translate("createUnit.health")}: ${MAX_HEALTH - bodyDamages.length}/${MAX_HEALTH}`}
+            {`${translate("createUnit.health")}: ${MAX_HEALTH - bodyWounds.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
           {/* Уровень здоровья */}
           <Info>
@@ -941,27 +941,27 @@ export const EditGhoulForm: FC<TProps> = ({ ghoul, onChange, ...props }) => {
           </Info>
           {/* Раны */}
           <DetailsSectionTitle>
-            {translate("createUnit.damages")}
+            {translate("createUnit.wounds")}
           </DetailsSectionTitle>
           <ArrayEditor
-            array={bodyDamages}
-            onChange={(bodyDamages) =>
+            array={bodyWounds}
+            onChange={(bodyWounds) =>
               onChange({
                 ...ghoul,
-                bodyDamages,
+                bodyWounds,
                 resourcesHistory: {
                   ...ghoul.resourcesHistory,
                   health: [],
                 },
               })
             }
-            options={damageTypes.map((damage) => ({
-              value: damage,
-              name: translate(`damages.${damage}`),
+            options={woundTypes.map((wound) => ({
+              value: wound,
+              name: translate(`wounds.${wound}`),
             }))}
             allowDuplicates
-            addTitle={translate("editDamages.add")}
-            isOverflow={getGhoulHealthLevel(bodyDamages).name === "final"}
+            addTitle={translate("editWounds.add")}
+            isOverflow={getGhoulHealthLevel(bodyWounds).name === "final"}
           />
         </>
       }

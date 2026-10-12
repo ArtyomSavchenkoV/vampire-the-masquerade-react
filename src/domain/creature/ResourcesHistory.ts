@@ -1,15 +1,10 @@
 import { ResourceHistory } from "domain/ResourceHistory";
 import { Creature } from "./Creature";
-import {
-  DamageEvent,
-  HealEvent,
-  HealthDamages,
-  HealthLevelData,
-} from "domain/Health";
+import { WoundEvent, HealEvent, HealthLevelData, Wounds } from "domain/Health";
 import { numberToMaxMinDiapason } from "utils/numberToMaxminDiapason";
 import { damageCreatureHealth, healCreatureHealth } from "./Health";
 
-export type HealthHistory = HealEvent | DamageEvent;
+export type HealthHistory = HealEvent | WoundEvent;
 
 export interface ResourcesHistory {
   willpower: ResourceHistory<Creature["willpower"]>[];
@@ -18,27 +13,32 @@ export interface ResourcesHistory {
 
 export const completeHealthEvents = (
   healthLevels: HealthLevelData[],
-  bodyDamages: HealthDamages,
+  bodyWounds: Wounds,
   healthHistory: ResourceHistory<HealthHistory>[],
 ) => {
   const sortedHealthHistory = [...healthHistory].sort(
     (a, b) => a.date - b.date,
   );
-  return sortedHealthHistory.reduce<HealthDamages>((accum, change) => {
+  return sortedHealthHistory.reduce<Wounds>((accum, change) => {
     if (change.effect.type === "heal") {
       if (!change.effect.value) {
         return accum;
       }
       return healCreatureHealth([...healthLevels], accum, change.effect);
     }
-    if (change.effect.type === "damage") {
+    if (change.effect.type === "wound") {
       if (!change.effect.value) {
         return accum;
       }
-      return damageCreatureHealth([...healthLevels], accum, change.effect);
+      return damageCreatureHealth(
+        [...healthLevels],
+        accum,
+        change.effect.woundType,
+        change.effect.value,
+      );
     }
     return accum as never;
-  }, bodyDamages);
+  }, bodyWounds);
 };
 
 /**
@@ -50,10 +50,10 @@ export const calculateChangebleParams = (
     | "maxWillpower"
     | "resourcesHistory"
     | "willpower"
-    | "bodyDamages"
+    | "bodyWounds"
     | "healthLevels"
   >,
-): Pick<Creature, "willpower" | "bodyDamages"> => {
+): Pick<Creature, "willpower" | "bodyWounds"> => {
   const maxWillpower = data.maxWillpower;
 
   const willpowerChanges = data.resourcesHistory.willpower.reduce(
@@ -61,9 +61,9 @@ export const calculateChangebleParams = (
     0,
   );
 
-  const bodyDamages = completeHealthEvents(
+  const bodyWounds = completeHealthEvents(
     data.healthLevels,
-    data.bodyDamages,
+    data.bodyWounds,
     data.resourcesHistory.health,
   );
 
@@ -72,6 +72,6 @@ export const calculateChangebleParams = (
       min: 0,
       max: maxWillpower,
     }),
-    bodyDamages,
+    bodyWounds,
   };
 };

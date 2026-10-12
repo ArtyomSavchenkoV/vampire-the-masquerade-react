@@ -9,7 +9,7 @@ export const useDamageUnitSelector = (unitId: string) => {
   const calculated = useCalculatedUnitSelector(unitId);
   const stamina = calculated?.attributes?.stamina ?? null;
   const absorptionDice = calculated?.absorptionDice ?? null;
-  const damageMultipliers = calculated?.damageMultipliers ?? null;
+  const woundMultipliers = calculated?.woundMultipliers ?? null;
 
   return useMemo(
     () => ({
@@ -18,8 +18,8 @@ export const useDamageUnitSelector = (unitId: string) => {
       staminaChecks,
       stamina,
       absorptionDice,
-      damageMultipliers,
+      woundMultipliers,
     }),
-    [name, player, staminaChecks, stamina, absorptionDice, damageMultipliers],
+    [name, player, staminaChecks, stamina, absorptionDice, woundMultipliers],
   );
 };

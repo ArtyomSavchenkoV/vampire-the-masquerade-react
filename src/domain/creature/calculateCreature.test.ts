@@ -26,7 +26,7 @@ describe("src/domain/creature/calculateCreature", () => {
     },
     willpower: 4,
     maxWillpower: 10,
-    bodyDamages: ["bashing"],
+    bodyWounds: ["bashing"],
     healthLevels: [
       {
         name: "unimpaired",

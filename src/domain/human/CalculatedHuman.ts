@@ -13,7 +13,7 @@ import { getHumanHealthLevel } from "./Health";
 export type CalculatedHuman = Omit<Human, "attributes" | "abilities"> & {
   attributes: Record<AttributeName, ModifiedAttributeLevel>;
   abilities: Record<AbilityName, ModifiedAbilityLevel>;
-} & Pick<Modifiers, "absorptionDice" | "commonDiceBonus" | "damageMultipliers">;
+} & Pick<Modifiers, "absorptionDice" | "commonDiceBonus" | "woundMultipliers">;
 
 /**
  * Собирает все модификаторы для персонажа.
@@ -64,7 +64,7 @@ export const aggregateModifiers = (character: CalculatedHuman): Modifiers => {
   // Эффекты от здоровья
   const healthLevelModifiers = getHumanHealthLevel(
     character.healthLevels,
-    character.bodyDamages,
+    character.bodyWounds,
   ).modifiers;
   if (healthLevelModifiers) {
     result = mergeModifiers(result, healthLevelModifiers);
@@ -94,7 +94,7 @@ export const calculateHuman = (human: Human): CalculatedHuman => {
     attributes: { ...calculated.attributes, ...changedParameters.attributes },
     abilities: { ...calculated.abilities, ...changedParameters.abilities },
     absorptionDice: modifiers.absorptionDice,
-    damageMultipliers: modifiers.damageMultipliers,
+    woundMultipliers: modifiers.woundMultipliers,
     commonDiceBonus: modifiers.commonDiceBonus,
   };
 };

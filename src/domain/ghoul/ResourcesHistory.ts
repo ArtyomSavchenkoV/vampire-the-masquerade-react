@@ -1,10 +1,10 @@
 import { ResourceHistory } from "domain/ResourceHistory";
 import { damageGhoulHealth, healGhoulHealth } from "./Health";
 import { Ghoul } from "./Ghoul";
-import { DamageEvent, HealEvent, HealthDamages } from "domain/Health";
+import { WoundEvent, HealEvent, Wounds } from "domain/Health";
 import { numberToMaxMinDiapason } from "utils/numberToMaxminDiapason";
 
-export type HealthHistory = HealEvent | DamageEvent;
+export type HealthHistory = HealEvent | WoundEvent;
 
 export interface ResourcesHistory {
   willpower: ResourceHistory<Ghoul["willpower"]>[];
@@ -13,27 +13,31 @@ export interface ResourcesHistory {
 }
 
 export const completeHealthEvents = (
-  bodyDamages: HealthDamages,
+  bodyWounds: Wounds,
   healthHistory: ResourceHistory<HealthHistory>[],
 ) => {
   const sortedHealthHistory = [...healthHistory].sort(
     (a, b) => a.date - b.date,
   );
-  return sortedHealthHistory.reduce<HealthDamages>((accum, change) => {
+  return sortedHealthHistory.reduce<Wounds>((accum, change) => {
     if (change.effect.type === "heal") {
       if (!change.effect.value) {
         return accum;
       }
       return healGhoulHealth(accum, change.effect);
     }
-    if (change.effect.type === "damage") {
+    if (change.effect.type === "wound") {
       if (!change.effect.value) {
         return accum;
       }
-      return damageGhoulHealth(accum, change.effect);
+      return damageGhoulHealth(
+        accum,
+        change.effect.woundType,
+        change.effect.value,
+      );
     }
     return accum as never;
-  }, bodyDamages);
+  }, bodyWounds);
 };
 
 /**
@@ -47,9 +51,9 @@ export const calculateChangebleParams = (
     | "willpower"
     | "bloodPool"
     | "maxBloodPool"
-    | "bodyDamages"
+    | "bodyWounds"
   >,
-): Pick<Ghoul, "willpower" | "bloodPool" | "bodyDamages"> => {
+): Pick<Ghoul, "willpower" | "bloodPool" | "bodyWounds"> => {
   const maxWillpower = ghoulData.maxWillpower;
 
   const willpowerChanges = ghoulData.resourcesHistory.willpower.reduce(
@@ -62,8 +66,8 @@ export const calculateChangebleParams = (
     0,
   );
 
-  const bodyDamages = completeHealthEvents(
-    ghoulData.bodyDamages,
+  const bodyWounds = completeHealthEvents(
+    ghoulData.bodyWounds,
     ghoulData.resourcesHistory.health,
   );
 
@@ -76,6 +80,6 @@ export const calculateChangebleParams = (
       min: 0,
       max: ghoulData.maxBloodPool,
     }),
-    bodyDamages,
+    bodyWounds,
   };
 };

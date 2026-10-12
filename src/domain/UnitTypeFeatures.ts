@@ -1,4 +1,4 @@
-import { DamageType } from "./Damage";
+import { WoundType } from "./Wound";
 import { Modifiers } from "./Modifiers";
 
 export interface UnitTypeFeatures {
@@ -9,5 +9,5 @@ export interface UnitTypeFeatures {
   /**
    * Выполняется ли от выносливости проверка на прочность
    */
-  staminaChecks?: Partial<Record<DamageType, boolean>>;
+  staminaChecks?: Partial<Record<WoundType, boolean>>;
 }

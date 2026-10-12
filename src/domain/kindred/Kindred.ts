@@ -6,7 +6,7 @@ import { Clan } from "domain/Clan";
 import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
 import { FlawName, MeritName } from "domain/MeritsAndFlaws";
 import { EquipmentItem } from "domain/EquipmentItem";
-import { HealthDamages } from "domain/Health";
+import { Wounds } from "domain/Health";
 import { ResourcesHistory } from "./ResourcesHistory";
 import { HumanityOrPathRating } from "domain/HumanityOrPathRating";
 import { DisciplineName, DisciplineLevel } from "domain/Discipline";
@@ -60,8 +60,8 @@ export interface Kindred {
   maxWillpower: number;
   /** Запас крови (Blood Pool) — сколько пунктов крови сейчас. maxBloodPool - значение вычисляемое из поколения */
   bloodPool: number;
-  /** Повреждения, 8-ое повреждение - смерть если повреждение "aggravated" иначе отключка */
-  bodyDamages: HealthDamages;
+  /** Ранения, 8-ое повреждение - смерть если повреждение "aggravated" иначе отключка */
+  bodyWounds: Wounds;
   /** Экипировка */
   equipment: EquipmentItem[];
   /** Активные эффекты (бафф/дебафф, состояние и пр.) */

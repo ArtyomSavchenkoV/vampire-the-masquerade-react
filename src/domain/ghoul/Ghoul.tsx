@@ -3,7 +3,7 @@ import { ActiveEffect } from "domain/ActiveEffect";
 import { AttributeName, BaseAttributeLevel } from "domain/Attributes";
 import { BackgroundName, BackgroundLevel } from "domain/Backgrounds";
 import { EquipmentItem } from "domain/EquipmentItem";
-import { HealthDamages } from "domain/Health";
+import { Wounds } from "domain/Health";
 import { HumanityOrPathRating } from "domain/HumanityOrPathRating";
 import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
 import { MeritName, FlawName } from "domain/MeritsAndFlaws";
@@ -61,8 +61,8 @@ export interface Ghoul {
   bloodPool: number;
   /** Максимальный запас крови */
   maxBloodPool: number;
-  /** Повреждения, 8-ое повреждение - смерть если повреждение "aggravated" иначе отключка */
-  bodyDamages: HealthDamages;
+  /** Ранения */
+  bodyWounds: Wounds;
   /** Экипировка */
   equipment: EquipmentItem[];
   /** Активные эффекты (бафф/дебафф, состояние и пр.) */

@@ -120,27 +120,27 @@ export const createActions = (
       // Слияние старых событий в текущие ранения (по типу существа)
       if (legacyEvents.length > 0) {
         if (unit.type === "kindred") {
-          unit.unit.bodyDamages = completeKindredHealthEvents(
-            unit.unit.bodyDamages,
+          unit.unit.bodyWounds = completeKindredHealthEvents(
+            unit.unit.bodyWounds,
             legacyEvents,
           );
         } else if (unit.type === "ghoul") {
-          unit.unit.bodyDamages = completeGhoulHealthEvents(
-            unit.unit.bodyDamages,
+          unit.unit.bodyWounds = completeGhoulHealthEvents(
+            unit.unit.bodyWounds,
             // @ts-ignore
             legacyEvents,
           );
         } else if (unit.type === "human") {
-          unit.unit.bodyDamages = completeHumanHealthEvents(
+          unit.unit.bodyWounds = completeHumanHealthEvents(
             unit.unit.healthLevels,
-            unit.unit.bodyDamages,
+            unit.unit.bodyWounds,
             // @ts-ignore
             legacyEvents,
           );
         } else if (unit.type === "creature") {
-          unit.unit.bodyDamages = completeCreatureHealthEvents(
+          unit.unit.bodyWounds = completeCreatureHealthEvents(
             unit.unit.healthLevels,
-            unit.unit.bodyDamages,
+            unit.unit.bodyWounds,
             // @ts-ignore
             legacyEvents,
           );

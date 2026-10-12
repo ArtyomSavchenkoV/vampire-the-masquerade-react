@@ -5,13 +5,20 @@ import { mapObject } from "utils/object/mapObject";
 /*
  * Получаем исходные типы
  */
-type PrevUnits = PrevSavedData["units"];
-type PrevUnitEntry = PrevUnits[string];
+export type GetUnitEntry<TSavedData extends { units: { [key: string]: any } }> =
+  TSavedData["units"][string];
 
-type KindredType = GetByType<PrevUnitEntry, "kindred">["unit"];
-type GhoulType = GetByType<PrevUnitEntry, "ghoul">["unit"];
-type HumanType = GetByType<PrevUnitEntry, "human">["unit"];
-type CreatureType = GetByType<PrevUnitEntry, "creature">["unit"];
+type PrevUnitEntry = GetUnitEntry<PrevSavedData>;
+
+export type GetUnitType<
+  TUnion extends { type: string | number; unit: any },
+  TType extends TUnion["type"],
+> = GetByType<TUnion, TType>["unit"];
+
+type KindredType = GetUnitType<PrevUnitEntry, "kindred">;
+type GhoulType = GetUnitType<PrevUnitEntry, "ghoul">;
+type HumanType = GetUnitType<PrevUnitEntry, "human">;
+type CreatureType = GetUnitType<PrevUnitEntry, "creature">;
 
 /*
  * Не изменившиеся типы
@@ -62,7 +69,7 @@ type DamageType = "bashing" | "lethal" | "aggravated";
 /*
  * Изменившиеся типы
  */
-interface Modifiers {
+export interface Modifiers {
   attributesModifiers?: Partial<Record<AttributeName, number>>;
   attributesMaxLimit?: Partial<Record<AttributeName, number>>;
   abilityModifiers?: Partial<Record<AbilityName, number>>;
@@ -100,6 +107,7 @@ type ChangedCreature = CreatureType & {
   unitTypeFeatures: UnitTypeFeatures;
 };
 
+// Формируем тип массива Units
 type Units = Record<
   string,
   | (Omit<PrevUnitEntry, "type" | "unit"> & {

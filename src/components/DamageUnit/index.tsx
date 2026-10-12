@@ -23,7 +23,7 @@ export const DamageUnit: FC<TProps> = ({ unitId, onClick, ...props }) => {
     staminaChecks,
     stamina,
     absorptionDice,
-    damageMultipliers,
+    woundMultipliers,
   } = useDamageUnitSelector(unitId);
   const [open, setOpen] = useState(false);
 
@@ -54,14 +54,14 @@ export const DamageUnit: FC<TProps> = ({ unitId, onClick, ...props }) => {
             staminaChecks={staminaChecks}
             stamina={stamina}
             absorptionDice={absorptionDice}
-            damageMultipliers={damageMultipliers}
+            woundMultipliers={woundMultipliers}
             onDamage={(values) => {
               changeHealth(
                 unitId,
                 {
-                  type: "damage",
+                  type: "wound",
                   value: values.value,
-                  damageType: values.type,
+                  woundType: values.type,
                 },
                 values.description,
               );

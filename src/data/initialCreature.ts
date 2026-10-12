@@ -17,7 +17,7 @@ export const initialCreature: Creature = {
   },
   willpower: 0,
   maxWillpower: 0,
-  bodyDamages: [],
+  bodyWounds: [],
   healthLevels: [
     { name: "unimpaired", isIncapacitated: false },
     { name: "final", isIncapacitated: true, variant: "death" },

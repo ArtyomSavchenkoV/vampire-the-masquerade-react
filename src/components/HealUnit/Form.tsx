@@ -3,7 +3,7 @@ import { Button } from "baseComponents/Button";
 import { Input } from "baseComponents/Input";
 import { PositiveNumberInput } from "commonComponents/PositiveNumberInput";
 import { TitleText } from "commonComponents/TitleText";
-import { DamageType } from "domain/Damage";
+import { WoundType } from "domain/Wound";
 import { FC, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 
@@ -17,7 +17,7 @@ interface TProps {
   onHeal: (values: {
     value: number;
     description: string;
-    type: DamageType;
+    type: WoundType;
   }) => void;
 }
 export const Form: FC<TProps> = ({ onHeal }) => {
@@ -54,7 +54,7 @@ export const Form: FC<TProps> = ({ onHeal }) => {
             })
           }
         >
-          {translate("damages.bashing")}
+          {translate("wounds.bashing")}
         </Button>
         {/* Летальный урон */}
         <Button
@@ -65,7 +65,7 @@ export const Form: FC<TProps> = ({ onHeal }) => {
             })
           }
         >
-          {translate("damages.lethal")}
+          {translate("wounds.lethal")}
         </Button>
         {/* Сверхестественный урон */}
         <Button
@@ -76,7 +76,7 @@ export const Form: FC<TProps> = ({ onHeal }) => {
             })
           }
         >
-          {translate("damages.aggravated")}
+          {translate("wounds.aggravated")}
         </Button>
       </Buttons>
     </>

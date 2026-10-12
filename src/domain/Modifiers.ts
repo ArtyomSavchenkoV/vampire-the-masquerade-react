@@ -12,7 +12,7 @@ import {
   MODIFIED_ATTRIBUTE_MIN,
   ModifiedAttributeLevel,
 } from "./Attributes";
-import { DamageType } from "./Damage";
+import { WoundType } from "./Wound";
 import { mergeMultipliers } from "utils/mergeMultipliers";
 import { filterEmptyAndZeroValues } from "utils/object/filterEmptyValues";
 
@@ -46,12 +46,12 @@ export interface Modifiers {
    * Пример: { Bashing: 2, Lethal: 1 } — персонаж получает 2 кубика на поглощение
    * тупого урона и 1 кубик на смертельный.
    */
-  absorptionDice?: Partial<Record<DamageType, number>>;
+  absorptionDice?: Partial<Record<WoundType, number>>;
 
   /**
-   * Множители урона (итоговый урон округляется в меньшую сторону)
+   * Множители получения ранений (итоговое количество ранений округляется в меньшую сторону)
    */
-  damageMultipliers?: Partial<Record<DamageType, number>>;
+  woundMultipliers?: Partial<Record<WoundType, number>>;
 
   /**
    * Общее изменение количества кубиков при всех бросках.
@@ -85,9 +85,9 @@ export const mergeModifiers = (
   const incomingBonus = incoming.commonDiceBonus ?? 0;
   const commonDiceBonus = baseBonus + incomingBonus;
 
-  const damageMultipliers = mergeMultipliers(
-    base.damageMultipliers,
-    incoming.damageMultipliers,
+  const woundMultipliers = mergeMultipliers(
+    base.woundMultipliers,
+    incoming.woundMultipliers,
   );
 
   // Создаём объект со всеми полями
@@ -97,7 +97,7 @@ export const mergeModifiers = (
     abilityModifiers,
     absorptionDice,
     commonDiceBonus,
-    damageMultipliers,
+    woundMultipliers,
   } satisfies Record<keyof Modifiers, unknown>;
 
   return filterEmptyAndZeroValues(result);

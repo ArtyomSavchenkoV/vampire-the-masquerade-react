@@ -11,7 +11,7 @@ export const initialKindred: Omit<Kindred, "clan"> = {
   sire: null,
   unitTypeFeatures: {
     modifiers: {
-      damageMultipliers: {
+      woundMultipliers: {
         bashing: 0.5,
       },
     },
@@ -77,7 +77,7 @@ export const initialKindred: Omit<Kindred, "clan"> = {
   willpower: 0,
   maxWillpower: 0,
   bloodPool: 0,
-  bodyDamages: [],
+  bodyWounds: [],
   equipment: [],
   activeEffects: [],
   resourcesHistory: {

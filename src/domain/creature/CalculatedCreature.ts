@@ -14,7 +14,7 @@ export type CalculatedCreature = Omit<Creature, "attributes" | "abilities"> & {
     Record<keyof Creature["attributes"], ModifiedAttributeLevel>
   >;
   abilities: Partial<Record<keyof Creature["abilities"], ModifiedAbilityLevel>>;
-} & Pick<Modifiers, "absorptionDice" | "commonDiceBonus" | "damageMultipliers">;
+} & Pick<Modifiers, "absorptionDice" | "commonDiceBonus" | "woundMultipliers">;
 
 /**
  * Собирает все модификаторы для персонажа.
@@ -49,7 +49,7 @@ export const aggregateModifiers = (
   // Эффекты от здоровья
   const healthLevelModifiers = getCreatureHealthLevel(
     [...character.healthLevels],
-    character.bodyDamages,
+    character.bodyWounds,
   ).modifiers;
   if (healthLevelModifiers) {
     result = mergeModifiers(result, healthLevelModifiers);
@@ -82,7 +82,7 @@ export const calculateCreature = (creature: Creature): CalculatedCreature => {
     abilities: { ...calculated.abilities, ...changedParameters.abilities },
     // Добавляем поля из модификаторов
     absorptionDice: modifiers.absorptionDice,
-    damageMultipliers: modifiers.damageMultipliers,
+    woundMultipliers: modifiers.woundMultipliers,
     commonDiceBonus: modifiers.commonDiceBonus,
   };
 };

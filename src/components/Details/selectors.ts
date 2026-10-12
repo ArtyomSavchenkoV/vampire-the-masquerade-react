@@ -25,11 +25,11 @@ export const useKindredDetailsSelector = (unitId: string) => {
   return useMemo(
     () => ({
       notes: unit.notes,
-      healthLevel: calculatedKindred?.bodyDamages
-        ? getKinderedHealthLevel(calculatedKindred.bodyDamages)
+      healthLevel: calculatedKindred?.bodyWounds
+        ? getKinderedHealthLevel(calculatedKindred.bodyWounds)
         : null,
     }),
-    [unit.notes, calculatedKindred?.bodyDamages],
+    [unit.notes, calculatedKindred?.bodyWounds],
   );
 };
 

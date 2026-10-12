@@ -18,7 +18,7 @@ import {
 } from "domain/Attributes";
 import { backgroundLevels, backgroundNames } from "domain/Backgrounds";
 import { ClanName } from "domain/Clan";
-import { damageTypes } from "domain/Damage";
+import { woundTypes } from "domain/Wound";
 import { disciplineLevels, disciplineNames } from "domain/Discipline";
 import { humanityOrPathRatings } from "domain/HumanityOrPathRating";
 import { aggregateModifiers } from "domain/kindred/CalculatedKindred";
@@ -98,12 +98,12 @@ export const EditKindredForm: FC<TProps> = ({
     });
   };
 
-  const bodyDamages = completeHealthEvents(
-    kindred.bodyDamages,
+  const bodyWounds = completeHealthEvents(
+    kindred.bodyWounds,
     kindred.resourcesHistory.health,
   );
 
-  const healthLevel = getKinderedHealthLevel(bodyDamages);
+  const healthLevel = getKinderedHealthLevel(bodyWounds);
 
   return (
     <KindredLayout
@@ -975,7 +975,7 @@ export const EditKindredForm: FC<TProps> = ({
         <>
           {/* Здоровье */}
           <DetailsSectionTitle>
-            {`${translate("createUnit.health")}: ${MAX_HEALTH - bodyDamages.length}/${MAX_HEALTH}`}
+            {`${translate("createUnit.health")}: ${MAX_HEALTH - bodyWounds.length}/${MAX_HEALTH}`}
           </DetailsSectionTitle>
           {/* Уровень здоровья */}
           <Info>
@@ -985,27 +985,27 @@ export const EditKindredForm: FC<TProps> = ({
           </Info>
           {/* Раны */}
           <DetailsSectionTitle>
-            {translate("createUnit.damages")}
+            {translate("createUnit.wounds")}
           </DetailsSectionTitle>
           <ArrayEditor
-            array={bodyDamages}
-            onChange={(bodyDamages) =>
+            array={bodyWounds}
+            onChange={(bodyWounds) =>
               onChange({
                 ...kindred,
-                bodyDamages,
+                bodyWounds,
                 resourcesHistory: {
                   ...kindred.resourcesHistory,
                   health: [],
                 },
               })
             }
-            options={damageTypes.map((damage) => ({
-              value: damage,
-              name: translate(`damages.${damage}`),
+            options={woundTypes.map((wound) => ({
+              value: wound,
+              name: translate(`wounds.${wound}`),
             }))}
             allowDuplicates
-            addTitle={translate("editDamages.add")}
-            isOverflow={getKinderedHealthLevel(bodyDamages).name === "final"}
+            addTitle={translate("editWounds.add")}
+            isOverflow={getKinderedHealthLevel(bodyWounds).name === "final"}
           />
         </>
       }

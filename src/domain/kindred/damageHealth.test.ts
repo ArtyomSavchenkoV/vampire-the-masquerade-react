@@ -2,28 +2,25 @@ import { damageHealth } from "./Health";
 
 describe("src/domain/kindred-damageHealth", () => {
   it("Урон по полному здоровью", () => {
-    expect(
-      damageHealth([], { type: "damage", damageType: "bashing", value: 3 }),
-    ).toEqual(["bashing", "bashing", "bashing"]);
+    expect(damageHealth([], "bashing", 3)).toEqual([
+      "bashing",
+      "bashing",
+      "bashing",
+    ]);
   });
 
   it("Урон по не полному здоровью", () => {
-    expect(
-      damageHealth(["bashing"], {
-        type: "damage",
-        damageType: "lethal",
-        value: 3,
-      }),
-    ).toEqual(["bashing", "lethal", "lethal", "lethal"]);
+    expect(damageHealth(["bashing"], "lethal", 3)).toEqual([
+      "bashing",
+      "lethal",
+      "lethal",
+      "lethal",
+    ]);
   });
 
   it("Избыточный урон", () => {
     expect(
-      damageHealth(["bashing", "lethal", "aggravated", "bashing"], {
-        type: "damage",
-        damageType: "lethal",
-        value: 6,
-      }),
+      damageHealth(["bashing", "lethal", "aggravated", "bashing"], "lethal", 6),
     ).toEqual([
       "bashing",
       "lethal",
@@ -47,11 +44,8 @@ describe("src/domain/kindred-damageHealth", () => {
           "lethal",
           "lethal",
         ],
-        {
-          type: "damage",
-          damageType: "bashing",
-          value: 6,
-        },
+        "bashing",
+        6,
       ),
     ).toEqual([
       "bashing",
@@ -74,11 +68,8 @@ describe("src/domain/kindred-damageHealth", () => {
           "lethal",
           "lethal",
         ],
-        {
-          type: "damage",
-          damageType: "lethal",
-          value: 6,
-        },
+        "lethal",
+        6,
       ),
     ).toEqual([
       "bashing",
@@ -104,11 +95,8 @@ describe("src/domain/kindred-damageHealth", () => {
           "lethal",
           "lethal",
         ],
-        {
-          type: "damage",
-          damageType: "aggravated",
-          value: 6,
-        },
+        "aggravated",
+        6,
       ),
     ).toEqual([
       "bashing",
@@ -135,11 +123,8 @@ describe("src/domain/kindred-damageHealth", () => {
           "lethal",
           "lethal",
         ],
-        {
-          type: "damage",
-          damageType: "aggravated",
-          value: 6,
-        },
+        "aggravated",
+        6,
       ),
     ).toEqual([
       "bashing",
@@ -166,11 +151,8 @@ describe("src/domain/kindred-damageHealth", () => {
           "lethal",
           "aggravated",
         ],
-        {
-          type: "damage",
-          damageType: "lethal",
-          value: 6,
-        },
+        "lethal",
+        6,
       ),
     ).toEqual([
       "bashing",
