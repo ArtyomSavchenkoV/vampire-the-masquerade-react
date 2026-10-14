@@ -35,8 +35,8 @@ describe("src/domain/kindred-calculateChangebleParams", () => {
               {
                 date: 1,
                 effect: {
-                  type: "damage",
-                  damageType: "lethal",
+                  type: "wound",
+                  woundType: "lethal",
                   value: 1,
                 },
                 description: "",
@@ -45,7 +45,7 @@ describe("src/domain/kindred-calculateChangebleParams", () => {
                 date: 2,
                 effect: {
                   type: "heal",
-                  damageType: "bashing",
+                  woundType: "bashing",
                   value: 1,
                 },
                 description: "",
@@ -53,8 +53,8 @@ describe("src/domain/kindred-calculateChangebleParams", () => {
               {
                 date: 3,
                 effect: {
-                  type: "damage",
-                  damageType: "aggravated",
+                  type: "wound",
+                  woundType: "aggravated",
                   value: 1,
                 },
                 description: "",
@@ -63,14 +63,14 @@ describe("src/domain/kindred-calculateChangebleParams", () => {
           },
           willpower: 4,
           bloodPool: 5,
-          bodyDamages: ["lethal", "aggravated", "bashing"],
+          bodyWounds: ["lethal", "aggravated", "bashing"],
         },
         { maxBloodPool: 10 },
       ),
     ).toEqual({
       willpower: 4 - 2 + 1,
       bloodPool: 5 - 3 + 1,
-      bodyDamages: ["aggravated", "lethal", "lethal", "aggravated"],
+      bodyWounds: ["aggravated", "lethal", "lethal", "aggravated"],
     });
   });
 
@@ -108,14 +108,14 @@ describe("src/domain/kindred-calculateChangebleParams", () => {
           },
           willpower: 4,
           bloodPool: 5,
-          bodyDamages: [],
+          bodyWounds: [],
         },
         { maxBloodPool: 10 },
       ),
     ).toEqual({
       willpower: 5,
       bloodPool: 10,
-      bodyDamages: [],
+      bodyWounds: [],
     });
   });
 
@@ -153,14 +153,14 @@ describe("src/domain/kindred-calculateChangebleParams", () => {
           },
           willpower: 4,
           bloodPool: 5,
-          bodyDamages: [],
+          bodyWounds: [],
         },
         { maxBloodPool: 10 },
       ),
     ).toEqual({
       willpower: 0,
       bloodPool: 0,
-      bodyDamages: [],
+      bodyWounds: [],
     });
   });
 });

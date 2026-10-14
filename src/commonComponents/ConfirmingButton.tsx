@@ -49,6 +49,7 @@ export const ConfirmingButton: FC<TProps> = ({
         open={open}
       >
         <ConfirmWindow
+          size="sm"
           title={confirmWindowTitle}
           onConfirm={() => {
             setOpen(false);

@@ -15,7 +15,7 @@ import { getDisciplinesEffects } from "domain/Discipline";
 export type CalculatedKindred = Omit<Kindred, "attributes" | "abilities"> & {
   attributes: Record<AttributeName, ModifiedAttributeLevel>;
   abilities: Record<AbilityName, ModifiedAbilityLevel>;
-} & Pick<Modifiers, "absorptionDice" | "commonDiceBonus" | "damageMultipliers">;
+} & Pick<Modifiers, "absorptionDice" | "commonDiceBonus" | "woundMultipliers">;
 
 /**
  * Собирает все модификаторы для персонажа: клан, активные эффекты,
@@ -28,8 +28,8 @@ export const aggregateModifiers = (character: CalculatedKindred): Modifiers => {
   let result: Modifiers = {};
 
   // Модификаторы от типа юнита
-  if (character.unitTypeFeatures.modifiers) {
-    result = mergeModifiers(result, character.unitTypeFeatures.modifiers);
+  if (character.unitFeatures.modifiers) {
+    result = mergeModifiers(result, character.unitFeatures.modifiers);
   }
 
   // Модификаторы от клана
@@ -71,7 +71,7 @@ export const aggregateModifiers = (character: CalculatedKindred): Modifiers => {
 
   // Эффекты от здоровья
   const healthLevelModifiers = getKinderedHealthLevel(
-    character.bodyDamages,
+    character.bodyWounds,
   ).modifiers;
   if (healthLevelModifiers) {
     result = mergeModifiers(result, healthLevelModifiers);
@@ -119,7 +119,7 @@ export const calculateKindred = (kindred: Kindred): CalculatedKindred => {
     attributes: { ...calculated.attributes, ...changedParameters.attributes },
     abilities: { ...calculated.abilities, ...changedParameters.abilities },
     absorptionDice: modifiers.absorptionDice,
-    damageMultipliers: modifiers.damageMultipliers,
+    woundMultipliers: modifiers.woundMultipliers,
     commonDiceBonus: modifiers.commonDiceBonus,
   };
 };

@@ -1,8 +1,8 @@
-import { HealthDamages } from "domain/Health";
+import { Wounds } from "domain/Health";
 import { healHealth } from "./Health";
 
 describe("src/domain/kindred-healHealth", () => {
-  const healthDamages = [
+  const wounds = [
     "lethal",
     "bashing",
     "aggravated",
@@ -10,18 +10,18 @@ describe("src/domain/kindred-healHealth", () => {
     "bashing",
     "lethal",
     "bashing",
-  ] satisfies HealthDamages;
+  ] satisfies Wounds;
   it("Вылечен", () => {
     expect(
-      healHealth([], { type: "heal", damageType: "bashing", value: 2 }),
+      healHealth([], { type: "heal", woundType: "bashing", value: 2 }),
     ).toEqual([]);
   });
 
   it("bashing", () => {
     expect(
-      healHealth(healthDamages, {
+      healHealth(wounds, {
         type: "heal",
-        damageType: "bashing",
+        woundType: "bashing",
         value: 8,
       }),
     ).toEqual(["aggravated", "lethal", "lethal", "lethal"]);
@@ -29,9 +29,9 @@ describe("src/domain/kindred-healHealth", () => {
 
   it("lethal", () => {
     expect(
-      healHealth(healthDamages, {
+      healHealth(wounds, {
         type: "heal",
-        damageType: "lethal",
+        woundType: "lethal",
         value: 5,
       }),
     ).toEqual(["aggravated", "bashing"]);
@@ -39,9 +39,9 @@ describe("src/domain/kindred-healHealth", () => {
 
   it("aggravated", () => {
     expect(
-      healHealth(healthDamages, {
+      healHealth(wounds, {
         type: "heal",
-        damageType: "aggravated",
+        woundType: "aggravated",
         value: 6,
       }),
     ).toEqual(["bashing"]);
@@ -49,18 +49,18 @@ describe("src/domain/kindred-healHealth", () => {
 
   it("Лечение в конечном статусе не возможно", () => {
     expect(
-      healHealth([...healthDamages, "bashing"], {
+      healHealth([...wounds, "bashing"], {
         type: "heal",
-        damageType: "aggravated",
+        woundType: "aggravated",
         value: 6,
       }),
-    ).toEqual([...healthDamages, "bashing"]);
+    ).toEqual([...wounds, "bashing"]);
     expect(
-      healHealth([...healthDamages, "aggravated"], {
+      healHealth([...wounds, "aggravated"], {
         type: "heal",
-        damageType: "aggravated",
+        woundType: "aggravated",
         value: 6,
       }),
-    ).toEqual([...healthDamages, "aggravated"]);
+    ).toEqual([...wounds, "aggravated"]);
   });
 });

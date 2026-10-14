@@ -1,52 +1,64 @@
-import styled from "@emotion/styled";
 import { Button } from "baseComponents/Button";
-import { Input } from "baseComponents/Input";
-import { Tab } from "baseComponents/Tab";
-import { PositiveNumberInput } from "commonComponents/PositiveNumberInput";
-import { TitleText } from "commonComponents/TitleText";
 import { ModifiedAttributeLevel } from "domain/Attributes";
-import { DamageType } from "domain/Damage";
+import { WoundType } from "domain/Wound";
 import { FC, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { joinStrings } from "utils/string/joinStrings";
+import { Select } from "baseComponents/Select";
+import { TitleText } from "commonComponents/TitleText";
+import { DamageType, damageTypes } from "domain/Damage";
+import { DamageToWoundMap } from "domain/DamageToWoundMap";
+import { NumberCheckboxesInput } from "commonComponents/NumberCheckboxesInput";
+import { TextArea } from "baseComponents/TextArea";
+import { DamageCheckbox } from "icons/DamageCheckBox";
 
-const Buttons = styled.div({
-  display: "flex",
-  gap: 8,
-});
+const INITIAL_DAMAGE_TYPE = "blunt" as const;
+const INITIAL_DAMAGE = 1;
+const INITIAL_SUCCESSES = 0;
 
 interface TProps {
-  staminaChecks: Partial<Record<DamageType, boolean>> | null;
+  damageToWoundMap: DamageToWoundMap;
+  staminaChecks: Partial<Record<WoundType, boolean>> | null;
   stamina: ModifiedAttributeLevel | null;
-  absorptionDice: Partial<Record<DamageType, number>> | null;
-  damageMultipliers: Partial<Record<DamageType, number>> | null;
+  absorptionDice: Partial<Record<WoundType, number>> | null;
+  woundMultipliers: Partial<Record<WoundType, number>> | null;
   onDamage: (values: {
     value: number;
     description: string;
-    type: DamageType;
+    type: WoundType;
   }) => void;
 }
 export const Form: FC<TProps> = ({
+  damageToWoundMap,
   staminaChecks,
   stamina,
   absorptionDice,
-  damageMultipliers,
+  woundMultipliers,
   onDamage,
 }) => {
   const { translate } = useTranslate();
-  const [description, setDescription] = useState<string>("");
-  const [initialDamage, setInitialDamage] = useState<number>(1);
-  const [damageType, setDamageType] = useState<DamageType>("bashing");
-  const [successes, setSuccesses] = useState<number>(0);
+  const createDescription = (
+    damageType: DamageType,
+    initialDamage: number,
+    successes: number,
+  ) =>
+    `${translate(`damageTypes.${damageType}`)}: ${initialDamage}. ${translate("damageUnit.successes")}: ${successes}`;
 
-  const damageTypeChangeHandler = (damageType: DamageType) => {
-    setDamageType(damageType);
-    setSuccesses(0);
-  };
+  const [damageType, setDamageType] = useState<DamageType>(INITIAL_DAMAGE_TYPE);
+  const [initialDamage, setInitialDamage] = useState<number>(INITIAL_DAMAGE);
+  const [successes, setSuccesses] = useState<number>(INITIAL_SUCCESSES);
+  const [description, setDescription] = useState<string>(
+    createDescription(INITIAL_DAMAGE_TYPE, INITIAL_DAMAGE, INITIAL_SUCCESSES),
+  );
 
-  const isDamageTypeStaminaCheck = staminaChecks?.[damageType] || false;
-  const damageTypeAbsorptionDice = absorptionDice?.[damageType] ?? null;
-  const damageTypeDamageMultipliers = damageMultipliers?.[damageType] ?? 1;
+  const woundType = damageToWoundMap[damageType];
+
+  const isDamageTypeStaminaCheck =
+    (woundType && staminaChecks?.[woundType]) || false;
+  const damageTypeAbsorptionDice =
+    (woundType && absorptionDice?.[woundType]) ?? null;
+  const damageTypeDamageMultipliers =
+    (woundType && woundMultipliers?.[woundType]) ?? 1;
 
   const dicesCount =
     (isDamageTypeStaminaCheck ? (stamina ?? 0) : 0) +
@@ -59,85 +71,105 @@ export const Form: FC<TProps> = ({
 
   return (
     <>
-      {/* Тип урона */}
-      <Buttons>
-        {/* Обычный урон */}
-        <Tab
-          onClick={() => damageTypeChangeHandler("bashing")}
-          isSelected={damageType === "bashing"}
-        >
-          {translate("damages.bashing")}
-        </Tab>
-        {/* Летальный урон */}
-        <Tab
-          onClick={() => damageTypeChangeHandler("lethal")}
-          isSelected={damageType === "lethal"}
-        >
-          {translate("damages.lethal")}
-        </Tab>
-        {/* Сверхестественный урон */}
-        <Tab
-          onClick={() => damageTypeChangeHandler("aggravated")}
-          isSelected={damageType === "aggravated"}
-        >
-          {translate("damages.aggravated")}
-        </Tab>
-      </Buttons>
-      {/* Количество урона */}
-      <TitleText title={translate("damageUnit.healCount")}>
-        <PositiveNumberInput
-          value={initialDamage}
-          onChange={(value) => setInitialDamage(value)}
+      {/* Выбор типа урона */}
+      <TitleText title={translate("damageUnit.selectDamageType")}>
+        <Select
+          options={damageTypes.map((damageType) => ({
+            value: damageType,
+            name: translate(`damageTypes.${damageType}`),
+          }))}
+          value={damageType}
+          onChange={(damageType) => {
+            setDamageType(damageType);
+            setSuccesses(0);
+            setDescription(createDescription(damageType, initialDamage, 0));
+          }}
+          size={4}
         />
       </TitleText>
+
+      {/* Количество урона */}
+      <TitleText title={translate("damageUnit.damageCount")}>
+        <NumberCheckboxesInput
+          align="left"
+          value={initialDamage}
+          onChange={(value) => {
+            setInitialDamage(value);
+            setDescription(createDescription(damageType, value, successes));
+          }}
+          max={20}
+          CustomCheckBox={DamageCheckbox}
+        />
+      </TitleText>
+
+      {/* Тип ран */}
+      <TitleText title={translate("damageUnit.woundType")}>
+        {woundType
+          ? translate(`wounds.${woundType}`)
+          : translate("damageUnit.fullResist")}
+      </TitleText>
+
+      {/* Проверки */}
+      <TitleText title={translate("damageUnit.checks")}>
+        {joinStrings(
+          " = ",
+          joinStrings(
+            " + ",
+            isDamageTypeStaminaCheck
+              ? `${translate("damageUnit.stamina")}(${stamina ?? 0})`
+              : null,
+            damageTypeAbsorptionDice != null
+              ? `${translate("damageUnit.fortitude")}(${damageTypeAbsorptionDice})`
+              : null,
+          ) || null,
+          dicesCount,
+        )}
+      </TitleText>
+
+      {/* Успехи проверок */}
+      <TitleText title={translate("damageUnit.successes")}>
+        <NumberCheckboxesInput
+          align="left"
+          value={successes}
+          onChange={(value) => {
+            setSuccesses(value);
+            setDescription(createDescription(damageType, initialDamage, value));
+          }}
+          max={dicesCount}
+        />
+      </TitleText>
+
+      {/* Множитель */}
+      <TitleText title={translate("damageUnit.multiplier")}>
+        {damageTypeDamageMultipliers}
+      </TitleText>
+
       {/* Описание */}
       <TitleText title={translate("damageUnit.description")}>
-        <Input
+        <TextArea
+          rows={2}
           value={description}
           onChange={(ev) => setDescription(ev.target.value)}
         />
       </TitleText>
-      {/* Проверки */}
-      {(isDamageTypeStaminaCheck || damageTypeAbsorptionDice != null) && (
-        <>
-          {/* Формула количества дайсов для броска */}
-          <TitleText title={translate("dice.dicesToRoll")}>
-            {`${joinStrings(
-              " + ",
-              isDamageTypeStaminaCheck
-                ? `${stamina ?? 0} (${translate("attributes.stamina")})`
-                : null,
-              damageTypeAbsorptionDice != null
-                ? `${damageTypeAbsorptionDice} (${translate("calculatedFields.fortitude")})`
-                : null,
-            )} = ${dicesCount}`}
-          </TitleText>
-          {/* Количество успехов */}
-          <TitleText title={translate("dice.successes")}>
-            <PositiveNumberInput
-              value={successes}
-              onChange={(value) =>
-                setSuccesses(value > dicesCount ? dicesCount : value)
-              }
-            />
-          </TitleText>
-        </>
-      )}
-      {/* Рассчёт урона */}
-      <TitleText title={translate("damageUnit.calculateDamage")}>
-        {`(${initialDamage} - ${successes}) * ${damageTypeDamageMultipliers}`}
-      </TitleText>
+
       {/* Применить */}
       <Button
         onClick={() =>
+          woundType &&
           onDamage({
             value: realDamage,
             description,
-            type: damageType,
+            type: woundType,
           })
         }
+        disabled={!woundType}
       >
-        {`${translate("damageUnit.complete")}: ${translate(`damages.${damageType}`)} (${realDamage})`}
+        {`${translate("damageUnit.complete")}: ${
+          woundType
+            ? `${translate(`wounds.${woundType}`)} (${realDamage})`
+            : translate("damageUnit.fullResist")
+        }`}
       </Button>
     </>
   );

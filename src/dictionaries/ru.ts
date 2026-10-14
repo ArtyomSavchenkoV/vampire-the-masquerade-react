@@ -25,11 +25,11 @@ export const ru = {
     flaws: "Недостатки",
     humanityOrPathRating: "Человечность/Путь",
     health: "Здоровье",
-    damages: "Раны",
+    wounds: "Раны",
     healthLevels: "Настройка уровней здоровья",
   },
   details: {
-    title: "Карточка персонажа",
+    notes: "заметки",
   },
   unitRow: {
     remove: "Удалить",
@@ -222,7 +222,7 @@ export const ru = {
     addMerit: "Добавить достоинство",
     addFlaw: "Добавить недостаток",
   },
-  editDamages: {
+  editWounds: {
     add: "Добавить урон",
   },
   editHealthLevels: {
@@ -230,23 +230,34 @@ export const ru = {
   },
   editInitiative: {
     title: "Задать инициативу",
+    formula: "Формула расчёта инициативы",
     dexterity: "лвк.",
     wits: "смк.",
     commonDiceBonus: "бонус",
     dice: "дайс",
-    newInitiative: "инициатива",
+    initiative: "инициатива",
+    enterDiceResult: "Укажите результат броска дайса",
+    orEnterInitiative: "Или введите значение инициативы вручную",
   },
   damageUnit: {
     title: "Нанесение урона",
-    healCount: "Количество урона",
+    selectDamageType: "Выберите тип урона",
+    damageCount: "Количество урона",
+    woundType: "Тип ран",
+    fullResist: "Полный иммунитет",
+    checks: "Проверки",
+    stamina: "внсл.",
+    fortitude: "стк.",
+    successes: "Успехи проверок",
+    multiplier: "Множитель",
     description: "Описание",
-    calculateDamage: "Расчёт урона",
     complete: "Применить",
   },
   healUnit: {
     title: "Лечение",
     healCount: "Количество исцеления",
     description: "Описание",
+    healWoundType: "Насколько сложную лечим рану?",
   },
   torporAwakeningUnit: {
     title: "Пробудить от торпор",
@@ -289,10 +300,17 @@ export const ru = {
     },
     cutExcessDamage: "Отсекает избыточный урон от одного удара",
   },
-  damages: {
-    bashing: "Обычный урон",
-    lethal: "Летальный урон",
-    aggravated: "Сверхъестественный урон",
+  damageTypes: {
+    blunt: "Дробящий урон",
+    penetrating: "Проникающий урон",
+    fire: "Огненный урон",
+    solar: "Солнечный урон",
+    vampire_claw: "Вампирские когти",
+  },
+  wounds: {
+    bashing: "Обычная рана",
+    lethal: "Летальная рана",
+    aggravated: "Сверхъестественная рана",
   },
   resources: {
     health: "Здоровье",

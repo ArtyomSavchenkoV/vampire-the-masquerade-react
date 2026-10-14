@@ -2,23 +2,29 @@ import { InputHTMLAttributes } from "react";
 import { SelectOption } from "./SelectOption";
 import styled from "@emotion/styled";
 
-const StyledSelect = styled.select`
+const StyledSelect = styled.select<{ notFullWidth: boolean }>(
+  ({ notFullWidth }) => `
   font-size: 0.85em;
   border-radius: 4px;
   border-width: 1px;
   padding: 2px;
   margin-top: -2px;
-`;
+  ${notFullWidth ? "" : "width: 100%;"}
+`,
+);
 
 interface TProps extends Omit<
   InputHTMLAttributes<HTMLSelectElement>,
   "value" | "onChange" | "children"
-> {}
+> {
+  notFullWidth?: boolean;
+}
 
 export const Select = <T extends string | number>({
   value,
   options,
   onChange,
+  notFullWidth = false,
   ...props
 }: {
   value: T;
@@ -38,6 +44,7 @@ export const Select = <T extends string | number>({
 
   return (
     <StyledSelect
+      notFullWidth={notFullWidth}
       value={stringValue}
       onChange={(event) => {
         const rawValue = event.target.value;

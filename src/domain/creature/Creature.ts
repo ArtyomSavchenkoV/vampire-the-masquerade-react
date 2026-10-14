@@ -2,10 +2,10 @@ import { AbilityName, BaseAbilityLevel } from "domain/Abilities";
 import { ActiveEffect } from "domain/ActiveEffect";
 import { AttributeName, BaseAttributeLevel } from "domain/Attributes";
 import { EquipmentItem } from "domain/EquipmentItem";
-import { HealthDamages, HealthLevelData } from "domain/Health";
+import { Wounds, HealthLevelData } from "domain/Health";
 import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
 import { ResourcesHistory } from "./ResourcesHistory";
-import { UnitTypeFeatures } from "domain/UnitTypeFeatures";
+import { UnitFeatures } from "domain/UnitFeatures";
 
 /**
  * Базовая модель существа (Собака, крыса, медведь и пр.)
@@ -15,8 +15,8 @@ export interface Creature {
   name: string;
   /** Игрок */
   player: string | null;
-  /** Особенности этого типа существ */
-  unitTypeFeatures: UnitTypeFeatures;
+  /** Особенности существа */
+  unitFeatures: UnitFeatures;
   /** Характеристики */
   attributes: Partial<Record<AttributeName, BaseAttributeLevel>>;
   /** Способности */
@@ -27,8 +27,8 @@ export interface Creature {
   willpower: number;
   /** Максимальный запас воли (для UI) */
   maxWillpower: number;
-  /** Повреждения */
-  bodyDamages: HealthDamages;
+  /** Ранения */
+  bodyWounds: Wounds;
   /** Уровни здоровья */
   healthLevels: HealthLevelData[];
   /** Экипировка */

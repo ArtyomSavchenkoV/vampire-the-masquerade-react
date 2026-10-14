@@ -13,10 +13,10 @@ export const useTorporAwakeningUnitSelector = (unitId: string) => {
     () => ({
       name,
       player,
-      healthLevel: calculatedKindred?.bodyDamages
-        ? getKinderedHealthLevel(calculatedKindred.bodyDamages)
+      healthLevel: calculatedKindred?.bodyWounds
+        ? getKinderedHealthLevel(calculatedKindred.bodyWounds)
         : null,
     }),
-    [name, player, calculatedKindred?.bodyDamages],
+    [name, player, calculatedKindred?.bodyWounds],
   );
 };

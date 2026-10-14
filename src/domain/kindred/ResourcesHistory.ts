@@ -1,10 +1,10 @@
 import { ResourceHistory } from "domain/ResourceHistory";
 import { awakening, AwakeningEvent, damageHealth, healHealth } from "./Health";
 import { Kindred } from "./Kindred";
-import { DamageEvent, HealEvent, HealthDamages } from "domain/Health";
+import { WoundEvent, HealEvent, Wounds } from "domain/Health";
 import { numberToMaxMinDiapason } from "utils/numberToMaxminDiapason";
 
-export type HealthHistory = AwakeningEvent | HealEvent | DamageEvent;
+export type HealthHistory = AwakeningEvent | HealEvent | WoundEvent;
 
 export interface ResourcesHistory {
   willpower: ResourceHistory<Kindred["willpower"]>[];
@@ -13,13 +13,13 @@ export interface ResourcesHistory {
 }
 
 export const completeHealthEvents = (
-  bodyDamages: HealthDamages,
+  bodyWounds: Wounds,
   healthHistory: ResourceHistory<HealthHistory>[],
 ) => {
   const sortedHealthHistory = [...healthHistory].sort(
     (a, b) => a.date - b.date,
   );
-  return sortedHealthHistory.reduce<HealthDamages>((accum, change) => {
+  return sortedHealthHistory.reduce<Wounds>((accum, change) => {
     if (change.effect.type === "torpor") {
       return awakening(accum);
     }
@@ -29,14 +29,14 @@ export const completeHealthEvents = (
       }
       return healHealth(accum, change.effect);
     }
-    if (change.effect.type === "damage") {
+    if (change.effect.type === "wound") {
       if (!change.effect.value) {
         return accum;
       }
-      return damageHealth(accum, change.effect);
+      return damageHealth(accum, change.effect.woundType, change.effect.value);
     }
     return accum as never;
-  }, bodyDamages);
+  }, bodyWounds);
 };
 
 /**
@@ -49,10 +49,10 @@ export const calculateChangebleParams = (
     | "resourcesHistory"
     | "willpower"
     | "bloodPool"
-    | "bodyDamages"
+    | "bodyWounds"
   >,
   { maxBloodPool }: { maxBloodPool: number },
-): Pick<Kindred, "willpower" | "bloodPool" | "bodyDamages"> => {
+): Pick<Kindred, "willpower" | "bloodPool" | "bodyWounds"> => {
   const maxWillpower = kindredData.maxWillpower;
 
   const willpowerChanges = kindredData.resourcesHistory.willpower.reduce(
@@ -65,8 +65,8 @@ export const calculateChangebleParams = (
     0,
   );
 
-  const bodyDamages = completeHealthEvents(
-    kindredData.bodyDamages,
+  const bodyWounds = completeHealthEvents(
+    kindredData.bodyWounds,
     kindredData.resourcesHistory.health,
   );
 
@@ -85,6 +85,6 @@ export const calculateChangebleParams = (
         max: maxBloodPool,
       },
     ),
-    bodyDamages,
+    bodyWounds,
   };
 };

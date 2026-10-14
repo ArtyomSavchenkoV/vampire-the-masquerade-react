@@ -42,8 +42,8 @@ export const useKindredRowSelector = (id: string) => {
       player: calculatedKindred.player,
       willpower: calculatedKindred.willpower,
       bloodPool: calculatedKindred.bloodPool,
-      bodyDamages: calculatedKindred.bodyDamages,
-      isIncapacitated: getKinderedHealthLevel(calculatedKindred.bodyDamages)
+      bodyWounds: calculatedKindred.bodyWounds,
+      isIncapacitated: getKinderedHealthLevel(calculatedKindred.bodyWounds)
         .isIncapacitated,
     };
   }, [id, selectedUnitId, sceneUnits, calculatedKindred]);
@@ -67,8 +67,8 @@ export const useGhoulRowSelector = (id: string) => {
       player: calculatedGhoul.player,
       willpower: calculatedGhoul.willpower,
       bloodPool: calculatedGhoul.bloodPool,
-      bodyDamages: calculatedGhoul.bodyDamages,
-      isIncapacitated: getKinderedHealthLevel(calculatedGhoul.bodyDamages)
+      bodyWounds: calculatedGhoul.bodyWounds,
+      isIncapacitated: getKinderedHealthLevel(calculatedGhoul.bodyWounds)
         .isIncapacitated,
     };
   }, [id, selectedUnitId, sceneUnits, calculatedGhoul]);
@@ -91,11 +91,11 @@ export const useHumanRowSelector = (id: string) => {
       name: calculatedHuman.name,
       player: calculatedHuman.player,
       willpower: calculatedHuman.willpower,
-      bodyDamages: calculatedHuman.bodyDamages,
+      bodyWounds: calculatedHuman.bodyWounds,
       maxHealth: calculatedHuman.healthLevels.length - 1,
       isIncapacitated: getHumanHealthLevel(
         calculatedHuman.healthLevels,
-        calculatedHuman.bodyDamages,
+        calculatedHuman.bodyWounds,
       ).isIncapacitated,
     };
   }, [id, selectedUnitId, sceneUnits, calculatedHuman]);
@@ -118,11 +118,11 @@ export const useCreatureRowSelector = (id: string) => {
       name: calculatedCreature.name,
       player: calculatedCreature.player,
       willpower: calculatedCreature.willpower,
-      bodyDamages: calculatedCreature.bodyDamages,
+      bodyWounds: calculatedCreature.bodyWounds,
       maxHealth: calculatedCreature.healthLevels.length - 1,
       isIncapacitated: getCreatureHealthLevel(
         calculatedCreature.healthLevels,
-        calculatedCreature.bodyDamages,
+        calculatedCreature.bodyWounds,
       ).isIncapacitated,
     };
   }, [id, selectedUnitId, sceneUnits, calculatedCreature]);

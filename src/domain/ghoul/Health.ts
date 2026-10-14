@@ -1,40 +1,45 @@
 import { ghoulHealthLevels as healthLevels } from "data/ghoulHealthLevels";
 import {
-  DamageEvent,
   HealEvent,
   healHealth as commonHealHealth,
   damageHealth as commonDamageHealth,
-  HealthDamages,
   HealthLevelData,
   getHealthLevel,
+  Wounds,
 } from "domain/Health";
+import { WoundType } from "domain/Wound";
 
 /**
  * Получить данные о здоровье сородича.
  */
-export const getGhoulHealthLevel = (
-  bodyDamages: HealthDamages,
-): HealthLevelData => {
-  return getHealthLevel(healthLevels, bodyDamages, false);
+export const getGhoulHealthLevel = (bodyWounds: Wounds): HealthLevelData => {
+  return getHealthLevel(healthLevels, bodyWounds, false);
 };
 
 /**
  * Применение урона
  */
 export const damageGhoulHealth = (
-  bodyDamages: HealthDamages,
-  damageEvent: DamageEvent,
-): HealthDamages => {
-  return commonDamageHealth(healthLevels, bodyDamages, damageEvent, false);
+  bodyWounds: Wounds,
+  woundType: WoundType,
+  woundCount: number,
+): Wounds => {
+  return commonDamageHealth(
+    healthLevels,
+    bodyWounds,
+    woundType,
+    woundCount,
+    false,
+  );
 };
 
 /**
  * применение исцеления
  */
 export const healGhoulHealth = (
-  bodyDamages: HealthDamages,
+  bodyWounds: Wounds,
   healEvent: HealEvent,
-): HealthDamages => {
-  const healthLevelName = getGhoulHealthLevel(bodyDamages).name;
-  return commonHealHealth(bodyDamages, healthLevelName, healEvent);
+): Wounds => {
+  const healthLevelName = getGhoulHealthLevel(bodyWounds).name;
+  return commonHealHealth(bodyWounds, healthLevelName, healEvent);
 };

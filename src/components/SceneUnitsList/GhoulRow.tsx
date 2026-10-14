@@ -55,7 +55,7 @@ export const GhoulRow: FC<TProps> = memo(({ id }) => {
 
       {/* Ресурсы персонажа */}
       <Td>
-        {`${translate("resources.health")}: ${MAX_HEALTH - ghoulRow.bodyDamages.length}/${MAX_HEALTH}, `}
+        {`${translate("resources.health")}: ${MAX_HEALTH - ghoulRow.bodyWounds.length}/${MAX_HEALTH}, `}
         {`${translate("resources.willpower")}: ${ghoulRow.willpower}, `}
         {`${translate("resources.bloodPool")}: ${ghoulRow.bloodPool}`}
       </Td>

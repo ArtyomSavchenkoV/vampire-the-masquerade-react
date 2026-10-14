@@ -1,6 +1,5 @@
 import { Input } from "baseComponents/Input";
 import { ConfirmWindow } from "commonComponents/ConfirmWindow";
-import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { TitleText } from "commonComponents/TitleText";
 import { FC, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
@@ -23,14 +22,16 @@ export const Form: FC<TProps> = ({
 
   return (
     <ConfirmWindow
-      title={translate("torporAwakeningUnit.title")}
+      title={joinStrings(
+        " ",
+        translate("torporAwakeningUnit.title"),
+        name ? name : null,
+        player ? `(${player})` : null,
+      )}
       onConfirm={() => onHealTorporAwakening({ description })}
       onCancel={onCancel}
       onClose={onCancel}
     >
-      <DetailsSectionTitle>
-        {joinStrings(" ", name ? name : null, player ? `(${player})` : null)}
-      </DetailsSectionTitle>
       <TitleText title={translate("torporAwakeningUnit.description")}>
         <Input
           value={description}

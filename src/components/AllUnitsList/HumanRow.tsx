@@ -54,7 +54,7 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
 
       {/* Ресурсы персонажа */}
       <Td>
-        {`${translate("resources.health")}: ${humanRow.maxHealth - humanRow.bodyDamages.length}/${humanRow.maxHealth}, `}
+        {`${translate("resources.health")}: ${humanRow.maxHealth - humanRow.bodyWounds.length}/${humanRow.maxHealth}, `}
         {`${translate("resources.willpower")}: ${humanRow.willpower}, `}
       </Td>
 

@@ -1,6 +1,6 @@
 import { Creature } from "domain/creature/Creature";
 import { Ghoul } from "domain/ghoul/Ghoul";
-import { HealEvent, DamageEvent } from "domain/Health";
+import { HealEvent, WoundEvent } from "domain/Health";
 import { Human } from "domain/human/Human";
 import { AwakeningEvent } from "domain/kindred/Health";
 import { Kindred } from "domain/kindred/Kindred";
@@ -54,7 +54,7 @@ export interface Actions {
   /** Изменяет здоровье персонажа */
   changeHealth: (
     unitId: string,
-    event: AwakeningEvent | HealEvent | DamageEvent,
+    event: AwakeningEvent | HealEvent | WoundEvent,
     description: string,
   ) => void;
 

@@ -14,7 +14,7 @@ import { getDisciplinesEffects } from "domain/Discipline";
 export type CalculatedGhoul = Omit<Ghoul, "attributes" | "abilities"> & {
   attributes: Record<AttributeName, ModifiedAttributeLevel>;
   abilities: Record<AbilityName, ModifiedAbilityLevel>;
-} & Pick<Modifiers, "absorptionDice" | "commonDiceBonus" | "damageMultipliers">;
+} & Pick<Modifiers, "absorptionDice" | "commonDiceBonus" | "woundMultipliers">;
 
 /**
  * Собирает все модификаторы для персонажа: активные эффекты,
@@ -27,8 +27,8 @@ export const aggregateModifiers = (character: CalculatedGhoul): Modifiers => {
   let result: Modifiers = {};
 
   // Модификаторы от типа юнита
-  if (character.unitTypeFeatures.modifiers) {
-    result = mergeModifiers(result, character.unitTypeFeatures.modifiers);
+  if (character.unitFeatures.modifiers) {
+    result = mergeModifiers(result, character.unitFeatures.modifiers);
   }
 
   // Эффекты экипировки
@@ -65,7 +65,7 @@ export const aggregateModifiers = (character: CalculatedGhoul): Modifiers => {
 
   // Эффекты от здоровья
   const healthLevelModifiers = getGhoulHealthLevel(
-    character.bodyDamages,
+    character.bodyWounds,
   ).modifiers;
   if (healthLevelModifiers) {
     result = mergeModifiers(result, healthLevelModifiers);
@@ -104,7 +104,7 @@ export const calculateGhoul = (character: Ghoul): CalculatedGhoul => {
     attributes: { ...calculated.attributes, ...changedParameters.attributes },
     abilities: { ...calculated.abilities, ...changedParameters.abilities },
     absorptionDice: modifiers.absorptionDice,
-    damageMultipliers: modifiers.damageMultipliers,
+    woundMultipliers: modifiers.woundMultipliers,
     commonDiceBonus: modifiers.commonDiceBonus,
   };
 };

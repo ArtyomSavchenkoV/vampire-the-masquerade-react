@@ -3,13 +3,13 @@ import { ActiveEffect } from "domain/ActiveEffect";
 import { AttributeName, BaseAttributeLevel } from "domain/Attributes";
 import { BackgroundName, BackgroundLevel } from "domain/Backgrounds";
 import { EquipmentItem } from "domain/EquipmentItem";
-import { HealthDamages } from "domain/Health";
+import { Wounds } from "domain/Health";
 import { HumanityOrPathRating } from "domain/HumanityOrPathRating";
 import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
 import { MeritName, FlawName } from "domain/MeritsAndFlaws";
 import { ResourcesHistory } from "./ResourcesHistory";
 import { DisciplineName, DisciplineLevel } from "domain/Discipline";
-import { UnitTypeFeatures } from "domain/UnitTypeFeatures";
+import { UnitFeatures } from "domain/UnitFeatures";
 
 /**
  * Базовая модель гуля
@@ -29,8 +29,8 @@ export interface Ghoul {
   role: string; // например: "Осведомитель", "Телохранитель", "Дипломат", "Ищейка"
   /** Домитор (имя домитора или null, если нет определённого домитора) */
   domitor: string | null;
-  /** Особенности этого типа существ */
-  unitTypeFeatures: UnitTypeFeatures;
+  /** Особенности существа */
+  unitFeatures: UnitFeatures;
   /** Характеристики */
   attributes: Record<AttributeName, BaseAttributeLevel>;
   /** Способности */
@@ -61,8 +61,8 @@ export interface Ghoul {
   bloodPool: number;
   /** Максимальный запас крови */
   maxBloodPool: number;
-  /** Повреждения, 8-ое повреждение - смерть если повреждение "aggravated" иначе отключка */
-  bodyDamages: HealthDamages;
+  /** Ранения */
+  bodyWounds: Wounds;
   /** Экипировка */
   equipment: EquipmentItem[];
   /** Активные эффекты (бафф/дебафф, состояние и пр.) */

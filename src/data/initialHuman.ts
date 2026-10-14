@@ -7,7 +7,14 @@ export const initialHuman: Human = {
   nature: "",
   demeanor: "",
   role: "",
-  unitTypeFeatures: {
+  unitFeatures: {
+    damageToWoundMap: {
+      blunt: "bashing",
+      penetrating: "lethal",
+      fire: "bashing",
+      solar: null,
+      vampire_claw: "lethal",
+    },
     staminaChecks: {
       bashing: true,
     },
@@ -67,7 +74,7 @@ export const initialHuman: Human = {
   pillar: null,
   willpower: 0,
   maxWillpower: 0,
-  bodyDamages: [],
+  bodyWounds: [],
   healthLevels: [
     {
       name: "unimpaired",

@@ -6,11 +6,11 @@ import { Clan } from "domain/Clan";
 import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
 import { FlawName, MeritName } from "domain/MeritsAndFlaws";
 import { EquipmentItem } from "domain/EquipmentItem";
-import { HealthDamages } from "domain/Health";
+import { Wounds } from "domain/Health";
 import { ResourcesHistory } from "./ResourcesHistory";
 import { HumanityOrPathRating } from "domain/HumanityOrPathRating";
 import { DisciplineName, DisciplineLevel } from "domain/Discipline";
-import { UnitTypeFeatures } from "domain/UnitTypeFeatures";
+import { UnitFeatures } from "domain/UnitFeatures";
 
 /**
  * Базовая модель сородича
@@ -34,8 +34,8 @@ export interface Kindred {
   generation: number;
   /** Сир (имя сира или null, если не известен) */
   sire: string | null;
-  /** Особенности этого типа существ */
-  unitTypeFeatures: UnitTypeFeatures;
+  /** Особенности существа */
+  unitFeatures: UnitFeatures;
   /** Характеристики */
   attributes: Record<AttributeName, BaseAttributeLevel>;
   /** Способности */
@@ -60,8 +60,8 @@ export interface Kindred {
   maxWillpower: number;
   /** Запас крови (Blood Pool) — сколько пунктов крови сейчас. maxBloodPool - значение вычисляемое из поколения */
   bloodPool: number;
-  /** Повреждения, 8-ое повреждение - смерть если повреждение "aggravated" иначе отключка */
-  bodyDamages: HealthDamages;
+  /** Ранения, 8-ое повреждение - смерть если повреждение "aggravated" иначе отключка */
+  bodyWounds: Wounds;
   /** Экипировка */
   equipment: EquipmentItem[];
   /** Активные эффекты (бафф/дебафф, состояние и пр.) */

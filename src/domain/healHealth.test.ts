@@ -1,8 +1,8 @@
-import { HealthDamages } from "domain/Health";
+import { Wounds } from "domain/Health";
 import { healHealth } from "./Health";
 
 describe("src/domain/healHealth", () => {
-  const healthDamages = [
+  const wounds = [
     "lethal",
     "bashing",
     "aggravated",
@@ -10,12 +10,12 @@ describe("src/domain/healHealth", () => {
     "bashing",
     "lethal",
     "bashing",
-  ] satisfies HealthDamages;
+  ] satisfies Wounds;
   it("Вылечен", () => {
     expect(
       healHealth([], "unimpaired", {
         type: "heal",
-        damageType: "bashing",
+        woundType: "bashing",
         value: 2,
       }),
     ).toEqual([]);
@@ -23,9 +23,9 @@ describe("src/domain/healHealth", () => {
 
   it("bashing", () => {
     expect(
-      healHealth(healthDamages, "heavilyWounded", {
+      healHealth(wounds, "heavilyWounded", {
         type: "heal",
-        damageType: "bashing",
+        woundType: "bashing",
         value: 8,
       }),
     ).toEqual(["aggravated", "lethal", "lethal", "lethal"]);
@@ -33,9 +33,9 @@ describe("src/domain/healHealth", () => {
 
   it("lethal", () => {
     expect(
-      healHealth(healthDamages, "heavilyWounded", {
+      healHealth(wounds, "heavilyWounded", {
         type: "heal",
-        damageType: "lethal",
+        woundType: "lethal",
         value: 5,
       }),
     ).toEqual(["aggravated", "bashing"]);
@@ -43,9 +43,9 @@ describe("src/domain/healHealth", () => {
 
   it("aggravated", () => {
     expect(
-      healHealth(healthDamages, "heavilyWounded", {
+      healHealth(wounds, "heavilyWounded", {
         type: "heal",
-        damageType: "aggravated",
+        woundType: "aggravated",
         value: 6,
       }),
     ).toEqual(["bashing"]);
@@ -53,11 +53,11 @@ describe("src/domain/healHealth", () => {
 
   it("Лечение в конечном статусе не возможно", () => {
     expect(
-      healHealth(healthDamages, "final", {
+      healHealth(wounds, "final", {
         type: "heal",
-        damageType: "aggravated",
+        woundType: "aggravated",
         value: 6,
       }),
-    ).toEqual([...healthDamages]);
+    ).toEqual([...wounds]);
   });
 });

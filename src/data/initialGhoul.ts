@@ -8,7 +8,14 @@ export const initialGhoul: Ghoul = {
   demeanor: "",
   role: "",
   domitor: null,
-  unitTypeFeatures: {
+  unitFeatures: {
+    damageToWoundMap: {
+      blunt: "bashing",
+      penetrating: "lethal",
+      fire: "bashing",
+      solar: null,
+      vampire_claw: "lethal",
+    },
     staminaChecks: {
       bashing: true,
     },
@@ -74,7 +81,7 @@ export const initialGhoul: Ghoul = {
   maxWillpower: 0,
   bloodPool: 1,
   maxBloodPool: 2,
-  bodyDamages: [],
+  bodyWounds: [],
   equipment: [],
   activeEffects: [],
   resourcesHistory: {

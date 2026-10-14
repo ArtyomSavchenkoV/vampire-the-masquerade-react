@@ -1,21 +1,21 @@
 import {
-  DamageEvent,
   HealEvent,
   healHealth as commonHealHealth,
   damageHealth as commonDamageHealth,
-  HealthDamages,
   HealthLevelData,
   getHealthLevel,
+  Wounds,
 } from "domain/Health";
+import { WoundType } from "domain/Wound";
 
 /**
  * Получить данные о здоровье сородича.
  */
 export const getCreatureHealthLevel = (
   healthLevels: Readonly<HealthLevelData[]>,
-  bodyDamages: HealthDamages,
+  bodyWounds: Wounds,
 ): HealthLevelData => {
-  return getHealthLevel(healthLevels, bodyDamages, false);
+  return getHealthLevel(healthLevels, bodyWounds, false);
 };
 
 /**
@@ -23,10 +23,17 @@ export const getCreatureHealthLevel = (
  */
 export const damageCreatureHealth = (
   healthLevels: Readonly<HealthLevelData[]>,
-  bodyDamages: HealthDamages,
-  damageEvent: DamageEvent,
-): HealthDamages => {
-  return commonDamageHealth(healthLevels, bodyDamages, damageEvent, false);
+  bodyWounds: Wounds,
+  woundType: WoundType,
+  woundCount: number,
+): Wounds => {
+  return commonDamageHealth(
+    healthLevels,
+    bodyWounds,
+    woundType,
+    woundCount,
+    false,
+  );
 };
 
 /**
@@ -34,12 +41,9 @@ export const damageCreatureHealth = (
  */
 export const healCreatureHealth = (
   healthLevels: Readonly<HealthLevelData[]>,
-  bodyDamages: HealthDamages,
+  bodyWounds: Wounds,
   healEvent: HealEvent,
-): HealthDamages => {
-  const healthLevelName = getCreatureHealthLevel(
-    healthLevels,
-    bodyDamages,
-  ).name;
-  return commonHealHealth(bodyDamages, healthLevelName, healEvent);
+): Wounds => {
+  const healthLevelName = getCreatureHealthLevel(healthLevels, bodyWounds).name;
+  return commonHealHealth(bodyWounds, healthLevelName, healEvent);
 };

@@ -37,6 +37,16 @@ export const NullablePositiveNumberInput: FC<TProps> = ({
     <Input
       value={stringValue.replace(".", ",")}
       onChange={(ev) => {
+        console.log(ev.target.value.replace(",", "."));
+        if (
+          Number.isNaN(Number(ev.target.value.replace(",", "."))) ||
+          Number(ev.target.value.replace(",", ".")) < 0
+        ) {
+          setStringValue("");
+          setNumberValue(null);
+          onChange(null);
+          return;
+        }
         let newValue = ev.target.value.replace(".", ",");
         if (/^\d*,?\d*$/.test(newValue)) {
           setStringValue(newValue);

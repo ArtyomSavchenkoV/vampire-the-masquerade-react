@@ -5,29 +5,17 @@ describe("src/domain/damageHealth", () => {
     ({ name }) => name !== "incapacitated",
   );
   it("Урон по полному здоровью", () => {
-    expect(
-      damageHealth(
-        healthLevels,
-        [],
-        { type: "damage", damageType: "bashing", value: 3 },
-        false,
-      ),
-    ).toEqual(["bashing", "bashing", "bashing"]);
+    expect(damageHealth(healthLevels, [], "bashing", 3, false)).toEqual([
+      "bashing",
+      "bashing",
+      "bashing",
+    ]);
   });
 
   it("Урон по не полному здоровью", () => {
-    expect(
-      damageHealth(
-        healthLevels,
-        ["bashing"],
-        {
-          type: "damage",
-          damageType: "lethal",
-          value: 3,
-        },
-        false,
-      ),
-    ).toEqual(["bashing", "lethal", "lethal", "lethal"]);
+    expect(damageHealth(healthLevels, ["bashing"], "lethal", 3, false)).toEqual(
+      ["bashing", "lethal", "lethal", "lethal"],
+    );
   });
 
   it("Избыточный урон", () => {
@@ -36,11 +24,8 @@ describe("src/domain/damageHealth", () => {
       damageHealth(
         healthLevels,
         ["bashing", "lethal", "aggravated", "bashing"],
-        {
-          type: "damage",
-          damageType: "lethal",
-          value: 6,
-        },
+        "lethal",
+        6,
         false,
       ),
     ).toEqual([
@@ -66,11 +51,8 @@ describe("src/domain/damageHealth", () => {
             name === "final",
         ),
         ["bashing"],
-        {
-          type: "damage",
-          damageType: "lethal",
-          value: 6,
-        },
+        "lethal",
+        6,
         false,
       ),
     ).toEqual(["bashing", "lethal"]);
@@ -88,11 +70,8 @@ describe("src/domain/damageHealth", () => {
             name === "final",
         ),
         ["bashing", "lethal"],
-        {
-          type: "damage",
-          damageType: "lethal",
-          value: 6,
-        },
+        "lethal",
+        6,
         false,
       ),
     ).toEqual(["bashing", "lethal", "lethal"]);
@@ -111,11 +90,8 @@ describe("src/domain/damageHealth", () => {
           "lethal",
           "lethal",
         ],
-        {
-          type: "damage",
-          damageType: "lethal",
-          value: 6,
-        },
+        "lethal",
+        6,
         false,
       ),
     ).toEqual([

@@ -9,9 +9,16 @@ export const initialKindred: Omit<Kindred, "clan"> = {
   role: "",
   generation: 13,
   sire: null,
-  unitTypeFeatures: {
+  unitFeatures: {
+    damageToWoundMap: {
+      blunt: "bashing",
+      penetrating: "lethal",
+      fire: "lethal",
+      solar: "aggravated",
+      vampire_claw: "aggravated",
+    },
     modifiers: {
-      damageMultipliers: {
+      woundMultipliers: {
         bashing: 0.5,
       },
     },
@@ -77,7 +84,7 @@ export const initialKindred: Omit<Kindred, "clan"> = {
   willpower: 0,
   maxWillpower: 0,
   bloodPool: 0,
-  bodyDamages: [],
+  bodyWounds: [],
   equipment: [],
   activeEffects: [],
   resourcesHistory: {

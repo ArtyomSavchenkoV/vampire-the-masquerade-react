@@ -3,7 +3,14 @@ import { Creature } from "domain/creature/Creature";
 export const initialCreature: Creature = {
   name: "",
   player: null,
-  unitTypeFeatures: {
+  unitFeatures: {
+    damageToWoundMap: {
+      blunt: "bashing",
+      penetrating: "lethal",
+      fire: "bashing",
+      solar: null,
+      vampire_claw: "lethal",
+    },
     staminaChecks: {
       bashing: true,
     },
@@ -17,7 +24,7 @@ export const initialCreature: Creature = {
   },
   willpower: 0,
   maxWillpower: 0,
-  bodyDamages: [],
+  bodyWounds: [],
   healthLevels: [
     { name: "unimpaired", isIncapacitated: false },
     { name: "final", isIncapacitated: true, variant: "death" },

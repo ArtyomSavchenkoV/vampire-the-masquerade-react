@@ -1,8 +1,8 @@
-import { HealthDamages } from "domain/Health";
+import { Wounds } from "domain/Health";
 import { awakening } from "./Health";
 
 describe("src/domain/kindred-awakening", () => {
-  const healthDamages = [
+  const wounds = [
     "lethal",
     "bashing",
     "lethal",
@@ -10,10 +10,10 @@ describe("src/domain/kindred-awakening", () => {
     "bashing",
     "lethal",
     "aggravated",
-  ] satisfies HealthDamages;
+  ] satisfies Wounds;
 
   it("Пробудиться после torpor", () => {
-    expect(awakening([...healthDamages, "lethal"])).toEqual([
+    expect(awakening([...wounds, "lethal"])).toEqual([
       "aggravated",
       "lethal",
       "lethal",
@@ -24,15 +24,13 @@ describe("src/domain/kindred-awakening", () => {
   });
 
   it("Нельзя пробудиться после окончательной смерти", () => {
-    expect(awakening([...healthDamages, "aggravated"])).toEqual([
-      ...healthDamages,
+    expect(awakening([...wounds, "aggravated"])).toEqual([
+      ...wounds,
       "aggravated",
     ]);
   });
 
   it("Нельзя пробудиться просто раненому", () => {
-    expect(awakening([...healthDamages.slice(4)])).toEqual([
-      ...healthDamages.slice(4),
-    ]);
+    expect(awakening([...wounds.slice(4)])).toEqual([...wounds.slice(4)]);
   });
 });

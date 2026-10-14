@@ -7,7 +7,6 @@ import { Form } from "./Form";
 import { ConfirmWindow } from "commonComponents/ConfirmWindow";
 import { Dialog } from "commonComponents/Dialog";
 import { useDamageUnitSelector } from "./selectors";
-import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { joinStrings } from "utils/string/joinStrings";
 
 interface TProps extends Omit<ComponentProps<typeof IconButton>, "children"> {
@@ -23,7 +22,8 @@ export const DamageUnit: FC<TProps> = ({ unitId, onClick, ...props }) => {
     staminaChecks,
     stamina,
     absorptionDice,
-    damageMultipliers,
+    woundMultipliers,
+    damageToWoundMap,
   } = useDamageUnitSelector(unitId);
   const [open, setOpen] = useState(false);
 
@@ -41,27 +41,26 @@ export const DamageUnit: FC<TProps> = ({ unitId, onClick, ...props }) => {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <ConfirmWindow
           onClose={() => setOpen(false)}
-          title={translate("damageUnit.title")}
+          title={joinStrings(
+            " ",
+            translate("damageUnit.title"),
+            name ? name : null,
+            player ? `(${player})` : null,
+          )}
         >
-          <DetailsSectionTitle>
-            {joinStrings(
-              " ",
-              name ? name : null,
-              player ? `(${player})` : null,
-            )}
-          </DetailsSectionTitle>
           <Form
+            damageToWoundMap={damageToWoundMap}
             staminaChecks={staminaChecks}
             stamina={stamina}
             absorptionDice={absorptionDice}
-            damageMultipliers={damageMultipliers}
+            woundMultipliers={woundMultipliers}
             onDamage={(values) => {
               changeHealth(
                 unitId,
                 {
-                  type: "damage",
+                  type: "wound",
                   value: values.value,
-                  damageType: values.type,
+                  woundType: values.type,
                 },
                 values.description,
               );
