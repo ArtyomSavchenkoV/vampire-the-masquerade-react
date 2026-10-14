@@ -3,7 +3,14 @@ import { Creature } from "domain/creature/Creature";
 export const initialCreature: Creature = {
   name: "",
   player: null,
-  unitTypeFeatures: {
+  unitFeatures: {
+    damageToWoundMap: {
+      blunt: "bashing",
+      penetrating: "lethal",
+      fire: "bashing",
+      solar: null,
+      vampire_claw: "lethal",
+    },
     staminaChecks: {
       bashing: true,
     },

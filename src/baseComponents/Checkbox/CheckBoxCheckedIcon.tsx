@@ -1,5 +1,5 @@
 import { ComponentProps, FC } from "react";
-import { InlineIcon } from "../../icons/InlineIcon";
+import { InlineIcon } from "icons/InlineIcon";
 interface TProps extends Omit<ComponentProps<typeof InlineIcon>, "children"> {}
 export const CheckBoxCheckedIcon: FC<TProps> = ({ ...props }) => {
   return (

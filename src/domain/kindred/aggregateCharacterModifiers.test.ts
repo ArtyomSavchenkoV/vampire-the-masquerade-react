@@ -22,7 +22,7 @@ function deepFreeze(obj: any): any {
 describe("src/domain/kindred-aggregateCharacterModifiers", () => {
   const baseCharacter = {
     name: "Test Nosferatu",
-    unitTypeFeatures: {
+    unitFeatures: {
       modifiers: {
         woundMultipliers: {
           bashing: 0.5,
@@ -156,7 +156,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
   it("корректно обрабатывает отсутствие modifiers в отдельных источниках", () => {
     const characterWithEmptySources = {
       name: "Empty Vampire",
-      unitTypeFeatures: {},
+      unitFeatures: {},
       clan: {
         clanName: "Toreador",
         disciplines: { animalism: 1, dominate: 1, presence: 1 },
@@ -179,7 +179,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
   it("правильно применяет discipline levels и не ломает структуру disciplines", () => {
     const character = {
       name: "Discipline Test",
-      unitTypeFeatures: {},
+      unitFeatures: {},
       clan: {
         clanName: "Ventrue",
         disciplines: { potence: 3, dominate: 1 },
@@ -209,7 +209,7 @@ describe("src/domain/kindred-aggregateCharacterModifiers", () => {
     const cursedCharacter = {
       id: "cursed-nosferatu",
       name: "Cursed Nosferatu",
-      unitTypeFeatures: {},
+      unitFeatures: {},
       clan: {
         clanName: "Nosferatu",
         disciplines: {},

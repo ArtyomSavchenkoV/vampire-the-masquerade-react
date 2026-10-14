@@ -7,6 +7,12 @@ import { Panel } from "./common/Panel";
 import { useCreatureDetailsSelector } from "./selectors";
 import { TextArea } from "baseComponents/TextArea";
 import { UnitActions } from "components/UnitActions";
+import styled from "@emotion/styled";
+
+const Body = styled.div`
+  overflow: auto;
+  padding: 4px;
+`;
 
 interface TProps {
   unitId: string;
@@ -24,20 +30,23 @@ export const CreatureDetails: FC<TProps> = ({ unitId }) => {
       {creature && (
         <Panel open>
           <Header
-            title={translate("details.title")}
+            title={creature.name}
             onClose={() => selectUnit(null)}
             buttons={<UnitActions unitId={unitId} />}
           />
           {/* Заметки */}
+          {translate("details.notes")}
           <TextArea
             value={creatureDetails.notes}
             onChange={(ev) => editNotes(unitId, ev.target.value)}
             rows={5}
           />
-          <EditCreatureForm
-            creature={creature}
-            onChange={(creature) => editCreature(unitId, creature)}
-          />
+          <Body>
+            <EditCreatureForm
+              creature={creature}
+              onChange={(creature) => editCreature(unitId, creature)}
+            />
+          </Body>
         </Panel>
       )}
     </>

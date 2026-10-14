@@ -9,7 +9,14 @@ export const initialKindred: Omit<Kindred, "clan"> = {
   role: "",
   generation: 13,
   sire: null,
-  unitTypeFeatures: {
+  unitFeatures: {
+    damageToWoundMap: {
+      blunt: "bashing",
+      penetrating: "lethal",
+      fire: "lethal",
+      solar: "aggravated",
+      vampire_claw: "aggravated",
+    },
     modifiers: {
       woundMultipliers: {
         bashing: 0.5,

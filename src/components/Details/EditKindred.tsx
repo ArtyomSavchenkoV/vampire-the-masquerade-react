@@ -51,6 +51,7 @@ export const EditKindred: FC<TProps> = memo(({ kindredId }) => {
 
       <Dialog open={open}>
         <ConfirmWindow
+          size="lg"
           title={translate("editKindred.title")}
           onConfirm={() => {
             editKindred(kindredId, kindredForm);

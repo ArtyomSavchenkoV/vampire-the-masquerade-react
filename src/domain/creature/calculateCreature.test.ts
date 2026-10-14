@@ -5,7 +5,14 @@ describe("src/domain/creature/calculateCreature", () => {
   const creature = {
     name: "Name",
     player: "Player",
-    unitTypeFeatures: {
+    unitFeatures: {
+      damageToWoundMap: {
+        blunt: "bashing",
+        penetrating: "lethal",
+        fire: "bashing",
+        solar: null,
+        vampire_claw: "lethal",
+      },
       modifiers: {
         damageMultipliers: {
           bashing: 0.5,

@@ -27,8 +27,8 @@ export const aggregateModifiers = (character: CalculatedGhoul): Modifiers => {
   let result: Modifiers = {};
 
   // Модификаторы от типа юнита
-  if (character.unitTypeFeatures.modifiers) {
-    result = mergeModifiers(result, character.unitTypeFeatures.modifiers);
+  if (character.unitFeatures.modifiers) {
+    result = mergeModifiers(result, character.unitFeatures.modifiers);
   }
 
   // Эффекты экипировки

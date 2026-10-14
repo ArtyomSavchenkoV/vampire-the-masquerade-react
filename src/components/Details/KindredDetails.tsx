@@ -11,6 +11,12 @@ import { useKindredDetailsSelector } from "./selectors";
 import { TextArea } from "baseComponents/TextArea";
 import { UnitActions } from "components/UnitActions";
 import { TorporAwakeningUnit } from "components/TorporAwakeningUnit";
+import styled from "@emotion/styled";
+
+const Body = styled.div`
+  overflow: auto;
+  padding: 4px;
+`;
 
 interface TProps {
   unitId: string;
@@ -32,7 +38,7 @@ export const KindredDetails: FC<TProps> = ({ unitId }) => {
       {kindred && (
         <Panel open>
           <Header
-            title={translate("details.title")}
+            title={kindred.name}
             buttons={
               <>
                 <UnitActions unitId={unitId} />
@@ -43,21 +49,24 @@ export const KindredDetails: FC<TProps> = ({ unitId }) => {
             onClose={() => selectUnit(null)}
           />
           {/* Заметки */}
+          {translate("details.notes")}
           <TextArea
             value={kindredDetails.notes}
             onChange={(ev) => editNotes(unitId, ev.target.value)}
             rows={5}
           />
-          <EditKindredForm
-            kindred={kindred}
-            onChange={(kindred) => editKindred(unitId, kindred)}
-            onClanChange={(clanName) => {
-              editKindred(unitId, {
-                ...initialKindred,
-                clan: clanes[clanName],
-              });
-            }}
-          />
+          <Body>
+            <EditKindredForm
+              kindred={kindred}
+              onChange={(kindred) => editKindred(unitId, kindred)}
+              onClanChange={(clanName) => {
+                editKindred(unitId, {
+                  ...initialKindred,
+                  clan: clanes[clanName],
+                });
+              }}
+            />
+          </Body>
         </Panel>
       )}
     </>

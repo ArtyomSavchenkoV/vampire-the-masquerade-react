@@ -4,13 +4,19 @@ import useTranslate from "services/translate/useTranslate";
 import { Card } from "../baseComponents/Card";
 import { Button } from "../baseComponents/Button";
 
-const ConfirmWindowRoot = styled(Card)`
+const PADDING = 5;
+
+const ConfirmWindowRoot = styled(Card)<{ size: "sm" | "md" | "lg" }>(
+  ({ size }) => `
+  width: ${(size === "sm" && 300) || (size === "md" && 500) || 1000}px;
+  max-width: calc(100% - ${PADDING * 2}px);
   background-color: #9bf;
-  padding: 5px; /* TODO: уточнить складывается ли с отступом Card */
+  padding: ${PADDING}px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-`;
+  max-height: 100%;
+`,
+);
 
 const Head = styled.div`
   min-height: 36px;
@@ -18,6 +24,7 @@ const Head = styled.div`
   justify-content: space-between;
   align-items: start;
   gap: 8px;
+  padding-bottom: 8px;
 `;
 
 const Title = styled.div`
@@ -27,19 +34,27 @@ const Title = styled.div`
   padding-top: 4px;
 `;
 
-const Body = styled.div`
+const Body = styled.div<{ finished: boolean }>(
+  ({ finished }) => `
   padding: 8px;
   background-color: #fff;
-  border-radius: 0 0 4px 4px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-`;
+  gap: 16px;
+  min-width: 150px;
+  overflow: auto;
+  padding: 12px 8px;
+  ${finished ? "border-radius: 0 0 4px 4px;" : ""}
+`,
+);
 
 const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 8px;
+  padding: 4px;
+  background-color: #fff;
+  border-radius: 0 0 4px 4px;
 `;
 
 const StyledButton = styled(Button)<{ isVisible: boolean }>(
@@ -55,6 +70,7 @@ interface TProps {
   onConfirm?: () => void;
   onCancel?: () => void;
   onClose: () => void;
+  size?: "sm" | "md" | "lg";
 }
 
 export const ConfirmWindow: FC<TProps> = ({
@@ -63,28 +79,27 @@ export const ConfirmWindow: FC<TProps> = ({
   onConfirm,
   onCancel,
   onClose,
+  size = "md",
 }) => {
   const { translate } = useTranslate();
 
   return (
-    <ConfirmWindowRoot>
+    <ConfirmWindowRoot size={size}>
       <Head>
         <Title>{title}</Title>
         <Button onClick={onClose}>x</Button>
       </Head>
-      <Body>
-        {children}
-        {(!!onCancel || !!onConfirm) && (
-          <Buttons>
-            <StyledButton isVisible={!!onCancel} onClick={onCancel}>
-              {translate("confirmWindow.cancel")}
-            </StyledButton>
-            <StyledButton isVisible={!!onConfirm} onClick={onConfirm}>
-              {translate("confirmWindow.confirm")}
-            </StyledButton>
-          </Buttons>
-        )}
-      </Body>
+      {children && <Body finished={!onCancel && !onConfirm}>{children}</Body>}
+      {(!!onCancel || !!onConfirm) && (
+        <Buttons>
+          <StyledButton isVisible={!!onCancel} onClick={onCancel}>
+            {translate("confirmWindow.cancel")}
+          </StyledButton>
+          <StyledButton isVisible={!!onConfirm} onClick={onConfirm}>
+            {translate("confirmWindow.confirm")}
+          </StyledButton>
+        </Buttons>
+      )}
     </ConfirmWindowRoot>
   );
 };

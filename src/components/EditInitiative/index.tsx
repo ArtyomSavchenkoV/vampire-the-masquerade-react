@@ -9,13 +9,16 @@ import { NullablePositiveNumberInput } from "commonComponents/NullablePositiveNu
 import styled from "@emotion/styled";
 import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { joinStrings } from "utils/string/joinStrings";
+import { NumberCheckboxesInput } from "commonComponents/NumberCheckboxesInput";
 
 const Input = styled(NullablePositiveNumberInput)`
   display: inline;
   width: 28px;
 `;
 
-const Formula = styled.div``;
+const Content = styled.div`
+  text-align: center;
+`;
 
 interface TProps extends ComponentProps<typeof Button> {
   unitId: string;
@@ -30,14 +33,12 @@ export const EditInitiative: FC<TProps> = ({ unitId, onClick, ...props }) => {
   const [newInitiative, setNewInitiative] = useState<number | null>(null);
   const setNewInitiativeHandler = (initiative: number | null) =>
     setNewInitiative(
-      initiative == null
-        ? null
-        : initiative < 0
-          ? 0
-          : initiative > 50
-            ? 50
-            : initiative,
+      initiative === null ? null : initiative > 50 ? 50 : initiative,
     );
+  const dice =
+    newInitiative !== null
+      ? newInitiative - dexterity - wits - commonDiceBonus
+      : null;
   return (
     <>
       <Button
@@ -50,7 +51,12 @@ export const EditInitiative: FC<TProps> = ({ unitId, onClick, ...props }) => {
 
       <Dialog open={open}>
         <ConfirmWindow
-          title={translate("editInitiative.title")}
+          title={joinStrings(
+            " ",
+            translate("editInitiative.title"),
+            name ? name : null,
+            player ? `(${player})` : null,
+          )}
           onConfirm={() => {
             setInitiative({ id: unitId, initiative: newInitiative });
             setNewInitiative(null);
@@ -59,41 +65,49 @@ export const EditInitiative: FC<TProps> = ({ unitId, onClick, ...props }) => {
           onCancel={() => setOpen(false)}
           onClose={() => setOpen(false)}
         >
+          {/* Формула расчёта инициативы */}
           <DetailsSectionTitle>
+            {translate("editInitiative.formula")}
+          </DetailsSectionTitle>
+          <Content>
             {joinStrings(
               " ",
-              name ? name : null,
-              player ? `(${player})` : null,
+              `${translate("editInitiative.dexterity")}(${dexterity})`,
+              "+",
+              `${translate("editInitiative.wits")}(${wits})`,
+              "+",
+              `${translate("editInitiative.dice")}(${dice ?? "?"})`,
+              "+",
+              `${translate("editInitiative.commonDiceBonus")}(${commonDiceBonus})`,
+              "=",
+              `${translate("editInitiative.initiative")}(${newInitiative ?? "?"})`,
             )}
+          </Content>
+
+          {/* Бросок инициативы */}
+          <DetailsSectionTitle>
+            {translate("editInitiative.enterDiceResult")}
           </DetailsSectionTitle>
-          <Formula>
-            {`${translate("editInitiative.dexterity")} + ${translate("editInitiative.wits")} + `}
-            {`${translate("editInitiative.dice")} + ${translate("editInitiative.commonDiceBonus")} = ${translate("editInitiative.newInitiative")}`}
-          </Formula>
-          <Formula>
-            {`${dexterity} + ${wits} + `}
-            <Input
-              value={
-                newInitiative == null
-                  ? null
-                  : newInitiative - dexterity - wits - commonDiceBonus
-              }
-              onChange={(dice) =>
-                setNewInitiativeHandler(
-                  dice == null
-                    ? null
-                    : dexterity + wits + dice + commonDiceBonus,
-                )
-              }
-            />
-            {` + ${commonDiceBonus} = `}
+          <NumberCheckboxesInput
+            value={dice || 0}
+            onChange={(dice) =>
+              setNewInitiativeHandler(dexterity + wits + dice + commonDiceBonus)
+            }
+            max={(dice || 0) > 10 ? dice || 0 : 10}
+          />
+
+          {/* Прямой ввод инициативы */}
+          <DetailsSectionTitle>
+            {translate("editInitiative.orEnterInitiative")}
+          </DetailsSectionTitle>
+          <Content>
             <Input
               value={newInitiative}
               onChange={(newInitiative) =>
                 setNewInitiativeHandler(newInitiative)
               }
             />
-          </Formula>
+          </Content>
         </ConfirmWindow>
       </Dialog>
     </>

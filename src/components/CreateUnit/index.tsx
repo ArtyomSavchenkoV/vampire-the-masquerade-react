@@ -60,6 +60,7 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
 
   return (
     <ConfirmWindow
+      size="lg"
       title={translate("createUnit.title")}
       onConfirm={() => {
         if (!isUnitTypeSelected) {

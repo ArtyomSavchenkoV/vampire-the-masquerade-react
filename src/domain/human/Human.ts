@@ -8,7 +8,7 @@ import { MentalStability, MentalStabilityLevel } from "domain/MentalStability";
 import { FlawName, MeritName } from "domain/MeritsAndFlaws";
 import { ResourcesHistory } from "./ResourcesHistory";
 import { HumanityOrPathRating } from "domain/HumanityOrPathRating";
-import { UnitTypeFeatures } from "domain/UnitTypeFeatures";
+import { UnitFeatures } from "domain/UnitFeatures";
 
 /**
  * Базовая модель челолвека
@@ -26,8 +26,8 @@ export interface Human {
   demeanor: string; // например: "Душка", "Холодный профессионал", "Клоун"
   /** Амплуа (социальная роль в секте/городе) */
   role: string; // например: "Осведомитель", "Телохранитель", "Дипломат", "Ищейка"
-  /** Особенности этого типа существ */
-  unitTypeFeatures: UnitTypeFeatures;
+  /** Особенности существа */
+  unitFeatures: UnitFeatures;
   /** Характеристики */
   attributes: Record<AttributeName, BaseAttributeLevel>;
   /** Способности */

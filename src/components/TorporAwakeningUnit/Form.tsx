@@ -23,14 +23,16 @@ export const Form: FC<TProps> = ({
 
   return (
     <ConfirmWindow
-      title={translate("torporAwakeningUnit.title")}
+      title={joinStrings(
+        " ",
+        translate("torporAwakeningUnit.title"),
+        name ? name : null,
+        player ? `(${player})` : null,
+      )}
       onConfirm={() => onHealTorporAwakening({ description })}
       onCancel={onCancel}
       onClose={onCancel}
     >
-      <DetailsSectionTitle>
-        {joinStrings(" ", name ? name : null, player ? `(${player})` : null)}
-      </DetailsSectionTitle>
       <TitleText title={translate("torporAwakeningUnit.description")}>
         <Input
           value={description}

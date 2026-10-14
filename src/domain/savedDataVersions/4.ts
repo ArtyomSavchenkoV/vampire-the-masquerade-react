@@ -105,6 +105,10 @@ export type NewHealthLevelData =
       modifiers?: NewModifiers;
     };
 
+type DamageType = "blunt" | "penetrating" | "fire" | "solar" | "vampire_claw";
+
+export type DamageToWoundMap = Record<DamageType, WoundType | null>;
+
 /*
  * Применение изменений
  */
@@ -113,22 +117,23 @@ type ChangedKindred = Omit<
   KindredType,
   // Убрали поля:
   | "bodyDamages"
+  | "unitTypeFeatures"
   // Изменили поля:
   | "resourcesHistory"
   | "equipment"
   | "activeEffects"
-  | "unitTypeFeatures"
 > & {
   // Добавили поля:
   bodyWounds: Wounds;
+  unitFeatures: Omit<KindredType["unitTypeFeatures"], "modifiers"> & {
+    damageToWoundMap: DamageToWoundMap;
+    modifiers?: NewModifiers;
+  };
   // Изменили поля:
   equipment: NewEquipmentItem[];
   activeEffects: NewActiveEffect[];
   resourcesHistory: Omit<KindredType["resourcesHistory"], "health"> & {
     health: ResourceHistory<HealEvent | WoundEvent | AwakeningEvent>[];
-  };
-  unitTypeFeatures: Omit<KindredType["unitTypeFeatures"], "modifiers"> & {
-    modifiers?: Modifiers;
   };
 };
 
@@ -137,22 +142,23 @@ type ChangedGhoul = Omit<
   GhoulType,
   // Убрали поля:
   | "bodyDamages"
+  | "unitTypeFeatures"
   // Изменили поля:
   | "resourcesHistory"
   | "equipment"
   | "activeEffects"
-  | "unitTypeFeatures"
 > & {
   // Добавили поля:
   bodyWounds: Wounds;
+  unitFeatures: Omit<GhoulType["unitTypeFeatures"], "modifiers"> & {
+    damageToWoundMap: DamageToWoundMap;
+    modifiers?: NewModifiers;
+  };
   // Изменили поля:
   equipment: NewEquipmentItem[];
   activeEffects: NewActiveEffect[];
   resourcesHistory: Omit<GhoulType["resourcesHistory"], "health"> & {
     health: ResourceHistory<HealEvent | WoundEvent>[];
-  };
-  unitTypeFeatures: Omit<GhoulType["unitTypeFeatures"], "modifiers"> & {
-    modifiers?: Modifiers;
   };
 };
 
@@ -161,24 +167,25 @@ type ChangedHuman = Omit<
   HumanType,
   // Убрали поля:
   | "bodyDamages"
+  | "unitTypeFeatures"
   // Изменили поля:
   | "resourcesHistory"
   | "equipment"
   | "activeEffects"
-  | "unitTypeFeatures"
   | "healthLevels"
 > & {
   // Добавили поля:
   bodyWounds: Wounds;
+  unitFeatures: Omit<HumanType["unitTypeFeatures"], "modifiers"> & {
+    damageToWoundMap: DamageToWoundMap;
+    modifiers?: NewModifiers;
+  };
   // Изменили поля:
   equipment: NewEquipmentItem[];
   activeEffects: NewActiveEffect[];
   healthLevels: NewHealthLevelData[];
   resourcesHistory: Omit<HumanType["resourcesHistory"], "health"> & {
     health: ResourceHistory<HealEvent | WoundEvent>[];
-  };
-  unitTypeFeatures: Omit<HumanType["unitTypeFeatures"], "modifiers"> & {
-    modifiers?: Modifiers;
   };
 };
 
@@ -187,24 +194,25 @@ type ChangedCreature = Omit<
   CreatureType,
   // Убрали поля:
   | "bodyDamages"
+  | "unitTypeFeatures"
   // Изменили поля:
   | "resourcesHistory"
   | "equipment"
   | "activeEffects"
-  | "unitTypeFeatures"
   | "healthLevels"
 > & {
   // Добавили поля:
   bodyWounds: Wounds;
+  unitFeatures: Omit<CreatureType["unitTypeFeatures"], "modifiers"> & {
+    damageToWoundMap: DamageToWoundMap;
+    modifiers?: NewModifiers;
+  };
   // Изменили поля:
   equipment: NewEquipmentItem[];
   activeEffects: NewActiveEffect[];
   healthLevels: NewHealthLevelData[];
   resourcesHistory: Omit<CreatureType["resourcesHistory"], "health"> & {
     health: ResourceHistory<HealEvent | WoundEvent>[];
-  };
-  unitTypeFeatures: Omit<CreatureType["unitTypeFeatures"], "modifiers"> & {
-    modifiers?: Modifiers;
   };
 };
 
@@ -247,8 +255,10 @@ export const migrateFrom3To4 = (savedData: PrevSavedData): SavedData => ({
         resourcesHistory,
         equipment,
         activeEffects,
+        unitTypeFeatures,
         ...notChangedFields
       } = unit.unit;
+      const { modifiers: _, ...notChangedUnitTypeFeatures } = unitTypeFeatures;
       const { health, ...notChangedHistoryFields } = resourcesHistory;
       return {
         ...unit,
@@ -272,14 +282,27 @@ export const migrateFrom3To4 = (savedData: PrevSavedData): SavedData => ({
                 },
             })),
           },
-          equipment: equipment.map((el) => ({
+          equipment: equipment.map(({ modifiers, ...el }) => ({
             ...el,
-            ...(el.modifiers ? migrateModifiers(el.modifiers) : {}),
+            ...(modifiers ? { modifiers: migrateModifiers(modifiers) } : {}),
           })),
-          activeEffects: activeEffects.map((el) => ({
+          activeEffects: activeEffects.map(({ modifiers, ...el }) => ({
             ...el,
-            ...(el.modifiers ? migrateModifiers(el.modifiers) : {}),
+            ...(modifiers ? { modifiers: migrateModifiers(modifiers) } : {}),
           })),
+          unitFeatures: {
+            ...notChangedUnitTypeFeatures,
+            ...(unitTypeFeatures.modifiers
+              ? { modifiers: migrateModifiers(unitTypeFeatures.modifiers) }
+              : {}),
+            damageToWoundMap: {
+              blunt: "bashing",
+              penetrating: "lethal",
+              fire: "lethal",
+              solar: "aggravated",
+              vampire_claw: "aggravated",
+            },
+          },
           ...notChangedFields,
         },
       };
@@ -290,8 +313,10 @@ export const migrateFrom3To4 = (savedData: PrevSavedData): SavedData => ({
         resourcesHistory,
         equipment,
         activeEffects,
+        unitTypeFeatures,
         ...notChangedFields
       } = unit.unit;
+      const { modifiers: _, ...notChangedUnitTypeFeatures } = unitTypeFeatures;
       const { health, ...notChangedHistoryFields } = resourcesHistory;
       return {
         ...unit,
@@ -312,14 +337,27 @@ export const migrateFrom3To4 = (savedData: PrevSavedData): SavedData => ({
               },
             })),
           },
-          equipment: equipment.map((el) => ({
+          equipment: equipment.map(({ modifiers, ...el }) => ({
             ...el,
-            ...(el.modifiers ? migrateModifiers(el.modifiers) : {}),
+            ...(modifiers ? { modifiers: migrateModifiers(modifiers) } : {}),
           })),
-          activeEffects: activeEffects.map((el) => ({
+          activeEffects: activeEffects.map(({ modifiers, ...el }) => ({
             ...el,
-            ...(el.modifiers ? migrateModifiers(el.modifiers) : {}),
+            ...(modifiers ? { modifiers: migrateModifiers(modifiers) } : {}),
           })),
+          unitFeatures: {
+            ...notChangedUnitTypeFeatures,
+            ...(unitTypeFeatures.modifiers
+              ? { modifiers: migrateModifiers(unitTypeFeatures.modifiers) }
+              : {}),
+            damageToWoundMap: {
+              blunt: "bashing",
+              penetrating: "lethal",
+              fire: "bashing",
+              solar: null,
+              vampire_claw: "lethal",
+            },
+          },
           ...notChangedFields,
         },
       };
@@ -331,8 +369,10 @@ export const migrateFrom3To4 = (savedData: PrevSavedData): SavedData => ({
         equipment,
         activeEffects,
         healthLevels,
+        unitTypeFeatures,
         ...notChangedFields
       } = unit.unit;
+      const { modifiers: _, ...notChangedUnitTypeFeatures } = unitTypeFeatures;
       const { health, ...notChangedHistoryFields } = resourcesHistory;
       return {
         ...unit,
@@ -353,18 +393,31 @@ export const migrateFrom3To4 = (savedData: PrevSavedData): SavedData => ({
               },
             })),
           },
-          equipment: equipment.map((el) => ({
+          equipment: equipment.map(({ modifiers, ...el }) => ({
             ...el,
-            ...(el.modifiers ? migrateModifiers(el.modifiers) : {}),
+            ...(modifiers ? { modifiers: migrateModifiers(modifiers) } : {}),
           })),
-          activeEffects: activeEffects.map((el) => ({
+          activeEffects: activeEffects.map(({ modifiers, ...el }) => ({
             ...el,
-            ...(el.modifiers ? migrateModifiers(el.modifiers) : {}),
+            ...(modifiers ? { modifiers: migrateModifiers(modifiers) } : {}),
           })),
-          healthLevels: healthLevels.map((el) => ({
+          healthLevels: healthLevels.map(({ modifiers, ...el }) => ({
             ...el,
-            ...(el.modifiers ? migrateModifiers(el.modifiers) : {}),
+            ...(modifiers ? { modifiers: migrateModifiers(modifiers) } : {}),
           })),
+          unitFeatures: {
+            ...notChangedUnitTypeFeatures,
+            ...(unitTypeFeatures.modifiers
+              ? { modifiers: migrateModifiers(unitTypeFeatures.modifiers) }
+              : {}),
+            damageToWoundMap: {
+              blunt: "bashing",
+              penetrating: "lethal",
+              fire: "bashing",
+              solar: null,
+              vampire_claw: "lethal",
+            },
+          },
           ...notChangedFields,
         },
       };
@@ -376,8 +429,10 @@ export const migrateFrom3To4 = (savedData: PrevSavedData): SavedData => ({
         equipment,
         activeEffects,
         healthLevels,
+        unitTypeFeatures,
         ...notChangedFields
       } = unit.unit;
+      const { modifiers: _, ...notChangedUnitTypeFeatures } = unitTypeFeatures;
       const { health, ...notChangedHistoryFields } = resourcesHistory;
       return {
         ...unit,
@@ -398,18 +453,31 @@ export const migrateFrom3To4 = (savedData: PrevSavedData): SavedData => ({
               },
             })),
           },
-          equipment: equipment.map((el) => ({
+          equipment: equipment.map(({ modifiers, ...el }) => ({
             ...el,
-            ...(el.modifiers ? migrateModifiers(el.modifiers) : {}),
+            ...(modifiers ? { modifiers: migrateModifiers(modifiers) } : {}),
           })),
-          activeEffects: activeEffects.map((el) => ({
+          activeEffects: activeEffects.map(({ modifiers, ...el }) => ({
             ...el,
-            ...(el.modifiers ? migrateModifiers(el.modifiers) : {}),
+            ...(modifiers ? { modifiers: migrateModifiers(modifiers) } : {}),
           })),
-          healthLevels: healthLevels.map((el) => ({
+          healthLevels: healthLevels.map(({ modifiers, ...el }) => ({
             ...el,
-            ...(el.modifiers ? migrateModifiers(el.modifiers) : {}),
+            ...(modifiers ? { modifiers: migrateModifiers(modifiers) } : {}),
           })),
+          unitFeatures: {
+            ...notChangedUnitTypeFeatures,
+            ...(unitTypeFeatures.modifiers
+              ? { modifiers: migrateModifiers(unitTypeFeatures.modifiers) }
+              : {}),
+            damageToWoundMap: {
+              blunt: "bashing",
+              penetrating: "lethal",
+              fire: "bashing",
+              solar: null,
+              vampire_claw: "lethal",
+            },
+          },
           ...notChangedFields,
         },
       };

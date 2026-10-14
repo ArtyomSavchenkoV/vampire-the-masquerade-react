@@ -30,6 +30,15 @@ export const PositiveNumberInput: FC<TProps> = ({
     <Input
       value={stringValue.replace(".", ",")}
       onChange={(ev) => {
+        if (
+          Number.isNaN(Number(ev.target.value.replace(",", "."))) ||
+          Number(ev.target.value.replace(",", ".")) < 0
+        ) {
+          setStringValue("0");
+          setNumberValue(0);
+          onChange(0);
+          return;
+        }
         let newValue = ev.target.value.replace(".", ",");
         if (/^\d*,?\d*$/.test(newValue)) {
           setStringValue(newValue);

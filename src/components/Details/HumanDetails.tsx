@@ -7,6 +7,12 @@ import { Panel } from "./common/Panel";
 import { useHumanDetailsSelector } from "./selectors";
 import { TextArea } from "baseComponents/TextArea";
 import { UnitActions } from "components/UnitActions";
+import styled from "@emotion/styled";
+
+const Body = styled.div`
+  overflow: auto;
+  padding: 4px;
+`;
 
 interface TProps {
   unitId: string;
@@ -24,20 +30,23 @@ export const HumanDetails: FC<TProps> = ({ unitId }) => {
       {human && (
         <Panel open>
           <Header
-            title={translate("details.title")}
+            title={human.name}
             onClose={() => selectUnit(null)}
             buttons={<UnitActions unitId={unitId} />}
           />
           {/* Заметки */}
+          {translate("details.notes")}
           <TextArea
             value={humanDetails.notes}
             onChange={(ev) => editNotes(unitId, ev.target.value)}
             rows={5}
           />
-          <EditHumanForm
-            human={human}
-            onChange={(human) => editHuman(unitId, human)}
-          />
+          <Body>
+            <EditHumanForm
+              human={human}
+              onChange={(human) => editHuman(unitId, human)}
+            />
+          </Body>
         </Panel>
       )}
     </>

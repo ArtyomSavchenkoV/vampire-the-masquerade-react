@@ -184,6 +184,7 @@ export const EditKindredForm: FC<TProps> = ({
               options={[9, 10, 11, 12, 13]}
               value={kindred.generation}
               onChange={(generation) => onChange({ ...kindred, generation })}
+              notFullWidth
             />
             {` (${realGeneration})`}
           </TitleText>

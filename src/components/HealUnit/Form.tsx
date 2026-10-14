@@ -1,17 +1,23 @@
 import styled from "@emotion/styled";
 import { Button } from "baseComponents/Button";
 import { Input } from "baseComponents/Input";
-import { PositiveNumberInput } from "commonComponents/PositiveNumberInput";
+import { HealCheckbox } from "icons/HealCheckBox";
+import { NumberCheckboxesInput } from "commonComponents/NumberCheckboxesInput";
 import { TitleText } from "commonComponents/TitleText";
 import { WoundType } from "domain/Wound";
 import { FC, useState } from "react";
+import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import useTranslate from "services/translate/useTranslate";
 
 const Buttons = styled.div({
   display: "flex",
-  flexDirection: "column",
   gap: 8,
+  justifyContent: "space-between",
 });
+
+const StyledButton = styled(Button)`
+  width: 100%;
+`;
 
 interface TProps {
   onHeal: (values: {
@@ -30,11 +36,15 @@ export const Form: FC<TProps> = ({ onHeal }) => {
     <>
       {/* Количество исцеления */}
       <TitleText title={translate("healUnit.healCount")}>
-        <PositiveNumberInput
+        <NumberCheckboxesInput
+          align="left"
           value={values.value}
+          max={10}
           onChange={(value) => setValues((values) => ({ ...values, value }))}
+          CustomCheckBox={HealCheckbox}
         />
       </TitleText>
+
       {/* Описание */}
       <TitleText title={translate("healUnit.description")}>
         <Input
@@ -44,9 +54,14 @@ export const Form: FC<TProps> = ({ onHeal }) => {
           }
         />
       </TitleText>
+
+      {/* Типы исцеляемых ран */}
+      <DetailsSectionTitle>
+        {translate("healUnit.healWoundType")}
+      </DetailsSectionTitle>
       <Buttons>
         {/* Обычный урон */}
-        <Button
+        <StyledButton
           onClick={() =>
             onHeal({
               ...values,
@@ -55,9 +70,10 @@ export const Form: FC<TProps> = ({ onHeal }) => {
           }
         >
           {translate("wounds.bashing")}
-        </Button>
+        </StyledButton>
+
         {/* Летальный урон */}
-        <Button
+        <StyledButton
           onClick={() =>
             onHeal({
               ...values,
@@ -66,9 +82,10 @@ export const Form: FC<TProps> = ({ onHeal }) => {
           }
         >
           {translate("wounds.lethal")}
-        </Button>
+        </StyledButton>
+
         {/* Сверхестественный урон */}
-        <Button
+        <StyledButton
           onClick={() =>
             onHeal({
               ...values,
@@ -77,7 +94,7 @@ export const Form: FC<TProps> = ({ onHeal }) => {
           }
         >
           {translate("wounds.aggravated")}
-        </Button>
+        </StyledButton>
       </Buttons>
     </>
   );

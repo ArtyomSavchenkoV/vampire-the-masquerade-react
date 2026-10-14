@@ -7,7 +7,6 @@ import { Form } from "./Form";
 import useTranslate from "services/translate/useTranslate";
 import { useActions } from "store/selectors";
 import { useHealUnitSelector } from "./selectors";
-import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { joinStrings } from "utils/string/joinStrings";
 
 interface TProps extends Omit<ComponentProps<typeof IconButton>, "children"> {
@@ -34,15 +33,13 @@ export const HealUnit: FC<TProps> = ({ unitId, onClick, ...props }) => {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <ConfirmWindow
           onClose={() => setOpen(false)}
-          title={translate("healUnit.title")}
+          title={joinStrings(
+            " ",
+            translate("healUnit.title"),
+            name ? name : null,
+            player ? `(${player})` : null,
+          )}
         >
-          <DetailsSectionTitle>
-            {joinStrings(
-              " ",
-              name ? name : null,
-              player ? `(${player})` : null,
-            )}
-          </DetailsSectionTitle>
           <Form
             onHeal={(values) => {
               changeHealth(

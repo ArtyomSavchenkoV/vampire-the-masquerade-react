@@ -7,6 +7,12 @@ import { Panel } from "./common/Panel";
 import { useGhoulDetailsSelector } from "./selectors";
 import { TextArea } from "baseComponents/TextArea";
 import { UnitActions } from "components/UnitActions";
+import styled from "@emotion/styled";
+
+const Body = styled.div`
+  overflow: auto;
+  padding: 4px;
+`;
 
 interface TProps {
   unitId: string;
@@ -24,20 +30,23 @@ export const GhoulDetails: FC<TProps> = ({ unitId }) => {
       {ghoul && (
         <Panel open>
           <Header
-            title={translate("details.title")}
+            title={ghoul.name}
             onClose={() => selectUnit(null)}
             buttons={<UnitActions unitId={unitId} />}
           />
           {/* Заметки */}
+          {translate("details.notes")}
           <TextArea
             value={ghoulDetails.notes}
             onChange={(ev) => editNotes(unitId, ev.target.value)}
             rows={5}
           />
-          <EditGhoulForm
-            ghoul={ghoul}
-            onChange={(ghoul) => editGhoul(unitId, ghoul)}
-          />
+          <Body>
+            <EditGhoulForm
+              ghoul={ghoul}
+              onChange={(ghoul) => editGhoul(unitId, ghoul)}
+            />
+          </Body>
         </Panel>
       )}
     </>
