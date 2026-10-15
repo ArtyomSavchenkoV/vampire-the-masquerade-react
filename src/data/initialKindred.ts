@@ -13,7 +13,7 @@ export const initialKindred: Omit<Kindred, "clan"> = {
     damageToWoundMap: {
       blunt: "bashing",
       penetrating: "lethal",
-      fire: "lethal",
+      fire: "aggravated",
       solar: "aggravated",
       vampire_claw: "aggravated",
     },

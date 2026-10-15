@@ -298,7 +298,7 @@ export const migrateFrom3To4 = (savedData: PrevSavedData): SavedData => ({
             damageToWoundMap: {
               blunt: "bashing",
               penetrating: "lethal",
-              fire: "lethal",
+              fire: "aggravated",
               solar: "aggravated",
               vampire_claw: "aggravated",
             },
