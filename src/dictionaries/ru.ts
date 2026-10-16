@@ -310,7 +310,7 @@ export const ru = {
   wounds: {
     bashing: "Обычная рана",
     lethal: "Летальная рана",
-    aggravated: "Сверхъестественная рана",
+    aggravated: "Губительная рана",
   },
   resources: {
     health: "Здоровье",
