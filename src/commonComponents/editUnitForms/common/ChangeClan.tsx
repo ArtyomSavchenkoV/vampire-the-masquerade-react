@@ -29,7 +29,13 @@ export const ChangeClan: FC<TProps> = ({ clanName, onChange, ...props }) => {
   const [selectedClanName, setSelectedClanName] = useState(clanName);
   return (
     <>
-      <StyledButton onClick={() => setOpen(true)} {...props} />
+      <StyledButton
+        onClick={() => {
+          setOpen(true);
+          setSelectedClanName(clanName);
+        }}
+        {...props}
+      />
       <Dialog open={open}>
         <ConfirmWindow
           title={translate("editClan.confirmTitle")}

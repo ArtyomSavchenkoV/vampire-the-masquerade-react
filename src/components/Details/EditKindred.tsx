@@ -45,7 +45,12 @@ export const EditKindred: FC<TProps> = memo(({ kindredId }) => {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>
+      <Button
+        onClick={() => {
+          setOpen(true);
+          setKindredForm(kindred);
+        }}
+      >
         {translate("editKindred.editButton")}
       </Button>
 

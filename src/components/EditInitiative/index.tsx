@@ -45,6 +45,7 @@ export const EditInitiative: FC<TProps> = ({ unitId, onClick, ...props }) => {
         onClick={(ev) => {
           ev.stopPropagation();
           setOpen(true);
+          setNewInitiative(null);
         }}
         {...props}
       />
