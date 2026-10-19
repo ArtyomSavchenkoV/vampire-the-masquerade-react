@@ -5,11 +5,8 @@ import { useActions } from "store/selectors";
 import { useHumanRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
-import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 import { ButtonsTd } from "commonComponents/ButtonsTd";
 import { TableCheckbox } from "commonComponents/TableCheckbox";
-import { IconButton } from "baseComponents/IconButton";
-import TrashBinIcon from "icons/TrashBinIcon";
 import { UnitActions } from "components/UnitActions";
 
 interface TProps {
@@ -19,7 +16,7 @@ interface TProps {
 export const HumanRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
   const humanRow = useHumanRowSelector(id);
-  const { selectUnit, addToScene, removeFromScene, removeUnit } = useActions();
+  const { selectUnit, addToScene, removeFromScene } = useActions();
   if (!humanRow) {
     return (
       <ErrorIndicator>Ошибка HumanRow: нет данных humanRow</ErrorIndicator>
@@ -62,19 +59,6 @@ export const HumanRow: FC<TProps> = memo(({ id }) => {
       <ButtonsTd>
         {/* Действия над персонажем */}
         <UnitActions unitId={id} />
-
-        {/* Удалить персонажа */}
-        <ConfirmingButton
-          onClick={(ev) => ev.stopPropagation()}
-          onConfirm={() => removeUnit(id)}
-          confirmWindowTitle={translate("unitRow.remove")}
-          confirmWindowContent={translate(
-            "unitRow.removeUnitConfirmingMessage",
-          )}
-          ButtonComponent={IconButton}
-        >
-          <TrashBinIcon />
-        </ConfirmingButton>
       </ButtonsTd>
     </StyledRow>
   );

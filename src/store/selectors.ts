@@ -9,18 +9,18 @@ import { calculateCreature } from "domain/creature/CalculatedCreature";
 // import { useShallow } from "zustand/shallow";
 
 /**
- * Получает список всех юнитов
+ * Получить список всех юнитов
  */
 export const useUnitsSelector = () => useStore((state) => state.units);
 
 /**
- * Получает список ID юнитов сцены
+ * Получить список ID юнитов сцены
  */
 export const useSceneUnitsSelector = () =>
   useStore((state) => state.sceneUnits);
 
 /**
- * Получает ID выбранного юнита
+ * Получить ID выбранного юнита
  */
 export const useSelectedUnitIdSelector = () =>
   useStore((state) => state.selectedUnitId);
@@ -33,7 +33,7 @@ export const useUnitSelector = (unitId: string) =>
   useStore((state) => state.units[unitId] ?? null);
 
 /**
- * Извлекает объект Kindred из юнита, если тип сущности — "kindred".
+ * Извлечь объект Kindred из юнита, если тип сущности — "kindred".
  * Возвращает null для других типов или при отсутствии юнита.
  */
 export const useKindredSelector = (unitId: string) => {
@@ -45,7 +45,7 @@ export const useKindredSelector = (unitId: string) => {
 };
 
 /**
- * Вычисляет итоговую модель Kindred с учётом всех модификаторов и правил.
+ * Вычислить итоговую модель Kindred с учётом всех модификаторов и правил.
  */
 export const useCalculatedKindredSelector = (unitId: string) => {
   const kindred = useKindredSelector(unitId);
@@ -54,7 +54,7 @@ export const useCalculatedKindredSelector = (unitId: string) => {
 };
 
 /**
- * Извлекает объект Kindred из юнита, если тип сущности — "kindred".
+ * Извлечь объект Kindred из юнита, если тип сущности — "kindred".
  * Возвращает null для других типов или при отсутствии юнита.
  */
 export const useGhoulSelector = (unitId: string) => {
@@ -66,7 +66,7 @@ export const useGhoulSelector = (unitId: string) => {
 };
 
 /**
- * Вычисляет итоговую модель Ghoul с учётом всех модификаторов и правил.
+ * Вычислить итоговую модель Ghoul с учётом всех модификаторов и правил.
  */
 export const useCalculatedGhoulSelector = (unitId: string) => {
   const ghoul = useGhoulSelector(unitId);
@@ -75,7 +75,7 @@ export const useCalculatedGhoulSelector = (unitId: string) => {
 };
 
 /**
- * Извлекает объект Human из юнита, если тип сущности — "human".
+ * Извлечь объект Human из юнита, если тип сущности — "human".
  * Возвращает null для других типов или при отсутствии юнита.
  */
 export const useHumanSelector = (unitId: string) => {
@@ -87,7 +87,7 @@ export const useHumanSelector = (unitId: string) => {
 };
 
 /**
- * Вычисляет итоговую модель Human с учётом всех модификаторов и правил.
+ * Вычислить итоговую модель Human с учётом всех модификаторов и правил.
  */
 export const useCalculatedHumanSelector = (unitId: string) => {
   const human = useHumanSelector(unitId);
@@ -96,7 +96,7 @@ export const useCalculatedHumanSelector = (unitId: string) => {
 };
 
 /**
- * Извлекает объект Creature из юнита, если тип сущности — "creature".
+ * Извлечь объект Creature из юнита, если тип сущности — "creature".
  * Возвращает null для других типов или при отсутствии юнита.
  */
 export const useCreatureSelector = (unitId: string) => {
@@ -108,7 +108,7 @@ export const useCreatureSelector = (unitId: string) => {
 };
 
 /**
- * Вычисляет итоговую модель Creature с учётом всех модификаторов и правил.
+ * Вычислить итоговую модель Creature с учётом всех модификаторов и правил.
  */
 export const useCalculatedCreatureSelector = (unitId: string) => {
   const creature = useCreatureSelector(unitId);

@@ -30,10 +30,14 @@ export const ru = {
   },
   details: {
     notes: "заметки",
+    tabs: {
+      main_info: "Основная",
+      extended_info: "Расширенная",
+      disciplines: "Дисциплины",
+    },
+    unitHasNotDisciplines: "У данного участника нет дисциплин.",
   },
   unitRow: {
-    remove: "Удалить",
-    removeUnitConfirmingMessage: "Вы действительно хотите удалить участника?",
     initiative: "Инициатива",
   },
   confirmWindow: {
@@ -116,7 +120,6 @@ export const ru = {
     electronics: "Электроника",
   },
   editKindred: {
-    editButton: "Редактировать",
     title: "Редактировать сородича",
   },
   editClan: {
@@ -227,6 +230,10 @@ export const ru = {
   },
   editHealthLevels: {
     add: "Добавить уровень здоровья",
+  },
+  deleteUnit: {
+    remove: "Удалить",
+    removeUnitConfirmingMessage: "Вы действительно хотите удалить участника?",
   },
   editInitiative: {
     title: "Задать инициативу",

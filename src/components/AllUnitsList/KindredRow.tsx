@@ -5,12 +5,9 @@ import { useActions } from "store/selectors";
 import useTranslate from "services/translate/useTranslate";
 import { StyledRow } from "commonComponents/StyledRow";
 import { ErrorIndicator } from "commonComponents/ErrorIndicator";
-import { ConfirmingButton } from "commonComponents/ConfirmingButton";
 import { MAX_HEALTH } from "data/kindredHealthLevels";
 import { ButtonsTd } from "commonComponents/ButtonsTd";
 import { TableCheckbox } from "commonComponents/TableCheckbox";
-import { IconButton } from "baseComponents/IconButton";
-import TrashBinIcon from "icons/TrashBinIcon";
 import { UnitActions } from "components/UnitActions";
 
 interface TProps {
@@ -20,7 +17,7 @@ interface TProps {
 export const KindredRow: FC<TProps> = memo(({ id }) => {
   const { translate } = useTranslate();
   const kindredRow = useKindredRowSelector(id);
-  const { selectUnit, addToScene, removeFromScene, removeUnit } = useActions();
+  const { selectUnit, addToScene, removeFromScene } = useActions();
   if (!kindredRow) {
     return (
       <ErrorIndicator>Ошибка KindredRow: нет данных kindredRow</ErrorIndicator>
@@ -64,19 +61,6 @@ export const KindredRow: FC<TProps> = memo(({ id }) => {
       <ButtonsTd>
         {/* Действия над персонажем */}
         <UnitActions unitId={id} />
-
-        {/* Удалить персонажа */}
-        <ConfirmingButton
-          onClick={(ev) => ev.stopPropagation()}
-          onConfirm={() => removeUnit(id)}
-          confirmWindowTitle={translate("unitRow.remove")}
-          confirmWindowContent={translate(
-            "unitRow.removeUnitConfirmingMessage",
-          )}
-          ButtonComponent={IconButton}
-        >
-          <TrashBinIcon />
-        </ConfirmingButton>
       </ButtonsTd>
     </StyledRow>
   );
