@@ -5,20 +5,24 @@ export const useMainInfoSelector = (unitId: string) => {
   const unit = useUnitSelector(unitId);
   const calculatedKindred = useCalculatedKindredSelector(unitId);
 
+  if (!calculatedKindred) {
+    throw new Error("useCalculatedKindredSelector return null");
+  }
+
   const notes = unit.notes;
-  const chronicle = calculatedKindred?.chronicle;
-  const nature = calculatedKindred?.nature;
-  const demeanor = calculatedKindred?.demeanor;
-  const role = calculatedKindred?.role;
-  const clanName = calculatedKindred?.clan.clanName;
-  const generation = calculatedKindred?.generation;
-  const sire = calculatedKindred?.sire;
-  const merits = calculatedKindred?.merits;
-  const flaws = calculatedKindred?.flaws;
-  const bodyWounds = calculatedKindred?.bodyWounds;
-  const willpower = calculatedKindred?.willpower;
-  const maxWillpower = calculatedKindred?.maxWillpower;
-  const bloodPool = calculatedKindred?.bloodPool;
+  const chronicle = calculatedKindred.chronicle;
+  const nature = calculatedKindred.nature;
+  const demeanor = calculatedKindred.demeanor;
+  const role = calculatedKindred.role;
+  const clanName = calculatedKindred.clan.clanName;
+  const generation = calculatedKindred.generation;
+  const sire = calculatedKindred.sire;
+  const merits = calculatedKindred.merits;
+  const flaws = calculatedKindred.flaws;
+  const bodyWounds = calculatedKindred.bodyWounds;
+  const willpower = calculatedKindred.willpower;
+  const maxWillpower = calculatedKindred.maxWillpower;
+  const bloodPool = calculatedKindred.bloodPool;
 
   return useMemo(
     () => ({
@@ -59,8 +63,12 @@ export const useMainInfoSelector = (unitId: string) => {
 export const useDisciplinesSelector = (unitId: string) => {
   const calculatedKindred = useCalculatedKindredSelector(unitId);
 
-  const disciplines = calculatedKindred?.clan.disciplines;
-  const acquiredDisciplines = calculatedKindred?.acquiredDisciplines;
+  if (!calculatedKindred) {
+    throw new Error("useCalculatedKindredSelector return null");
+  }
+
+  const disciplines = calculatedKindred.clan.disciplines;
+  const acquiredDisciplines = calculatedKindred.acquiredDisciplines;
 
   return useMemo(
     () => ({

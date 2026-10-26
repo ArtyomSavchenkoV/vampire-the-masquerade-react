@@ -50,6 +50,7 @@ export const Details: FC<TProps> = () => {
               unitName ? unitName : null,
               unitPlayer ? `(${unitPlayer})` : null,
             )}
+            type={unitType && translate(`unitTypes.${unitType}`)}
             onClose={() => selectUnit(null)}
             tabs={
               <>

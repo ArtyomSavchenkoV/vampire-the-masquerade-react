@@ -31,6 +31,7 @@ const Buttons = styled.div`
 const Tabs = styled.div`
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 `;
 
 const CloseButton = styled(Button)`
@@ -47,22 +48,25 @@ const CloseButton = styled(Button)`
 interface TProps {
   unitId: string;
   title: ReactNode;
+  type: ReactNode;
   tabs: ReactNode;
   onClose: () => void;
 }
 
-export const Header: FC<TProps> = ({ unitId, title, tabs, onClose }) => {
+export const Header: FC<TProps> = ({ unitId, title, type, tabs, onClose }) => {
   return (
     <Root>
       <Title>
         <Name>{title}</Name>
         <Buttons>
+          {/* Изменить персонажа */}
           <EditUnit unitId={unitId} />
           {/* Удалить персонажа */}
           <DeleteUnit unitId={unitId} />
         </Buttons>
       </Title>
       <CloseButton onClick={onClose}>x</CloseButton>
+      {type}
       <Tabs>{tabs}</Tabs>
     </Root>
   );

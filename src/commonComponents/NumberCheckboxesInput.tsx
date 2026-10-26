@@ -2,6 +2,7 @@ import { FC, HTMLAttributes, useMemo, useRef, useState } from "react";
 import { Checkbox } from "baseComponents/Checkbox";
 import styled from "@emotion/styled";
 import { useOnElementResize } from "hooks/useOnElementResize";
+import { chunkArray } from "utils/array/chunkArray";
 
 const TEN_ELEMS = 10;
 const FIVE_ELEMS = 5;
@@ -94,14 +95,4 @@ export const NumberCheckboxesInput: FC<TProps> = ({
       ))}
     </Root>
   );
-};
-
-const chunkArray = <T extends any>(array: T[], size: number): T[][] => {
-  const result: T[][] = [];
-
-  for (let i = 0; i < array.length; i += size) {
-    result.push(array.slice(i, i + size));
-  }
-
-  return result;
 };

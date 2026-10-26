@@ -1,7 +1,7 @@
 import { ResourceHistory } from "domain/ResourceHistory";
 import { damageGhoulHealth, healGhoulHealth } from "./Health";
 import { Ghoul } from "./Ghoul";
-import { WoundEvent, HealEvent, Wounds } from "domain/Health";
+import { WoundEvent, HealEvent, Wounds, sortWounds } from "domain/Health";
 import { numberToMaxMinDiapason } from "utils/numberToMaxminDiapason";
 
 export type HealthHistory = HealEvent | WoundEvent;
@@ -19,25 +19,27 @@ export const completeHealthEvents = (
   const sortedHealthHistory = [...healthHistory].sort(
     (a, b) => a.date - b.date,
   );
-  return sortedHealthHistory.reduce<Wounds>((accum, change) => {
-    if (change.effect.type === "heal") {
-      if (!change.effect.value) {
-        return accum;
+  return sortWounds(
+    sortedHealthHistory.reduce<Wounds>((accum, change) => {
+      if (change.effect.type === "heal") {
+        if (!change.effect.value) {
+          return accum;
+        }
+        return healGhoulHealth(accum, change.effect);
       }
-      return healGhoulHealth(accum, change.effect);
-    }
-    if (change.effect.type === "wound") {
-      if (!change.effect.value) {
-        return accum;
+      if (change.effect.type === "wound") {
+        if (!change.effect.value) {
+          return accum;
+        }
+        return damageGhoulHealth(
+          accum,
+          change.effect.woundType,
+          change.effect.value,
+        );
       }
-      return damageGhoulHealth(
-        accum,
-        change.effect.woundType,
-        change.effect.value,
-      );
-    }
-    return accum as never;
-  }, bodyWounds);
+      return accum as never;
+    }, bodyWounds),
+  );
 };
 
 /**

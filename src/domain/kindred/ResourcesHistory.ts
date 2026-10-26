@@ -1,7 +1,7 @@
 import { ResourceHistory } from "domain/ResourceHistory";
 import { awakening, AwakeningEvent, damageHealth, healHealth } from "./Health";
 import { Kindred } from "./Kindred";
-import { WoundEvent, HealEvent, Wounds } from "domain/Health";
+import { WoundEvent, HealEvent, Wounds, sortWounds } from "domain/Health";
 import { numberToMaxMinDiapason } from "utils/numberToMaxminDiapason";
 
 export type HealthHistory = AwakeningEvent | HealEvent | WoundEvent;
@@ -19,24 +19,30 @@ export const completeHealthEvents = (
   const sortedHealthHistory = [...healthHistory].sort(
     (a, b) => a.date - b.date,
   );
-  return sortedHealthHistory.reduce<Wounds>((accum, change) => {
-    if (change.effect.type === "torpor") {
-      return awakening(accum);
-    }
-    if (change.effect.type === "heal") {
-      if (!change.effect.value) {
-        return accum;
+  return sortWounds(
+    sortedHealthHistory.reduce<Wounds>((accum, change) => {
+      if (change.effect.type === "torpor") {
+        return awakening(accum);
       }
-      return healHealth(accum, change.effect);
-    }
-    if (change.effect.type === "wound") {
-      if (!change.effect.value) {
-        return accum;
+      if (change.effect.type === "heal") {
+        if (!change.effect.value) {
+          return accum;
+        }
+        return healHealth(accum, change.effect);
       }
-      return damageHealth(accum, change.effect.woundType, change.effect.value);
-    }
-    return accum as never;
-  }, bodyWounds);
+      if (change.effect.type === "wound") {
+        if (!change.effect.value) {
+          return accum;
+        }
+        return damageHealth(
+          accum,
+          change.effect.woundType,
+          change.effect.value,
+        );
+      }
+      return accum as never;
+    }, bodyWounds),
+  );
 };
 
 /**

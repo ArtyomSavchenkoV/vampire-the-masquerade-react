@@ -1,9 +1,6 @@
 import { ReactNode, useState } from "react";
 import React from "react";
 import { ErrorIndicator } from "./ErrorIndicator";
-import { useActions } from "store/selectors";
-import { Button } from "baseComponents/Button";
-import { initialState } from "store/initialState";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -11,25 +8,11 @@ interface ErrorBoundaryProps {
 
 export const ErrorBoundary = ({ children }: ErrorBoundaryProps) => {
   const [error, setError] = useState<Error | null>(null);
-  const actions = useActions();
 
   if (error) {
     return (
       <ErrorIndicator>
         <p>Произошла критическая ошибка: {error.message}</p>
-        <p>Попробуйте сбросить состояние системы.</p>
-        <Button
-          onClick={() => {
-            if (actions?.setStoreState) {
-              actions.setStoreState(initialState);
-              setError(null);
-            } else {
-              console.error("Actions not available to reset store");
-            }
-          }}
-        >
-          Сбросить хранилище (resetStore)
-        </Button>
       </ErrorIndicator>
     );
   }

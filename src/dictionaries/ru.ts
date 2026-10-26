@@ -30,6 +30,13 @@ export const ru = {
   },
   details: {
     notes: "заметки",
+    merits: "Достоинства",
+    flaws: "Недостатки",
+    clanCurse: "Клановое проклятие",
+    health: "Здоровье",
+    healthLevel: "уровень здоровья",
+    wounds: "Раны",
+    states: "Действующие состояния",
     tabs: {
       main_info: "Основная",
       extended_info: "Расширенная",
@@ -59,6 +66,7 @@ export const ru = {
     role: "Амплуа",
     clan: "Клан",
     initialGeneration: "Исходное поколение",
+    generation: "Поколение",
     sire: "Сир",
     domitor: "Домитор",
     attributes: "Характеристики",
