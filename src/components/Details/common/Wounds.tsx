@@ -1,5 +1,9 @@
 import styled from "@emotion/styled";
-import { Wounds as TWounds } from "domain/Health";
+import {
+  HealthLevelData,
+  HealthLevelName,
+  Wounds as TWounds,
+} from "domain/Health";
 import { useOnElementResize } from "hooks/useOnElementResize";
 import { AggravatedIcon } from "icons/AggravatedIcon";
 import { BashingIcon } from "icons/BashingIcon";
@@ -27,14 +31,20 @@ const Row = styled.div<{ align: "left" | "center" | "right" }>(
 `,
 );
 
+const Colored = styled.div<{ healthLevelName: HealthLevelName }>(
+  ({ healthLevelName }) => `
+  color: ${(healthLevelName === "incapacitated" && "orange") || (healthLevelName === "final" && "red") || "initial"};
+`,
+);
+
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
   wounds: TWounds;
-  maxWounds: number;
+  healthLevels: Readonly<HealthLevelData[]>;
   align?: "left" | "center" | "right";
 }
 export const Wounds: FC<TProps> = ({
   wounds,
-  maxWounds,
+  healthLevels,
   align = "center",
   ...props
 }) => {
@@ -46,31 +56,31 @@ export const Wounds: FC<TProps> = ({
       setIsSmallElement(size.width < 21.5 * TEN_ELEMS + 4 * (TEN_ELEMS - 1)),
   });
 
-  const arr = useMemo(
-    () =>
-      Array(maxWounds)
-        .fill(null)
-        .map((_, i) => (i < wounds.length ? wounds[i] : null)),
-    [wounds, maxWounds],
-  );
+  const woundsLevels = healthLevels
+    .filter((healthLevel) => healthLevel.name !== "unimpaired")
+    .map((healthLevel, i) => ({
+      healthLevelName: healthLevel.name,
+      wound: i < wounds.length ? wounds[i] : null,
+    }));
 
   const chunkArr = useMemo(
-    () => chunkArray(arr, isSmallElement ? FIVE_ELEMS : TEN_ELEMS),
-    [arr, isSmallElement],
+    () => chunkArray(woundsLevels, isSmallElement ? FIVE_ELEMS : TEN_ELEMS),
+    [woundsLevels, isSmallElement],
   );
 
   return (
     <Root ref={ref} {...props}>
       {chunkArr.map((chunk, i) => (
         <Row key={i} align={align}>
-          {chunk.map(
-            (option, j) =>
-              (option === "bashing" && <BashingIcon key={j} />) ||
-              (option === "lethal" && <LethalIcon key={j} />) ||
-              (option === "aggravated" && <AggravatedIcon key={j} />) || (
-                <HitBoxIcon key={j} />
-              ),
-          )}
+          {chunk.map((option, j) => (
+            <Colored healthLevelName={option.healthLevelName}>
+              {(option.wound === "bashing" && <BashingIcon key={j} />) ||
+                (option.wound === "lethal" && <LethalIcon key={j} />) ||
+                (option.wound === "aggravated" && (
+                  <AggravatedIcon key={j} />
+                )) || <HitBoxIcon key={j} />}
+            </Colored>
+          ))}
         </Row>
       ))}
     </Root>

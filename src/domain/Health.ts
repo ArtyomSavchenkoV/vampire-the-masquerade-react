@@ -94,6 +94,7 @@ export type Wounds = WoundType[];
 
 /**
  * Отсортировать Wounds по типам ран от aggravated до bashing
+ * Использовать с осторожностью! Если есть раны финального урона - их сортировать нельзя, так как они определяют торпор или окончательную смерть
  */
 export const sortWounds = (wounds: Wounds): Wounds => {
   const order: Record<WoundType, number> = {

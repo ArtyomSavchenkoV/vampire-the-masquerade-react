@@ -56,10 +56,7 @@ export const MainInfo: FC<TProps> = withErrorBoundary(({ unitId }) => {
           <DetailsSectionTitle>
             {translate("details.wounds")}
           </DetailsSectionTitle>
-          <Wounds
-            wounds={data.bodyWounds}
-            maxWounds={data.healthLevels.length - 1}
-          />
+          <Wounds wounds={data.bodyWounds} healthLevels={data.healthLevels} />
         </>
       }
       willpower={

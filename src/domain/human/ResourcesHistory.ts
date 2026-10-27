@@ -1,12 +1,6 @@
 import { ResourceHistory } from "domain/ResourceHistory";
 import { Human } from "./Human";
-import {
-  WoundEvent,
-  HealEvent,
-  HealthLevelData,
-  Wounds,
-  sortWounds,
-} from "domain/Health";
+import { WoundEvent, HealEvent, HealthLevelData, Wounds } from "domain/Health";
 import { numberToMaxMinDiapason } from "utils/numberToMaxminDiapason";
 import { damageHumanHealth, healHumanHealth } from "./Health";
 
@@ -25,28 +19,26 @@ export const completeHealthEvents = (
   const sortedHealthHistory = [...healthHistory].sort(
     (a, b) => a.date - b.date,
   );
-  return sortWounds(
-    sortedHealthHistory.reduce<Wounds>((accum, change) => {
-      if (change.effect.type === "heal") {
-        if (!change.effect.value) {
-          return accum;
-        }
-        return healHumanHealth([...healthLevels], accum, change.effect);
+  return sortedHealthHistory.reduce<Wounds>((accum, change) => {
+    if (change.effect.type === "heal") {
+      if (!change.effect.value) {
+        return accum;
       }
-      if (change.effect.type === "wound") {
-        if (!change.effect.value) {
-          return accum;
-        }
-        return damageHumanHealth(
-          [...healthLevels],
-          accum,
-          change.effect.woundType,
-          change.effect.value,
-        );
+      return healHumanHealth([...healthLevels], accum, change.effect);
+    }
+    if (change.effect.type === "wound") {
+      if (!change.effect.value) {
+        return accum;
       }
-      return accum as never;
-    }, bodyWounds),
-  );
+      return damageHumanHealth(
+        [...healthLevels],
+        accum,
+        change.effect.woundType,
+        change.effect.value,
+      );
+    }
+    return accum as never;
+  }, bodyWounds);
 };
 
 /**
