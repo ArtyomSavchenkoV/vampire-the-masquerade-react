@@ -111,8 +111,6 @@ type DisciplineLevelData =
       type: "passive";
       /** Эффекты, применяемые автоматически (бонусы, поглощение и т.д.). */
       effects?: Modifiers;
-      /** Описание эффекта для отображения в интерфейсе. */
-      description?: string;
     }
   | {
       /** Тип эффекта: используемый (активная способность). */
@@ -129,17 +127,16 @@ type DisciplineLevelData =
       duration?: number | "scene" | "successCount";
       /** Время, необходимое на активацию способности (в раундах). */
       castDuration?: number;
-      /** Описание способности для отображения в интерфейсе. */
-      description?: string;
     };
 
 /**
  * Варианты данных для уровня дисциплины.
  * Может быть одиночным эффектом либо массивом альтернативных эффектов (например, выбор ветки на 4‑м уровне).
  */
-export type DisciplineLevelVariants =
-  | DisciplineLevelData
-  | readonly DisciplineLevelData[];
+export type DisciplineLevelVariants = Record<string, DisciplineLevelData>;
+
+export type Discipline<Name extends DisciplineName> =
+  (typeof disciplines)[Name];
 
 /**
  * Получает эффект дисциплины для заданного уровня.
@@ -187,9 +184,8 @@ export const getDisciplinesEffects = (
     // Уровень в V20 обычно 1–5, поэтому индекс level - 1
     const levelData = disciplineLevels[level - 1];
     if (!levelData) continue;
-    const variants = Array.isArray(levelData) ? levelData : [levelData];
 
-    for (const variant of variants) {
+    for (const variant of Object.values(levelData)) {
       if (variant.type === "passive" && variant.effects) {
         result = mergeModifiers(result, variant.effects);
       }

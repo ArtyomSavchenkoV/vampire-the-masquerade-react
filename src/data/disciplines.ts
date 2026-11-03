@@ -8,27 +8,31 @@ export const disciplines = {
   animalism: [
     /** 1 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "fixedDifficulty",
-        selfCheck: ["manipulation", "animal_ken"],
-        difficultLevel: 6,
+      animal_language: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["manipulation", "animal_ken"],
+          difficultLevel: 6,
+        },
       },
     },
     /** 2 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "fixedDifficulty",
-        selfCheck: ["survival", "charisma"],
-        difficultLevel: 6,
+      calling: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["survival", "charisma"],
+          difficultLevel: 6,
+        },
       },
     },
     /** 3 */
-    [
-      {
+    {
+      beast_taming_intimidation: {
         type: "usable",
         availableTarget: ["notSelf"],
         check: {
@@ -37,7 +41,7 @@ export const disciplines = {
           difficultLevel: 7,
         },
       },
-      {
+      beast_taming_empathy: {
         type: "usable",
         availableTarget: ["notSelf"],
         check: {
@@ -46,25 +50,29 @@ export const disciplines = {
           difficultLevel: 7,
         },
       },
-    ],
+    },
     /** 4 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "fixedDifficulty",
-        selfCheck: ["manipulation", "animal_ken"],
-        difficultLevel: 8,
+      spirit_absorption: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["manipulation", "animal_ken"],
+          difficultLevel: 8,
+        },
       },
     },
     /** 5 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "fixedDifficulty",
-        selfCheck: ["manipulation", "selfControl"],
-        difficultLevel: 8,
+      beast_alienation: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["manipulation", "selfControl"],
+          difficultLevel: 8,
+        },
       },
     },
   ],
@@ -72,39 +80,45 @@ export const disciplines = {
   presence: [
     /** 1 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      cost: { bloodPool: 1 },
-      check: {
-        type: "fixedDifficulty",
-        selfCheck: ["charisma", "performance"],
-        difficultLevel: 7,
+      reverence: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        cost: { bloodPool: 1 },
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["charisma", "performance"],
+          difficultLevel: 7,
+        },
       },
     },
     /** 2 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "opposedCheck",
-        selfCheck: ["charisma", "intimidation"],
-        difficultTarget: ["wits", "courage"],
+      intimidating_gaze: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["charisma", "intimidation"],
+          difficultTarget: ["wits", "courage"],
+        },
       },
     },
     /** 3 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      cost: { bloodPool: 1 },
-      check: {
-        type: "opposedCheck",
-        selfCheck: ["appearance", "empathy"],
-        difficultTarget: ["willpower"],
+      enchantment: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        cost: { bloodPool: 1 },
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["appearance", "empathy"],
+          difficultTarget: ["willpower"],
+        },
       },
     },
     /** 4 */
-    [
-      {
+    {
+      invitation_close_friend: {
         type: "usable",
         availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
@@ -113,9 +127,8 @@ export const disciplines = {
           selfCheck: ["charisma", "subterfuge"],
           difficultLevel: 5,
         },
-        description: "Сложность зависит от степени близости с жертвой",
       },
-      {
+      invitation_friend: {
         type: "usable",
         availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
@@ -124,9 +137,8 @@ export const disciplines = {
           selfCheck: ["charisma", "subterfuge"],
           difficultLevel: 6,
         },
-        description: "Сложность зависит от степени близости с жертвой",
       },
-      {
+      invitation_acquaintance: {
         type: "usable",
         availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
@@ -135,9 +147,8 @@ export const disciplines = {
           selfCheck: ["charisma", "subterfuge"],
           difficultLevel: 7,
         },
-        description: "Сложность зависит от степени близости с жертвой",
       },
-      {
+      invitation_stranger: {
         type: "usable",
         availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
@@ -146,232 +157,268 @@ export const disciplines = {
           selfCheck: ["charisma", "subterfuge"],
           difficultLevel: 8,
         },
-        description: "Сложность зависит от степени близости с жертвой",
       },
-    ],
+    },
     /** 5 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      cost: { willpower: 1 },
+      adoration: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        cost: { willpower: 1 },
+      },
     },
   ],
   /** Доминирование */
   dominate: [
     /** 1 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "opposedCheck",
-        selfCheck: ["manipulation", "intimidation"],
-        difficultTarget: ["willpower"],
+      order: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["manipulation", "intimidation"],
+          difficultTarget: ["willpower"],
+        },
       },
     },
     /** 2 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "opposedCheck",
-        selfCheck: ["manipulation", "leadership"],
-        difficultTarget: ["willpower"],
+      suggestion: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["manipulation", "leadership"],
+          difficultTarget: ["willpower"],
+        },
       },
     },
     /** 3 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "opposedCheck",
-        selfCheck: ["wits", "subterfuge"],
-        difficultTarget: ["willpower"],
+      oblivion: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["wits", "subterfuge"],
+          difficultTarget: ["willpower"],
+        },
       },
     },
     /** 4 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "opposedCheck",
-        selfCheck: ["charisma", "leadership"],
-        difficultTarget: ["willpower"],
+      enslavement: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["charisma", "leadership"],
+          difficultTarget: ["willpower"],
+        },
       },
     },
     /** 5 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      cost: { willpower: 1 },
-      check: {
-        type: "fixedDifficulty",
-        selfCheck: ["charisma", "intimidation"],
-        difficultLevel: 7,
+      possession: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        cost: { willpower: 1 },
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["charisma", "intimidation"],
+          difficultLevel: 7,
+        },
       },
-      description: "Продолжительная встречная проверка против воли жертвы",
     },
   ],
   /** Затмение */
   obtenebration: [
     /** 1 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      cost: { bloodPool: 1 },
-      effects: {
-        abilityModifiers: {
-          stealth: 1,
+      shadow_theater: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        cost: { bloodPool: 1 },
+        effects: {
+          abilityModifiers: {
+            stealth: 1,
+          },
         },
       },
     },
     /** 2 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "fixedDifficulty",
-        selfCheck: ["manipulation", "occult"],
-        difficultLevel: 7,
+      night_veil: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["manipulation", "occult"],
+          difficultLevel: 7,
+        },
       },
     },
     /** 3 */
     {
-      type: "usable",
-      availableTarget: ["self"],
-      cost: { bloodPool: 1 },
-      check: {
-        type: "fixedDifficulty",
-        selfCheck: ["manipulation", "occult"],
-        difficultLevel: 7,
+      abyss_hands: {
+        type: "usable",
+        availableTarget: ["self"],
+        cost: { bloodPool: 1 },
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["manipulation", "occult"],
+          difficultLevel: 7,
+        },
       },
     },
     /** 4 */
     {
-      type: "usable",
-      availableTarget: ["self"],
-      cost: { bloodPool: 2 },
-      check: {
-        type: "fixedDifficulty",
-        selfCheck: ["manipulation", "courage"],
-        difficultLevel: 7,
+      black_metamorphosis: {
+        type: "usable",
+        availableTarget: ["self"],
+        cost: { bloodPool: 2 },
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["manipulation", "courage"],
+          difficultLevel: 7,
+        },
       },
     },
     /** 5 */
     {
-      type: "usable",
-      availableTarget: ["self"],
-      cost: { bloodPool: 3 },
+      twilight_appearance: {
+        type: "usable",
+        availableTarget: ["self"],
+        cost: { bloodPool: 3 },
+      },
     },
   ],
   /** Метаморфозы */
   protean: [
     /** 1 */
     {
-      type: "usable",
-      availableTarget: ["self"],
-      duration: "scene",
+      beast_eyes: {
+        type: "usable",
+        availableTarget: ["self"],
+        duration: "scene",
+      },
     },
     /** 2 */
     {
-      type: "usable",
-      availableTarget: ["self"],
-      cost: { bloodPool: 1 },
-      duration: "scene",
-      // TODO: параметры урона когтей
+      beast_claws: {
+        type: "usable",
+        availableTarget: ["self"],
+        cost: { bloodPool: 1 },
+        duration: "scene",
+        // TODO: параметры урона когтей
+      },
     },
     /** 3 */
     {
-      type: "usable",
-      availableTarget: ["self"],
-      cost: { bloodPool: 1 },
+      earth_merging: {
+        type: "usable",
+        availableTarget: ["self"],
+        cost: { bloodPool: 1 },
+      },
     },
     /** 4 */
-    [
-      {
+    {
+      beast_appearance_slow_cast: {
         type: "usable",
         availableTarget: ["self"],
         cost: { bloodPool: 1 },
         castDuration: 3,
       },
-      {
+      beast_appearance_moderate_cast: {
         type: "usable",
         availableTarget: ["self"],
         cost: { bloodPool: 2 },
         castDuration: 2,
       },
-      {
+      beast_appearance_fast_cast: {
         type: "usable",
         availableTarget: ["self"],
         cost: { bloodPool: 3 },
         castDuration: 1,
       },
-    ],
+    },
     /** 5 */
-    [
-      {
+    {
+      fog_transformation_slow_cast: {
         type: "usable",
         availableTarget: ["self"],
         cost: { bloodPool: 1 },
         castDuration: 3,
       },
-      {
+      fog_transformation_moderate_cast: {
         type: "usable",
         availableTarget: ["self"],
         cost: { bloodPool: 2 },
         castDuration: 2,
       },
-      {
+      fog_transformation_fast_cast: {
         type: "usable",
         availableTarget: ["self"],
         cost: { bloodPool: 3 },
         castDuration: 1,
       },
-    ],
+    },
   ],
   /** Мощь */
   potence: [
     /** 1 */
     {
-      type: "passive",
-      effects: {
-        attributesModifiers: {
-          strength: 1,
+      potence_1: {
+        type: "passive",
+        effects: {
+          attributesModifiers: {
+            strength: 1,
+          },
         },
       },
     },
     /** 2 */
     {
-      type: "passive",
-      effects: {
-        attributesModifiers: {
-          strength: 2,
+      potence_2: {
+        type: "passive",
+        effects: {
+          attributesModifiers: {
+            strength: 2,
+          },
         },
       },
     },
     /** 3 */
     {
-      type: "passive",
-      effects: {
-        attributesModifiers: {
-          strength: 3,
+      potence_3: {
+        type: "passive",
+        effects: {
+          attributesModifiers: {
+            strength: 3,
+          },
         },
       },
     },
     /** 4 */
     {
-      type: "passive",
-      effects: {
-        attributesModifiers: {
-          strength: 4,
+      potence_4: {
+        type: "passive",
+        effects: {
+          attributesModifiers: {
+            strength: 4,
+          },
         },
       },
     },
     /** 5 */
     {
-      type: "passive",
-      effects: {
-        attributesModifiers: {
-          strength: 5,
+      potence_5: {
+        type: "passive",
+        effects: {
+          attributesModifiers: {
+            strength: 5,
+          },
         },
       },
     },
@@ -379,28 +426,32 @@ export const disciplines = {
   dementation: [
     /** 1 */
     {
-      type: "usable",
-      availableTarget: ["self", "notSelf"],
-      check: {
-        type: "opposedCheck",
-        selfCheck: ["charisma", "empathy"],
-        difficultTarget: ["humanityOrPathRating"],
+      passion: {
+        type: "usable",
+        availableTarget: ["self", "notSelf"],
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["charisma", "empathy"],
+          difficultTarget: ["humanityOrPathRating"],
+        },
       },
     },
     /** 2 */
     {
-      type: "usable",
-      availableTarget: ["self", "notSelf"],
-      cost: { bloodPool: 1 },
-      check: {
-        type: "opposedCheck",
-        selfCheck: ["subterfuge", "manipulation"],
-        difficultTarget: ["perception", "selfControl"],
+      obsession: {
+        type: "usable",
+        availableTarget: ["self", "notSelf"],
+        cost: { bloodPool: 1 },
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["subterfuge", "manipulation"],
+          difficultTarget: ["perception", "selfControl"],
+        },
       },
     },
     /** 3 */
-    [
-      {
+    {
+      environment: {
         type: "usable",
         availableTarget: ["self", "notSelf"],
         check: {
@@ -408,9 +459,8 @@ export const disciplines = {
           selfCheck: ["perception", "occult"],
           difficultLevel: 6,
         },
-        description: "От окружения",
       },
-      {
+      encrypted_message: {
         type: "usable",
         availableTarget: ["self", "notSelf"],
         check: {
@@ -418,9 +468,8 @@ export const disciplines = {
           selfCheck: ["perception", "occult"],
           difficultLevel: 7,
         },
-        description: "Прочесть закодированное сообщение",
       },
-      {
+      acquaintance_nature: {
         type: "usable",
         availableTarget: ["self", "notSelf"],
         check: {
@@ -428,9 +477,8 @@ export const disciplines = {
           selfCheck: ["perception", "occult"],
           difficultLevel: 8,
         },
-        description: "Определить натуру знакомого",
       },
-      {
+      stranger_nature: {
         type: "usable",
         availableTarget: ["self", "notSelf"],
         check: {
@@ -438,146 +486,159 @@ export const disciplines = {
           selfCheck: ["perception", "occult"],
           difficultLevel: 9,
         },
-        description: "Определить натуру незнакомца",
       },
-    ],
+    },
     /** 4 */
     {
-      type: "usable",
-      availableTarget: ["self", "notSelf"],
-      cost: { bloodPool: 1 },
-      check: {
-        type: "fixedDifficulty",
-        selfCheck: ["manipulation", "empathy"],
-        difficultLevel: 7,
+      madness_voice: {
+        type: "usable",
+        availableTarget: ["self", "notSelf"],
+        cost: { bloodPool: 1 },
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["manipulation", "empathy"],
+          difficultLevel: 7,
+        },
+        duration: "scene",
       },
-      duration: "scene",
     },
     /** 5 */
     {
-      type: "usable",
-      availableTarget: ["self", "notSelf"],
-      cost: { bloodPool: 1 },
-      check: {
-        type: "opposedCheck",
-        selfCheck: ["manipulation", "intimidation"],
-        difficultTarget: ["willpower"],
+      clouding_mind: {
+        type: "usable",
+        availableTarget: ["self", "notSelf"],
+        cost: { bloodPool: 1 },
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["manipulation", "intimidation"],
+          difficultTarget: ["willpower"],
+        },
+        duration: "successCount",
       },
-      duration: "successCount",
     },
   ],
   /** Стойкость */
   fortitude: [
     /** 1 */
     {
-      type: "passive",
-      effects: {
-        absorptionDice: {
-          bashing: 1,
-          lethal: 1,
-          aggravated: 1,
+      fortitude_1: {
+        type: "passive",
+        effects: {
+          absorptionDice: {
+            bashing: 1,
+            lethal: 1,
+            aggravated: 1,
+          },
         },
       },
-      description:
-        "Показатель стойкости 1 прибавляется к пулу проверки на прочность",
     },
     /** 2 */
     {
-      type: "passive",
-      effects: {
-        absorptionDice: {
-          bashing: 2,
-          lethal: 2,
-          aggravated: 2,
+      fortitude_2: {
+        type: "passive",
+        effects: {
+          absorptionDice: {
+            bashing: 2,
+            lethal: 2,
+            aggravated: 2,
+          },
         },
       },
-      description:
-        "Показатель стойкости 2 прибавляется к пулу проверки на прочность",
     },
     /** 3 */
     {
-      type: "passive",
-      effects: {
-        absorptionDice: {
-          bashing: 3,
-          lethal: 3,
-          aggravated: 3,
+      fortitude_3: {
+        type: "passive",
+        effects: {
+          absorptionDice: {
+            bashing: 3,
+            lethal: 3,
+            aggravated: 3,
+          },
         },
       },
-      description:
-        "Показатель стойкости 3 прибавляется к пулу проверки на прочность",
     },
     /** 4 */
     {
-      type: "passive",
-      effects: {
-        absorptionDice: {
-          bashing: 4,
-          lethal: 4,
-          aggravated: 4,
+      fortitude_4: {
+        type: "passive",
+        effects: {
+          absorptionDice: {
+            bashing: 4,
+            lethal: 4,
+            aggravated: 4,
+          },
         },
       },
-      description:
-        "Показатель стойкости 4 прибавляется к пулу проверки на прочность",
     },
     /** 5 */
     {
-      type: "passive",
-      effects: {
-        absorptionDice: {
-          bashing: 5,
-          lethal: 5,
-          aggravated: 5,
+      fortitude_5: {
+        type: "passive",
+        effects: {
+          absorptionDice: {
+            bashing: 5,
+            lethal: 5,
+            aggravated: 5,
+          },
         },
       },
-      description:
-        "Показатель стойкости 5 прибавляется к пулу проверки на прочность",
     },
   ],
   /** Стремительность */
   celerity: [
     /** 1 */
     {
-      type: "passive",
-      effects: {
-        attributesModifiers: {
-          dexterity: 1,
+      celerity_1: {
+        type: "passive",
+        effects: {
+          attributesModifiers: {
+            dexterity: 1,
+          },
         },
       },
     },
     /** 2 */
     {
-      type: "passive",
-      effects: {
-        attributesModifiers: {
-          dexterity: 2,
+      celerity_2: {
+        type: "passive",
+        effects: {
+          attributesModifiers: {
+            dexterity: 2,
+          },
         },
       },
     },
     /** 3 */
     {
-      type: "passive",
-      effects: {
-        attributesModifiers: {
-          dexterity: 3,
+      celerity_3: {
+        type: "passive",
+        effects: {
+          attributesModifiers: {
+            dexterity: 3,
+          },
         },
       },
     },
     /** 4 */
     {
-      type: "passive",
-      effects: {
-        attributesModifiers: {
-          dexterity: 4,
+      celerity_4: {
+        type: "passive",
+        effects: {
+          attributesModifiers: {
+            dexterity: 4,
+          },
         },
       },
     },
     /** 5 */
     {
-      type: "passive",
-      effects: {
-        attributesModifiers: {
-          dexterity: 5,
+      celerity_5: {
+        type: "passive",
+        effects: {
+          attributesModifiers: {
+            dexterity: 5,
+          },
         },
       },
     },
@@ -586,50 +647,58 @@ export const disciplines = {
   auspex: [
     /** 1 */
     {
-      type: "usable",
-      availableTarget: ["self"],
+      heightened_senses: { type: "usable", availableTarget: ["self"] },
     },
     /** 2 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "fixedDifficulty",
-        selfCheck: ["perception", "empathy"],
-        difficultLevel: 8,
+      aura_reading: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["perception", "empathy"],
+          difficultLevel: 8,
+        },
+        duration: "scene",
       },
-      duration: "scene",
     },
     /** 3 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "plot",
-        selfCheck: ["perception", "empathy"],
-        difficultDescription: "Определяется мастером на основе сюжета",
+      psychometrics: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "plot",
+          selfCheck: ["perception", "empathy"],
+          difficultDescription: "Определяется мастером на основе сюжета",
+        },
+        duration: "scene",
       },
-      duration: "scene",
     },
     /** 4 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "opposedCheck",
-        selfCheck: ["intelligence", "subterfuge"],
-        difficultTarget: ["willpower"],
+      telepathy: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["intelligence", "subterfuge"],
+          difficultTarget: ["willpower"],
+        },
       },
     },
     /** 5 */
     {
-      type: "usable",
-      availableTarget: ["self"],
-      cost: { willpower: 1 },
-      check: {
-        type: "plot",
-        selfCheck: ["perception", "awareness"],
-        difficultDescription: "Сложность проверки (5-9) зависит от расстояния",
+      psychic_projection: {
+        type: "usable",
+        availableTarget: ["self"],
+        cost: { willpower: 1 },
+        check: {
+          type: "plot",
+          selfCheck: ["perception", "awareness"],
+          difficultDescription:
+            "Сложность проверки (5-9) зависит от расстояния",
+        },
       },
     },
   ],
@@ -637,42 +706,43 @@ export const disciplines = {
   obfuscate: [
     /** 1 */
     {
-      type: "usable",
-      availableTarget: ["self"],
+      shadows_cloak: { type: "usable", availableTarget: ["self"] },
     },
     /** 2 */
     {
-      type: "usable",
-      availableTarget: ["self"],
+      invisible_presence: { type: "usable", availableTarget: ["self"] },
     },
     /** 3 */
     {
-      type: "usable",
-      availableTarget: ["self"],
-      check: {
-        type: "fixedDifficulty",
-        selfCheck: ["manipulation", "performance"],
-        difficultLevel: 7,
+      many_faces_mask: {
+        type: "usable",
+        availableTarget: ["self"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["manipulation", "performance"],
+          difficultLevel: 7,
+        },
+        duration: "scene",
       },
-      duration: "scene",
     },
     /** 4 */
     {
-      type: "usable",
-      availableTarget: ["notSelf"],
-      check: {
-        type: "opposedCheck",
-        selfCheck: ["charisma", "stealth"],
-        difficultTarget: ["wits", "awareness"],
+      disappearance: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["charisma", "stealth"],
+          difficultTarget: ["wits", "awareness"],
+        },
       },
-      description: "Кастуется на себя, но на глазах у свидетелей",
     },
     /** 5 */
     {
-      type: "usable",
-      availableTarget: ["self", "notSelf"],
-      description:
-        "Каждый пункт скрытности позволяет спрятать 1 спутника, то есть если скрытность 4, можно спрятать 4 спутника.",
+      secret_meeting: {
+        type: "usable",
+        availableTarget: ["self", "notSelf"],
+      },
     },
   ],
 } as const satisfies Record<DisciplineName, readonly DisciplineLevelVariants[]>;
