@@ -670,7 +670,6 @@ export const disciplines = {
         check: {
           type: "plot",
           selfCheck: ["perception", "empathy"],
-          difficultDescription: "Определяется мастером на основе сюжета",
         },
         duration: "scene",
       },
@@ -689,15 +688,34 @@ export const disciplines = {
     },
     /** 5 */
     {
-      psychic_projection: {
+      near: {
         type: "usable",
         availableTarget: ["self"],
         cost: { willpower: 1 },
         check: {
-          type: "plot",
+          type: "fixedDifficulty",
           selfCheck: ["perception", "awareness"],
-          difficultDescription:
-            "Сложность проверки (5-9) зависит от расстояния",
+          difficultLevel: 5,
+        },
+      },
+      not_far: {
+        type: "usable",
+        availableTarget: ["self"],
+        cost: { willpower: 1 },
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["perception", "awareness"],
+          difficultLevel: 7,
+        },
+      },
+      very_far: {
+        type: "usable",
+        availableTarget: ["self"],
+        cost: { willpower: 1 },
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["perception", "awareness"],
+          difficultLevel: 9,
         },
       },
     },

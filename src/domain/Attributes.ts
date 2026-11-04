@@ -21,6 +21,9 @@ export const attributeNames = [
 
 export type AttributeName = ArrayElement<typeof attributeNames>;
 
+export const isAttributeName = (target: any): target is AttributeName =>
+  attributeNames.includes(target as AttributeName);
+
 /** Допустимые базовые уровни атрибутов персонажа, без каких либо модиыикаторов */
 export const baseAttributeLevels = [1, 2, 3, 4, 5] as const;
 

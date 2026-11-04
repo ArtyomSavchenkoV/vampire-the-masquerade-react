@@ -73,12 +73,12 @@ export const Wounds: FC<TProps> = ({
       {chunkArr.map((chunk, i) => (
         <Row key={i} align={align}>
           {chunk.map((option, j) => (
-            <Colored healthLevelName={option.healthLevelName}>
-              {(option.wound === "bashing" && <BashingIcon key={j} />) ||
-                (option.wound === "lethal" && <LethalIcon key={j} />) ||
-                (option.wound === "aggravated" && (
-                  <AggravatedIcon key={j} />
-                )) || <HitBoxIcon key={j} />}
+            <Colored key={j} healthLevelName={option.healthLevelName}>
+              {(option.wound === "bashing" && <BashingIcon />) ||
+                (option.wound === "lethal" && <LethalIcon />) ||
+                (option.wound === "aggravated" && <AggravatedIcon />) || (
+                  <HitBoxIcon />
+                )}
             </Colored>
           ))}
         </Row>

@@ -1,7 +1,9 @@
 import { disciplines } from "data/disciplines";
-import { AbilityName } from "./Abilities";
-import { AttributeName } from "./Attributes";
-import { MentalStability } from "./MentalStability";
+import { DictionaryTranslatePaths } from "dictionaries/types";
+import { DecrementUnionNumbers } from "utils/types/DecrementUnionNumbers";
+import { AbilityName, isAbilityName } from "./Abilities";
+import { AttributeName, isAttributeName } from "./Attributes";
+import { isMentalStability, MentalStability } from "./MentalStability";
 import { mergeModifiers, Modifiers } from "./Modifiers";
 
 /**
@@ -68,6 +70,27 @@ type CheckRuleTarget =
   | "humanityOrPathRating"
   | "willpower";
 
+export const getCheckRuleTargetTranslationKey = (
+  checkRuleTarget: CheckRuleTarget,
+): DictionaryTranslatePaths => {
+  if (isAttributeName(checkRuleTarget)) {
+    return `attributes.${checkRuleTarget}`;
+  }
+  if (isAbilityName(checkRuleTarget)) {
+    return `abilities.${checkRuleTarget}`;
+  }
+  if (isMentalStability(checkRuleTarget)) {
+    return `mentalStability.${checkRuleTarget}`;
+  }
+  if (checkRuleTarget === "humanityOrPathRating") {
+    return "fields.humanityOrPathRating";
+  }
+  if (checkRuleTarget === "willpower") {
+    return "fields.willpower";
+  }
+  return checkRuleTarget satisfies never;
+};
+
 /**
  * Правила проверки для способностей дисциплины.
  * Три взаимоисключающих типа проверок (дискриминантное объединение):
@@ -81,8 +104,6 @@ type CheckRule =
       type: "plot";
       /** Характеристики, которые персонаж использует для проверки. */
       selfCheck: readonly CheckRuleTarget[];
-      /** Описание, которое мастер может использовать для определения сложности (например, «зависит от ситуации»). */
-      difficultDescription: string;
     }
   | {
       /** Тип проверки: фиксированная сложность. */
@@ -105,7 +126,7 @@ type CheckRule =
  * Данные об эффекте конкретного уровня дисциплины.
  * Два типа эффектов: пассивный (всегда активен) и используемый (требует активации).
  */
-type DisciplineLevelData =
+export type DisciplineLevelData =
   | {
       /** Тип эффекта: пассивный. */
       type: "passive";
@@ -139,29 +160,6 @@ export type Discipline<Name extends DisciplineName> =
   (typeof disciplines)[Name];
 
 /**
- * Получает эффект дисциплины для заданного уровня.
- * @param disciplineName - название дисциплины (например, "Fortitude").
- * @param level - уровень дисциплины (1–5).
- * @returns Эффект (или массив альтернатив) либо null, если уровень вне диапазона.
- */
-export const getDisciplineEffect = (
-  disciplineName: DisciplineName,
-  level: DisciplineLevel,
-): DisciplineLevelVariants | null => {
-  const levels = disciplines[disciplineName];
-
-  // Уровень 1 → индекс 0, уровень 5 → индекс 4
-  const index = level - 1;
-
-  // Проверка границ массива (на случай, если у дисциплины меньше 5 уровней)
-  if (index < 0 || index >= levels.length) {
-    return null;
-  }
-
-  return levels[index];
-};
-
-/**
  * Выбирает и складывает модификаторы пассивных дисциплин
  */
 export const getDisciplinesEffects = (
@@ -193,4 +191,22 @@ export const getDisciplinesEffects = (
   }
 
   return result;
+};
+
+/** Какой формы должен быть блок translations.disciplines в словаре. */
+export type DisciplineTranslations = {
+  [N in DisciplineName]: {
+    name: string;
+    levels: {
+      [L in DisciplineLevel]: {
+        name: string;
+        variants: {
+          [V in keyof Discipline<N>[DecrementUnionNumbers<L>] & string]: {
+            name: string;
+            description: string;
+          };
+        };
+      };
+    };
+  };
 };
