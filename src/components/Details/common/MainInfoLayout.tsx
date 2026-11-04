@@ -75,11 +75,6 @@ export const MainInfoLayout: FC<TProps> = ({
   return (
     <Root ref={ref}>
       <Actions>{actions}</Actions>
-      <Resources isSmallElement={isSmallElement}>
-        <List>{health}</List>
-        <List>{willpower}</List>
-        {bloodPool && <List>{bloodPool}</List>}
-      </Resources>
       <Columns isSmallElement={isSmallElement}>
         <List>{effects}</List>
         <Rows>
@@ -88,6 +83,11 @@ export const MainInfoLayout: FC<TProps> = ({
         </Rows>
         {clan && <List>{clan}</List>}
       </Columns>
+      <Resources isSmallElement={isSmallElement}>
+        <List>{health}</List>
+        <List>{willpower}</List>
+        {bloodPool && <List>{bloodPool}</List>}
+      </Resources>
       <List>{notes}</List>
     </Root>
   );
