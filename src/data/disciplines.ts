@@ -8,7 +8,11 @@ export const disciplines = {
   animalism: [
     /** 1 */
     {
-      carnivorous_mammals: {
+      conversation: {
+        type: "usable",
+        availableTarget: ["animals"],
+      },
+      carnivorous_mammals_order: {
         type: "usable",
         availableTarget: ["animals"],
         check: {
@@ -21,7 +25,7 @@ export const disciplines = {
           },
         },
       },
-      carnivorous_birds_and_mammals: {
+      carnivorous_birds_and_mammals_order: {
         type: "usable",
         availableTarget: ["animals"],
         check: {
@@ -34,7 +38,7 @@ export const disciplines = {
           },
         },
       },
-      birds_and_reptiles: {
+      birds_and_reptiles_order: {
         type: "usable",
         availableTarget: ["animals"],
         check: {
