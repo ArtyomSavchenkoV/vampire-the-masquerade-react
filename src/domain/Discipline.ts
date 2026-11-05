@@ -1,7 +1,9 @@
 import { disciplines } from "data/disciplines";
-import { AbilityName } from "./Abilities";
-import { AttributeName } from "./Attributes";
-import { MentalStability } from "./MentalStability";
+import { DictionaryTranslatePaths } from "dictionaries/types";
+import { DecrementUnionNumbers } from "utils/types/DecrementUnionNumbers";
+import { AbilityName, isAbilityName } from "./Abilities";
+import { AttributeName, isAttributeName } from "./Attributes";
+import { isMentalStability, MentalStability } from "./MentalStability";
 import { mergeModifiers, Modifiers } from "./Modifiers";
 
 /**
@@ -68,6 +70,41 @@ type CheckRuleTarget =
   | "humanityOrPathRating"
   | "willpower";
 
+export const getCheckRuleTargetTranslationKey = (
+  checkRuleTarget: CheckRuleTarget,
+): DictionaryTranslatePaths => {
+  if (isAttributeName(checkRuleTarget)) {
+    return `attributes.${checkRuleTarget}`;
+  }
+  if (isAbilityName(checkRuleTarget)) {
+    return `abilities.${checkRuleTarget}`;
+  }
+  if (isMentalStability(checkRuleTarget)) {
+    return `mentalStability.${checkRuleTarget}`;
+  }
+  if (checkRuleTarget === "humanityOrPathRating") {
+    return "fields.humanityOrPathRating";
+  }
+  if (checkRuleTarget === "willpower") {
+    return "fields.willpower";
+  }
+  return checkRuleTarget satisfies never;
+};
+
+type RequiredSuccesses =
+  | {
+      /** Тип проверки: фиксированная сложность. */
+      type: "fixed";
+      /** Числовое значение сложности проверки. */
+      count: number;
+    }
+  | {
+      /** Тип проверки: встречная (против характеристик цели). */
+      type: "opposed";
+      /** Характеристики цели, против которых идёт проверка. */
+      count: readonly CheckRuleTarget[];
+    };
+
 /**
  * Правила проверки для способностей дисциплины.
  * Три взаимоисключающих типа проверок (дискриминантное объединение):
@@ -81,8 +118,6 @@ type CheckRule =
       type: "plot";
       /** Характеристики, которые персонаж использует для проверки. */
       selfCheck: readonly CheckRuleTarget[];
-      /** Описание, которое мастер может использовать для определения сложности (например, «зависит от ситуации»). */
-      difficultDescription: string;
     }
   | {
       /** Тип проверки: фиксированная сложность. */
@@ -91,6 +126,8 @@ type CheckRule =
       selfCheck: readonly CheckRuleTarget[];
       /** Числовое значение сложности проверки. */
       difficultLevel: number;
+      /** Количество успехов */
+      requiredSuccesses: RequiredSuccesses;
     }
   | {
       /** Тип проверки: встречная (против характеристик цели). */
@@ -99,26 +136,32 @@ type CheckRule =
       selfCheck: readonly CheckRuleTarget[];
       /** Характеристики цели, против которых идёт проверка. */
       difficultTarget: readonly CheckRuleTarget[];
+      /** Количество успехов */
+      requiredSuccesses: RequiredSuccesses;
     };
 
 /**
  * Данные об эффекте конкретного уровня дисциплины.
  * Два типа эффектов: пассивный (всегда активен) и используемый (требует активации).
  */
-type DisciplineLevelData =
+export type DisciplineLevelData =
   | {
       /** Тип эффекта: пассивный. */
       type: "passive";
       /** Эффекты, применяемые автоматически (бонусы, поглощение и т.д.). */
       effects?: Modifiers;
-      /** Описание эффекта для отображения в интерфейсе. */
-      description?: string;
     }
   | {
       /** Тип эффекта: используемый (активная способность). */
       type: "usable";
       /** Допустимые цели применения способности: на себя или на других. */
-      availableTarget: readonly ("self" | "notSelf")[];
+      availableTarget: readonly (
+        | "self"
+        | "notSelf"
+        | "kindred"
+        | "mortals"
+        | "animals"
+      )[];
       /** Стоимость активации: в очках силы воли или крови. */
       cost?: Partial<Record<"willpower" | "bloodPool", number>>;
       /** Правило проверки, необходимое для применения способности. */
@@ -129,40 +172,16 @@ type DisciplineLevelData =
       duration?: number | "scene" | "successCount";
       /** Время, необходимое на активацию способности (в раундах). */
       castDuration?: number;
-      /** Описание способности для отображения в интерфейсе. */
-      description?: string;
     };
 
 /**
  * Варианты данных для уровня дисциплины.
  * Может быть одиночным эффектом либо массивом альтернативных эффектов (например, выбор ветки на 4‑м уровне).
  */
-export type DisciplineLevelVariants =
-  | DisciplineLevelData
-  | readonly DisciplineLevelData[];
+export type DisciplineLevelVariants = Record<string, DisciplineLevelData>;
 
-/**
- * Получает эффект дисциплины для заданного уровня.
- * @param disciplineName - название дисциплины (например, "Fortitude").
- * @param level - уровень дисциплины (1–5).
- * @returns Эффект (или массив альтернатив) либо null, если уровень вне диапазона.
- */
-export const getDisciplineEffect = (
-  disciplineName: DisciplineName,
-  level: DisciplineLevel,
-): DisciplineLevelVariants | null => {
-  const levels = disciplines[disciplineName];
-
-  // Уровень 1 → индекс 0, уровень 5 → индекс 4
-  const index = level - 1;
-
-  // Проверка границ массива (на случай, если у дисциплины меньше 5 уровней)
-  if (index < 0 || index >= levels.length) {
-    return null;
-  }
-
-  return levels[index];
-};
+export type Discipline<Name extends DisciplineName> =
+  (typeof disciplines)[Name];
 
 /**
  * Выбирает и складывает модификаторы пассивных дисциплин
@@ -187,9 +206,8 @@ export const getDisciplinesEffects = (
     // Уровень в V20 обычно 1–5, поэтому индекс level - 1
     const levelData = disciplineLevels[level - 1];
     if (!levelData) continue;
-    const variants = Array.isArray(levelData) ? levelData : [levelData];
 
-    for (const variant of variants) {
+    for (const variant of Object.values(levelData)) {
       if (variant.type === "passive" && variant.effects) {
         result = mergeModifiers(result, variant.effects);
       }
@@ -197,4 +215,22 @@ export const getDisciplinesEffects = (
   }
 
   return result;
+};
+
+/** Какой формы должен быть блок translations.disciplines в словаре. */
+export type DisciplineTranslations = {
+  [N in DisciplineName]: {
+    name: string;
+    levels: {
+      [L in DisciplineLevel]: {
+        name: string;
+        variants: {
+          [V in keyof Discipline<N>[DecrementUnionNumbers<L>] & string]: {
+            name: string;
+            description: string;
+          };
+        };
+      };
+    };
+  };
 };

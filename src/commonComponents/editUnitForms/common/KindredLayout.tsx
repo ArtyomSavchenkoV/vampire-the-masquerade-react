@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Card } from "baseComponents/Card";
+import { Divider } from "baseComponents/Divider";
 import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { useOnElementResize } from "hooks/useOnElementResize";
 import { FC, HTMLAttributes, ReactNode, useRef, useState } from "react";
@@ -11,12 +12,6 @@ const Page = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`;
-const Divider = styled.div`
-  width: 100%;
-  height: 1px;
-  background: #ccc;
-  margin: 8px 0;
 `;
 const Section = styled.div<{ isSmallElement: boolean }>(
   ({ isSmallElement }) => ({

@@ -1,10 +1,16 @@
-export type MentalStability =
+export const mentalStabilities = [
   /** Совесть (Humanity) или Путь (Path) — шкала морали */
-  | "morality"
+  "morality",
   /** Самоконтроль (Self-Control) или Инстинкты (Instincts) */
-  | "selfControl"
+  "selfControl",
   /** Смелость (Courage) — сопротивление страху и безумию */
-  | "courage";
+  "courage",
+] as const;
+
+export type MentalStability = ArrayElement<typeof mentalStabilities>;
+
+export const isMentalStability = (target: any): target is MentalStability =>
+  mentalStabilities.includes(target as MentalStability);
 
 export const mentalStabilityLevels = [1, 2, 3, 4, 5] as const;
 

@@ -65,6 +65,9 @@ export const abilityNames = [
 
 export type AbilityName = ArrayElement<typeof abilityNames>;
 
+export const isAbilityName = (target: any): target is AbilityName =>
+  abilityNames.includes(target as AbilityName);
+
 /** Допустимые базовые уровни абилок персонажа, без каких либо модиыикаторов */
 export const baseAbilityLevels = [0, 1, 2, 3, 4, 5] as const;
 
