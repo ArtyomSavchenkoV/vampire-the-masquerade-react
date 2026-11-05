@@ -8,13 +8,43 @@ export const disciplines = {
   animalism: [
     /** 1 */
     {
-      animal_language: {
+      carnivorous_mammals: {
         type: "usable",
-        availableTarget: ["notSelf"],
+        availableTarget: ["animals"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "animal_ken"],
           difficultLevel: 6,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+      },
+      carnivorous_birds_and_mammals: {
+        type: "usable",
+        availableTarget: ["animals"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["manipulation", "animal_ken"],
+          difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+      },
+      birds_and_reptiles: {
+        type: "usable",
+        availableTarget: ["animals"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["manipulation", "animal_ken"],
+          difficultLevel: 8,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -22,32 +52,57 @@ export const disciplines = {
     {
       calling: {
         type: "usable",
-        availableTarget: ["notSelf"],
+        availableTarget: ["animals"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["survival", "charisma"],
           difficultLevel: 6,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
     /** 3 */
     {
-      beast_taming_intimidation: {
+      beast_taming_intimidation_mortal: {
         type: "usable",
-        availableTarget: ["notSelf"],
+        availableTarget: ["mortals"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "intimidation"],
           difficultLevel: 7,
+          requiredSuccesses: {
+            type: "opposed",
+            count: ["willpower"],
+          },
         },
       },
-      beast_taming_empathy: {
+      beast_taming_empathy_mortal: {
         type: "usable",
-        availableTarget: ["notSelf"],
+        availableTarget: ["mortals"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "empathy"],
           difficultLevel: 7,
+          requiredSuccesses: {
+            type: "opposed",
+            count: ["willpower"],
+          },
+        },
+      },
+      beast_taming_empathy_kindred: {
+        type: "usable",
+        availableTarget: ["kindred"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["manipulation", "empathy"],
+          difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 3,
+          },
         },
       },
     },
@@ -55,11 +110,15 @@ export const disciplines = {
     {
       spirit_absorption: {
         type: "usable",
-        availableTarget: ["notSelf"],
+        availableTarget: ["animals"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "animal_ken"],
           difficultLevel: 8,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -72,6 +131,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "selfControl"],
           difficultLevel: 8,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -88,6 +151,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["charisma", "performance"],
           difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -100,6 +167,10 @@ export const disciplines = {
           type: "opposedCheck",
           selfCheck: ["charisma", "intimidation"],
           difficultTarget: ["wits", "courage"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -113,6 +184,10 @@ export const disciplines = {
           type: "opposedCheck",
           selfCheck: ["appearance", "empathy"],
           difficultTarget: ["willpower"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -126,6 +201,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["charisma", "subterfuge"],
           difficultLevel: 5,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
       invitation_friend: {
@@ -136,6 +215,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["charisma", "subterfuge"],
           difficultLevel: 6,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
       invitation_acquaintance: {
@@ -146,6 +229,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["charisma", "subterfuge"],
           difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
       invitation_stranger: {
@@ -156,6 +243,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["charisma", "subterfuge"],
           difficultLevel: 8,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -179,6 +270,10 @@ export const disciplines = {
           type: "opposedCheck",
           selfCheck: ["manipulation", "intimidation"],
           difficultTarget: ["willpower"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -191,6 +286,10 @@ export const disciplines = {
           type: "opposedCheck",
           selfCheck: ["manipulation", "leadership"],
           difficultTarget: ["willpower"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -203,6 +302,10 @@ export const disciplines = {
           type: "opposedCheck",
           selfCheck: ["wits", "subterfuge"],
           difficultTarget: ["willpower"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -215,6 +318,10 @@ export const disciplines = {
           type: "opposedCheck",
           selfCheck: ["charisma", "leadership"],
           difficultTarget: ["willpower"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -228,6 +335,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["charisma", "intimidation"],
           difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -256,6 +367,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "occult"],
           difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -269,6 +384,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "occult"],
           difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -282,6 +401,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "courage"],
           difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -433,6 +556,10 @@ export const disciplines = {
           type: "opposedCheck",
           selfCheck: ["charisma", "empathy"],
           difficultTarget: ["humanityOrPathRating"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -446,6 +573,10 @@ export const disciplines = {
           type: "opposedCheck",
           selfCheck: ["subterfuge", "manipulation"],
           difficultTarget: ["perception", "selfControl"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -458,6 +589,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["perception", "occult"],
           difficultLevel: 6,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
       encrypted_message: {
@@ -467,6 +602,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["perception", "occult"],
           difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
       acquaintance_nature: {
@@ -476,6 +615,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["perception", "occult"],
           difficultLevel: 8,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
       stranger_nature: {
@@ -485,6 +628,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["perception", "occult"],
           difficultLevel: 9,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -498,6 +645,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "empathy"],
           difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
         duration: "scene",
       },
@@ -512,6 +663,10 @@ export const disciplines = {
           type: "opposedCheck",
           selfCheck: ["manipulation", "intimidation"],
           difficultTarget: ["willpower"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
         duration: "successCount",
       },
@@ -658,6 +813,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["perception", "empathy"],
           difficultLevel: 8,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
         duration: "scene",
       },
@@ -683,6 +842,10 @@ export const disciplines = {
           type: "opposedCheck",
           selfCheck: ["intelligence", "subterfuge"],
           difficultTarget: ["willpower"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -696,6 +859,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["perception", "awareness"],
           difficultLevel: 5,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
       not_far: {
@@ -706,6 +873,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["perception", "awareness"],
           difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
       very_far: {
@@ -716,6 +887,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["perception", "awareness"],
           difficultLevel: 9,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },
@@ -739,6 +914,10 @@ export const disciplines = {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "performance"],
           difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
         duration: "scene",
       },
@@ -752,6 +931,10 @@ export const disciplines = {
           type: "opposedCheck",
           selfCheck: ["charisma", "stealth"],
           difficultTarget: ["wits", "awareness"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
         },
       },
     },

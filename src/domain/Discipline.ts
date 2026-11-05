@@ -91,6 +91,20 @@ export const getCheckRuleTargetTranslationKey = (
   return checkRuleTarget satisfies never;
 };
 
+type RequiredSuccesses =
+  | {
+      /** Тип проверки: фиксированная сложность. */
+      type: "fixed";
+      /** Числовое значение сложности проверки. */
+      count: number;
+    }
+  | {
+      /** Тип проверки: встречная (против характеристик цели). */
+      type: "opposed";
+      /** Характеристики цели, против которых идёт проверка. */
+      count: readonly CheckRuleTarget[];
+    };
+
 /**
  * Правила проверки для способностей дисциплины.
  * Три взаимоисключающих типа проверок (дискриминантное объединение):
@@ -112,6 +126,8 @@ type CheckRule =
       selfCheck: readonly CheckRuleTarget[];
       /** Числовое значение сложности проверки. */
       difficultLevel: number;
+      /** Количество успехов */
+      requiredSuccesses: RequiredSuccesses;
     }
   | {
       /** Тип проверки: встречная (против характеристик цели). */
@@ -120,6 +136,8 @@ type CheckRule =
       selfCheck: readonly CheckRuleTarget[];
       /** Характеристики цели, против которых идёт проверка. */
       difficultTarget: readonly CheckRuleTarget[];
+      /** Количество успехов */
+      requiredSuccesses: RequiredSuccesses;
     };
 
 /**
@@ -137,7 +155,13 @@ export type DisciplineLevelData =
       /** Тип эффекта: используемый (активная способность). */
       type: "usable";
       /** Допустимые цели применения способности: на себя или на других. */
-      availableTarget: readonly ("self" | "notSelf")[];
+      availableTarget: readonly (
+        | "self"
+        | "notSelf"
+        | "kindred"
+        | "mortals"
+        | "animals"
+      )[];
       /** Стоимость активации: в очках силы воли или крови. */
       cost?: Partial<Record<"willpower" | "bloodPool", number>>;
       /** Правило проверки, необходимое для применения способности. */

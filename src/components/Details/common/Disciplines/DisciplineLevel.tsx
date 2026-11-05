@@ -61,6 +61,7 @@ const Root = styled(Card)<{ isNotMastered: boolean }>(
     display: flex;
     flex-direction: column;
     gap: 4px;
+    max-height: 100%;
     ${isNotMastered ? "opacity: .5; background-color: #eee;" : ""}
   `,
 );
@@ -71,6 +72,12 @@ const Name = styled(DetailsSectionTitle)(`
 
 const Variants = styled.div(`
   font-size: .8em;
+`);
+
+const Description = styled.div(`
+  font-size: .8em;
+  overflow: auto;
+  min-height: 60px;
 `);
 
 export const DisciplineLevel = withErrorBoundary(
@@ -133,11 +140,6 @@ export const DisciplineLevel = withErrorBoundary(
           {variantsNames.length === 1 &&
             translate(`disciplinesDetails.${disciplineLevelVariant.type}`)}
         </Variants>
-
-        {/* Описание */}
-        {translate(
-          `disciplines.${disciplineName}.levels.${disciplineLevel}.variants.${validatedSelectedVariant}.description` as DictionaryTranslatePaths,
-        )}
 
         {/* Допустимые цели */}
         {disciplineLevelVariant.type === "usable" && (
@@ -208,6 +210,40 @@ export const DisciplineLevel = withErrorBoundary(
                     ),
                   )}
               </StyledTitleText>
+              {/* Необходимое количество успехов */}
+              {(disciplineLevelVariant.check.type === "fixedDifficulty" ||
+                disciplineLevelVariant.check.type === "opposedCheck") &&
+                ((disciplineLevelVariant.check.requiredSuccesses.type ===
+                  "fixed" &&
+                  disciplineLevelVariant.check.requiredSuccesses.count !== 1) ||
+                  disciplineLevelVariant.check.requiredSuccesses.type ===
+                    "opposed") && (
+                  <>
+                    <DetailsSectionTitle>
+                      {translate("disciplinesDetails.checkSuccessesField")}
+                    </DetailsSectionTitle>
+                    <StyledTitleText
+                      title={translate(
+                        `disciplinesDetails.checkSuccesses.${disciplineLevelVariant.check.requiredSuccesses.type}`,
+                      )}
+                    >
+                      {disciplineLevelVariant.check.requiredSuccesses.type ===
+                        "fixed" &&
+                        disciplineLevelVariant.check.requiredSuccesses.count}
+                      {disciplineLevelVariant.check.requiredSuccesses.type ===
+                        "opposed" &&
+                        joinStrings(
+                          "+",
+                          ...disciplineLevelVariant.check.requiredSuccesses.count.map(
+                            (checkParam) =>
+                              translate(
+                                getCheckRuleTargetTranslationKey(checkParam),
+                              ),
+                          ),
+                        )}
+                    </StyledTitleText>
+                  </>
+                )}
             </>
           )}
 
@@ -245,6 +281,13 @@ export const DisciplineLevel = withErrorBoundary(
               </StyledTitleText>
             </>
           )}
+
+        {/* Описание */}
+        <Description>
+          {translate(
+            `disciplines.${disciplineName}.levels.${disciplineLevel}.variants.${validatedSelectedVariant}.description` as DictionaryTranslatePaths,
+          )}
+        </Description>
       </Root>
     );
   },

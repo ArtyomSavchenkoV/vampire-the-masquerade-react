@@ -15,5 +15,6 @@ export const Tab = styled(Button)<{ isSelected: boolean }>(
       borderBottom: "3px solid rgb(92, 121, 233)",
       boxShadow: "0 0 0 2px rgba(3, 0, 255, 0.3)", // мягкий акцент для фокуса
     },
+    minWidth: "3em",
   }),
 );

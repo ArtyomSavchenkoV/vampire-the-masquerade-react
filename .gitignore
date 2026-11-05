@@ -31,3 +31,6 @@ yarn-error.log*
 # Emotion / временные кэши стилей (если появятся при сборке)
 .cache/
 dist/
+
+# Idea
+.idea/
