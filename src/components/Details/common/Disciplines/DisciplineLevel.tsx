@@ -9,7 +9,7 @@ import {
   DisciplineLevelVariants,
   getCheckRuleTargetTranslationKey,
 } from "domain/Discipline";
-import { ComponentProps, FC, useMemo, useState } from "react";
+import { ComponentProps, useMemo, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { disciplines } from "data/disciplines";
 import { DictionaryTranslatePaths } from "dictionaries/types";
@@ -45,16 +45,6 @@ const getLevelVariants = <
 
 const typedKeys = <T extends object>(obj: T): (keyof T & string)[] =>
   Object.keys(obj) as (keyof T & string)[];
-
-const StyledTitleText: FC<ComponentProps<typeof TitleText>> = ({
-  ...props
-}) => (
-  <TitleText
-    {...props}
-    gridTemplateColumnsOnNormal="1fr auto"
-    smallSize={160}
-  />
-);
 
 const Root = styled(Card)<{ isNotMastered: boolean }>(
   ({ isNotMastered }) => `
@@ -165,12 +155,9 @@ export const DisciplineLevel = withErrorBoundary(
               </DetailsSectionTitle>
               {getDefinedEntries(disciplineLevelVariant.cost).map(
                 ({ key, value }) => (
-                  <StyledTitleText
-                    key={key}
-                    title={translate(`resources.${key}`)}
-                  >
+                  <TitleText key={key} title={translate(`resources.${key}`)}>
                     {value}
-                  </StyledTitleText>
+                  </TitleText>
                 ),
               )}
             </>
@@ -194,7 +181,7 @@ export const DisciplineLevel = withErrorBoundary(
               <DetailsSectionTitle>
                 {translate("disciplinesDetails.checkDifficultField")}
               </DetailsSectionTitle>
-              <StyledTitleText
+              <TitleText
                 title={translate(
                   `disciplinesDetails.checkDifficult.${disciplineLevelVariant.check.type}`,
                 )}
@@ -209,7 +196,7 @@ export const DisciplineLevel = withErrorBoundary(
                         translate(getCheckRuleTargetTranslationKey(checkParam)),
                     ),
                   )}
-              </StyledTitleText>
+              </TitleText>
               {/* Необходимое количество успехов */}
               {(disciplineLevelVariant.check.type === "fixedDifficulty" ||
                 disciplineLevelVariant.check.type === "opposedCheck") &&
@@ -222,7 +209,7 @@ export const DisciplineLevel = withErrorBoundary(
                     <DetailsSectionTitle>
                       {translate("disciplinesDetails.checkSuccessesField")}
                     </DetailsSectionTitle>
-                    <StyledTitleText
+                    <TitleText
                       title={translate(
                         `disciplinesDetails.checkSuccesses.${disciplineLevelVariant.check.requiredSuccesses.type}`,
                       )}
@@ -241,7 +228,7 @@ export const DisciplineLevel = withErrorBoundary(
                               ),
                           ),
                         )}
-                    </StyledTitleText>
+                    </TitleText>
                   </>
                 )}
             </>
@@ -257,15 +244,13 @@ export const DisciplineLevel = withErrorBoundary(
           disciplineLevelVariant.duration && (
             <>
               <Divider />
-              <StyledTitleText
-                title={translate("disciplinesDetails.durationField")}
-              >
+              <TitleText title={translate("disciplinesDetails.durationField")}>
                 {(disciplineLevelVariant.duration === "scene" &&
                   translate("disciplinesDetails.duration.scene")) ||
                   (disciplineLevelVariant.duration === "successCount" &&
                     translate("disciplinesDetails.duration.successCount")) ||
                   disciplineLevelVariant.duration}
-              </StyledTitleText>
+              </TitleText>
             </>
           )}
 
@@ -274,11 +259,11 @@ export const DisciplineLevel = withErrorBoundary(
           disciplineLevelVariant.castDuration && (
             <>
               <Divider />
-              <StyledTitleText
+              <TitleText
                 title={translate("disciplinesDetails.castDurationField")}
               >
                 {disciplineLevelVariant.castDuration}
-              </StyledTitleText>
+              </TitleText>
             </>
           )}
 

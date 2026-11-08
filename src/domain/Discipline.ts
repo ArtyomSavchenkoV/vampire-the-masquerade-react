@@ -156,11 +156,26 @@ export type DisciplineLevelData =
       type: "usable";
       /** Допустимые цели применения способности: на себя или на других. */
       availableTarget: readonly (
+        /** На себя */
         | "self"
+        /** На другого */
         | "notSelf"
+        /** сородич */
         | "kindred"
-        | "mortals"
-        | "animals"
+        /** смертный */
+        | "mortal"
+        /** животное */
+        | "animal"
+        /** млекопитающее */
+        | "mammal"
+        /** хищное млекопитающее */
+        | "carnivorous_mammal"
+        /** птица */
+        | "bird"
+        /** хищная птица */
+        | "carnivorous_bird"
+        /** рептилия */
+        | "reptile"
       )[];
       /** Стоимость активации: в очках силы воли или крови. */
       cost?: Partial<Record<"willpower" | "bloodPool", number>>;

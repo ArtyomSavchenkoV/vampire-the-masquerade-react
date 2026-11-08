@@ -10,11 +10,11 @@ export const disciplines = {
     {
       conversation: {
         type: "usable",
-        availableTarget: ["animals"],
+        availableTarget: ["animal"],
       },
       carnivorous_mammals_order: {
         type: "usable",
-        availableTarget: ["animals"],
+        availableTarget: ["carnivorous_mammal"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "animal_ken"],
@@ -27,7 +27,7 @@ export const disciplines = {
       },
       carnivorous_birds_and_mammals_order: {
         type: "usable",
-        availableTarget: ["animals"],
+        availableTarget: ["mammal", "carnivorous_bird"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "animal_ken"],
@@ -40,7 +40,7 @@ export const disciplines = {
       },
       birds_and_reptiles_order: {
         type: "usable",
-        availableTarget: ["animals"],
+        availableTarget: ["mammal", "bird", "reptile"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "animal_ken"],
@@ -56,7 +56,7 @@ export const disciplines = {
     {
       calling: {
         type: "usable",
-        availableTarget: ["animals"],
+        availableTarget: ["animal"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["survival", "charisma"],
@@ -72,7 +72,7 @@ export const disciplines = {
     {
       beast_taming_intimidation_mortal: {
         type: "usable",
-        availableTarget: ["mortals"],
+        availableTarget: ["mortal"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "intimidation"],
@@ -85,7 +85,7 @@ export const disciplines = {
       },
       beast_taming_empathy_mortal: {
         type: "usable",
-        availableTarget: ["mortals"],
+        availableTarget: ["mortal"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "empathy"],
@@ -114,7 +114,7 @@ export const disciplines = {
     {
       spirit_absorption: {
         type: "usable",
-        availableTarget: ["animals"],
+        availableTarget: ["animal"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "animal_ken"],

@@ -12,7 +12,8 @@ const Root = styled.div<{
     ? {}
     : {
         display: "grid",
-        gridTemplateColumns: gridTemplateColumnsOnNormal || "1fr 1fr",
+        gridTemplateColumns:
+          gridTemplateColumnsOnNormal || "minmax(80px, 1fr) auto",
       }),
 }));
 
@@ -47,7 +48,7 @@ export const TitleText: FC<IProps> = ({
   const [isSmallElement, setIsSmallElement] = useState(false);
   useOnElementResize({
     elementRef: ref,
-    onResize: (size) => setIsSmallElement(size.width < (smallSize || 260)),
+    onResize: (size) => setIsSmallElement(size.width < (smallSize || 200)),
   });
   return (
     <Root
