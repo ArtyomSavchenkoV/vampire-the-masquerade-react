@@ -20,8 +20,8 @@ const Discipline = styled.div(`
 `);
 
 const StyledDisciplineLevel = styled(DisciplineLevel)(`
-    width: 265px;
-    height: 310px;
+    width: 270px;
+    height: 360px;
     overflow: auto;
 `);
 

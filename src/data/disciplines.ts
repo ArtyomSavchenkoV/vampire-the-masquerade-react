@@ -176,6 +176,7 @@ export const disciplines = {
             count: 1,
           },
         },
+        duration: 2,
       },
     },
     /** 3 */
@@ -197,7 +198,7 @@ export const disciplines = {
     },
     /** 4 */
     {
-      invitation_close_friend: {
+      well_known: {
         type: "usable",
         availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
@@ -211,21 +212,7 @@ export const disciplines = {
           },
         },
       },
-      invitation_friend: {
-        type: "usable",
-        availableTarget: ["notSelf"],
-        cost: { bloodPool: 1 },
-        check: {
-          type: "fixedDifficulty",
-          selfCheck: ["charisma", "subterfuge"],
-          difficultLevel: 6,
-          requiredSuccesses: {
-            type: "fixed",
-            count: 1,
-          },
-        },
-      },
-      invitation_acquaintance: {
+      casually_known: {
         type: "usable",
         availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
@@ -239,7 +226,21 @@ export const disciplines = {
           },
         },
       },
-      invitation_stranger: {
+      previously_successful_grandeur: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        cost: { bloodPool: 1 },
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["charisma", "subterfuge"],
+          difficultLevel: 4,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+      },
+      previously_unsuccessful_grandeur: {
         type: "usable",
         availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
@@ -260,6 +261,7 @@ export const disciplines = {
         type: "usable",
         availableTarget: ["notSelf"],
         cost: { willpower: 1 },
+        duration: "scene",
       },
     },
   ],
