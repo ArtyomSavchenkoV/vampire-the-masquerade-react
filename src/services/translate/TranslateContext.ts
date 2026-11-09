@@ -1,5 +1,5 @@
 import { DictionaryTranslatePaths } from "dictionaries/types";
-import { createContext } from "react";
+import { createContext, ReactNode } from "react";
 
 export interface TTranslate {
   (
@@ -8,8 +8,17 @@ export interface TTranslate {
   ): string;
 }
 
+/** Возвращает ReactNode: строки из словаря чередуются с вставками-элементами. */
+export interface TTranslateRich {
+  (
+    path: DictionaryTranslatePaths,
+    inserts?: { [key: string]: ReactNode },
+  ): ReactNode;
+}
+
 export interface TranslateContextValue {
   translate: TTranslate;
+  translateRich: TTranslateRich;
 }
 
 const TranslateContext = createContext<TranslateContextValue | null>(null);
