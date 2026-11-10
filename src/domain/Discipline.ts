@@ -183,7 +183,7 @@ export type DisciplineLevelData =
         | "reptile"
       )[];
       /** Стоимость активации: в очках силы воли или крови. */
-      cost?: Partial<Record<"willpower" | "bloodPool", number>>;
+      cost?: Partial<{ willpower: number; bloodPool: number | "calculatable" }>;
       /** Правило проверки, необходимое для применения способности. */
       check?: CheckRule;
       /** Эффекты, которые применяются при успешном использовании способности. */

@@ -76,12 +76,12 @@ export const DisciplineLevel = withErrorBoundary(
   <TName extends DisciplineName, TLevel extends TDisciplineLevel>({
     disciplineName,
     disciplineLevel,
-    isHasBeenMastered,
+    isHasBeenMastered = true,
     ...props
   }: {
     disciplineName: TName;
     disciplineLevel: TLevel;
-    isHasBeenMastered: boolean;
+    isHasBeenMastered?: boolean;
   } & ComponentProps<typeof Card>) => {
     const { translate, translateRich } = useTranslate();
 
@@ -158,7 +158,9 @@ export const DisciplineLevel = withErrorBoundary(
               {getDefinedEntries(disciplineLevelVariant.cost).map(
                 ({ key, value }) => (
                   <TitleText key={key} title={translate(`resources.${key}`)}>
-                    {value}
+                    {value === "calculatable"
+                      ? translate("disciplinesDetails.calculatableCost")
+                      : value}
                   </TitleText>
                 ),
               )}

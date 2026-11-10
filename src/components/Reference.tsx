@@ -1,6 +1,7 @@
 import { StringButton } from "baseComponents/StringButton";
 import { ConfirmWindow } from "commonComponents/ConfirmWindow";
 import { Dialog } from "commonComponents/Dialog";
+import { DisciplineLevel } from "commonComponents/DisciplineLevel";
 import { TReference } from "domain/Reference";
 import { ComponentProps, FC, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
@@ -41,6 +42,38 @@ export const Reference: FC<TProps> = ({ reference, onClick, ...props }) => {
               {translate(
                 `mentalDisorders.${reference.mentalDisorder}.description`,
               )}
+            </ConfirmWindow>
+          </Dialog>
+        </>
+      )}
+      {reference.type === "disciplineLevel" && (
+        <>
+          {/* Кнопка */}
+          <StringButton
+            onClick={(ev) => {
+              onClick?.(ev);
+              setOpen(true);
+            }}
+            {...props}
+          >
+            {translate(
+              `disciplines.${reference.discipline}.levels.${reference.level}.name`,
+            )}
+          </StringButton>
+
+          {/* Окно */}
+          <Dialog onClose={() => setOpen(false)} open={open}>
+            <ConfirmWindow
+              size="md"
+              title={translate(
+                `disciplines.${reference.discipline}.levels.${reference.level}.name`,
+              )}
+              onClose={() => setOpen(false)}
+            >
+              <DisciplineLevel
+                disciplineName={reference.discipline}
+                disciplineLevel={reference.level}
+              />
             </ConfirmWindow>
           </Dialog>
         </>

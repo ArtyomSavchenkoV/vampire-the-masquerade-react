@@ -972,13 +972,58 @@ export const disciplines = {
     },
     /** 2 */
     {
-      invisible_presence: { type: "usable", availableTarget: ["self"] },
+      unnoticeable_presence: {
+        type: "usable",
+        availableTarget: ["self"],
+      },
+      unnoticeable_presence_low: {
+        type: "usable",
+        availableTarget: ["self"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["wits", "stealth"],
+          difficultLevel: 5,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+      },
+      unnoticeable_presence_middle: {
+        type: "usable",
+        availableTarget: ["self"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["wits", "stealth"],
+          difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+      },
+      unnoticeable_presence_high: {
+        type: "usable",
+        availableTarget: ["self"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["wits", "stealth"],
+          difficultLevel: 9,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+      },
     },
     /** 3 */
     {
       many_faces_mask: {
         type: "usable",
         availableTarget: ["self"],
+        cost: {
+          bloodPool: "calculatable",
+        },
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "performance"],
@@ -988,14 +1033,13 @@ export const disciplines = {
             count: 1,
           },
         },
-        duration: "scene",
       },
     },
     /** 4 */
     {
       disappearance: {
         type: "usable",
-        availableTarget: ["notSelf"],
+        availableTarget: ["self"],
         check: {
           type: "opposedCheck",
           selfCheck: ["charisma", "stealth"],
@@ -1012,6 +1056,13 @@ export const disciplines = {
       secret_meeting: {
         type: "usable",
         availableTarget: ["self", "notSelf"],
+        descriptionExtrasData: {
+          unnoticeable_presence: {
+            type: "disciplineLevel",
+            discipline: "obfuscate",
+            level: 2,
+          },
+        },
       },
     },
   ],

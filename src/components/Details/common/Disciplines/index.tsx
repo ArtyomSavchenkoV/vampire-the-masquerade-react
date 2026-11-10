@@ -6,7 +6,7 @@ import {
   DisciplineName,
 } from "domain/Discipline";
 import { FC } from "react";
-import { DisciplineLevel } from "./DisciplineLevel";
+import { DisciplineLevel } from "commonComponents/DisciplineLevel";
 
 const Root = styled.div(`
   display: flex;
