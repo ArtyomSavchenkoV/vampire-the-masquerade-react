@@ -552,6 +552,7 @@ export const disciplines = {
       },
     },
   ],
+  /** Помешательство */
   dementation: [
     /** 1 */
     {
@@ -567,6 +568,7 @@ export const disciplines = {
             count: 1,
           },
         },
+        duration: "successCount",
       },
     },
     /** 2 */
@@ -584,13 +586,14 @@ export const disciplines = {
             count: 1,
           },
         },
+        duration: "successCount",
       },
     },
     /** 3 */
     {
       environment: {
         type: "usable",
-        availableTarget: ["self", "notSelf"],
+        availableTarget: ["environment"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["perception", "occult"],
@@ -600,10 +603,11 @@ export const disciplines = {
             count: 1,
           },
         },
+        castDuration: 1,
       },
       encrypted_message: {
         type: "usable",
-        availableTarget: ["self", "notSelf"],
+        availableTarget: ["environment"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["perception", "occult"],
@@ -613,10 +617,25 @@ export const disciplines = {
             count: 1,
           },
         },
+        castDuration: 1,
+      },
+      friend_nature: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["perception", "occult"],
+          difficultLevel: 6,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+        castDuration: 1,
       },
       acquaintance_nature: {
         type: "usable",
-        availableTarget: ["self", "notSelf"],
+        availableTarget: ["notSelf"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["perception", "occult"],
@@ -626,10 +645,11 @@ export const disciplines = {
             count: 1,
           },
         },
+        castDuration: 1,
       },
       stranger_nature: {
         type: "usable",
-        availableTarget: ["self", "notSelf"],
+        availableTarget: ["notSelf"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["perception", "occult"],
@@ -639,13 +659,14 @@ export const disciplines = {
             count: 1,
           },
         },
+        castDuration: 1,
       },
     },
     /** 4 */
     {
       madness_voice: {
         type: "usable",
-        availableTarget: ["self", "notSelf"],
+        availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
         check: {
           type: "fixedDifficulty",
@@ -663,7 +684,7 @@ export const disciplines = {
     {
       clouding_mind: {
         type: "usable",
-        availableTarget: ["self", "notSelf"],
+        availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
         check: {
           type: "opposedCheck",
@@ -675,6 +696,48 @@ export const disciplines = {
           },
         },
         duration: "successCount",
+        descriptionExtrasData: {
+          bulimia: {
+            type: "mentalDisorder",
+            mentalDisorder: "bulimia",
+          },
+          bipolar: {
+            type: "mentalDisorder",
+            mentalDisorder: "bipolar",
+          },
+          dissociativeFugue: {
+            type: "mentalDisorder",
+            mentalDisorder: "dissociativeFugue",
+          },
+          hysteria: {
+            type: "mentalDisorder",
+            mentalDisorder: "hysteria",
+          },
+          bloodAnimism: {
+            type: "mentalDisorder",
+            mentalDisorder: "bloodAnimism",
+          },
+          megalomania: {
+            type: "mentalDisorder",
+            mentalDisorder: "megalomania",
+          },
+          ocd: {
+            type: "mentalDisorder",
+            mentalDisorder: "ocd",
+          },
+          identityDisorder: {
+            type: "mentalDisorder",
+            mentalDisorder: "identityDisorder",
+          },
+          paranoia: {
+            type: "mentalDisorder",
+            mentalDisorder: "paranoia",
+          },
+          schizophrenia: {
+            type: "mentalDisorder",
+            mentalDisorder: "schizophrenia",
+          },
+        },
       },
     },
   ],

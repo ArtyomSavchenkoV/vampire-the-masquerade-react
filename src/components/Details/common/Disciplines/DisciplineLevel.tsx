@@ -20,6 +20,8 @@ import { joinStrings } from "utils/string/joinStrings";
 import { getDefinedEntries } from "utils/object/getDefinedEntries";
 import { TitleText } from "commonComponents/TitleText";
 import { Divider } from "baseComponents/Divider";
+import { mapObject } from "utils/object/mapObject";
+import { Reference } from "components/Reference";
 
 type LevelVariants<
   TName extends DisciplineName,
@@ -81,7 +83,7 @@ export const DisciplineLevel = withErrorBoundary(
     disciplineLevel: TLevel;
     isHasBeenMastered: boolean;
   } & ComponentProps<typeof Card>) => {
-    const { translate } = useTranslate();
+    const { translate, translateRich } = useTranslate();
 
     const variants = getLevelVariants(disciplineName, disciplineLevel);
     const variantsNames = useMemo(() => typedKeys(variants), [variants]);
@@ -269,9 +271,19 @@ export const DisciplineLevel = withErrorBoundary(
 
         {/* Описание */}
         <Description>
-          {translate(
-            `disciplines.${disciplineName}.levels.${disciplineLevel}.variants.${validatedSelectedVariant}.description` as DictionaryTranslatePaths,
-          )}
+          {disciplineLevelVariant.descriptionExtrasData
+            ? translateRich(
+                `disciplines.${disciplineName}.levels.${disciplineLevel}.variants.${validatedSelectedVariant}.description` as DictionaryTranslatePaths,
+                mapObject(
+                  disciplineLevelVariant.descriptionExtrasData,
+                  (descriptionExtrasData, key) => (
+                    <Reference key={key} reference={descriptionExtrasData} />
+                  ),
+                ),
+              )
+            : translate(
+                `disciplines.${disciplineName}.levels.${disciplineLevel}.variants.${validatedSelectedVariant}.description` as DictionaryTranslatePaths,
+              )}
         </Description>
       </Root>
     );

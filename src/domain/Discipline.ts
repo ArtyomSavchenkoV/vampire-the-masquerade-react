@@ -5,6 +5,7 @@ import { AbilityName, isAbilityName } from "./Abilities";
 import { AttributeName, isAttributeName } from "./Attributes";
 import { isMentalStability, MentalStability } from "./MentalStability";
 import { mergeModifiers, Modifiers } from "./Modifiers";
+import { TReference } from "./Reference";
 
 /**
  * Названия дисциплин (V20).
@@ -150,6 +151,8 @@ export type DisciplineLevelData =
       type: "passive";
       /** Эффекты, применяемые автоматически (бонусы, поглощение и т.д.). */
       effects?: Modifiers;
+      /** Дополнительные пояснения к силе: вставляются в текст описания. */
+      descriptionExtrasData?: Record<string, TReference>;
     }
   | {
       /** Тип эффекта: используемый (активная способность). */
@@ -160,6 +163,8 @@ export type DisciplineLevelData =
         | "self"
         /** На другого */
         | "notSelf"
+        /** Окружение */
+        | "environment"
         /** сородич */
         | "kindred"
         /** смертный */
@@ -187,6 +192,8 @@ export type DisciplineLevelData =
       duration?: number | "scene" | "successCount";
       /** Время, необходимое на активацию способности (в раундах). */
       castDuration?: number;
+      /** Дополнительные пояснения к силе: вставляются в текст описания. */
+      descriptionExtrasData?: Record<string, TReference>;
     };
 
 /**
