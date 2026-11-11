@@ -1,4 +1,5 @@
 import { StringButton } from "baseComponents/StringButton";
+import { Text } from "baseComponents/Text";
 import { ConfirmWindow } from "commonComponents/ConfirmWindow";
 import { Dialog } from "commonComponents/Dialog";
 import { DisciplineLevel } from "commonComponents/DisciplineLevel";
@@ -39,9 +40,11 @@ export const Reference: FC<TProps> = ({ reference, onClick, ...props }) => {
               )}
               onClose={() => setOpen(false)}
             >
-              {translate(
-                `mentalDisorders.${reference.mentalDisorder}.description`,
-              )}
+              <Text>
+                {translate(
+                  `mentalDisorders.${reference.mentalDisorder}.description`,
+                )}
+              </Text>
             </ConfirmWindow>
           </Dialog>
         </>

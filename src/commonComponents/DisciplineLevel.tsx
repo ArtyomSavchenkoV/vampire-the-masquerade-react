@@ -22,6 +22,7 @@ import { TitleText } from "commonComponents/TitleText";
 import { Divider } from "baseComponents/Divider";
 import { mapObject } from "utils/object/mapObject";
 import { Reference } from "components/Reference";
+import { Text } from "baseComponents/Text";
 
 type LevelVariants<
   TName extends DisciplineName,
@@ -66,7 +67,7 @@ const Variants = styled.div(`
   font-size: .8em;
 `);
 
-const Description = styled.div(`
+const Description = styled(Text)(`
   font-size: .8em;
   overflow: auto;
   min-height: 60px;

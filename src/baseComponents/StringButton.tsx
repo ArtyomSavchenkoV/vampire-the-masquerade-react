@@ -2,11 +2,11 @@ import { FC, ButtonHTMLAttributes } from "react";
 import styled from "@emotion/styled";
 
 const ButtonRoot = styled.button<TProps>`
-  font-size: 1em;
-  position: relative;
+  background: none;
+  display: inline;
+  font: inherit;
   border: none;
   border-radius: 4px;
-  background-color: transparent;
   cursor: pointer;
   padding: 0;
   color: #07f;
