@@ -18,8 +18,9 @@ import { TorporAwakeningUnit } from "components/TorporAwakeningUnit";
 import { Divider } from "baseComponents/Divider";
 import { Wounds } from "../common/Wounds";
 import { withErrorBoundary } from "commonComponents/hoc/withErrorBoundary";
+import { Text } from "baseComponents/Text";
 
-const ClanCurse = styled.div({
+const ClanCurse = styled(Text)({
   maxHeight: "12em",
   overflow: "auto",
 });

@@ -47,6 +47,7 @@ import { MAX_HEALTH } from "data/kindredHealthLevels";
 import { Info } from "./common/Info";
 import { completeHealthEvents } from "domain/kindred/ResourcesHistory";
 import { NumberCheckboxesInput } from "./common/NumberCheckboxesInput";
+import { Text } from "baseComponents/Text";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   kindred: Kindred;
@@ -199,7 +200,7 @@ export const EditKindredForm: FC<TProps> = ({
           </TitleText>
         </>
       }
-      curse={translate(`clanes.${kindred.clan.clanName}.curse`)}
+      curse={<Text>{translate(`clanes.${kindred.clan.clanName}.curse`)}</Text>}
       physical={
         <>
           {/* Физические */}

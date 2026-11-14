@@ -1,19 +1,9 @@
 import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { TitleText } from "./TitleText";
 import { Modifiers as TModifiers } from "domain/Modifiers";
-import { ComponentProps, FC } from "react";
+import { FC } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { getDefinedEntries } from "utils/object/getDefinedEntries";
-
-const StyledTitleText: FC<ComponentProps<typeof TitleText>> = ({
-  ...props
-}) => (
-  <TitleText
-    {...props}
-    gridTemplateColumnsOnNormal="1fr auto"
-    smallSize={160}
-  />
-);
 
 interface TProps {
   modifiers: TModifiers;
@@ -31,9 +21,9 @@ export const Modifiers: FC<TProps> = ({ modifiers }) => {
           </DetailsSectionTitle>
           {getDefinedEntries(modifiers.attributesModifiers).map(
             ({ key, value }) => (
-              <StyledTitleText key={key} title={translate(`attributes.${key}`)}>
+              <TitleText key={key} title={translate(`attributes.${key}`)}>
                 {value}
-              </StyledTitleText>
+              </TitleText>
             ),
           )}
         </>
@@ -47,9 +37,9 @@ export const Modifiers: FC<TProps> = ({ modifiers }) => {
           </DetailsSectionTitle>
           {getDefinedEntries(modifiers.attributesMaxLimit).map(
             ({ key, value }) => (
-              <StyledTitleText key={key} title={translate(`attributes.${key}`)}>
+              <TitleText key={key} title={translate(`attributes.${key}`)}>
                 {value}
-              </StyledTitleText>
+              </TitleText>
             ),
           )}
         </>
@@ -63,9 +53,9 @@ export const Modifiers: FC<TProps> = ({ modifiers }) => {
           </DetailsSectionTitle>
           {getDefinedEntries(modifiers.abilityModifiers).map(
             ({ key, value }) => (
-              <StyledTitleText key={key} title={translate(`abilities.${key}`)}>
+              <TitleText key={key} title={translate(`abilities.${key}`)}>
                 {value}
-              </StyledTitleText>
+              </TitleText>
             ),
           )}
         </>
@@ -78,9 +68,9 @@ export const Modifiers: FC<TProps> = ({ modifiers }) => {
             {translate("modifiers.absorptionDice")}
           </DetailsSectionTitle>
           {getDefinedEntries(modifiers.absorptionDice).map(({ key, value }) => (
-            <StyledTitleText key={key} title={translate(`wounds.${key}`)}>
+            <TitleText key={key} title={translate(`wounds.${key}`)}>
               {value}
-            </StyledTitleText>
+            </TitleText>
           ))}
         </>
       )}
@@ -93,9 +83,9 @@ export const Modifiers: FC<TProps> = ({ modifiers }) => {
           </DetailsSectionTitle>
           {getDefinedEntries(modifiers.woundMultipliers).map(
             ({ key, value }) => (
-              <StyledTitleText key={key} title={translate(`wounds.${key}`)}>
+              <TitleText key={key} title={translate(`wounds.${key}`)}>
                 {value}
-              </StyledTitleText>
+              </TitleText>
             ),
           )}
         </>

@@ -9,11 +9,9 @@ interface TProps {
 export const Disciplines: FC<TProps> = ({ unitId }) => {
   const data = useDisciplinesSelector(unitId);
   return (
-    <div>
-      <CommonDisciplines
-        disciplines={data.disciplines}
-        acquiredDisciplines={data.acquiredDisciplines}
-      />
-    </div>
+    <CommonDisciplines
+      disciplines={data.disciplines}
+      acquiredDisciplines={data.acquiredDisciplines}
+    />
   );
 };

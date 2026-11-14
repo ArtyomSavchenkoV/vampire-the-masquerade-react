@@ -43,7 +43,6 @@ const Body = styled.div<{ finished: boolean }>(
   gap: 16px;
   min-width: 150px;
   overflow: auto;
-  padding: 12px 8px;
   ${finished ? "border-radius: 0 0 4px 4px;" : ""}
 `,
 );

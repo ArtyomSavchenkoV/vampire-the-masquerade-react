@@ -19,7 +19,7 @@ const ButtonRoot = styled.button<TProps>`
     background-color: #eee;
     color: #bbb;
     border-color: #bbb;
-    cursor: not-allowed;
+    cursor: default;
   }
 
   &:focus-visible {

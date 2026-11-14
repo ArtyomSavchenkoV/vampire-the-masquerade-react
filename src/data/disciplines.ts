@@ -10,11 +10,11 @@ export const disciplines = {
     {
       conversation: {
         type: "usable",
-        availableTarget: ["animals"],
+        availableTarget: ["animal"],
       },
       carnivorous_mammals_order: {
         type: "usable",
-        availableTarget: ["animals"],
+        availableTarget: ["carnivorous_mammal"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "animal_ken"],
@@ -27,7 +27,7 @@ export const disciplines = {
       },
       carnivorous_birds_and_mammals_order: {
         type: "usable",
-        availableTarget: ["animals"],
+        availableTarget: ["mammal", "carnivorous_bird"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "animal_ken"],
@@ -40,7 +40,7 @@ export const disciplines = {
       },
       birds_and_reptiles_order: {
         type: "usable",
-        availableTarget: ["animals"],
+        availableTarget: ["mammal", "bird", "reptile"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "animal_ken"],
@@ -56,7 +56,7 @@ export const disciplines = {
     {
       calling: {
         type: "usable",
-        availableTarget: ["animals"],
+        availableTarget: ["animal"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["survival", "charisma"],
@@ -72,7 +72,7 @@ export const disciplines = {
     {
       beast_taming_intimidation_mortal: {
         type: "usable",
-        availableTarget: ["mortals"],
+        availableTarget: ["mortal"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "intimidation"],
@@ -85,7 +85,7 @@ export const disciplines = {
       },
       beast_taming_empathy_mortal: {
         type: "usable",
-        availableTarget: ["mortals"],
+        availableTarget: ["mortal"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "empathy"],
@@ -114,7 +114,7 @@ export const disciplines = {
     {
       spirit_absorption: {
         type: "usable",
-        availableTarget: ["animals"],
+        availableTarget: ["animal"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "animal_ken"],
@@ -176,6 +176,7 @@ export const disciplines = {
             count: 1,
           },
         },
+        duration: 2,
       },
     },
     /** 3 */
@@ -197,7 +198,7 @@ export const disciplines = {
     },
     /** 4 */
     {
-      invitation_close_friend: {
+      well_known: {
         type: "usable",
         availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
@@ -211,21 +212,7 @@ export const disciplines = {
           },
         },
       },
-      invitation_friend: {
-        type: "usable",
-        availableTarget: ["notSelf"],
-        cost: { bloodPool: 1 },
-        check: {
-          type: "fixedDifficulty",
-          selfCheck: ["charisma", "subterfuge"],
-          difficultLevel: 6,
-          requiredSuccesses: {
-            type: "fixed",
-            count: 1,
-          },
-        },
-      },
-      invitation_acquaintance: {
+      casually_known: {
         type: "usable",
         availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
@@ -239,7 +226,21 @@ export const disciplines = {
           },
         },
       },
-      invitation_stranger: {
+      previously_successful_grandeur: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        cost: { bloodPool: 1 },
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["charisma", "subterfuge"],
+          difficultLevel: 4,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+      },
+      previously_unsuccessful_grandeur: {
         type: "usable",
         availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
@@ -260,6 +261,7 @@ export const disciplines = {
         type: "usable",
         availableTarget: ["notSelf"],
         cost: { willpower: 1 },
+        duration: "scene",
       },
     },
   ],
@@ -550,6 +552,7 @@ export const disciplines = {
       },
     },
   ],
+  /** Помешательство */
   dementation: [
     /** 1 */
     {
@@ -565,6 +568,7 @@ export const disciplines = {
             count: 1,
           },
         },
+        duration: "successCount",
       },
     },
     /** 2 */
@@ -582,13 +586,14 @@ export const disciplines = {
             count: 1,
           },
         },
+        duration: "successCount",
       },
     },
     /** 3 */
     {
       environment: {
         type: "usable",
-        availableTarget: ["self", "notSelf"],
+        availableTarget: ["environment"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["perception", "occult"],
@@ -598,10 +603,11 @@ export const disciplines = {
             count: 1,
           },
         },
+        castDuration: 1,
       },
       encrypted_message: {
         type: "usable",
-        availableTarget: ["self", "notSelf"],
+        availableTarget: ["environment"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["perception", "occult"],
@@ -611,10 +617,25 @@ export const disciplines = {
             count: 1,
           },
         },
+        castDuration: 1,
+      },
+      friend_nature: {
+        type: "usable",
+        availableTarget: ["notSelf"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["perception", "occult"],
+          difficultLevel: 6,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+        castDuration: 1,
       },
       acquaintance_nature: {
         type: "usable",
-        availableTarget: ["self", "notSelf"],
+        availableTarget: ["notSelf"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["perception", "occult"],
@@ -624,10 +645,11 @@ export const disciplines = {
             count: 1,
           },
         },
+        castDuration: 1,
       },
       stranger_nature: {
         type: "usable",
-        availableTarget: ["self", "notSelf"],
+        availableTarget: ["notSelf"],
         check: {
           type: "fixedDifficulty",
           selfCheck: ["perception", "occult"],
@@ -637,13 +659,14 @@ export const disciplines = {
             count: 1,
           },
         },
+        castDuration: 1,
       },
     },
     /** 4 */
     {
       madness_voice: {
         type: "usable",
-        availableTarget: ["self", "notSelf"],
+        availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
         check: {
           type: "fixedDifficulty",
@@ -661,7 +684,7 @@ export const disciplines = {
     {
       clouding_mind: {
         type: "usable",
-        availableTarget: ["self", "notSelf"],
+        availableTarget: ["notSelf"],
         cost: { bloodPool: 1 },
         check: {
           type: "opposedCheck",
@@ -673,6 +696,48 @@ export const disciplines = {
           },
         },
         duration: "successCount",
+        descriptionExtrasData: {
+          bulimia: {
+            type: "mentalDisorder",
+            mentalDisorder: "bulimia",
+          },
+          bipolar: {
+            type: "mentalDisorder",
+            mentalDisorder: "bipolar",
+          },
+          dissociativeFugue: {
+            type: "mentalDisorder",
+            mentalDisorder: "dissociativeFugue",
+          },
+          hysteria: {
+            type: "mentalDisorder",
+            mentalDisorder: "hysteria",
+          },
+          bloodAnimism: {
+            type: "mentalDisorder",
+            mentalDisorder: "bloodAnimism",
+          },
+          megalomania: {
+            type: "mentalDisorder",
+            mentalDisorder: "megalomania",
+          },
+          ocd: {
+            type: "mentalDisorder",
+            mentalDisorder: "ocd",
+          },
+          identityDisorder: {
+            type: "mentalDisorder",
+            mentalDisorder: "identityDisorder",
+          },
+          paranoia: {
+            type: "mentalDisorder",
+            mentalDisorder: "paranoia",
+          },
+          schizophrenia: {
+            type: "mentalDisorder",
+            mentalDisorder: "schizophrenia",
+          },
+        },
       },
     },
   ],
@@ -806,7 +871,13 @@ export const disciplines = {
   auspex: [
     /** 1 */
     {
-      heightened_senses: { type: "usable", availableTarget: ["self"] },
+      heightened_senses: {
+        type: "passive",
+      },
+      heightened_senses_single: {
+        type: "usable",
+        availableTarget: ["self"],
+      },
     },
     /** 2 */
     {
@@ -822,26 +893,50 @@ export const disciplines = {
             count: 1,
           },
         },
-        duration: "scene",
+        descriptionExtrasData: {
+          auraColors: {
+            type: "auraColors",
+          },
+          seeInvisible: {
+            type: "seeInvisible",
+          },
+        },
       },
     },
     /** 3 */
     {
       psychometrics: {
         type: "usable",
-        availableTarget: ["notSelf"],
+        availableTarget: ["environment"],
         check: {
           type: "plot",
           selfCheck: ["perception", "empathy"],
         },
-        duration: "scene",
+      },
+      psychometrics_legendary: {
+        type: "usable",
+        availableTarget: ["environment"],
       },
     },
     /** 4 */
     {
       telepathy: {
         type: "usable",
-        availableTarget: ["notSelf"],
+        availableTarget: ["mortal"],
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["intelligence", "subterfuge"],
+          difficultTarget: ["willpower"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+      },
+      telepathy_supernatural: {
+        type: "usable",
+        availableTarget: ["supernatural"],
+        cost: { willpower: 1 },
         check: {
           type: "opposedCheck",
           selfCheck: ["intelligence", "subterfuge"],
@@ -907,13 +1002,58 @@ export const disciplines = {
     },
     /** 2 */
     {
-      invisible_presence: { type: "usable", availableTarget: ["self"] },
+      unnoticeable_presence: {
+        type: "usable",
+        availableTarget: ["self"],
+      },
+      unnoticeable_presence_low: {
+        type: "usable",
+        availableTarget: ["self"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["wits", "stealth"],
+          difficultLevel: 5,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+      },
+      unnoticeable_presence_middle: {
+        type: "usable",
+        availableTarget: ["self"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["wits", "stealth"],
+          difficultLevel: 7,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+      },
+      unnoticeable_presence_high: {
+        type: "usable",
+        availableTarget: ["self"],
+        check: {
+          type: "fixedDifficulty",
+          selfCheck: ["wits", "stealth"],
+          difficultLevel: 9,
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+      },
     },
     /** 3 */
     {
       many_faces_mask: {
         type: "usable",
         availableTarget: ["self"],
+        cost: {
+          bloodPool: "calculatable",
+        },
         check: {
           type: "fixedDifficulty",
           selfCheck: ["manipulation", "performance"],
@@ -923,14 +1063,13 @@ export const disciplines = {
             count: 1,
           },
         },
-        duration: "scene",
       },
     },
     /** 4 */
     {
       disappearance: {
         type: "usable",
-        availableTarget: ["notSelf"],
+        availableTarget: ["self"],
         check: {
           type: "opposedCheck",
           selfCheck: ["charisma", "stealth"],
@@ -947,6 +1086,13 @@ export const disciplines = {
       secret_meeting: {
         type: "usable",
         availableTarget: ["self", "notSelf"],
+        descriptionExtrasData: {
+          unnoticeable_presence: {
+            type: "disciplineLevel",
+            discipline: "obfuscate",
+            level: 2,
+          },
+        },
       },
     },
   ],

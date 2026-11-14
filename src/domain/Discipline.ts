@@ -5,6 +5,7 @@ import { AbilityName, isAbilityName } from "./Abilities";
 import { AttributeName, isAttributeName } from "./Attributes";
 import { isMentalStability, MentalStability } from "./MentalStability";
 import { mergeModifiers, Modifiers } from "./Modifiers";
+import { TReference } from "./Reference";
 
 /**
  * Названия дисциплин (V20).
@@ -150,20 +151,41 @@ export type DisciplineLevelData =
       type: "passive";
       /** Эффекты, применяемые автоматически (бонусы, поглощение и т.д.). */
       effects?: Modifiers;
+      /** Дополнительные пояснения к силе: вставляются в текст описания. */
+      descriptionExtrasData?: Record<string, TReference>;
     }
   | {
       /** Тип эффекта: используемый (активная способность). */
       type: "usable";
       /** Допустимые цели применения способности: на себя или на других. */
       availableTarget: readonly (
+        /** На себя */
         | "self"
+        /** На другого */
         | "notSelf"
+        /** Окружение */
+        | "environment"
+        /** сверхъестественный */
+        | "supernatural"
+        /** сородич */
         | "kindred"
-        | "mortals"
-        | "animals"
+        /** смертный */
+        | "mortal"
+        /** животное */
+        | "animal"
+        /** млекопитающее */
+        | "mammal"
+        /** хищное млекопитающее */
+        | "carnivorous_mammal"
+        /** птица */
+        | "bird"
+        /** хищная птица */
+        | "carnivorous_bird"
+        /** рептилия */
+        | "reptile"
       )[];
       /** Стоимость активации: в очках силы воли или крови. */
-      cost?: Partial<Record<"willpower" | "bloodPool", number>>;
+      cost?: Partial<{ willpower: number; bloodPool: number | "calculatable" }>;
       /** Правило проверки, необходимое для применения способности. */
       check?: CheckRule;
       /** Эффекты, которые применяются при успешном использовании способности. */
@@ -172,6 +194,8 @@ export type DisciplineLevelData =
       duration?: number | "scene" | "successCount";
       /** Время, необходимое на активацию способности (в раундах). */
       castDuration?: number;
+      /** Дополнительные пояснения к силе: вставляются в текст описания. */
+      descriptionExtrasData?: Record<string, TReference>;
     };
 
 /**
@@ -217,20 +241,28 @@ export const getDisciplinesEffects = (
   return result;
 };
 
-/** Какой формы должен быть блок translations.disciplines в словаре. */
-export type DisciplineTranslations = {
-  [N in DisciplineName]: {
-    name: string;
-    levels: {
-      [L in DisciplineLevel]: {
-        name: string;
-        variants: {
-          [V in keyof Discipline<N>[DecrementUnionNumbers<L>] & string]: {
-            name: string;
-            description: string;
-          };
+type DisciplineTranslationsBase<N extends DisciplineName> = {
+  name: string;
+  levels: {
+    [L in DisciplineLevel]: {
+      name: string;
+      variants: {
+        [V in keyof Discipline<N>[DecrementUnionNumbers<L>] & string]: {
+          name: string;
+          description: string;
         };
       };
     };
+  };
+};
+
+/** Какой формы должен быть блок translations.disciplines в словаре. */
+export type DisciplineTranslations = {
+  auspex: DisciplineTranslationsBase<"auspex"> & {
+    seeInvisible: Record<"title" | "text", string>;
+  };
+} & {
+  [N in Exclude<DisciplineName, "auspex">]: DisciplineTranslationsBase<N> & {
+    seeInvisible?: never;
   };
 };

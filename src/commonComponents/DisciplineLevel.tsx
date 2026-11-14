@@ -9,17 +9,20 @@ import {
   DisciplineLevelVariants,
   getCheckRuleTargetTranslationKey,
 } from "domain/Discipline";
-import { ComponentProps, FC, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { disciplines } from "data/disciplines";
 import { DictionaryTranslatePaths } from "dictionaries/types";
 import { DecrementUnionNumbers } from "utils/types/DecrementUnionNumbers";
-import { Card } from "baseComponents/Card";
 import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { joinStrings } from "utils/string/joinStrings";
 import { getDefinedEntries } from "utils/object/getDefinedEntries";
 import { TitleText } from "commonComponents/TitleText";
 import { Divider } from "baseComponents/Divider";
+import { mapObject } from "utils/object/mapObject";
+import { Reference } from "components/Reference";
+import { Text } from "baseComponents/Text";
+import { CCC_COLOR } from "constants/CCC_COLOR";
 
 type LevelVariants<
   TName extends DisciplineName,
@@ -46,35 +49,14 @@ const getLevelVariants = <
 const typedKeys = <T extends object>(obj: T): (keyof T & string)[] =>
   Object.keys(obj) as (keyof T & string)[];
 
-const StyledTitleText: FC<ComponentProps<typeof TitleText>> = ({
-  ...props
-}) => (
-  <TitleText
-    {...props}
-    gridTemplateColumnsOnNormal="1fr auto"
-    smallSize={160}
-  />
-);
-
-const Root = styled(Card)<{ isNotMastered: boolean }>(
-  ({ isNotMastered }) => `
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    max-height: 100%;
-    ${isNotMastered ? "opacity: .5; background-color: #eee;" : ""}
-  `,
-);
-
-const Name = styled(DetailsSectionTitle)(`
-  font-size: 1em;
-`);
-
 const Variants = styled.div(`
   font-size: .8em;
 `);
 
-const Description = styled.div(`
+const Description = styled(Text)(`
+  border: 1px solid ${CCC_COLOR};
+  border-radius: 4px;
+  padding: 4px;
   font-size: .8em;
   overflow: auto;
   min-height: 60px;
@@ -84,14 +66,11 @@ export const DisciplineLevel = withErrorBoundary(
   <TName extends DisciplineName, TLevel extends TDisciplineLevel>({
     disciplineName,
     disciplineLevel,
-    isHasBeenMastered,
-    ...props
   }: {
     disciplineName: TName;
     disciplineLevel: TLevel;
-    isHasBeenMastered: boolean;
-  } & ComponentProps<typeof Card>) => {
-    const { translate } = useTranslate();
+  }) => {
+    const { translate, translateRich } = useTranslate();
 
     const variants = getLevelVariants(disciplineName, disciplineLevel);
     const variantsNames = useMemo(() => typedKeys(variants), [variants]);
@@ -113,14 +92,7 @@ export const DisciplineLevel = withErrorBoundary(
     const disciplineLevelVariant = variantsRecord[validatedSelectedVariant];
 
     return (
-      <Root isNotMastered={!isHasBeenMastered} {...props}>
-        {/* Название */}
-        <Name>
-          {translate(
-            `disciplines.${disciplineName}.levels.${disciplineLevel}.name`,
-          )}
-        </Name>
-
+      <>
         {/* Варианты */}
         <Variants>
           {variantsNames.length > 1 &&
@@ -165,12 +137,11 @@ export const DisciplineLevel = withErrorBoundary(
               </DetailsSectionTitle>
               {getDefinedEntries(disciplineLevelVariant.cost).map(
                 ({ key, value }) => (
-                  <StyledTitleText
-                    key={key}
-                    title={translate(`resources.${key}`)}
-                  >
-                    {value}
-                  </StyledTitleText>
+                  <TitleText key={key} title={translate(`resources.${key}`)}>
+                    {value === "calculatable"
+                      ? translate("disciplinesDetails.calculatableCost")
+                      : value}
+                  </TitleText>
                 ),
               )}
             </>
@@ -194,7 +165,7 @@ export const DisciplineLevel = withErrorBoundary(
               <DetailsSectionTitle>
                 {translate("disciplinesDetails.checkDifficultField")}
               </DetailsSectionTitle>
-              <StyledTitleText
+              <TitleText
                 title={translate(
                   `disciplinesDetails.checkDifficult.${disciplineLevelVariant.check.type}`,
                 )}
@@ -209,7 +180,7 @@ export const DisciplineLevel = withErrorBoundary(
                         translate(getCheckRuleTargetTranslationKey(checkParam)),
                     ),
                   )}
-              </StyledTitleText>
+              </TitleText>
               {/* Необходимое количество успехов */}
               {(disciplineLevelVariant.check.type === "fixedDifficulty" ||
                 disciplineLevelVariant.check.type === "opposedCheck") &&
@@ -222,7 +193,7 @@ export const DisciplineLevel = withErrorBoundary(
                     <DetailsSectionTitle>
                       {translate("disciplinesDetails.checkSuccessesField")}
                     </DetailsSectionTitle>
-                    <StyledTitleText
+                    <TitleText
                       title={translate(
                         `disciplinesDetails.checkSuccesses.${disciplineLevelVariant.check.requiredSuccesses.type}`,
                       )}
@@ -241,7 +212,7 @@ export const DisciplineLevel = withErrorBoundary(
                               ),
                           ),
                         )}
-                    </StyledTitleText>
+                    </TitleText>
                   </>
                 )}
             </>
@@ -257,15 +228,13 @@ export const DisciplineLevel = withErrorBoundary(
           disciplineLevelVariant.duration && (
             <>
               <Divider />
-              <StyledTitleText
-                title={translate("disciplinesDetails.durationField")}
-              >
+              <TitleText title={translate("disciplinesDetails.durationField")}>
                 {(disciplineLevelVariant.duration === "scene" &&
                   translate("disciplinesDetails.duration.scene")) ||
                   (disciplineLevelVariant.duration === "successCount" &&
                     translate("disciplinesDetails.duration.successCount")) ||
                   disciplineLevelVariant.duration}
-              </StyledTitleText>
+              </TitleText>
             </>
           )}
 
@@ -274,21 +243,31 @@ export const DisciplineLevel = withErrorBoundary(
           disciplineLevelVariant.castDuration && (
             <>
               <Divider />
-              <StyledTitleText
+              <TitleText
                 title={translate("disciplinesDetails.castDurationField")}
               >
                 {disciplineLevelVariant.castDuration}
-              </StyledTitleText>
+              </TitleText>
             </>
           )}
 
         {/* Описание */}
         <Description>
-          {translate(
-            `disciplines.${disciplineName}.levels.${disciplineLevel}.variants.${validatedSelectedVariant}.description` as DictionaryTranslatePaths,
-          )}
+          {disciplineLevelVariant.descriptionExtrasData
+            ? translateRich(
+                `disciplines.${disciplineName}.levels.${disciplineLevel}.variants.${validatedSelectedVariant}.description` as DictionaryTranslatePaths,
+                mapObject(
+                  disciplineLevelVariant.descriptionExtrasData,
+                  (descriptionExtrasData, key) => (
+                    <Reference key={key} reference={descriptionExtrasData} />
+                  ),
+                ),
+              )
+            : translate(
+                `disciplines.${disciplineName}.levels.${disciplineLevel}.variants.${validatedSelectedVariant}.description` as DictionaryTranslatePaths,
+              )}
         </Description>
-      </Root>
+      </>
     );
   },
 );

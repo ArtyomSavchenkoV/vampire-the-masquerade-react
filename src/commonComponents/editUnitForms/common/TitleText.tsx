@@ -7,7 +7,7 @@ export const TitleText: FC<IProps> = ({ ...props }) => {
     <BaseTitleText
       {...props}
       gridTemplateColumnsOnNormal="1fr 125px"
-      smallSize={260}
+      smallSize={240}
     />
   );
 };
