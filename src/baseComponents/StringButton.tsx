@@ -10,6 +10,7 @@ const ButtonRoot = styled.button<TProps>`
   cursor: pointer;
   padding: 0;
   color: #07f;
+  text-align: start;
 
   &:hover:enabled {
     background-color: #ddd;

@@ -165,6 +165,8 @@ export type DisciplineLevelData =
         | "notSelf"
         /** Окружение */
         | "environment"
+        /** сверхъестественный */
+        | "supernatural"
         /** сородич */
         | "kindred"
         /** смертный */
@@ -239,20 +241,28 @@ export const getDisciplinesEffects = (
   return result;
 };
 
-/** Какой формы должен быть блок translations.disciplines в словаре. */
-export type DisciplineTranslations = {
-  [N in DisciplineName]: {
-    name: string;
-    levels: {
-      [L in DisciplineLevel]: {
-        name: string;
-        variants: {
-          [V in keyof Discipline<N>[DecrementUnionNumbers<L>] & string]: {
-            name: string;
-            description: string;
-          };
+type DisciplineTranslationsBase<N extends DisciplineName> = {
+  name: string;
+  levels: {
+    [L in DisciplineLevel]: {
+      name: string;
+      variants: {
+        [V in keyof Discipline<N>[DecrementUnionNumbers<L>] & string]: {
+          name: string;
+          description: string;
         };
       };
     };
+  };
+};
+
+/** Какой формы должен быть блок translations.disciplines в словаре. */
+export type DisciplineTranslations = {
+  auspex: DisciplineTranslationsBase<"auspex"> & {
+    seeInvisible: Record<"title" | "text", string>;
+  };
+} & {
+  [N in Exclude<DisciplineName, "auspex">]: DisciplineTranslationsBase<N> & {
+    seeInvisible?: never;
   };
 };

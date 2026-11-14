@@ -9,12 +9,11 @@ import {
   DisciplineLevelVariants,
   getCheckRuleTargetTranslationKey,
 } from "domain/Discipline";
-import { ComponentProps, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { disciplines } from "data/disciplines";
 import { DictionaryTranslatePaths } from "dictionaries/types";
 import { DecrementUnionNumbers } from "utils/types/DecrementUnionNumbers";
-import { Card } from "baseComponents/Card";
 import { DetailsSectionTitle } from "commonComponents/DetailsSectionTitle";
 import { joinStrings } from "utils/string/joinStrings";
 import { getDefinedEntries } from "utils/object/getDefinedEntries";
@@ -23,6 +22,7 @@ import { Divider } from "baseComponents/Divider";
 import { mapObject } from "utils/object/mapObject";
 import { Reference } from "components/Reference";
 import { Text } from "baseComponents/Text";
+import { CCC_COLOR } from "constants/CCC_COLOR";
 
 type LevelVariants<
   TName extends DisciplineName,
@@ -49,25 +49,14 @@ const getLevelVariants = <
 const typedKeys = <T extends object>(obj: T): (keyof T & string)[] =>
   Object.keys(obj) as (keyof T & string)[];
 
-const Root = styled(Card)<{ isNotMastered: boolean }>(
-  ({ isNotMastered }) => `
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    max-height: 100%;
-    ${isNotMastered ? "opacity: .5; background-color: #eee;" : ""}
-  `,
-);
-
-const Name = styled(DetailsSectionTitle)(`
-  font-size: 1em;
-`);
-
 const Variants = styled.div(`
   font-size: .8em;
 `);
 
 const Description = styled(Text)(`
+  border: 1px solid ${CCC_COLOR};
+  border-radius: 4px;
+  padding: 4px;
   font-size: .8em;
   overflow: auto;
   min-height: 60px;
@@ -77,13 +66,10 @@ export const DisciplineLevel = withErrorBoundary(
   <TName extends DisciplineName, TLevel extends TDisciplineLevel>({
     disciplineName,
     disciplineLevel,
-    isHasBeenMastered = true,
-    ...props
   }: {
     disciplineName: TName;
     disciplineLevel: TLevel;
-    isHasBeenMastered?: boolean;
-  } & ComponentProps<typeof Card>) => {
+  }) => {
     const { translate, translateRich } = useTranslate();
 
     const variants = getLevelVariants(disciplineName, disciplineLevel);
@@ -106,14 +92,7 @@ export const DisciplineLevel = withErrorBoundary(
     const disciplineLevelVariant = variantsRecord[validatedSelectedVariant];
 
     return (
-      <Root isNotMastered={!isHasBeenMastered} {...props}>
-        {/* Название */}
-        <Name>
-          {translate(
-            `disciplines.${disciplineName}.levels.${disciplineLevel}.name`,
-          )}
-        </Name>
-
+      <>
         {/* Варианты */}
         <Variants>
           {variantsNames.length > 1 &&
@@ -288,7 +267,7 @@ export const DisciplineLevel = withErrorBoundary(
                 `disciplines.${disciplineName}.levels.${disciplineLevel}.variants.${validatedSelectedVariant}.description` as DictionaryTranslatePaths,
               )}
         </Description>
-      </Root>
+      </>
     );
   },
 );

@@ -871,7 +871,13 @@ export const disciplines = {
   auspex: [
     /** 1 */
     {
-      heightened_senses: { type: "usable", availableTarget: ["self"] },
+      heightened_senses: {
+        type: "passive",
+      },
+      heightened_senses_single: {
+        type: "usable",
+        availableTarget: ["self"],
+      },
     },
     /** 2 */
     {
@@ -887,26 +893,50 @@ export const disciplines = {
             count: 1,
           },
         },
-        duration: "scene",
+        descriptionExtrasData: {
+          auraColors: {
+            type: "auraColors",
+          },
+          seeInvisible: {
+            type: "seeInvisible",
+          },
+        },
       },
     },
     /** 3 */
     {
       psychometrics: {
         type: "usable",
-        availableTarget: ["notSelf"],
+        availableTarget: ["environment"],
         check: {
           type: "plot",
           selfCheck: ["perception", "empathy"],
         },
-        duration: "scene",
+      },
+      psychometrics_legendary: {
+        type: "usable",
+        availableTarget: ["environment"],
       },
     },
     /** 4 */
     {
       telepathy: {
         type: "usable",
-        availableTarget: ["notSelf"],
+        availableTarget: ["mortal"],
+        check: {
+          type: "opposedCheck",
+          selfCheck: ["intelligence", "subterfuge"],
+          difficultTarget: ["willpower"],
+          requiredSuccesses: {
+            type: "fixed",
+            count: 1,
+          },
+        },
+      },
+      telepathy_supernatural: {
+        type: "usable",
+        availableTarget: ["supernatural"],
+        cost: { willpower: 1 },
         check: {
           type: "opposedCheck",
           selfCheck: ["intelligence", "subterfuge"],
