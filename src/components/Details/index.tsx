@@ -14,7 +14,12 @@ import styled from "@emotion/styled";
 
 const Content = styled.div`
   overflow: auto;
-  padding: 4px;
+  margin: 0 -18px -18px -18px;
+  padding: 18px;
+  border-radius: 4px;
+  height: 100%;
+  max-height: 100%;
+  background-color: ${({ theme }) => theme.palette.background};
 `;
 
 /**

@@ -7,10 +7,10 @@ import { Button } from "../baseComponents/Button";
 const PADDING = 5;
 
 const ConfirmWindowRoot = styled(Card)<{ size: "sm" | "md" | "lg" }>(
-  ({ size }) => `
+  ({ size, theme }) => `
   width: ${(size === "sm" && 300) || (size === "md" && 500) || 1000}px;
   max-width: calc(100% - ${PADDING * 2}px);
-  background-color: #9bf;
+  background-color: ${theme.palette.sky};
   padding: ${PADDING}px;
   display: flex;
   flex-direction: column;
@@ -29,15 +29,15 @@ const Head = styled.div`
 
 const Title = styled.div`
   font-size: 1.5em;
-  color: #fff;
+  color: ${({ theme }) => theme.palette.white};
   padding-left: 4px;
   padding-top: 4px;
 `;
 
 const Body = styled.div<{ finished: boolean }>(
-  ({ finished }) => `
+  ({ finished, theme }) => `
   padding: 8px;
-  background-color: #fff;
+  background-color: ${theme.palette.background};
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -52,7 +52,7 @@ const Buttons = styled.div`
   justify-content: space-between;
   gap: 8px;
   padding: 4px;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.palette.background};
   border-radius: 0 0 4px 4px;
 `;
 

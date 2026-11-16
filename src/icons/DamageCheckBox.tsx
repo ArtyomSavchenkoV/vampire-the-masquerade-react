@@ -4,9 +4,12 @@ import { DamagePath } from "icons/DamagePath";
 import { InlineIcon } from "icons/InlineIcon";
 import { RoundedSquarePath } from "icons/RoundedSquarePath";
 import { ComponentProps, FC } from "react";
+import { themes } from "services/theme/theme";
+import useTheme from "services/theme/useTheme";
+import { colorMix } from "utils/styles/colorMix";
 
 const StyledInlineIcon = styled(InlineIcon)`
-  color: #fff;
+  color: ${({ theme }) => theme.palette.textInvert};
 `;
 
 interface TProps extends Omit<
@@ -23,6 +26,9 @@ export const DamageCheckbox: FC<TProps> = ({
   onClick,
   ...props
 }) => {
+  const { themeName } = useTheme();
+  const theme = themes[themeName];
+
   return (
     <CheckBoxButton
       onClick={(ev) => {
@@ -33,13 +39,17 @@ export const DamageCheckbox: FC<TProps> = ({
     >
       {!checked && (
         <StyledInlineIcon>
-          <RoundedSquarePath fill={"#ccc"} />
+          <RoundedSquarePath
+            fill={colorMix("transparent", theme.palette.shift, 20)}
+          />
           <DamagePath />
         </StyledInlineIcon>
       )}
       {checked && (
         <StyledInlineIcon>
-          <RoundedSquarePath fill={"#b20"} />
+          <RoundedSquarePath
+            fill={colorMix(theme.palette.red, theme.palette.shift, 20)}
+          />
           <DamagePath />
         </StyledInlineIcon>
       )}

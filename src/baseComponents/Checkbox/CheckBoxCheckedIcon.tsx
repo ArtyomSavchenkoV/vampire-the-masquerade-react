@@ -1,11 +1,20 @@
 import { ComponentProps, FC } from "react";
 import { InlineIcon } from "icons/InlineIcon";
+import styled from "@emotion/styled";
+import useTheme from "services/theme/useTheme";
+import { themes } from "services/theme/theme";
+
+const SapphirePath = styled.path`
+  fill: ${({ theme }) => theme.palette.sapphire};
+`;
 interface TProps extends Omit<ComponentProps<typeof InlineIcon>, "children"> {}
 export const CheckBoxCheckedIcon: FC<TProps> = ({ ...props }) => {
+  const { themeName } = useTheme();
+  const theme = themes[themeName];
+
   return (
     <InlineIcon {...props}>
-      <path
-        fill="#03f"
+      <SapphirePath
         fillRule="evenodd"
         clipRule="evenodd"
         d="						
@@ -13,7 +22,7 @@ export const CheckBoxCheckedIcon: FC<TProps> = ({ ...props }) => {
         "
       />
       <path
-        stroke="white"
+        stroke={theme.palette.white}
         fill="none"
         strokeWidth={3.5}
         strokeLinecap="round"

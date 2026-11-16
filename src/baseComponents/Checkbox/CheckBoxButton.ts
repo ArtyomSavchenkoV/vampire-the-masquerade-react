@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { colorMix } from "utils/styles/colorMix";
 
 export const CheckBoxButton = styled.button`
   font-size: 1em;
@@ -11,14 +12,14 @@ export const CheckBoxButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  color: ${({ theme }) => theme.palette.buttonText};
 
   &:hover:enabled {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: ${({ theme }) => colorMix("transparent", theme.palette.shift, 10)};
   }
 
   &:disabled {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: #bbb;
-    cursor: not-allowed;
+    opacity: 0.4;
+    cursor: default;
   }
 `;

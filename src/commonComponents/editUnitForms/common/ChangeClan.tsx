@@ -15,7 +15,7 @@ const StyledButton = styled(Button)`
 `;
 
 const Attention = styled.div`
-  color: #f30;
+  color: ${({ theme }) => theme.palette.red};
 `;
 
 interface TProps extends Omit<ComponentProps<typeof Button>, "onChange"> {

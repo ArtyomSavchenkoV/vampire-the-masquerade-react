@@ -18,6 +18,12 @@ import useTranslate from "services/translate/useTranslate";
 import { useActions } from "store/selectors";
 import { useStore } from "store/store";
 import { formatTimestampForFilename } from "utils/formatTimestampForFilename";
+import useTheme from "services/theme/useTheme";
+
+const ThemeButton = styled(Button)`
+  background-color: ${({ theme }) => theme.palette.background};
+  color: ${({ theme }) => theme.palette.text};
+`;
 
 const HeaderRoot = styled.div`
   display: flex;
@@ -52,6 +58,7 @@ interface TProps extends HTMLAttributes<HTMLDivElement> {
 export const Header: FC<TProps> = memo(
   ({ selectedTab, onTabChange, ...props }) => {
     const { translate } = useTranslate();
+    const { themeName, toggleTheme } = useTheme();
     const { setStoreState, sortSceneByInitiative } = useActions();
 
     const [isCreateUnitOpen, setIsCreateUnitOpe] = useState(false);
@@ -118,9 +125,16 @@ export const Header: FC<TProps> = memo(
 
         <PlaceHolder />
 
-        <ConfirmingButton onConfirm={() => {}} confirmWindowTitle="Подтверди!">
+        <ConfirmingButton
+          onConfirm={() => {}}
+          confirmWindowTitle="Подтверди!"
+          confirmWindowContent={<div></div>}
+        >
           444
         </ConfirmingButton>
+        <ThemeButton onClick={toggleTheme}>
+          {themeName === "light" ? "☀️" : "🌙"}
+        </ThemeButton>
 
         {/* открыть */}
         <OpenButton

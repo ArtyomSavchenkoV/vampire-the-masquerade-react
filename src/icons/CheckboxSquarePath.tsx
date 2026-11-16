@@ -4,7 +4,6 @@ interface IProps {}
 export const CheckboxSquarePath: FC<IProps> = () => {
   return (
     <path
-      fill="black"
       fillRule="evenodd"
       clipRule="evenodd"
       d="						

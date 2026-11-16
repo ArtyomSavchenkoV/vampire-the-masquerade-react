@@ -24,14 +24,14 @@ const Discipline = styled.div(`
 `);
 
 const DisciplineLevelRoot = styled(Card)<{ isNotMastered: boolean }>(
-  ({ isNotMastered }) => `
+  ({ isNotMastered, theme }) => `
     width: 270px;
     height: 360px;
     overflow: auto;
     display: flex;
     flex-direction: column;
     gap: 4px;
-    ${isNotMastered ? "opacity: .5; background-color: #eee;" : ""}
+    ${isNotMastered ? `opacity: .5; background-color: ${theme.palette.background};` : ""}
   `,
 );
 

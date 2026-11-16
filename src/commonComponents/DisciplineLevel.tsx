@@ -22,7 +22,6 @@ import { Divider } from "baseComponents/Divider";
 import { mapObject } from "utils/object/mapObject";
 import { Reference } from "components/Reference";
 import { Text } from "baseComponents/Text";
-import { CCC_COLOR } from "constants/CCC_COLOR";
 
 type LevelVariants<
   TName extends DisciplineName,
@@ -53,8 +52,8 @@ const Variants = styled.div(`
   font-size: .8em;
 `);
 
-const Description = styled(Text)(`
-  border: 1px solid ${CCC_COLOR};
+const Description = styled(Text)(({theme}) => `
+  border: 1px dashed ${theme.palette.divider};
   border-radius: 4px;
   padding: 4px;
   font-size: .8em;
