@@ -19,6 +19,7 @@ import { useActions } from "store/selectors";
 import { useStore } from "store/store";
 import { formatTimestampForFilename } from "utils/formatTimestampForFilename";
 import useTheme from "services/theme/useTheme";
+import { Tabs } from "baseComponents/Tabs";
 
 const ThemeButton = styled(Button)`
   background-color: ${({ theme }) => theme.palette.background};
@@ -48,11 +49,11 @@ const SaveButton = styled(IconButton)`
   font-size: 24px;
 `;
 
-export type Tabs = "allUnits" | "sceneUnits";
+export type TTabs = "allUnits" | "sceneUnits";
 
 interface TProps extends HTMLAttributes<HTMLDivElement> {
-  selectedTab: Tabs;
-  onTabChange: (selectedTab: Tabs) => void;
+  selectedTab: TTabs;
+  onTabChange: (selectedTab: TTabs) => void;
 }
 
 export const Header: FC<TProps> = memo(
@@ -98,23 +99,27 @@ export const Header: FC<TProps> = memo(
 
     return (
       <HeaderRoot {...props}>
-        {/* Все */}
-        <Tab
-          isSelected={selectedTab === "allUnits"}
-          onClick={() => selectedTab !== "allUnits" && onTabChange("allUnits")}
-        >
-          {translate("header.allUnitsTab")}
-        </Tab>
+        <Tabs>
+          {/* Все */}
+          <Tab
+            isSelected={selectedTab === "allUnits"}
+            onClick={() =>
+              selectedTab !== "allUnits" && onTabChange("allUnits")
+            }
+          >
+            {translate("header.allUnitsTab")}
+          </Tab>
 
-        {/* Сцена */}
-        <Tab
-          isSelected={selectedTab === "sceneUnits"}
-          onClick={() =>
-            selectedTab !== "sceneUnits" && onTabChange("sceneUnits")
-          }
-        >
-          {translate("header.sceneUnitsTab")}
-        </Tab>
+          {/* Сцена */}
+          <Tab
+            isSelected={selectedTab === "sceneUnits"}
+            onClick={() =>
+              selectedTab !== "sceneUnits" && onTabChange("sceneUnits")
+            }
+          >
+            {translate("header.sceneUnitsTab")}
+          </Tab>
+        </Tabs>
 
         {/* отсортировать по инициативе */}
         {selectedTab === "sceneUnits" && (

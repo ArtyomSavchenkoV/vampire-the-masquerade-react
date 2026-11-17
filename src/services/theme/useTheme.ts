@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { ThemeContext, ThemeContextValue } from "services/theme/ThemeProvider";
+import { ThemeContext, TThemeContextValue } from "services/theme/ThemeProvider";
 
-const useTheme = (): ThemeContextValue => {
+const useTheme = (): TThemeContextValue => {
   const context = useContext(ThemeContext);
   if (!context) {
     throw new Error("Не объявлен контекст: ThemeContext");

@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Button } from "baseComponents/Button";
+import { Tabs } from "baseComponents/Tabs";
 import { DeleteUnit } from "components/DeleteUnit";
 import { EditUnit } from "components/EditUnit";
 import { FC, ReactNode } from "react";
@@ -26,12 +27,6 @@ const Name = styled.div`
 const Buttons = styled.div`
   display: flex;
   gap: 12px;
-`;
-
-const Tabs = styled.div`
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
 `;
 
 const CloseButton = styled(Button)`

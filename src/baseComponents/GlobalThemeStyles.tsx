@@ -41,6 +41,11 @@ export const GlobalThemeStyles = () => {
           overscroll-behavior-y: contain;
           background-color: ${theme.palette.background};
           color: ${theme.palette.text};
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+          padding: 0;
+          margin: 0;
         }
       `}
     />
