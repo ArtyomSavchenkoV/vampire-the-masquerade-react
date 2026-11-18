@@ -26,22 +26,22 @@ export const dataMigrators = {
   "0": {
     toStore: (savedData: SavedData0): State =>
       dataMigrators["1"].toStore(migrateFrom0To1(savedData)),
-    serializeToFile: null, // Старые версии не могут быть сохранены
+    serializeToSave: null, // Старые версии не могут быть сохранены
   },
   "1": {
     toStore: (savedData: SavedData1): State =>
       dataMigrators["2"].toStore(migrateFrom1To2(savedData)),
-    serializeToFile: null, // Старые версии не могут быть сохранены
+    serializeToSave: null, // Старые версии не могут быть сохранены
   },
   "2": {
     toStore: (savedData: SavedData2): State =>
       dataMigrators["3"].toStore(migrateFrom2To3(savedData)),
-    serializeToFile: null, // Старые версии не могут быть сохранены
+    serializeToSave: null, // Старые версии не могут быть сохранены
   },
   "3": {
     toStore: (savedData: SavedData3): State =>
       dataMigrators["4"].toStore(migrateFrom3To4(savedData)),
-    serializeToFile: null, // Старые версии не могут быть сохранены
+    serializeToSave: null, // Старые версии не могут быть сохранены
   },
   "4": {
     toStore: ({ version: _, ...savedData }: SavedData4): State => {
@@ -50,7 +50,7 @@ export const dataMigrators = {
         ...savedData,
       };
     },
-    serializeToFile: (state: State): SavedData4 => ({
+    serializeToSave: (state: State): SavedData4 => ({
       version: 4,
       units: state.units,
     }),
@@ -68,10 +68,18 @@ type SupportedVersion = keyof typeof dataMigrators;
 const currentVersion: SupportedVersion = "4";
 
 /**
- * Функция сериализации актуального стора в формат файла.
+ * Функция сериализации актуального стора в формат сохранения.
  * Гарантированно возвращает формат последней версии.
  */
-export const serializeToFile = dataMigrators[currentVersion].serializeToFile;
+export const serializeToSave = dataMigrators[currentVersion].serializeToSave;
+
+/**
+ * Функция сериализации данных из сохранения в актуальный стор.
+ */
+export const serializeFromSave = (data: any) => {
+  const dataVersion = detectVersion(data);
+  return dataMigrators[dataVersion].toStore(data);
+};
 
 /**
  * Определяет версию данных, прочитанных из файла.

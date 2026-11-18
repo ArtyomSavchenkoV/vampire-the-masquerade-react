@@ -7,9 +7,8 @@ import { Dialog } from "commonComponents/Dialog";
 import OpenFileButton from "commonComponents/OpenFileButton";
 import { CreateUnit } from "components/CreateUnit";
 import {
-  detectVersion,
-  serializeToFile,
-  dataMigrators,
+  serializeToSave,
+  serializeFromSave,
 } from "services/dataMigration/migrators";
 import { OpenIcon } from "icons/OpenIcon";
 import { SaveIcon } from "icons/SaveIcon";
@@ -70,7 +69,7 @@ export const Header: FC<TProps> = memo(
         const currentState = useStore.getState();
 
         // 2. Преобразуем в формат файла — только здесь и только один раз
-        const fileData = serializeToFile(currentState);
+        const fileData = serializeToSave(currentState);
 
         const blob = new Blob([JSON.stringify(fileData, null, "\t")], {
           type: "application/json",
@@ -146,8 +145,7 @@ export const Header: FC<TProps> = memo(
           onFileOpen={(content) => {
             if (typeof content === "string") {
               const data = JSON.parse(content);
-              const dataVersion = detectVersion(data);
-              setStoreState(dataMigrators[dataVersion].toStore(data));
+              setStoreState(serializeFromSave(data));
             } else {
               throw new Error("Не верный формат файла");
             }

@@ -1,4 +1,5 @@
 import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
+import { getLocalStorageValue, setLocalStorageValue } from "localStorage";
 import { FC, ReactNode, useMemo, useState, createContext } from "react";
 import { TTheme, themes } from "./theme";
 
@@ -13,13 +14,19 @@ export const ThemeContext = createContext<TThemeContextValue>({
 });
 
 export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [themeName, setThemeName] = useState<TTheme["themeName"]>("light");
+  const [themeName, setThemeName] = useState<TTheme["themeName"]>(
+    getLocalStorageValue("themeVariant"),
+  );
 
   const value = useMemo<TThemeContextValue>(
     () => ({
       themeName,
       toggleTheme: () =>
-        setThemeName((prev) => (prev === "light" ? "dark" : "light")),
+        setThemeName((prev) => {
+          const themeVariant = prev === "light" ? "dark" : "light";
+          setLocalStorageValue("themeVariant", themeVariant);
+          return themeVariant;
+        }),
     }),
     [themeName],
   );
