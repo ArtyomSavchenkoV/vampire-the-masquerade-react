@@ -9,6 +9,7 @@ import {
   useCalculatedHumanSelector,
   useCalculatedKindredSelector,
   useSceneUnitsSelector as useSceneUnitsIdsSelector,
+  useUnitSelector,
   useUnitsSelector,
 } from "store/selectors";
 import { useStore } from "store/store";
@@ -28,6 +29,7 @@ export const useSceneUnitsSelector = () => {
 };
 
 export const useKindredRowSelector = (id: string) => {
+  const unit = useUnitSelector(id);
   const calculatedKindred = useCalculatedKindredSelector(id);
   const selectedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
@@ -47,6 +49,7 @@ export const useKindredRowSelector = (id: string) => {
   const willpower = calculatedKindred.willpower;
   const bloodPool = calculatedKindred.bloodPool;
   const bodyWounds = calculatedKindred.bodyWounds;
+  const notes = unit.notes;
 
   return useMemo(() => {
     return {
@@ -58,6 +61,7 @@ export const useKindredRowSelector = (id: string) => {
       willpower,
       bloodPool,
       bodyWounds,
+      notes,
     };
   }, [
     isSelected,
@@ -68,10 +72,12 @@ export const useKindredRowSelector = (id: string) => {
     willpower,
     bloodPool,
     bodyWounds,
+    notes,
   ]);
 };
 
 export const useGhoulRowSelector = (id: string) => {
+  const unit = useUnitSelector(id);
   const calculatedGhoul = useCalculatedGhoulSelector(id);
   const selectedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
@@ -91,6 +97,7 @@ export const useGhoulRowSelector = (id: string) => {
   const willpower = calculatedGhoul.willpower;
   const bloodPool = calculatedGhoul.bloodPool;
   const bodyWounds = calculatedGhoul.bodyWounds;
+  const notes = unit.notes;
 
   return useMemo(() => {
     return {
@@ -102,6 +109,7 @@ export const useGhoulRowSelector = (id: string) => {
       willpower,
       bloodPool,
       bodyWounds,
+      notes,
     };
   }, [
     isSelected,
@@ -112,10 +120,12 @@ export const useGhoulRowSelector = (id: string) => {
     willpower,
     bloodPool,
     bodyWounds,
+    notes,
   ]);
 };
 
 export const useHumanRowSelector = (id: string) => {
+  const unit = useUnitSelector(id);
   const calculatedHuman = useCalculatedHumanSelector(id);
   const selectedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
@@ -136,6 +146,7 @@ export const useHumanRowSelector = (id: string) => {
   const willpower = calculatedHuman.willpower;
   const bodyWounds = calculatedHuman.bodyWounds;
   const maxHealth = calculatedHuman.healthLevels.length - 1;
+  const notes = unit.notes;
 
   return useMemo(() => {
     return {
@@ -147,6 +158,7 @@ export const useHumanRowSelector = (id: string) => {
       willpower,
       bodyWounds,
       maxHealth,
+      notes,
     };
   }, [
     isSelected,
@@ -157,10 +169,12 @@ export const useHumanRowSelector = (id: string) => {
     willpower,
     bodyWounds,
     maxHealth,
+    notes,
   ]);
 };
 
 export const useCreatureRowSelector = (id: string) => {
+  const unit = useUnitSelector(id);
   const calculatedCreature = useCalculatedCreatureSelector(id);
   const selectedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
@@ -181,6 +195,7 @@ export const useCreatureRowSelector = (id: string) => {
   const willpower = calculatedCreature.willpower;
   const bodyWounds = calculatedCreature.bodyWounds;
   const maxHealth = calculatedCreature.healthLevels.length - 1;
+  const notes = unit.notes;
 
   return useMemo(() => {
     return {
@@ -192,6 +207,7 @@ export const useCreatureRowSelector = (id: string) => {
       willpower,
       bodyWounds,
       maxHealth,
+      notes,
     };
   }, [
     isSelected,
@@ -202,5 +218,6 @@ export const useCreatureRowSelector = (id: string) => {
     willpower,
     bodyWounds,
     maxHealth,
+    notes,
   ]);
 };

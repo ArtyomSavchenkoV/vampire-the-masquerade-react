@@ -17,6 +17,7 @@ const HeaderRoot = styled(Header)`
 
 const ContentRoot = styled.div`
   flex: 1;
+  overflow: auto;
 `;
 
 interface TProps extends HTMLAttributes<HTMLDivElement> {}

@@ -8,6 +8,7 @@ import { ButtonsTd } from "commonComponents/ButtonsTd";
 import { TableCheckbox } from "commonComponents/TableCheckbox";
 import { UnitActions } from "components/UnitActions";
 import { withErrorBoundary } from "commonComponents/hoc/withErrorBoundary";
+import { UnitsListDescription } from "commonComponents/UnitsListDescription";
 
 interface TProps {
   id: string;
@@ -46,10 +47,16 @@ export const CreatureRow: FC<TProps> = withErrorBoundary(
         {/* Тип персонажа */}
         <Td>{translate("unitTypes.creature")}</Td>
 
+        {/* Описание */}
+        <Td>
+          <UnitsListDescription>{creatureRow.notes}</UnitsListDescription>
+        </Td>
+
         {/* Ресурсы персонажа */}
         <Td>
-          {`${translate("resources.health")}: ${creatureRow.maxHealth - creatureRow.bodyWounds.length}/${creatureRow.maxHealth}, `}
-          {`${translate("resources.willpower")}: ${creatureRow.willpower}, `}
+          {`${translate("resources.health")}: ${creatureRow.maxHealth - creatureRow.bodyWounds.length}/${creatureRow.maxHealth},`}
+          <> </>
+          {`${translate("resources.willpower")}: ${creatureRow.willpower},`}
         </Td>
 
         {/* Кнопки */}

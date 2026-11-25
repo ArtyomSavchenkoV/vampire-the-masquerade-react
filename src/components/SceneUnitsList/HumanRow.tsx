@@ -8,6 +8,7 @@ import { EditInitiative } from "components/EditInitiative";
 import { ButtonsTd } from "commonComponents/ButtonsTd";
 import { UnitActions } from "components/UnitActions";
 import { withErrorBoundary } from "commonComponents/hoc/withErrorBoundary";
+import { UnitsListDescription } from "commonComponents/UnitsListDescription";
 
 interface TProps {
   id: string;
@@ -48,10 +49,16 @@ export const HumanRow: FC<TProps> = withErrorBoundary(
         {/* Тип персонажа */}
         <Td>{translate("unitTypes.human")}</Td>
 
+        {/* Описание */}
+        <Td>
+          <UnitsListDescription>{humanRow.notes}</UnitsListDescription>
+        </Td>
+
         {/* Ресурсы персонажа */}
         <Td>
-          {`${translate("resources.health")}: ${humanRow.maxHealth - humanRow.bodyWounds.length}/${humanRow.maxHealth}, `}
-          {`${translate("resources.willpower")}: ${humanRow.willpower}, `}
+          {`${translate("resources.health")}: ${humanRow.maxHealth - humanRow.bodyWounds.length}/${humanRow.maxHealth},`}
+          <> </>
+          {`${translate("resources.willpower")}: ${humanRow.willpower},`}
         </Td>
 
         {/* Кнопки */}

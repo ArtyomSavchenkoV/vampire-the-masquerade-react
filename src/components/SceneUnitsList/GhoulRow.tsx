@@ -9,6 +9,7 @@ import { MAX_HEALTH } from "data/ghoulHealthLevels";
 import { ButtonsTd } from "commonComponents/ButtonsTd";
 import { UnitActions } from "components/UnitActions";
 import { withErrorBoundary } from "commonComponents/hoc/withErrorBoundary";
+import { UnitsListDescription } from "commonComponents/UnitsListDescription";
 
 interface TProps {
   id: string;
@@ -49,10 +50,17 @@ export const GhoulRow: FC<TProps> = withErrorBoundary(
         {/* Тип персонажа */}
         <Td>{translate("unitTypes.ghoul")}</Td>
 
+        {/* Описание */}
+        <Td>
+          <UnitsListDescription>{ghoulRow.notes}</UnitsListDescription>
+        </Td>
+
         {/* Ресурсы персонажа */}
         <Td>
-          {`${translate("resources.health")}: ${MAX_HEALTH - ghoulRow.bodyWounds.length}/${MAX_HEALTH}, `}
-          {`${translate("resources.willpower")}: ${ghoulRow.willpower}, `}
+          {`${translate("resources.health")}: ${MAX_HEALTH - ghoulRow.bodyWounds.length}/${MAX_HEALTH},`}
+          <> </>
+          {`${translate("resources.willpower")}: ${ghoulRow.willpower},`}
+          <> </>
           {`${translate("resources.bloodPool")}: ${ghoulRow.bloodPool}`}
         </Td>
 
