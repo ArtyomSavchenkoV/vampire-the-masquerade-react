@@ -44,8 +44,8 @@ export const GhoulRow: FC<TProps> = withErrorBoundary(
         {/* Имя персонажа */}
         <Td>{ghoulRow.name}</Td>
 
-        {/* Имя игрока */}
-        <Td>{ghoulRow.player}</Td>
+        {/* Имя игрока или амплуа */}
+        <Td>{ghoulRow.player?.trim() || ghoulRow.role}</Td>
 
         {/* Тип персонажа */}
         <Td>{translate("unitTypes.ghoul")}</Td>

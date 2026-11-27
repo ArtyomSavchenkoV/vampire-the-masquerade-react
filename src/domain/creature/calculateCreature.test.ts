@@ -5,6 +5,8 @@ describe("src/domain/creature/calculateCreature", () => {
   const creature = {
     name: "Name",
     player: "Player",
+    animalSpecies: null,
+    role: "",
     unitFeatures: {
       damageToWoundMap: {
         blunt: "bashing",

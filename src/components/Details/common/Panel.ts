@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { RightPanel } from "commonComponents/RightPanel";
 
-const PADDING = 24;
+export const PADDING = 24;
 
 export const Panel = styled(RightPanel)`
   width: 1000px;

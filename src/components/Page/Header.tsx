@@ -20,11 +20,6 @@ import { formatTimestampForFilename } from "utils/formatTimestampForFilename";
 import useTheme from "services/theme/useTheme";
 import { Tabs } from "baseComponents/Tabs";
 
-const ThemeButton = styled(Button)`
-  background-color: ${({ theme }) => theme.palette.background};
-  color: ${({ theme }) => theme.palette.text};
-`;
-
 const HeaderRoot = styled.div`
   display: flex;
   gap: 8px;
@@ -132,13 +127,16 @@ export const Header: FC<TProps> = memo(
         <ConfirmingButton
           onConfirm={() => {}}
           confirmWindowTitle="Подтверди!"
-          confirmWindowContent={<div></div>}
+          confirmWindowContent={
+            <div>
+              <Button onClick={toggleTheme}>
+                {themeName === "light" ? "☀️" : "🌙"}
+              </Button>
+            </div>
+          }
         >
-          444
+          444Меню
         </ConfirmingButton>
-        <ThemeButton onClick={toggleTheme}>
-          {themeName === "light" ? "☀️" : "🌙"}
-        </ThemeButton>
 
         {/* открыть */}
         <OpenButton

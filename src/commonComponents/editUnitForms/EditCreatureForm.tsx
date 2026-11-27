@@ -25,6 +25,7 @@ import { getCreatureHealthLevel } from "domain/creature/Health";
 import { Info } from "./common/Info";
 import { completeHealthEvents } from "domain/creature/ResourcesHistory";
 import { NumberCheckboxesInput } from "commonComponents/NumberCheckboxesInput";
+import { Input } from "baseComponents/Input";
 
 interface TProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   creature: Creature;
@@ -78,6 +79,31 @@ export const EditCreatureForm: FC<TProps> = ({
             }
           />
         </NameTitleText>
+      }
+      personality={
+        <>
+          {/* Вид животного */}
+          <TitleText title={translate("fields.animalSpecies")}>
+            <Input
+              value={creature.animalSpecies || ""}
+              onChange={(ev) =>
+                onChange({
+                  ...creature,
+                  animalSpecies: ev.target.value ?? null,
+                })
+              }
+            />
+          </TitleText>
+          {/* Амплуа */}
+          <TitleText title={translate("fields.role")}>
+            <Input
+              value={creature.role}
+              onChange={(ev) =>
+                onChange({ ...creature, role: ev.target.value })
+              }
+            />
+          </TitleText>
+        </>
       }
       attributes={
         <>

@@ -17,6 +17,10 @@ import {
   migrateFrom3To4,
   SavedData as SavedData4,
 } from "domain/savedDataVersions/4";
+import {
+  migrateFrom4To5,
+  SavedData as SavedData5,
+} from "domain/savedDataVersions/5";
 
 /**
  * Миграторы версий сохранённых данных.
@@ -44,14 +48,19 @@ export const dataMigrators = {
     serializeToSave: null, // Старые версии не могут быть сохранены
   },
   "4": {
-    toStore: ({ version: _, ...savedData }: SavedData4): State => {
+    toStore: (savedData: SavedData4): State =>
+      dataMigrators["5"].toStore(migrateFrom4To5(savedData)),
+    serializeToSave: null, // Старые версии не могут быть сохранены
+  },
+  "5": {
+    toStore: ({ version: _, ...savedData }: SavedData5): State => {
       return {
         ...initialState,
         ...savedData,
       };
     },
-    serializeToSave: (state: State): SavedData4 => ({
-      version: 4,
+    serializeToSave: (state: State): SavedData5 => ({
+      version: 5,
       units: state.units,
     }),
   },
@@ -65,7 +74,7 @@ type SupportedVersion = keyof typeof dataMigrators;
 /*
  * Текущая версия
  */
-const currentVersion: SupportedVersion = "4";
+const currentVersion: SupportedVersion = "5";
 
 /**
  * Функция сериализации актуального стора в формат сохранения.

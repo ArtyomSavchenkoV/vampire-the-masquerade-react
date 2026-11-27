@@ -41,11 +41,13 @@ export const CreatureRow: FC<TProps> = withErrorBoundary(
         {/* Имя персонажа */}
         <Td>{creatureRow.name}</Td>
 
-        {/* Имя игрока */}
-        <Td>{creatureRow.player}</Td>
+        {/* Имя игрока или амплуа */}
+        <Td>{creatureRow.player?.trim() || creatureRow.role}</Td>
 
         {/* Тип персонажа */}
-        <Td>{translate("unitTypes.creature")}</Td>
+        <Td>
+          {creatureRow.animalSpecies?.trim() || translate("unitTypes.creature")}
+        </Td>
 
         {/* Описание */}
         <Td>

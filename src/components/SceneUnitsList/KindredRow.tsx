@@ -44,11 +44,11 @@ export const KindredRow: FC<TProps> = withErrorBoundary(
         {/* Имя персонажа */}
         <Td>{kindredRow.name}</Td>
 
-        {/* Имя игрока */}
-        <Td>{kindredRow.player}</Td>
+        {/* Имя игрока или амплуа */}
+        <Td>{kindredRow.player?.trim() || kindredRow.role}</Td>
 
-        {/* Тип персонажа */}
-        <Td>{translate("unitTypes.kindred")}</Td>
+        {/* Клан */}
+        <Td>{translate(`clanes.${kindredRow.clanName}.name`)}</Td>
 
         {/* Описание */}
         <Td>

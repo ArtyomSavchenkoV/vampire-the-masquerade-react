@@ -41,8 +41,8 @@ export const HumanRow: FC<TProps> = withErrorBoundary(
         {/* Имя персонажа */}
         <Td>{humanRow.name}</Td>
 
-        {/* Имя игрока */}
-        <Td>{humanRow.player}</Td>
+        {/* Имя игрока или амплуа */}
+        <Td>{humanRow.player?.trim() || humanRow.role}</Td>
 
         {/* Тип персонажа */}
         <Td>{translate("unitTypes.human")}</Td>
@@ -55,7 +55,7 @@ export const HumanRow: FC<TProps> = withErrorBoundary(
         {/* Ресурсы персонажа */}
         <Td>
           {`${translate("resources.health")}: ${humanRow.maxHealth - humanRow.bodyWounds.length}/${humanRow.maxHealth},`}
-          <> </>  
+          <> </>
           {`${translate("resources.willpower")}: ${humanRow.willpower},`}
         </Td>
 

@@ -13,6 +13,8 @@ export const useMainInfoSelector = (unitId: string) => {
   }
 
   const notes = unit.notes;
+  const role = calculatedCreature.role;
+  const animalSpecies = calculatedCreature.animalSpecies;
   const bodyWounds = calculatedCreature.bodyWounds;
   const healthLevels = calculatedCreature.healthLevels;
   const willpower = calculatedCreature.willpower;
@@ -21,11 +23,21 @@ export const useMainInfoSelector = (unitId: string) => {
   return useMemo(
     () => ({
       notes,
+      role,
+      animalSpecies,
       bodyWounds,
       healthLevels,
       willpower,
       maxWillpower,
     }),
-    [notes, bodyWounds, healthLevels, willpower, maxWillpower],
+    [
+      notes,
+      role,
+      animalSpecies,
+      bodyWounds,
+      healthLevels,
+      willpower,
+      maxWillpower,
+    ],
   );
 };

@@ -5,17 +5,20 @@ import { HumanDetails } from "./HumanDetails";
 import { CreatureDetails } from "./CreatureDetails";
 import { GhoulDetails } from "./GhoulDetails";
 import { Header } from "./common/Header";
-import { Panel } from "./common/Panel";
+import { PADDING as PANEL_PADDING, Panel } from "./common/Panel";
 import { useActions } from "store/selectors";
 import { joinStrings } from "utils/string/joinStrings";
 import { Tab } from "baseComponents/Tab";
 import useTranslate from "services/translate/useTranslate";
 import styled from "@emotion/styled";
 
+const BORDER = 4;
+const SHIFT = PANEL_PADDING - BORDER;
+
 const Content = styled.div`
   overflow: auto;
-  margin: 0 -18px -18px -18px;
-  padding: 18px;
+  margin: 0 -${SHIFT}px -${SHIFT}px -${SHIFT}px;
+  padding: ${SHIFT}px;
   border-radius: 4px;
   height: 100%;
   max-height: 100%;

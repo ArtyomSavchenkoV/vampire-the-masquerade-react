@@ -768,6 +768,7 @@ export const ru = {
     player: "Игрок",
     chronicle: "Хроника",
     nature: "Натура",
+    animalSpecies: "Вид животного",
     demeanor: "Маска",
     role: "Амплуа",
     clan: "Клан",

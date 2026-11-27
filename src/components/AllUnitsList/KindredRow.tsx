@@ -42,11 +42,11 @@ export const KindredRow: FC<TProps> = withErrorBoundary(
         {/* Имя персонажа */}
         <Td>{kindredRow.name}</Td>
 
-        {/* Имя игрока */}
-        <Td>{kindredRow.player}</Td>
+        {/* Имя игрока или амплуа */}
+        <Td>{kindredRow.player?.trim() || kindredRow.role}</Td>
 
-        {/* Тип персонажа */}
-        <Td>{translate("unitTypes.kindred")}</Td>
+        {/* Клан */}
+        <Td>{translate(`clanes.${kindredRow.clanName}.name`)}</Td>
 
         {/* Описание */}
         <Td>
@@ -58,7 +58,7 @@ export const KindredRow: FC<TProps> = withErrorBoundary(
           {`${translate("resources.health")}: ${MAX_HEALTH - kindredRow.bodyWounds.length}/${MAX_HEALTH},`}
           <> </>
           {`${translate("resources.willpower")}: ${kindredRow.willpower},`}
-          <> </>  
+          <> </>
           {`${translate("resources.bloodPool")}: ${kindredRow.bloodPool}`}
         </Td>
 

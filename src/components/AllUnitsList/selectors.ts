@@ -36,6 +36,8 @@ export const useKindredRowSelector = (id: string) => {
   const isOnScene = sceneUnits.some((scene) => scene.id === id);
   const name = calculatedKindred.name;
   const player = calculatedKindred.player;
+  const role = calculatedKindred.role;
+  const clanName = calculatedKindred.clan.clanName;
   const willpower = calculatedKindred.willpower;
   const bloodPool = calculatedKindred.bloodPool;
   const bodyWounds = calculatedKindred.bodyWounds;
@@ -47,12 +49,25 @@ export const useKindredRowSelector = (id: string) => {
       isOnScene,
       name,
       player,
+      role,
+      clanName,
       willpower,
       bloodPool,
       bodyWounds,
-      notes
+      notes,
     };
-  }, [isSelected, isOnScene, name, player, willpower, bloodPool, bodyWounds, notes]);
+  }, [
+    isSelected,
+    isOnScene,
+    name,
+    player,
+    role,
+    clanName,
+    willpower,
+    bloodPool,
+    bodyWounds,
+    notes,
+  ]);
 };
 
 export const useGhoulRowSelector = (id: string) => {
@@ -69,6 +84,7 @@ export const useGhoulRowSelector = (id: string) => {
   const isOnScene = sceneUnits.some((scene) => scene.id === id);
   const name = calculatedGhoul.name;
   const player = calculatedGhoul.player;
+  const role = calculatedGhoul.role;
   const willpower = calculatedGhoul.willpower;
   const bloodPool = calculatedGhoul.bloodPool;
   const bodyWounds = calculatedGhoul.bodyWounds;
@@ -80,12 +96,23 @@ export const useGhoulRowSelector = (id: string) => {
       isOnScene,
       name,
       player,
+      role,
       willpower,
       bloodPool,
       bodyWounds,
-      notes
+      notes,
     };
-  }, [isSelected, isOnScene, name, player, willpower, bloodPool, bodyWounds, notes]);
+  }, [
+    isSelected,
+    isOnScene,
+    name,
+    player,
+    role,
+    willpower,
+    bloodPool,
+    bodyWounds,
+    notes,
+  ]);
 };
 
 export const useHumanRowSelector = (id: string) => {
@@ -102,6 +129,7 @@ export const useHumanRowSelector = (id: string) => {
   const isOnScene = sceneUnits.some((scene) => scene.id === id);
   const name = calculatedHuman.name;
   const player = calculatedHuman.player;
+  const role = calculatedHuman.role;
   const willpower = calculatedHuman.willpower;
   const bodyWounds = calculatedHuman.bodyWounds;
   const maxHealth = calculatedHuman.healthLevels.length - 1;
@@ -113,12 +141,23 @@ export const useHumanRowSelector = (id: string) => {
       isOnScene,
       name,
       player,
+      role,
       willpower,
       bodyWounds,
       maxHealth,
-      notes
+      notes,
     };
-  }, [isSelected, isOnScene, name, player, willpower, bodyWounds, maxHealth, notes]);
+  }, [
+    isSelected,
+    isOnScene,
+    name,
+    player,
+    role,
+    willpower,
+    bodyWounds,
+    maxHealth,
+    notes,
+  ]);
 };
 
 export const useCreatureRowSelector = (id: string) => {
@@ -135,6 +174,8 @@ export const useCreatureRowSelector = (id: string) => {
   const isOnScene = sceneUnits.some((scene) => scene.id === id);
   const name = calculatedCreature.name;
   const player = calculatedCreature.player;
+  const role = calculatedCreature.role;
+  const animalSpecies = calculatedCreature.animalSpecies;
   const willpower = calculatedCreature.willpower;
   const bodyWounds = calculatedCreature.bodyWounds;
   const maxHealth = calculatedCreature.healthLevels.length - 1;
@@ -146,10 +187,23 @@ export const useCreatureRowSelector = (id: string) => {
       isOnScene,
       name,
       player,
+      role,
+      animalSpecies,
       willpower,
       bodyWounds,
       maxHealth,
-      notes
+      notes,
     };
-  }, [isSelected, isOnScene, name, player, willpower, bodyWounds, maxHealth, notes]);
+  }, [
+    isSelected,
+    isOnScene,
+    name,
+    player,
+    role,
+    animalSpecies,
+    willpower,
+    bodyWounds,
+    maxHealth,
+    notes,
+  ]);
 };

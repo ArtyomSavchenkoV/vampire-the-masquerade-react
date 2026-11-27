@@ -43,8 +43,8 @@ export const HumanRow: FC<TProps> = withErrorBoundary(
         {/* Имя персонажа */}
         <Td>{humanRow.name}</Td>
 
-        {/* Имя игрока */}
-        <Td>{humanRow.player}</Td>
+        {/* Имя игрока или амплуа */}
+        <Td>{humanRow.player?.trim() || humanRow.role}</Td>
 
         {/* Тип персонажа */}
         <Td>{translate("unitTypes.human")}</Td>

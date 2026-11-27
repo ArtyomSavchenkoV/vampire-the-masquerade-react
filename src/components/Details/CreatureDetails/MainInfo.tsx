@@ -35,6 +35,16 @@ export const MainInfo: FC<TProps> = withErrorBoundary(({ unitId }) => {
           <DamageUnit unitId={unitId} disabled={healthLevel.name === "final"} />
         </>
       }
+      social={
+        <>
+          {/* Вид животного */}
+          <TitleText title={translate("fields.animalSpecies")}>
+            {data.animalSpecies}
+          </TitleText>
+          {/* Амплуа */}
+          <TitleText title={translate("fields.role")}>{data.role}</TitleText>
+        </>
+      }
       health={
         <>
           {/* Здоровье */}
