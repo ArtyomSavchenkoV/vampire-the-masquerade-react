@@ -4,107 +4,208 @@ import {
   useCalculatedGhoulSelector,
   useCalculatedHumanSelector,
   useCalculatedKindredSelector,
-  useUnitsSelector,
+  useUnitSelector,
+  useFilteredUnitsSelector,
 } from "store/selectors";
 import { useStore } from "store/store";
 
 export const useAllUnitsSelector = () => {
-  const units = useUnitsSelector();
+  const units = useFilteredUnitsSelector();
 
   return useMemo(
     () =>
-      Object.entries(units).map(([id, { type }]) => ({
-        id,
-        type,
-      })),
+      units
+        .sort(({ unit }) => (unit.unit.player?.trim() ? -1 : 1))
+        .map(({ id, unit }) => ({
+          id,
+          type: unit.type,
+        })),
     [units],
   );
 };
 
 export const useKindredRowSelector = (id: string) => {
+  const unit = useUnitSelector(id);
   const calculatedKindred = useCalculatedKindredSelector(id);
   const selectedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
-  const memoizedValue = useMemo(() => {
-    if (!calculatedKindred) return null;
+  if (!calculatedKindred) {
+    throw new Error("useKindredRowSelector return null");
+  }
 
+  const isSelected = selectedUnitId === id;
+  const isOnScene = sceneUnits.some((scene) => scene.id === id);
+  const name = calculatedKindred.name;
+  const player = calculatedKindred.player;
+  const role = calculatedKindred.role;
+  const clanName = calculatedKindred.clan.clanName;
+  const willpower = calculatedKindred.willpower;
+  const bloodPool = calculatedKindred.bloodPool;
+  const bodyWounds = calculatedKindred.bodyWounds;
+  const notes = unit.notes;
+
+  return useMemo(() => {
     return {
-      isSelected: selectedUnitId === id,
-      isOnScene: sceneUnits.some((scene) => scene.id === id),
-      name: calculatedKindred.name,
-      player: calculatedKindred.player,
-      willpower: calculatedKindred.willpower,
-      bloodPool: calculatedKindred.bloodPool,
-      bodyWounds: calculatedKindred.bodyWounds,
+      isSelected,
+      isOnScene,
+      name,
+      player,
+      role,
+      clanName,
+      willpower,
+      bloodPool,
+      bodyWounds,
+      notes,
     };
-  }, [id, selectedUnitId, sceneUnits, calculatedKindred]);
-
-  return memoizedValue;
+  }, [
+    isSelected,
+    isOnScene,
+    name,
+    player,
+    role,
+    clanName,
+    willpower,
+    bloodPool,
+    bodyWounds,
+    notes,
+  ]);
 };
 
 export const useGhoulRowSelector = (id: string) => {
+  const unit = useUnitSelector(id);
   const calculatedGhoul = useCalculatedGhoulSelector(id);
   const selectedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
-  const memoizedValue = useMemo(() => {
-    if (!calculatedGhoul) return null;
+  if (!calculatedGhoul) {
+    throw new Error("calculatedGhoul return null");
+  }
 
+  const isSelected = selectedUnitId === id;
+  const isOnScene = sceneUnits.some((scene) => scene.id === id);
+  const name = calculatedGhoul.name;
+  const player = calculatedGhoul.player;
+  const role = calculatedGhoul.role;
+  const willpower = calculatedGhoul.willpower;
+  const bloodPool = calculatedGhoul.bloodPool;
+  const bodyWounds = calculatedGhoul.bodyWounds;
+  const notes = unit.notes;
+
+  return useMemo(() => {
     return {
-      isSelected: selectedUnitId === id,
-      isOnScene: sceneUnits.some((scene) => scene.id === id),
-      name: calculatedGhoul.name,
-      player: calculatedGhoul.player,
-      willpower: calculatedGhoul.willpower,
-      bloodPool: calculatedGhoul.bloodPool,
-      bodyWounds: calculatedGhoul.bodyWounds,
+      isSelected,
+      isOnScene,
+      name,
+      player,
+      role,
+      willpower,
+      bloodPool,
+      bodyWounds,
+      notes,
     };
-  }, [id, selectedUnitId, sceneUnits, calculatedGhoul]);
-
-  return memoizedValue;
+  }, [
+    isSelected,
+    isOnScene,
+    name,
+    player,
+    role,
+    willpower,
+    bloodPool,
+    bodyWounds,
+    notes,
+  ]);
 };
 
 export const useHumanRowSelector = (id: string) => {
+  const unit = useUnitSelector(id);
   const calculatedHuman = useCalculatedHumanSelector(id);
   const selectedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
-  const memoizedValue = useMemo(() => {
-    if (!calculatedHuman) return null;
+  if (!calculatedHuman) {
+    throw new Error("calculatedHuman return null");
+  }
 
+  const isSelected = selectedUnitId === id;
+  const isOnScene = sceneUnits.some((scene) => scene.id === id);
+  const name = calculatedHuman.name;
+  const player = calculatedHuman.player;
+  const role = calculatedHuman.role;
+  const willpower = calculatedHuman.willpower;
+  const bodyWounds = calculatedHuman.bodyWounds;
+  const maxHealth = calculatedHuman.healthLevels.length - 1;
+  const notes = unit.notes;
+
+  return useMemo(() => {
     return {
-      isSelected: selectedUnitId === id,
-      isOnScene: sceneUnits.some((scene) => scene.id === id),
-      name: calculatedHuman.name,
-      player: calculatedHuman.player,
-      willpower: calculatedHuman.willpower,
-      bodyWounds: calculatedHuman.bodyWounds,
-      maxHealth: calculatedHuman.healthLevels.length - 1,
+      isSelected,
+      isOnScene,
+      name,
+      player,
+      role,
+      willpower,
+      bodyWounds,
+      maxHealth,
+      notes,
     };
-  }, [id, selectedUnitId, sceneUnits, calculatedHuman]);
-
-  return memoizedValue;
+  }, [
+    isSelected,
+    isOnScene,
+    name,
+    player,
+    role,
+    willpower,
+    bodyWounds,
+    maxHealth,
+    notes,
+  ]);
 };
 
 export const useCreatureRowSelector = (id: string) => {
+  const unit = useUnitSelector(id);
   const calculatedCreature = useCalculatedCreatureSelector(id);
   const selectedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
-  const memoizedValue = useMemo(() => {
-    if (!calculatedCreature) return null;
+  if (!calculatedCreature) {
+    throw new Error("calculatedCreature return null");
+  }
 
+  const isSelected = selectedUnitId === id;
+  const isOnScene = sceneUnits.some((scene) => scene.id === id);
+  const name = calculatedCreature.name;
+  const player = calculatedCreature.player;
+  const role = calculatedCreature.role;
+  const animalSpecies = calculatedCreature.animalSpecies;
+  const willpower = calculatedCreature.willpower;
+  const bodyWounds = calculatedCreature.bodyWounds;
+  const maxHealth = calculatedCreature.healthLevels.length - 1;
+  const notes = unit.notes;
+
+  return useMemo(() => {
     return {
-      isSelected: selectedUnitId === id,
-      isOnScene: sceneUnits.some((scene) => scene.id === id),
-      name: calculatedCreature.name,
-      player: calculatedCreature.player,
-      willpower: calculatedCreature.willpower,
-      bodyWounds: calculatedCreature.bodyWounds,
-      maxHealth: calculatedCreature.healthLevels.length - 1,
+      isSelected,
+      isOnScene,
+      name,
+      player,
+      role,
+      animalSpecies,
+      willpower,
+      bodyWounds,
+      maxHealth,
+      notes,
     };
-  }, [id, selectedUnitId, sceneUnits, calculatedCreature]);
-
-  return memoizedValue;
+  }, [
+    isSelected,
+    isOnScene,
+    name,
+    player,
+    role,
+    animalSpecies,
+    willpower,
+    bodyWounds,
+    maxHealth,
+    notes,
+  ]);
 };

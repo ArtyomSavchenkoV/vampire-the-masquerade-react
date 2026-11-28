@@ -11,25 +11,6 @@ const Page = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
-const Header = styled(Card)<{ isSmallElement: boolean }>(
-  ({ isSmallElement }) => ({
-    display: "flex",
-    gap: 16,
-    ...(isSmallElement ? { flexDirection: "column" } : {}),
-  }),
-);
-const Names = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-const PersonDetails = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
 const Section = styled.div<{ isSmallElement: boolean }>(
   ({ isSmallElement }) => ({
     display: "flex",
@@ -98,18 +79,18 @@ export const GhoulLayout: FC<TProps> = ({
   });
   return (
     <Page ref={ref} {...props}>
-      <Header isSmallElement={isSmallElement}>
-        <Names>
-          <div>{name}</div>
-          <div>{player}</div>
-          <div>{chronicle}</div>
-        </Names>
-        <PersonDetails>
+      <Section isSmallElement={isSmallElement}>
+        <List isSmallElement={isSmallElement}>
+          {name}
+          {player}
+          {chronicle}
+        </List>
+        <List isSmallElement={isSmallElement}>
           {personality}
           <Divider />
           {domitor}
-        </PersonDetails>
-      </Header>
+        </List>
+      </Section>
       <Section isSmallElement={isSmallElement}>
         <List isSmallElement={isSmallElement}>{physical}</List>
         <List isSmallElement={isSmallElement}>{social}</List>

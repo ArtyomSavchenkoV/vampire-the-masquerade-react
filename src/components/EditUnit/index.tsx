@@ -1,4 +1,4 @@
-import { Dialog } from "commonComponents/Dialog";
+import { Dialog } from "baseComponents/Dialog";
 import { ComponentProps, FC, memo, useState } from "react";
 import { IconButton } from "baseComponents/IconButton";
 import { PaperPath } from "icons/PaperPath";

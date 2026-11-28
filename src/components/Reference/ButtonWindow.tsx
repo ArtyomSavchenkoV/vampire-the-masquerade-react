@@ -1,6 +1,6 @@
 import { StringButton } from "baseComponents/StringButton";
-import { ConfirmWindow } from "commonComponents/ConfirmWindow";
-import { Dialog } from "commonComponents/Dialog";
+import { DialogWindow } from "baseComponents/DialogWindow";
+import { Dialog } from "baseComponents/Dialog";
 import { ComponentProps, FC, ReactNode, useState } from "react";
 
 interface TProps extends Omit<
@@ -37,9 +37,9 @@ export const ButtonWindow: FC<TProps> = ({
 
       {/* Окно */}
       <Dialog onClose={() => setOpen(false)} open={open}>
-        <ConfirmWindow size="md" title={title} onClose={() => setOpen(false)}>
+        <DialogWindow size="md" title={title} onClose={() => setOpen(false)}>
           {children}
-        </ConfirmWindow>
+        </DialogWindow>
       </Dialog>
     </>
   );

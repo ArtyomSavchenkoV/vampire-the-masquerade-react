@@ -51,6 +51,14 @@ export const createActions = (
     }),
 
   /**
+   * Задать фильтр списка всех участников
+   */
+  setUnitsFilter: (unitsFilter) =>
+    set((draft) => {
+      draft.unitsFilter = unitsFilter;
+    }),
+
+  /**
    * Изменяет заметки
    */
   editNotes: (id, notes) =>

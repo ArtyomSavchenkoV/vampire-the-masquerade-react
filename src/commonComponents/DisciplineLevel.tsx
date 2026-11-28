@@ -22,7 +22,7 @@ import { Divider } from "baseComponents/Divider";
 import { mapObject } from "utils/object/mapObject";
 import { Reference } from "components/Reference";
 import { Text } from "baseComponents/Text";
-import { CCC_COLOR } from "constants/CCC_COLOR";
+import { Tabs } from "baseComponents/Tabs";
 
 type LevelVariants<
   TName extends DisciplineName,
@@ -49,12 +49,12 @@ const getLevelVariants = <
 const typedKeys = <T extends object>(obj: T): (keyof T & string)[] =>
   Object.keys(obj) as (keyof T & string)[];
 
-const Variants = styled.div(`
-  font-size: .8em;
-`);
+const StyledTabs = styled(Tabs)`
+  font-size: 0.8em;
+`;
 
-const Description = styled(Text)(`
-  border: 1px solid ${CCC_COLOR};
+const Description = styled(Text)(({theme}) => `
+  border: 1px dashed ${theme.palette.divider};
   border-radius: 4px;
   padding: 4px;
   font-size: .8em;
@@ -94,7 +94,7 @@ export const DisciplineLevel = withErrorBoundary(
     return (
       <>
         {/* Варианты */}
-        <Variants>
+        <StyledTabs>
           {variantsNames.length > 1 &&
             variantsNames.map((variantName) => (
               <Tab
@@ -111,7 +111,7 @@ export const DisciplineLevel = withErrorBoundary(
           {/* Тип */}
           {variantsNames.length === 1 &&
             translate(`disciplinesDetails.${disciplineLevelVariant.type}`)}
-        </Variants>
+        </StyledTabs>
 
         {/* Допустимые цели */}
         {disciplineLevelVariant.type === "usable" && (

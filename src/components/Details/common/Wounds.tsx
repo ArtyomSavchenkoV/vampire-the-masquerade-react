@@ -32,8 +32,8 @@ const Row = styled.div<{ align: "left" | "center" | "right" }>(
 );
 
 const Colored = styled.div<{ healthLevelName: HealthLevelName }>(
-  ({ healthLevelName }) => `
-  color: ${(healthLevelName === "incapacitated" && "orange") || (healthLevelName === "final" && "red") || "initial"};
+  ({ healthLevelName, theme }) => `
+  color: ${(healthLevelName === "incapacitated" && "orange") || (healthLevelName === "final" && "red") || "inherit"};
 `,
 );
 

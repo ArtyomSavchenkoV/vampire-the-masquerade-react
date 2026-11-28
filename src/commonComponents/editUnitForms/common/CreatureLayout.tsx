@@ -10,20 +10,6 @@ const Page = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
-const Header = styled(Card)<{ isSmallElement: boolean }>(
-  ({ isSmallElement }) => ({
-    display: "flex",
-    gap: 16,
-    ...(isSmallElement ? { flexDirection: "column" } : {}),
-  }),
-);
-const Names = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
 const Section = styled.div<{ isSmallElement: boolean }>(
   ({ isSmallElement }) => ({
     display: "flex",
@@ -43,6 +29,7 @@ const List = styled(Card)<{ isSmallElement: boolean }>(
 interface TProps extends HTMLAttributes<HTMLDivElement> {
   name: ReactNode;
   player: ReactNode;
+  personality: ReactNode;
   // Характеристики
   attributes: ReactNode;
   abilities: ReactNode;
@@ -56,6 +43,7 @@ interface TProps extends HTMLAttributes<HTMLDivElement> {
 export const CreatureLayout: FC<TProps> = ({
   name,
   player,
+  personality,
   attributes,
   abilities,
   mentalStability,
@@ -72,12 +60,13 @@ export const CreatureLayout: FC<TProps> = ({
   });
   return (
     <Page ref={ref} {...props}>
-      <Header isSmallElement={isSmallElement}>
-        <Names>
-          <div>{name}</div>
-          <div>{player}</div>
-        </Names>
-      </Header>
+      <Section isSmallElement={isSmallElement}>
+        <List isSmallElement={isSmallElement}>
+          {name}
+          {player}
+        </List>
+        <List isSmallElement={isSmallElement}>{personality}</List>
+      </Section>
       <Section isSmallElement={isSmallElement}>
         <List isSmallElement={isSmallElement}>{attributes}</List>
         <List isSmallElement={isSmallElement}>{abilities}</List>

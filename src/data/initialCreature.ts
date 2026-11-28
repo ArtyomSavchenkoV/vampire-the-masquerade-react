@@ -3,6 +3,8 @@ import { Creature } from "domain/creature/Creature";
 export const initialCreature: Creature = {
   name: "",
   player: null,
+  animalSpecies: null,
+  role: "",
   unitFeatures: {
     damageToWoundMap: {
       blunt: "bashing",

@@ -1,5 +1,5 @@
 import { Input } from "baseComponents/Input";
-import { ConfirmWindow } from "commonComponents/ConfirmWindow";
+import { DialogWindow } from "baseComponents/DialogWindow";
 import { TitleText } from "commonComponents/TitleText";
 import { FC, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
@@ -21,7 +21,7 @@ export const Form: FC<TProps> = ({
   const [description, setDescription] = useState<string>("");
 
   return (
-    <ConfirmWindow
+    <DialogWindow
       title={joinStrings(
         " ",
         translate("torporAwakeningUnit.title"),
@@ -38,6 +38,6 @@ export const Form: FC<TProps> = ({
           onChange={(ev) => setDescription(ev.target.value)}
         />
       </TitleText>
-    </ConfirmWindow>
+    </DialogWindow>
   );
 };

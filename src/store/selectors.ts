@@ -4,6 +4,8 @@ import { calculateKindred } from "domain/kindred/CalculatedKindred";
 import { calculateGhoul } from "domain/ghoul/CalculatedGhoul";
 import { calculateHuman } from "domain/human/CalculatedHuman";
 import { calculateCreature } from "domain/creature/CalculatedCreature";
+import { getDefinedEntries } from "utils/object/getDefinedEntries";
+import { CommonUnitEntry } from "./types";
 
 // TODO:
 // import { useShallow } from "zustand/shallow";
@@ -12,6 +14,28 @@ import { calculateCreature } from "domain/creature/CalculatedCreature";
  * Получить список всех юнитов
  */
 export const useUnitsSelector = () => useStore((state) => state.units);
+
+/**
+ * Получить фильтры списка всех юнитов
+ */
+export const useUnitsFilterSelector = () =>
+  useStore((state) => state.unitsFilter);
+
+/**
+ * Получить отфильтрованный список всех юнитов
+ */
+export const useFilteredUnitsSelector = () => {
+  const units: Partial<Record<string, CommonUnitEntry>> = useUnitsSelector();
+  const filter = useUnitsFilterSelector();
+  return getDefinedEntries(units)
+    .filter(({ key: _, value: unit }) => {
+      if (unit.type !== "kindred") {
+        return filter.unitsTypes.includes(unit.type);
+      }
+      return filter.clans.includes(unit.unit.clan.clanName);
+    })
+    .map(({ key: id, value: unit }) => ({ id, unit }));
+};
 
 /**
  * Получить список ID юнитов сцены

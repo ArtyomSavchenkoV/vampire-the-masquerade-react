@@ -1,11 +1,11 @@
-import { CheckBoxCheckedIcon } from "baseComponents/Checkbox/CheckBoxCheckedIcon";
-import { CheckboxSquareIcon } from "baseComponents/Checkbox/CheckboxSquareIcon";
+import { CheckBoxCheckedIcon } from "./common/CheckBoxCheckedIcon";
+import { CheckboxSquareIcon } from "./common/CheckboxSquareIcon";
 import { ComponentProps, FC } from "react";
-import { CheckBoxButton } from "./CheckBoxButton";
+import { CheckBoxButton } from "./common/CheckBoxButton";
 
 interface TProps extends Omit<
   ComponentProps<typeof CheckBoxButton>,
-  "children" | "onChange"
+  "onChange"
 > {
   checked: boolean;
   onChange: (checked: boolean) => void;
@@ -15,6 +15,7 @@ export const Checkbox: FC<TProps> = ({
   checked,
   onChange,
   onClick,
+  children,
   ...props
 }) => {
   return (
@@ -27,6 +28,7 @@ export const Checkbox: FC<TProps> = ({
     >
       {!checked && <CheckboxSquareIcon />}
       {checked && <CheckBoxCheckedIcon />}
+      {children}
     </CheckBoxButton>
   );
 };

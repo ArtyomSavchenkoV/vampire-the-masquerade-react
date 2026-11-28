@@ -1,5 +1,5 @@
 import { IconButton } from "baseComponents/IconButton";
-import { ConfirmingButton } from "commonComponents/ConfirmingButton";
+import { ConfirmingButton } from "baseComponents/ConfirmingButton";
 import TrashBinIcon from "icons/TrashBinIcon";
 import { FC } from "react";
 import useTranslate from "services/translate/useTranslate";

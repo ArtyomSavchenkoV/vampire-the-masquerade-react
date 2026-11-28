@@ -1,4 +1,5 @@
 import { getCreatureHealthLevel } from "domain/creature/Health";
+import { getGhoulHealthLevel } from "domain/ghoul/Health";
 import { getHumanHealthLevel } from "domain/human/Health";
 import { getKinderedHealthLevel } from "domain/kindred/Health";
 import { useMemo } from "react";
@@ -8,6 +9,7 @@ import {
   useCalculatedHumanSelector,
   useCalculatedKindredSelector,
   useSceneUnitsSelector as useSceneUnitsIdsSelector,
+  useUnitSelector,
   useUnitsSelector,
 } from "store/selectors";
 import { useStore } from "store/store";
@@ -27,105 +29,213 @@ export const useSceneUnitsSelector = () => {
 };
 
 export const useKindredRowSelector = (id: string) => {
+  const unit = useUnitSelector(id);
   const calculatedKindred = useCalculatedKindredSelector(id);
   const selectedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
-  const memoizedValue = useMemo(() => {
-    if (!calculatedKindred) return null;
+  if (!calculatedKindred) {
+    throw new Error("useKindredRowSelector return null");
+  }
 
+  const isSelected = selectedUnitId === id;
+  const initiative =
+    sceneUnits.find((scene) => scene.id === id)?.initiative ?? null;
+  const isIncapacitated = getKinderedHealthLevel(
+    calculatedKindred.bodyWounds,
+  ).isIncapacitated;
+  const name = calculatedKindred.name;
+  const player = calculatedKindred.player;
+  const role = calculatedKindred.role;
+  const clanName = calculatedKindred.clan.clanName;
+  const willpower = calculatedKindred.willpower;
+  const bloodPool = calculatedKindred.bloodPool;
+  const bodyWounds = calculatedKindred.bodyWounds;
+  const notes = unit.notes;
+
+  return useMemo(() => {
     return {
-      isSelected: selectedUnitId === id,
-      initiative:
-        sceneUnits.find((scene) => scene.id === id)?.initiative ?? null,
-      name: calculatedKindred.name,
-      player: calculatedKindred.player,
-      willpower: calculatedKindred.willpower,
-      bloodPool: calculatedKindred.bloodPool,
-      bodyWounds: calculatedKindred.bodyWounds,
-      isIncapacitated: getKinderedHealthLevel(calculatedKindred.bodyWounds)
-        .isIncapacitated,
+      isSelected,
+      initiative,
+      isIncapacitated,
+      name,
+      player,
+      role,
+      clanName,
+      willpower,
+      bloodPool,
+      bodyWounds,
+      notes,
     };
-  }, [id, selectedUnitId, sceneUnits, calculatedKindred]);
-
-  return memoizedValue;
+  }, [
+    isSelected,
+    initiative,
+    isIncapacitated,
+    name,
+    player,
+    role,
+    clanName,
+    willpower,
+    bloodPool,
+    bodyWounds,
+    notes,
+  ]);
 };
 
 export const useGhoulRowSelector = (id: string) => {
+  const unit = useUnitSelector(id);
   const calculatedGhoul = useCalculatedGhoulSelector(id);
   const selectedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
-  const memoizedValue = useMemo(() => {
-    if (!calculatedGhoul) return null;
+  if (!calculatedGhoul) {
+    throw new Error("useGhoulRowSelector return null");
+  }
 
+  const isSelected = selectedUnitId === id;
+  const initiative =
+    sceneUnits.find((scene) => scene.id === id)?.initiative ?? null;
+  const isIncapacitated = getGhoulHealthLevel(
+    calculatedGhoul.bodyWounds,
+  ).isIncapacitated;
+  const name = calculatedGhoul.name;
+  const player = calculatedGhoul.player;
+  const role = calculatedGhoul.role;
+  const willpower = calculatedGhoul.willpower;
+  const bloodPool = calculatedGhoul.bloodPool;
+  const bodyWounds = calculatedGhoul.bodyWounds;
+  const notes = unit.notes;
+
+  return useMemo(() => {
     return {
-      isSelected: selectedUnitId === id,
-      initiative:
-        sceneUnits.find((scene) => scene.id === id)?.initiative ?? null,
-      name: calculatedGhoul.name,
-      player: calculatedGhoul.player,
-      willpower: calculatedGhoul.willpower,
-      bloodPool: calculatedGhoul.bloodPool,
-      bodyWounds: calculatedGhoul.bodyWounds,
-      isIncapacitated: getKinderedHealthLevel(calculatedGhoul.bodyWounds)
-        .isIncapacitated,
+      isSelected,
+      initiative,
+      isIncapacitated,
+      name,
+      player,
+      role,
+      willpower,
+      bloodPool,
+      bodyWounds,
+      notes,
     };
-  }, [id, selectedUnitId, sceneUnits, calculatedGhoul]);
-
-  return memoizedValue;
+  }, [
+    isSelected,
+    initiative,
+    isIncapacitated,
+    name,
+    player,
+    role,
+    willpower,
+    bloodPool,
+    bodyWounds,
+    notes,
+  ]);
 };
 
 export const useHumanRowSelector = (id: string) => {
+  const unit = useUnitSelector(id);
   const calculatedHuman = useCalculatedHumanSelector(id);
   const selectedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
-  const memoizedValue = useMemo(() => {
-    if (!calculatedHuman) return null;
+  if (!calculatedHuman) {
+    throw new Error("useHumanRowSelector return null");
+  }
 
+  const isSelected = selectedUnitId === id;
+  const initiative =
+    sceneUnits.find((scene) => scene.id === id)?.initiative ?? null;
+  const isIncapacitated = getHumanHealthLevel(
+    calculatedHuman.healthLevels,
+    calculatedHuman.bodyWounds,
+  ).isIncapacitated;
+  const name = calculatedHuman.name;
+  const player = calculatedHuman.player;
+  const role = calculatedHuman.role;
+  const willpower = calculatedHuman.willpower;
+  const bodyWounds = calculatedHuman.bodyWounds;
+  const maxHealth = calculatedHuman.healthLevels.length - 1;
+  const notes = unit.notes;
+
+  return useMemo(() => {
     return {
-      isSelected: selectedUnitId === id,
-      initiative:
-        sceneUnits.find((scene) => scene.id === id)?.initiative ?? null,
-      name: calculatedHuman.name,
-      player: calculatedHuman.player,
-      willpower: calculatedHuman.willpower,
-      bodyWounds: calculatedHuman.bodyWounds,
-      maxHealth: calculatedHuman.healthLevels.length - 1,
-      isIncapacitated: getHumanHealthLevel(
-        calculatedHuman.healthLevels,
-        calculatedHuman.bodyWounds,
-      ).isIncapacitated,
+      isSelected,
+      initiative,
+      isIncapacitated,
+      name,
+      player,
+      role,
+      willpower,
+      bodyWounds,
+      maxHealth,
+      notes,
     };
-  }, [id, selectedUnitId, sceneUnits, calculatedHuman]);
-
-  return memoizedValue;
+  }, [
+    isSelected,
+    initiative,
+    isIncapacitated,
+    name,
+    player,
+    role,
+    willpower,
+    bodyWounds,
+    maxHealth,
+    notes,
+  ]);
 };
 
 export const useCreatureRowSelector = (id: string) => {
+  const unit = useUnitSelector(id);
   const calculatedCreature = useCalculatedCreatureSelector(id);
   const selectedUnitId = useStore((s) => s.selectedUnitId);
   const sceneUnits = useStore((s) => s.sceneUnits);
 
-  const memoizedValue = useMemo(() => {
-    if (!calculatedCreature) return null;
+  if (!calculatedCreature) {
+    throw new Error("useCreatureRowSelector return null");
+  }
 
+  const isSelected = selectedUnitId === id;
+  const initiative =
+    sceneUnits.find((scene) => scene.id === id)?.initiative ?? null;
+  const isIncapacitated = getCreatureHealthLevel(
+    calculatedCreature.healthLevels,
+    calculatedCreature.bodyWounds,
+  );
+  const name = calculatedCreature.name;
+  const player = calculatedCreature.player;
+  const role = calculatedCreature.role;
+  const animalSpecies = calculatedCreature.animalSpecies;
+  const willpower = calculatedCreature.willpower;
+  const bodyWounds = calculatedCreature.bodyWounds;
+  const maxHealth = calculatedCreature.healthLevels.length - 1;
+  const notes = unit.notes;
+
+  return useMemo(() => {
     return {
-      isSelected: selectedUnitId === id,
-      initiative:
-        sceneUnits.find((scene) => scene.id === id)?.initiative ?? null,
-      name: calculatedCreature.name,
-      player: calculatedCreature.player,
-      willpower: calculatedCreature.willpower,
-      bodyWounds: calculatedCreature.bodyWounds,
-      maxHealth: calculatedCreature.healthLevels.length - 1,
-      isIncapacitated: getCreatureHealthLevel(
-        calculatedCreature.healthLevels,
-        calculatedCreature.bodyWounds,
-      ).isIncapacitated,
+      isSelected,
+      initiative,
+      isIncapacitated,
+      name,
+      player,
+      role,
+      animalSpecies,
+      willpower,
+      bodyWounds,
+      maxHealth,
+      notes,
     };
-  }, [id, selectedUnitId, sceneUnits, calculatedCreature]);
-
-  return memoizedValue;
+  }, [
+    isSelected,
+    initiative,
+    isIncapacitated,
+    name,
+    player,
+    role,
+    animalSpecies,
+    willpower,
+    bodyWounds,
+    maxHealth,
+    notes,
+  ]);
 };

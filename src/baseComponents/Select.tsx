@@ -1,15 +1,20 @@
 import { InputHTMLAttributes } from "react";
 import { SelectOption } from "./SelectOption";
 import styled from "@emotion/styled";
+import { colorMix } from "utils/styles/colorMix";
 
 const StyledSelect = styled.select<{ notFullWidth: boolean }>(
-  ({ notFullWidth }) => `
+  ({ notFullWidth, theme }) => `
   font-size: 0.85em;
   border-radius: 4px;
   border-width: 1px;
   padding: 2px;
   margin-top: -2px;
   ${notFullWidth ? "" : "width: 100%;"}
+    border-color:
+    ${colorMix(theme.palette.text, theme.palette.shift, 0)};
+    background-color: ${theme.palette.input};
+    color: ${theme.palette.text};
 `,
 );
 

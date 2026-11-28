@@ -1,6 +1,7 @@
 import { FC, ReactNode, useCallback } from "react";
 import styled from "@emotion/styled";
 import { createPortal } from "react-dom";
+import { colorMix } from "utils/styles/colorMix";
 
 const PADDING = 24 as const;
 
@@ -10,7 +11,7 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${({ theme }) => colorMix(theme.palette.black, "transparent", 50)};
   display: flex;
   align-items: center;
   justify-content: center;

@@ -28,7 +28,7 @@ const Line = styled.div`
   width: 100%;
   height: 1em;
   flex: 1;
-  border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
+  border-bottom: 1px dashed ${({ theme }) => theme.palette.divider};
 `;
 
 interface IProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {

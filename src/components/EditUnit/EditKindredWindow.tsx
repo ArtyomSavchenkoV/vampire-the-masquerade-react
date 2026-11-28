@@ -1,5 +1,5 @@
 import { Button } from "baseComponents/Button";
-import { ConfirmWindow } from "commonComponents/ConfirmWindow";
+import { DialogWindow } from "baseComponents/DialogWindow";
 import { ComponentProps, FC, memo, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { EditKindredForm } from "commonComponents/editUnitForms/EditKindredForm";
@@ -44,7 +44,7 @@ export const EditKindredWindow: FC<TProps> = memo(
     };
 
     return (
-      <ConfirmWindow
+      <DialogWindow
         size="lg"
         title={translate("editKindred.title")}
         onConfirm={() => {
@@ -65,7 +65,7 @@ export const EditKindredWindow: FC<TProps> = memo(
           onChange={setKindredForm}
           onClanChange={changeClanHandler}
         />
-      </ConfirmWindow>
+      </DialogWindow>
     );
   },
 );

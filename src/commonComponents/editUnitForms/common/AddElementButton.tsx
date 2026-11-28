@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button } from "baseComponents/Button";
 import styled from "@emotion/styled";
-import { ConfirmWindow } from "commonComponents/ConfirmWindow";
-import { Dialog } from "commonComponents/Dialog";
+import { DialogWindow } from "baseComponents/DialogWindow";
+import { Dialog } from "baseComponents/Dialog";
 
 const AddButton = styled(Button)`
   padding: 1px;
@@ -38,7 +38,7 @@ export const AddElementButton = <ElementName extends string>({
       )}
 
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <ConfirmWindow
+        <DialogWindow
           size="sm"
           title={addTitle}
           onClose={() => setOpen(false)}
@@ -55,7 +55,7 @@ export const AddElementButton = <ElementName extends string>({
               </Button>
             ))}
           </Options>
-        </ConfirmWindow>
+        </DialogWindow>
       </Dialog>
     </>
   );

@@ -2,14 +2,13 @@ import styled from "@emotion/styled";
 import { Button } from "baseComponents/Button";
 import { IconButton } from "baseComponents/IconButton";
 import { Tab } from "baseComponents/Tab";
-import { ConfirmingButton } from "commonComponents/ConfirmingButton";
-import { Dialog } from "commonComponents/Dialog";
+import { ConfirmingButton } from "baseComponents/ConfirmingButton";
+import { Dialog } from "baseComponents/Dialog";
 import OpenFileButton from "commonComponents/OpenFileButton";
 import { CreateUnit } from "components/CreateUnit";
 import {
-  detectVersion,
-  serializeToFile,
-  dataMigrators,
+  serializeToSave,
+  serializeFromSave,
 } from "services/dataMigration/migrators";
 import { OpenIcon } from "icons/OpenIcon";
 import { SaveIcon } from "icons/SaveIcon";
@@ -18,6 +17,9 @@ import useTranslate from "services/translate/useTranslate";
 import { useActions } from "store/selectors";
 import { useStore } from "store/store";
 import { formatTimestampForFilename } from "utils/formatTimestampForFilename";
+import useTheme from "services/theme/useTheme";
+import { Tabs } from "baseComponents/Tabs";
+import { Filter as AllUnitsListFilter } from "components/AllUnitsList/Filter";
 
 const HeaderRoot = styled.div`
   display: flex;
@@ -42,16 +44,17 @@ const SaveButton = styled(IconButton)`
   font-size: 24px;
 `;
 
-export type Tabs = "allUnits" | "sceneUnits";
+export type TTabs = "allUnits" | "sceneUnits";
 
 interface TProps extends HTMLAttributes<HTMLDivElement> {
-  selectedTab: Tabs;
-  onTabChange: (selectedTab: Tabs) => void;
+  selectedTab: TTabs;
+  onTabChange: (selectedTab: TTabs) => void;
 }
 
 export const Header: FC<TProps> = memo(
   ({ selectedTab, onTabChange, ...props }) => {
     const { translate } = useTranslate();
+    const { themeName, toggleTheme } = useTheme();
     const { setStoreState, sortSceneByInitiative } = useActions();
 
     const [isCreateUnitOpen, setIsCreateUnitOpe] = useState(false);
@@ -62,7 +65,7 @@ export const Header: FC<TProps> = memo(
         const currentState = useStore.getState();
 
         // 2. Преобразуем в формат файла — только здесь и только один раз
-        const fileData = serializeToFile(currentState);
+        const fileData = serializeToSave(currentState);
 
         const blob = new Blob([JSON.stringify(fileData, null, "\t")], {
           type: "application/json",
@@ -91,23 +94,30 @@ export const Header: FC<TProps> = memo(
 
     return (
       <HeaderRoot {...props}>
-        {/* Все */}
-        <Tab
-          isSelected={selectedTab === "allUnits"}
-          onClick={() => selectedTab !== "allUnits" && onTabChange("allUnits")}
-        >
-          {translate("header.allUnitsTab")}
-        </Tab>
+        <Tabs>
+          {/* Все */}
+          <Tab
+            isSelected={selectedTab === "allUnits"}
+            onClick={() =>
+              selectedTab !== "allUnits" && onTabChange("allUnits")
+            }
+          >
+            {translate("header.allUnitsTab")}
+          </Tab>
 
-        {/* Сцена */}
-        <Tab
-          isSelected={selectedTab === "sceneUnits"}
-          onClick={() =>
-            selectedTab !== "sceneUnits" && onTabChange("sceneUnits")
-          }
-        >
-          {translate("header.sceneUnitsTab")}
-        </Tab>
+          {/* Сцена */}
+          <Tab
+            isSelected={selectedTab === "sceneUnits"}
+            onClick={() =>
+              selectedTab !== "sceneUnits" && onTabChange("sceneUnits")
+            }
+          >
+            {translate("header.sceneUnitsTab")}
+          </Tab>
+        </Tabs>
+
+        {/* Фильтр списка всех участников */}
+        {selectedTab === "allUnits" && <AllUnitsListFilter />}
 
         {/* отсортировать по инициативе */}
         {selectedTab === "sceneUnits" && (
@@ -118,8 +128,18 @@ export const Header: FC<TProps> = memo(
 
         <PlaceHolder />
 
-        <ConfirmingButton onConfirm={() => {}} confirmWindowTitle="Подтверди!">
-          444
+        <ConfirmingButton
+          onConfirm={() => {}}
+          confirmWindowTitle="Подтверди!"
+          confirmWindowContent={
+            <div>
+              <Button onClick={toggleTheme}>
+                {themeName === "light" ? "☀️" : "🌙"}
+              </Button>
+            </div>
+          }
+        >
+          444Меню
         </ConfirmingButton>
 
         {/* открыть */}
@@ -127,8 +147,7 @@ export const Header: FC<TProps> = memo(
           onFileOpen={(content) => {
             if (typeof content === "string") {
               const data = JSON.parse(content);
-              const dataVersion = detectVersion(data);
-              setStoreState(dataMigrators[dataVersion].toStore(data));
+              setStoreState(serializeFromSave(data));
             } else {
               throw new Error("Не верный формат файла");
             }

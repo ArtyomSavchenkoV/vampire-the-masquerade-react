@@ -15,6 +15,10 @@ export interface Creature {
   name: string;
   /** Игрок */
   player: string | null;
+  /** Вид животного */
+  animalSpecies: string | null;
+  /** Амплуа (социальная роль в секте/городе) */
+  role: string; // например: "Осведомитель", "Телохранитель", "Дипломат", "Ищейка"
   /** Особенности существа */
   unitFeatures: UnitFeatures;
   /** Характеристики */

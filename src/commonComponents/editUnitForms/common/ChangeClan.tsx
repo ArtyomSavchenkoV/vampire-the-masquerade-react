@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { Button } from "baseComponents/Button";
 import { Select } from "baseComponents/Select";
-import { ConfirmWindow } from "commonComponents/ConfirmWindow";
-import { Dialog } from "commonComponents/Dialog";
+import { DialogWindow } from "baseComponents/DialogWindow";
+import { Dialog } from "baseComponents/Dialog";
 import { ClanName, clanNames } from "domain/Clan";
 import { ComponentProps, FC, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
@@ -15,7 +15,7 @@ const StyledButton = styled(Button)`
 `;
 
 const Attention = styled.div`
-  color: #f30;
+  color: ${({ theme }) => theme.palette.red};
 `;
 
 interface TProps extends Omit<ComponentProps<typeof Button>, "onChange"> {
@@ -37,7 +37,7 @@ export const ChangeClan: FC<TProps> = ({ clanName, onChange, ...props }) => {
         {...props}
       />
       <Dialog open={open}>
-        <ConfirmWindow
+        <DialogWindow
           title={translate("editClan.confirmTitle")}
           onConfirm={() => {
             onChange(selectedClanName);
@@ -58,7 +58,7 @@ export const ChangeClan: FC<TProps> = ({ clanName, onChange, ...props }) => {
             value={selectedClanName}
             onChange={setSelectedClanName}
           />
-        </ConfirmWindow>
+        </DialogWindow>
       </Dialog>
     </>
   );

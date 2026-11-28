@@ -1,5 +1,5 @@
 import { Button } from "baseComponents/Button";
-import { ConfirmWindow } from "commonComponents/ConfirmWindow";
+import { DialogWindow } from "baseComponents/DialogWindow";
 import { ComponentProps, FC, memo, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { EditHumanForm } from "commonComponents/editUnitForms/EditHumanForm";
@@ -27,7 +27,7 @@ export const EditHumanWindow: FC<TProps> = memo(
     const [form, setForm] = useState<Human>(human);
 
     return (
-      <ConfirmWindow
+      <DialogWindow
         size="lg"
         title={translate("editKindred.title")}
         onConfirm={() => {
@@ -44,7 +44,7 @@ export const EditHumanWindow: FC<TProps> = memo(
         }}
       >
         <EditHumanForm human={form} onChange={setForm} />
-      </ConfirmWindow>
+      </DialogWindow>
     );
   },
 );

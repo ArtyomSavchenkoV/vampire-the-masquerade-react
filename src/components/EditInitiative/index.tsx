@@ -1,6 +1,6 @@
 import { Button } from "baseComponents/Button";
-import { ConfirmWindow } from "commonComponents/ConfirmWindow";
-import { Dialog } from "commonComponents/Dialog";
+import { DialogWindow } from "baseComponents/DialogWindow";
+import { Dialog } from "baseComponents/Dialog";
 import { ComponentProps, FC, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useEditIniciativeSelector } from "./selectors";
@@ -51,7 +51,7 @@ export const EditInitiative: FC<TProps> = ({ unitId, onClick, ...props }) => {
       />
 
       <Dialog open={open}>
-        <ConfirmWindow
+        <DialogWindow
           title={joinStrings(
             " ",
             translate("editInitiative.title"),
@@ -109,7 +109,7 @@ export const EditInitiative: FC<TProps> = ({ unitId, onClick, ...props }) => {
               }
             />
           </Content>
-        </ConfirmWindow>
+        </DialogWindow>
       </Dialog>
     </>
   );

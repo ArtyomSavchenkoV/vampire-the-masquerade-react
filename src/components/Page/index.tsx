@@ -1,6 +1,6 @@
 import { FC, HTMLAttributes, useState } from "react";
 import styled from "@emotion/styled";
-import { Header, Tabs } from "./Header";
+import { Header, TTabs } from "./Header";
 import { AllUnitsList } from "components/AllUnitsList";
 import { SceneUnitsList } from "components/SceneUnitsList";
 import { Details } from "components/Details";
@@ -17,12 +17,13 @@ const HeaderRoot = styled(Header)`
 
 const ContentRoot = styled.div`
   flex: 1;
+  overflow: auto;
 `;
 
 interface TProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Page: FC<TProps> = () => {
-  const [tab, setTab] = useState<Tabs>("allUnits");
+  const [tab, setTab] = useState<TTabs>("allUnits");
   return (
     <PageRoot>
       <HeaderRoot selectedTab={tab} onTabChange={(tab) => setTab(tab)} />

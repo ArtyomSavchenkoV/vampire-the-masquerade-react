@@ -710,6 +710,10 @@ export const ru = {
     sceneUnitsTab: "Сцена",
     sortSceneByInitiative: "Отсортировать по инициативе",
   },
+  allUnitsList: {
+    filter: "Фильтр",
+    filterTotal: "Все",
+  },
   createUnit: {
     title: "Создать участника",
     selectUnitType: "Выберите тип участника",
@@ -753,7 +757,7 @@ export const ru = {
   unitRow: {
     initiative: "Инициатива",
   },
-  confirmWindow: {
+  dialogWindow: {
     confirm: "Да",
     cancel: "Отмена",
   },
@@ -768,6 +772,7 @@ export const ru = {
     player: "Игрок",
     chronicle: "Хроника",
     nature: "Натура",
+    animalSpecies: "Вид животного",
     demeanor: "Маска",
     role: "Амплуа",
     clan: "Клан",
@@ -930,7 +935,6 @@ export const ru = {
     },
     castDurationField: "Длительность каста",
   },
-
   auraColors: {
     title: "Цвета ауры",
     aggression: { title: "Агрессия", color: "Пурпурный" },
