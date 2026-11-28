@@ -1,7 +1,7 @@
 import { ComponentProps, FC, ReactNode, useState } from "react";
 import { Button } from "../baseComponents/Button";
 import { Dialog } from "./Dialog";
-import { ConfirmWindow } from "./ConfirmWindow";
+import { DialogWindow } from "./DialogWindow";
 
 interface TProps extends ComponentProps<typeof Button> {
   ButtonComponent?: FC<ComponentProps<typeof Button>>;
@@ -48,7 +48,7 @@ export const ConfirmingButton: FC<TProps> = ({
         onClose={() => !disableBackdropClick && setOpen(false)}
         open={open}
       >
-        <ConfirmWindow
+        <DialogWindow
           size="sm"
           title={confirmWindowTitle}
           onConfirm={() => {
@@ -59,7 +59,7 @@ export const ConfirmingButton: FC<TProps> = ({
           onClose={() => setOpen(false)}
         >
           {confirmWindowContent}
-        </ConfirmWindow>
+        </DialogWindow>
       </Dialog>
     </>
   );

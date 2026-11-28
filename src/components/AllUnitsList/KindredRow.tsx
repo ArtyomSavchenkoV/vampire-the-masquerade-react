@@ -6,7 +6,7 @@ import useTranslate from "services/translate/useTranslate";
 import { StyledRow } from "commonComponents/StyledRow";
 import { MAX_HEALTH } from "data/kindredHealthLevels";
 import { ButtonsTd } from "commonComponents/ButtonsTd";
-import { TableCheckbox } from "commonComponents/TableCheckbox";
+import { Checkbox } from "baseComponents/Checkbox";
 import { UnitActions } from "components/UnitActions";
 import { withErrorBoundary } from "commonComponents/hoc/withErrorBoundary";
 import { UnitsListDescription } from "commonComponents/UnitsListDescription";
@@ -28,7 +28,7 @@ export const KindredRow: FC<TProps> = withErrorBoundary(
       >
         {/* Переключатель участия в сцене */}
         <ButtonsTd>
-          <TableCheckbox
+          <Checkbox
             checked={kindredRow.isOnScene}
             onClick={(ev) => {
               ev.stopPropagation();

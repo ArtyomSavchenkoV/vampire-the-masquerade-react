@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 import { Button } from "baseComponents/Button";
 import { IconButton } from "baseComponents/IconButton";
 import { Tab } from "baseComponents/Tab";
-import { ConfirmingButton } from "commonComponents/ConfirmingButton";
-import { Dialog } from "commonComponents/Dialog";
+import { ConfirmingButton } from "baseComponents/ConfirmingButton";
+import { Dialog } from "baseComponents/Dialog";
 import OpenFileButton from "commonComponents/OpenFileButton";
 import { CreateUnit } from "components/CreateUnit";
 import {
@@ -19,6 +19,7 @@ import { useStore } from "store/store";
 import { formatTimestampForFilename } from "utils/formatTimestampForFilename";
 import useTheme from "services/theme/useTheme";
 import { Tabs } from "baseComponents/Tabs";
+import { Filter as AllUnitsListFilter } from "components/AllUnitsList/Filter";
 
 const HeaderRoot = styled.div`
   display: flex;
@@ -114,6 +115,9 @@ export const Header: FC<TProps> = memo(
             {translate("header.sceneUnitsTab")}
           </Tab>
         </Tabs>
+
+        {/* Фильтр списка всех участников */}
+        {selectedTab === "allUnits" && <AllUnitsListFilter />}
 
         {/* отсортировать по инициативе */}
         {selectedTab === "sceneUnits" && (

@@ -6,7 +6,7 @@ import { Button } from "../baseComponents/Button";
 
 const PADDING = 5;
 
-const ConfirmWindowRoot = styled(Card)<{ size: "sm" | "md" | "lg" }>(
+const DialogWindowRoot = styled(Card)<{ size: "sm" | "md" | "lg" }>(
   ({ size, theme }) => `
   width: ${(size === "sm" && 300) || (size === "md" && 500) || 1000}px;
   max-width: calc(100% - ${PADDING * 2}px);
@@ -72,7 +72,7 @@ interface TProps {
   size?: "sm" | "md" | "lg";
 }
 
-export const ConfirmWindow: FC<TProps> = ({
+export const DialogWindow: FC<TProps> = ({
   title,
   children,
   onConfirm,
@@ -83,7 +83,7 @@ export const ConfirmWindow: FC<TProps> = ({
   const { translate } = useTranslate();
 
   return (
-    <ConfirmWindowRoot size={size}>
+    <DialogWindowRoot size={size}>
       <Head>
         <Title>{title}</Title>
         <Button onClick={onClose}>x</Button>
@@ -92,13 +92,13 @@ export const ConfirmWindow: FC<TProps> = ({
       {(!!onCancel || !!onConfirm) && (
         <Buttons>
           <StyledButton isVisible={!!onCancel} onClick={onCancel}>
-            {translate("confirmWindow.cancel")}
+            {translate("dialogWindow.cancel")}
           </StyledButton>
           <StyledButton isVisible={!!onConfirm} onClick={onConfirm}>
-            {translate("confirmWindow.confirm")}
+            {translate("dialogWindow.confirm")}
           </StyledButton>
         </Buttons>
       )}
-    </ConfirmWindowRoot>
+    </DialogWindowRoot>
   );
 };

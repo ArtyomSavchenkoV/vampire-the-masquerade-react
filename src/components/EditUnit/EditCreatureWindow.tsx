@@ -1,5 +1,5 @@
 import { Button } from "baseComponents/Button";
-import { ConfirmWindow } from "commonComponents/ConfirmWindow";
+import { DialogWindow } from "baseComponents/DialogWindow";
 import { ComponentProps, FC, memo, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { EditCreatureForm } from "commonComponents/editUnitForms/EditCreatureForm";
@@ -27,7 +27,7 @@ export const EditCreatureWindow: FC<TProps> = memo(
     const [form, setForm] = useState<Creature>(creature);
 
     return (
-      <ConfirmWindow
+      <DialogWindow
         size="lg"
         title={translate("editKindred.title")}
         onConfirm={() => {
@@ -44,7 +44,7 @@ export const EditCreatureWindow: FC<TProps> = memo(
         }}
       >
         <EditCreatureForm creature={form} onChange={setForm} />
-      </ConfirmWindow>
+      </DialogWindow>
     );
   },
 );

@@ -29,7 +29,7 @@ export const lightPalette: TPalette = {
 
 export const darkPalette: TPalette = {
   background: "#1c1b1a",
-  surface: "#333",
+  surface: "#282828",
   text: "#ccc",
   textInvert: "#1a1a1a",
   divider: "#555",
@@ -49,7 +49,7 @@ export const darkPalette: TPalette = {
   green: "#3f0",
   orange: "orange",
   sky: "#2d487d",
-  sapphire: "#4cf",
+  sapphire: "#009ed9",
 
   shift: "#ffffff",
 };

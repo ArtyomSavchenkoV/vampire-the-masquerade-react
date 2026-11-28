@@ -4,8 +4,8 @@ import { ComponentProps, FC, useState } from "react";
 import useTranslate from "services/translate/useTranslate";
 import { useActions } from "store/selectors";
 import { Form } from "./Form";
-import { ConfirmWindow } from "commonComponents/ConfirmWindow";
-import { Dialog } from "commonComponents/Dialog";
+import { DialogWindow } from "baseComponents/DialogWindow";
+import { Dialog } from "baseComponents/Dialog";
 import { useDamageUnitSelector } from "./selectors";
 import { joinStrings } from "utils/string/joinStrings";
 
@@ -39,7 +39,7 @@ export const DamageUnit: FC<TProps> = ({ unitId, onClick, ...props }) => {
         <DamageUnitIcon />
       </IconButton>
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <ConfirmWindow
+        <DialogWindow
           onClose={() => setOpen(false)}
           title={joinStrings(
             " ",
@@ -67,7 +67,7 @@ export const DamageUnit: FC<TProps> = ({ unitId, onClick, ...props }) => {
               setOpen(false);
             }}
           />
-        </ConfirmWindow>
+        </DialogWindow>
       </Dialog>
     </>
   );

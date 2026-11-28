@@ -3,15 +3,14 @@ import { colorMix } from "utils/styles/colorMix";
 
 export const CheckBoxButton = styled.button`
   font-size: 1em;
-  height: 2em;
-  width: 2em;
+  padding: 0.2em;
   border: none;
-  border-radius: 20%;
+  border-radius: 0.2em;
   cursor: pointer;
   background: none;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.5em;
   color: ${({ theme }) => theme.palette.buttonText};
 
   &:hover:enabled {

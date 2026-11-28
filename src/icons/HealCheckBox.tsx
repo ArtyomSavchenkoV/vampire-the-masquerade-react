@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { CheckBoxButton } from "baseComponents/Checkbox/CheckBoxButton";
+import { CheckBoxButton } from "baseComponents/common/CheckBoxButton";
 import { HealPath } from "icons/HealPath";
 import { InlineIcon } from "icons/InlineIcon";
 import { RoundedSquarePath } from "icons/RoundedSquarePath";

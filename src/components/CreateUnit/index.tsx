@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Select } from "baseComponents/Select";
-import { ConfirmWindow } from "commonComponents/ConfirmWindow";
+import { DialogWindow } from "baseComponents/DialogWindow";
 import { EditCreatureForm } from "commonComponents/editUnitForms/EditCreatureForm";
 import { EditGhoulForm } from "commonComponents/editUnitForms/EditGhoulForm";
 import { EditHumanForm } from "commonComponents/editUnitForms/EditHumanForm";
@@ -59,7 +59,7 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
   };
 
   return (
-    <ConfirmWindow
+    <DialogWindow
       size="lg"
       title={translate("createUnit.title")}
       onConfirm={() => {
@@ -180,6 +180,6 @@ export const CreateUnit: FC<TProps> = ({ onClose }) => {
           <EditCreatureForm creature={creature} onChange={setCreature} />
         </>
       )}
-    </ConfirmWindow>
+    </DialogWindow>
   );
 };

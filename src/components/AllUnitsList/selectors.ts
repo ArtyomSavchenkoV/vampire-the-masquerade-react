@@ -5,19 +5,21 @@ import {
   useCalculatedHumanSelector,
   useCalculatedKindredSelector,
   useUnitSelector,
-  useUnitsSelector,
+  useFilteredUnitsSelector,
 } from "store/selectors";
 import { useStore } from "store/store";
 
 export const useAllUnitsSelector = () => {
-  const units = useUnitsSelector();
+  const units = useFilteredUnitsSelector();
 
   return useMemo(
     () =>
-      Object.entries(units).map(([id, { type }]) => ({
-        id,
-        type,
-      })),
+      units
+        .sort(({ unit }) => (unit.unit.player?.trim() ? -1 : 1))
+        .map(({ id, unit }) => ({
+          id,
+          type: unit.type,
+        })),
     [units],
   );
 };

@@ -5,7 +5,7 @@ import { useActions } from "store/selectors";
 import { useHumanRowSelector } from "./selectors";
 import { StyledRow } from "commonComponents/StyledRow";
 import { ButtonsTd } from "commonComponents/ButtonsTd";
-import { TableCheckbox } from "commonComponents/TableCheckbox";
+import { Checkbox } from "baseComponents/Checkbox";
 import { UnitActions } from "components/UnitActions";
 import { withErrorBoundary } from "commonComponents/hoc/withErrorBoundary";
 import { UnitsListDescription } from "commonComponents/UnitsListDescription";
@@ -27,7 +27,7 @@ export const HumanRow: FC<TProps> = withErrorBoundary(
       >
         {/* Переключатель участия в сцене */}
         <ButtonsTd>
-          <TableCheckbox
+          <Checkbox
             checked={humanRow.isOnScene}
             onClick={(ev) => {
               ev.stopPropagation();

@@ -1,3 +1,4 @@
+import { ClanName } from "domain/Clan";
 import { Creature } from "domain/creature/Creature";
 import { Ghoul } from "domain/ghoul/Ghoul";
 import { HealEvent, WoundEvent } from "domain/Health";
@@ -5,6 +6,7 @@ import { Human } from "domain/human/Human";
 import { AwakeningEvent } from "domain/kindred/Health";
 import { Kindred } from "domain/kindred/Kindred";
 import { StoreUnitEntry } from "domain/StoreUnitEntry";
+import { UnitType } from "domain/UnitType";
 
 /**
  * Объединённый тип для всех типов игровых сущностей (юнитов) в сцене.
@@ -20,12 +22,19 @@ export type CommonUnitEntry =
   /** Существо — животные, монстры и прочие не‑разумные или иные сущности (например, медведь, крыса) */
   | StoreUnitEntry<"creature", Creature>;
 
+type UnitsFilter = {
+  unitsTypes: Exclude<UnitType, "kindred">[];
+  clans: ClanName[];
+};
+
 /**
  * Состояние стора для управления юнитами в сцене.
  */
 export interface State {
   /** База всех зарегистрированных юнитов, проиндексированная по ID */
   units: Record<string, CommonUnitEntry>;
+  /** Фильтр списка всех участников */
+  unitsFilter: UnitsFilter;
   /** Список ID юнитов, участвующих в текущей сцене */
   sceneUnits: { id: string; initiative: number | null }[];
   /** ID юнита, который сейчас выбран (отображается в карточке персонажа) */
@@ -44,6 +53,8 @@ export interface Actions {
   addUnit: (id: string, entry: CommonUnitEntry) => void;
   /** Удаляет юнита из хранилища и очищает связанные данные (сцена, фокус) */
   removeUnit: (id: string) => void;
+  /** Задать фильтр списка всех участников */
+  setUnitsFilter: (unitsFilter: UnitsFilter) => void;
   /** Изменяет заметки */
   editNotes: (id: string, notes: string) => void;
   /** Изменяет юнита в хранилище по уникальному ID */

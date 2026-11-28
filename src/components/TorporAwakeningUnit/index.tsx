@@ -4,7 +4,7 @@ import { useTorporAwakeningUnitSelector } from "./selectors";
 import { useActions } from "store/selectors";
 import useTranslate from "services/translate/useTranslate";
 import { Form } from "./Form";
-import { Dialog } from "commonComponents/Dialog";
+import { Dialog } from "baseComponents/Dialog";
 
 interface TProps extends Omit<ComponentProps<typeof Button>, "children"> {
   unitId: string;
